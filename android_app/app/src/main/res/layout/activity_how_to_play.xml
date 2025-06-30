@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_color"
+    tools:context=".pagesHandler.HowToPlayPageHandler">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/top_bar"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/medium_color"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal">
+
+            <android.widget.Button
+                android:id="@+id/button_back"
+                android:foreground="@drawable/icon_return"
+                android:background="@color/medium_color"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:layout_constraintWidth="wrap_content"
+                app:layout_constraintHeight="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/page_title"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+            <TextView
+                android:id="@+id/page_title"
+                android:fontFamily="@font/main_font"
+                android:layout_width="0dp"
+                android:textColor="@color/light_color"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:maxLines="2"
+                android:text="@string/how_to_play"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/button_quit"/>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/top_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:layout_weight="1"
+                android:fontFamily="@font/main_font"
+                android:textSize="16sp"
+                android:textColor="@color/light_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/howplay_system_title" />
+
+            <TextView
+                android:layout_weight="2"
+                android:fontFamily="@font/main_font"
+                android:textSize="11sp"
+                android:textColor="@color/light_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/howplay_system_cont" />
+
+            <androidx.legacy.widget.Space
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+            <TextView
+                android:layout_weight="1"
+                android:fontFamily="@font/main_font"
+                android:textColor="@color/light_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="@string/howplay_goal_title" />
+
+            <TextView
+                android:layout_weight="2"
+                android:fontFamily="@font/main_font"
+                android:textSize="11sp"
+                android:textColor="@color/light_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/howplay_goal_cont" />
+
+            <androidx.legacy.widget.Space
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+            <TextView
+                android:layout_weight="1"
+                android:fontFamily="@font/main_font"
+                android:textColor="@color/light_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="@string/howplay_difficulty_title" />
+
+            <TextView
+                android:layout_weight="2"
+                android:fontFamily="@font/main_font"
+                android:textSize="11sp"
+                android:textColor="@color/light_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/howplay_difficulty_cont" />
+
+            <androidx.legacy.widget.Space
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+            <TextView
+                android:layout_weight="1"
+                android:fontFamily="@font/main_font"
+                android:textColor="@color/light_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="@string/howplay_features_title" />
+
+            <TextView
+                android:layout_weight="2"
+                android:fontFamily="@font/main_font"
+                android:textSize="11sp"
+                android:textColor="@color/light_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/howplay_features_cont" />
+
+            <androidx.legacy.widget.Space
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+            <android.widget.Button
+                android:id="@+id/button_tutorial"
+                android:fontFamily="@font/main_font"
+                android:background="@drawable/btn_round"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="23sp"
+                android:textColor="@color/light_color"
+                android:text="@string/tutorial"
+                android:paddingHorizontal="36dp"
+                android:paddingVertical="16dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="ad_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>  <!-- fake ad, to replace with real one when publishing update -->
+
+
+    <integer name="levels_selection_rows"> 20 </integer>
+    <integer name="levels_selection_cols"> 5 </integer>
+
+    <integer name="number_of_difficulty"> 3 </integer>
+    <integer name="levels_per_difficulty"> 100 </integer>
+
+    <string-array name="difficulty_names">
+        <item>4x4</item>
+        <item>5x5</item>
+        <item>6x6</item>
+    </string-array>
+
+    <integer-array name="grid_sizes">
+        <item> 4 </item>
+        <item> 5 </item>
+        <item> 6 </item>
+    </integer-array>
+
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- debug -->
+    <color name="debug">#00ff00</color>
+
+    <!--  UI --> <!-- todo F3EFE0 434242 222222 otherwise ff 33 00 or EDEDED  444444 171717-->
+    <color name="light_color">#EEEEEE</color>
+    <color name="medium_color">#292929</color>
+    <color name="dark_color">#000000</color>
+
+    <!-- cases of grid old #00ffff 00ff00 #ff00ff #ff0000 NEW #0197F6 16DB93 #D295BF #EB5E55-->
+    <color name="plus_color">#00FFFF</color>
+    <color name="mul_color">#00FF00</color>
+    <color name="minus_color">#FF00FF</color>
+    <color name="div_color">#FF0000</color>
+
+    <!-- progress bar finished-->
+    <color name="finished_color">#00FF00</color>
+
+</resources>

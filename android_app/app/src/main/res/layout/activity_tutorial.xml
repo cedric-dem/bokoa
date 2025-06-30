@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_color"
+    tools:context=".pagesHandler.TutorialPageHandler">
+
+    <LinearLayout
+        android:id="@+id/ml"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/page_title"
+            android:fontFamily="@font/main_font"
+            android:textColor="@color/light_color"
+            android:gravity="center"
+            android:autoSizeTextType="uniform"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:text="@string/tutorial" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="16"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal">
+
+            <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/game_board"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+            </androidx.gridlayout.widget.GridLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tip_giver"
+            android:fontFamily="@font/main_font"
+            android:textColor="@color/light_color"
+            android:gravity="center"
+            android:autoSizeTextType="uniform"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:text="@string/tempString" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:paddingVertical="5dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/left_pan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingVertical="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/equation_viewer_announcer"
+                        android:fontFamily="@font/main_font"
+                        android:textColor="@color/light_color"
+                        android:gravity="top|center"
+                        android:autoSizeTextType="uniform"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/tuto_score" />
+
+                    <TextView
+                        android:id="@+id/equation_viewer"
+                        android:fontFamily="@font/main_font"
+                        android:textColor="@color/light_color"
+                        android:gravity="bottom|center"
+                        android:autoSizeTextType="uniform"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/tempString" />
+
+                    <TextView
+                        android:id="@+id/current_score_viewer"
+                        android:fontFamily="@font/main_font_bold"
+                        android:textColor="@color/light_color"
+                        android:gravity="bottom|center"
+                        android:autoSizeTextType="uniform"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/tempString" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_color" />
+
+            <LinearLayout
+                android:id="@+id/right_pan"
+                android:padding="5dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingVertical="2dp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:padding="10dp"
+                    android:id="@+id/max_score_adv_announcer"
+                    android:fontFamily="@font/main_font"
+                    android:textColor="@color/light_color"
+                    android:gravity="top|center"
+                    android:autoSizeTextType="uniform"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/tuto_highest" />
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2" />
+
+                <TextView
+                    android:padding="10dp"
+                    android:id="@+id/max_score_adv"
+                    android:fontFamily="@font/main_font_bold"
+                    android:textColor="@color/light_color"
+                    android:gravity="center"
+                    android:autoSizeTextType="uniform"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/tempString" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/progress_bar"
+            android:scaleY="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:progress="50"
+            android:max="100"
+            android:progressDrawable="@drawable/progress_bar_in_game"/>
+
+        <android.widget.Button
+            android:id="@+id/button_pass_tutorial"
+            android:fontFamily="@font/main_font"
+            android:backgroundTint="@color/dark_color"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="15sp"
+            android:textColor="@color/medium_color"
+            android:text="@string/pass_tutorial"
+            android:layout_weight="2"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name" translatable="false">"Bokoa"</string>
+
+    <string name="main_menu">"Main menu"</string>
+    <string name="subtitle">"Brain teaser game"</string>
+    <string name="passed_levels">"Passed levels : "</string>
+    <string name="play">"Play"</string>
+    <string name="how_to_play">"How to play ?"</string>
+
+    <string name="difficulty_menu">"Difficulty selection"</string>
+    <string name="difficulty_1">"4x4 grid"</string>
+    <string name="difficulty_2">"5x5 grid"</string>
+    <string name="difficulty_3">"6x6 grid"</string>
+    <string name="level_selection_menu">"Level selection\n"</string>
+    <string name="difficulty">"Grid size "</string>
+    <string name="level">"Level "</string>
+
+    <string name="confirmation">"Confirmation"</string>
+    <string name="confirmation_text">"Do you want to watch an advertisement in order to display the solution of this level ?\nYou will have to watch the entire advertisement in order to see the solution of this level"</string>
+    <string name="yes">"Yes"</string>
+    <string name="no">"No"</string>
+    <string name="error_loading_ad">"Error while loading the advertisement with code : "</string>
+    <string name="ad_load_succes">"Advertisement loaded correctly"</string>
+    <string name="ad_non_loaded">"Advertisement not loaded"</string>
+    <string name="ad_error_show">"Error while displaying the advertisement"</string>
+
+    <string name="score">"Score : "</string>
+    <string name="finished_level">"You finished this level\nreaching a score of "</string>
+    <string name="finished_level_again">"You finished this level once again\nreaching a score of "</string>
+    <string name="finished_all_levels">"You finished every level"</string>
+    <string name="level_unlocked">"unlocked"</string>
+    <string name="difficulty_unlocked">"unlocked"</string>
+
+    <string name="howplay_system_title">"Game system"</string>
+    <string name="howplay_system_cont">"The game starts with a score of 1. Then the player decides several times in a row in which direction to move on a grid, containing operations that will apply to the score (in the order in which they were crossed). The player can swipe in a direction to make a move in that direction"</string>
+    <string name="howplay_goal_title">"Goal of the game"</string>
+    <string name="howplay_goal_cont">"The goal is to get the highest score possible. Each level has a maximum score, which can be reached but not exceeded. This score is displayed for each level. The grid does not have to be fully exploited to finish the level. The game ends when the player has reached the maximum score."</string>
+    <string name="howplay_difficulty_title">"Various difficulties"</string>
+    <string name="howplay_difficulty_cont">"The game currently contains 3 levels of difficulty depending on the size of the grid; the larger the grid, the higher the difficulty. The levels get more and more difficult. Each difficulty level contains 50 levels. Initially, only the first level of the first difficulty level is available. After that, the player must complete levels in order to unlock new ones."</string>
+    <string name="howplay_features_title">"In game features"</string>
+    <string name="howplay_features_cont">"The player can erase the last move, by going in the opposite direction of it. At any time, the player can decide to restart the game, by pressing the restart button. The solution of the level can be displayed, after viewing an advertisement, by clicking on the video icon. If several solutions exist, only one example of a solution is displayed."</string>
+
+    <string name="tutorial">"Tutorial"</string>
+    <string name="pass_tutorial">"Quit the tutorial"</string>
+    <string name="move_up">"up"</string>
+    <string name="move_dn">"down"</string>
+    <string name="move_le">"left"</string>
+    <string name="move_ri">"right"</string>
+    <string name="swipe">"Swipe "</string>
+    <string name="good_swipe">"Well done ! Now swipe "</string>
+    <string name="bad_swipe">"Come back, swipe "</string>
+    <string name="finished_tutorial">"Congratulations ! You reached the maximum score"</string>
+    <string name="continue_tutorial">"Continue"</string>
+    <string name="skip_tutorial">"Skip tutorial"</string>
+    <string name="tuto_score">"Current score"</string>
+    <string name="tuto_highest">"Highest possible score here"</string>
+    <string name="info_locked">"Next level is currently locked"</string>
+
+    <string name="tempString">x</string>
+
+</resources>
