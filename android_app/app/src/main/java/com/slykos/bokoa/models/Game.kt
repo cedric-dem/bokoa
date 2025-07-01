@@ -57,8 +57,8 @@ abstract class Game(
         mediumColor = ColorStateList.valueOf(ContextCompat.getColor(context, color.medium_color))
     }
 
-    fun getGoodFormat(n: Float): String =
-        decimalFormat.format(n.toDouble()).replace(",".toRegex(), ".")
+    fun getFormattedScore(score: Float): String =
+        decimalFormat.format(score.toDouble()).replace(",".toRegex(), ".")
 
     fun initLevel(callerGridSize: IntArray, callerCurrentLevel: Level) {
         gridSize = callerGridSize
@@ -75,7 +75,7 @@ abstract class Game(
 
         operations = currentLevel.operations
         bestScore = currentLevel.bestScore
-        bestScoreStr = getGoodFormat(bestScore)
+        bestScoreStr = getFormattedScore(bestScore)
     }
 
     fun emptyGrid() {

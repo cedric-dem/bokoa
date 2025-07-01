@@ -29,7 +29,7 @@ class TutorialPageHandler : GenericPlayPage() {
 
         initializePage()
 
-        // ////////////////////Other things TODO remove code duplication on both
+        // // TODO remove code duplication on both
 
         tutorialGame = TutorialGame(this)
 
@@ -43,7 +43,6 @@ class TutorialPageHandler : GenericPlayPage() {
 
         // button quit becomes continue
         next.setTextColor(ContextCompat.getColor(this, R.color.light_color))
-        // next.setBackgroundResource(R.drawable.level_locked);
         next.text = getString(R.string.continue_tutorial)
     }
 

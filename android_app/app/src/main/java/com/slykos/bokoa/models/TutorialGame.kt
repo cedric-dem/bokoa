@@ -137,7 +137,7 @@ class TutorialGame(
                 }
             }
             callingPage.setEquation("$currentEquation\n=")
-            callingPage.setCurrentScore(getGoodFormat(currentScore))
+            callingPage.setCurrentScore(getFormattedScore(currentScore))
         }
     }
 }

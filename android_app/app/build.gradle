@@ -13,8 +13,8 @@ android {
         minSdk 26
         //noinspection OldTargetApi
         targetSdk 34
-        versionCode 602
-        versionName "UI FIX TEXT"
+        versionCode 603
+        versionName "Minor FIxes"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
