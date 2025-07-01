@@ -18,7 +18,6 @@ abstract class GenericPlayPage : AppCompatActivity() {
 
     fun refreshProgressBar(progression: Int) {
         getProgressbar().progress = progression
-        // getProgressbar().progressTintList = ColorStateList.valueOf(getGreenShade(progression))
     }
 
     fun updateProgressBarTint(isFinished: Boolean) {
@@ -29,11 +28,6 @@ abstract class GenericPlayPage : AppCompatActivity() {
                 ContextCompat.getColor(this, R.color.light_color)
             }.toInt()
         )
-    }
-
-    private fun getGreenShade(intensity: Int): Int {
-        val dimmed = 255 - (intensity.coerceIn(0, 100) * 255 / 100)
-        return (0xFF shl 24) or (dimmed shl 16) or (0xFF shl 8) or dimmed
     }
 
     fun getScreenDimensions(): IntArray =
