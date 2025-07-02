@@ -2,8 +2,9 @@ import numpy
 import pickle
 import statistics
 import matplotlib.pyplot as plt
+from config import *
 
-nb_levels=100
+
 
 def displayAll(L):
     plt.title("All evolution")
@@ -23,15 +24,15 @@ def describeList(L):
 for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/levels_1/level_","generated_levels/raw/levels_2/level_"]:
 
     print('----> Current prefix', prefix)
-    L=[]
+    complete_levels_list=[]
 
     ##open all the files, put in a list
-    for i in range (nb_levels):
-        file = open(prefix+str(i), 'rb')
+    for current_level_index in range (raw_levels_to_generate):
+        file = open(prefix + str(current_level_index), 'rb')
         elem = pickle.load(file)
-        L.append(elem)
+        complete_levels_list.append(elem)
 
-    print("\n==============> Nb of levels :  ",len(L)," levels")
+    print("\n==============> Nb of levels :  ", len(complete_levels_list), " levels")
 
     #=========================================================================== get stats
     scores=[]
@@ -39,7 +40,7 @@ for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/leve
     fitness=[]
 
     ##open all them files, put in a list
-    for data in L:
+    for data in complete_levels_list:
         data.setFitnessScore()
 
         scores.append(data.best_score)
@@ -59,7 +60,7 @@ for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/leve
 
     #=========================================================================== Display stats as plots
 
-    displayAll(L)
+    displayAll(complete_levels_list)
 
     scores.sort()
     fitness.sort()
