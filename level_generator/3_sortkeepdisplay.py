@@ -29,12 +29,7 @@ for difficulty in difficulties:
 
     #=========================================================================== blabla
 
-    if difficulty==0:
-        prefix="generated_levels/raw/levels_0/level_"
-    elif difficulty==1:
-        prefix="generated_levels/raw/levels_1/level_"
-    elif difficulty==2:
-        prefix="generated_levels/raw/levels_2/level_"
+
     size=all_grid_sizes[difficulty][0]
 
     #=========================================================================== get data
@@ -42,7 +37,7 @@ for difficulty in difficulties:
 
     ##open all the files, put in a list
     for i in range (raw_levels_to_generate):
-        file = open(prefix+str(i), 'rb')
+        file = open(file_prefixes_raw[difficulty]+str(i), 'rb')
         data = pickle.load(file)
         
         L_all.append(data)
@@ -130,7 +125,7 @@ for difficulty in difficulties:
         #print(elem.getGoodFormat())
 
         print("====> NEW")
-        createLevelFileAsJson(elem, "generated_levels/processed/difficulty_" + str(difficulty) + "/level_" + str(idx) + ".json")
+        createLevelFileAsJson(elem, file_prefixes_processed[difficulty] + str(idx) + ".json")
 
         idx+=1
 
