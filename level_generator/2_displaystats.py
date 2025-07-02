@@ -2,8 +2,6 @@ import numpy
 import pickle
 import statistics
 import matplotlib.pyplot as plt
-import random
-
 
 nb_levels=100
 

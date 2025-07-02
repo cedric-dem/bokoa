@@ -1,10 +1,5 @@
-import numpy
 import pickle
-import statistics
-import matplotlib.pyplot as plt
-import random
 import json
-
 
 nb_levels=1000
 
@@ -55,8 +50,6 @@ for difficulty in [0,1,2]:
         size=6
         prefix="generated_levels/raw/levels_2/level_"
 
-
-
     #=========================================================================== get data
     L_all=[]
 
@@ -69,29 +62,22 @@ for difficulty in [0,1,2]:
         
     print("\n==============>  Initially total of  ",len(L_all)," levels")
 
-
-
     #=========================================================================== kept levels
     L=[]
     if size==4:
         lowest_size=6
-
     elif size==5:
         lowest_size=12
-
     else:
         lowest_size=18
-
 
     for elem in L_all:
         if len(elem.best_moves)>=lowest_size:
             L.append(elem)
 
-
     print("\n==============>  After remove  total of  ",len(L)," levels")
 
     #=========================================================================== set fitness of kept levels
-
     for elem in L:
         elem.setFitnessScore()
 
@@ -107,10 +93,7 @@ for difficulty in [0,1,2]:
     for elem in L:
         fitness.append(elem.fitness)
 
-
-
     #=========================================================================== modify it
-
 
     #######################################doing the mod
     ###############theoretical
@@ -133,7 +116,6 @@ for difficulty in [0,1,2]:
 
     keep_list=[]
     #keep_list.append(keep[0])
-
 
     for i in range (100):
         index=getIndexOfClosestFrom(theoretical[i], L)
@@ -168,6 +150,5 @@ for difficulty in [0,1,2]:
         createLevelFileAsJson(elem, "generated_levels/processed/difficulty_" + str(difficulty) + "/level_" + str(idx) + ".json")
 
         idx+=1
-
 
     print("\n==============>  Keeping ",len(keep_list)," levels")
