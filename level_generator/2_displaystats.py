@@ -5,9 +5,7 @@ import matplotlib.pyplot as plt
 import random
 
 
-nb_levels=10
-
-
+nb_levels=100
 
 def displayAll(L):
     plt.title("All evolution")
@@ -15,10 +13,15 @@ def displayAll(L):
         plt.plot(elem.historyOfScores)
     plt.show()
 
+def describeList(L):
+    print("min : ",min(L))
+    print("10% low",numpy.percentile(L, 10))
+    print("med",statistics.median(L))
+    print("10% high",numpy.percentile(L, 90))
+    print("max : ",max(L))
 
 #=========================================================================== get data
 
-     
 for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/levels_1/level_","generated_levels/raw/levels_2/level_"]:
 
     print('----> Current prefix', prefix)
@@ -31,7 +34,6 @@ for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/leve
         L.append(elem)
 
     print("\n==============> Nb of levels :  ",len(L)," levels")
-
 
     #=========================================================================== get stats
     scores=[]
@@ -48,26 +50,13 @@ for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/leve
 
 
     print('\n==============> Scores')
-    print("min : ",min(scores))
-    print("10% low",numpy.percentile(scores, 10))
-    print("med",statistics.median(scores))
-    print("10% high",numpy.percentile(scores, 90))
-    print("max : ",max(scores))
+    describeList(scores)
 
     print('\n==============> Sizes')
-    print("min : ",min(sizes))
-    print("10% low",numpy.percentile(sizes, 10))
-    print("med",statistics.median(sizes))
-    print("10% high",numpy.percentile(sizes, 90))
-    print("max : ",max(sizes))
+    describeList(sizes)
 
     print('\n==============> Fitness')
-    print("min : ",min(fitness))
-    print("10% low",numpy.percentile(fitness, 10))
-    print("med",statistics.median(fitness))
-    print("10% high",numpy.percentile(fitness, 90))
-    print("max : ",max(fitness))
-
+    describeList(fitness)
 
     #=========================================================================== Display stats
 
