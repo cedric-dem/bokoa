@@ -36,8 +36,8 @@ for difficulty in difficulties:
     L_all=[]
 
     ##open all the files, put in a list
-    for i in range (raw_levels_to_generate):
-        file = open(file_prefixes_raw[difficulty]+str(i), 'rb')
+    for final_index_level in range (raw_levels_to_generate):
+        file = open(file_prefixes_raw[difficulty] + str(final_index_level), 'rb')
         data = pickle.load(file)
         
         L_all.append(data)
@@ -85,7 +85,7 @@ for difficulty in difficulties:
 
     current=L[0].fitness
 
-    for i in range (number_levels_to_keep):
+    for final_index_level in range (number_levels_to_keep):
         theoretical.append(current)
         current+=average_step
 
@@ -95,24 +95,20 @@ for difficulty in difficulties:
 
     ###################doing the job
 
-    keep_list=[]
+    final_levels_list=[]
     #keep_list.append(keep[0])
 
-    for i in range (100):
-        index=getIndexOfClosestFrom(theoretical[i], L)
+    for final_index_level in range (100):
+        index=getIndexOfClosestFrom(theoretical[final_index_level], L)
         this_one=L.pop(index)
-        keep_list.append(this_one)
-
-    #keep_list.append(keep[-1])
-
-    #print(keep_list)
+        final_levels_list.append(this_one)
 
     print("************************************************************************************************************* AFER")
     fitness=[]
 
-    keep_list.sort()
+    final_levels_list.sort()
 
-    for elem in keep_list:
+    for elem in final_levels_list:
         fitness.append(elem.fitness)
 
     print("FITNESS : ",fitness)
@@ -120,13 +116,11 @@ for difficulty in difficulties:
 
     print('\n==============> Result : ')
     idx=0
-    for elem in keep_list:
-        #print(elem.id,elem.getGoodFormat())
-        #print(elem.getGoodFormat())
+    for elem in final_levels_list:
 
         print("====> NEW")
         createLevelFileAsJson(elem, file_prefixes_processed[difficulty] + str(idx) + ".json")
 
         idx+=1
 
-    print("\n==============>  Keeping ",len(keep_list)," levels")
+    print("\n==============>  Keeping ", len(final_levels_list), " levels")
