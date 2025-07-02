@@ -1,20 +1,11 @@
 import pickle
 import json
 
-nb_levels=1000
+number_existing_levels=1000
 
 def createLevelFileAsJson(l, filename):
-    #print(dir(l))
-    """
-    print("------",filename)
-    print(l.best_moves)
-    print(l.best_score)
-    print(l.level.level)
-    """
-
     result={
         "operations":l.level.level,
-        #"best_reachable_score":str(float(l.best_score))+'F',
         "bestScore":round(float(l.best_score),2),
         "bestMoves":l.best_moves
     }
@@ -31,8 +22,6 @@ def getIndexOfClosestFrom(to_search,lst):
             closest_index=i
 
     return closest_index
-
-
 
 for difficulty in [0,1,2]:
 
@@ -54,7 +43,7 @@ for difficulty in [0,1,2]:
     L_all=[]
 
     ##open all the files, put in a list
-    for i in range (nb_levels):
+    for i in range (number_existing_levels):
         file = open(prefix+str(i), 'rb')
         data = pickle.load(file)
         
@@ -106,7 +95,6 @@ for difficulty in [0,1,2]:
     for i in range (100):
         theoretical.append(current)
         current+=average_step
-    #theoretical.append(keep[-1].fitness)
 
     #print(len(theoretical))
     #print('avg s',average_step)
@@ -129,16 +117,13 @@ for difficulty in [0,1,2]:
     print("************************************************************************************************************* AFER")
     fitness=[]
 
-
     keep_list.sort()
 
     for elem in keep_list:
         fitness.append(elem.fitness)
 
-
     print("FITNESS : ",fitness)
     print(len(fitness))
-
 
     print('\n==============> Result : ')
     idx=0
