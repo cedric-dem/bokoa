@@ -46,6 +46,7 @@ for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/leve
         sizes.append(len(data.best_moves))
         fitness.append(data.fitness)
 
+    #=========================================================================== Describe stats in terminal
 
     print('\n==============> Scores')
     describeList(scores)
@@ -56,24 +57,9 @@ for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/leve
     print('\n==============> Fitness')
     describeList(fitness)
 
-    #=========================================================================== Display stats
+    #=========================================================================== Display stats as plots
 
-    for elem in L:
-        elem.setFitnessScore()
-        
     displayAll(L)
-
-
-    scores=[]
-    fitness=[]
-    sizes=[]
-
-    for elem in L:
-        #for elem in keep:
-        scores.append(elem.historyOfScores[-1])
-        fitness.append(elem.fitness)
-        sizes.append(len(elem.historyOfScores))
-
 
     scores.sort()
     fitness.sort()
