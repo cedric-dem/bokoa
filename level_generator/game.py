@@ -1,4 +1,3 @@
-from level import Level
 
 
 class Game(object):

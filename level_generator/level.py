@@ -1,6 +1,5 @@
 import random
 
-
 class Level(object):
     def __init__(self,grid_size):
         self.grid_size=grid_size

@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 def isMoveInBound(gm,new_pos):
     return (new_pos[0]>=0 and  new_pos[1]>=0 and new_pos[0]<gm.grid_size[1]  and   new_pos[1]<gm.grid_size[0])
 
