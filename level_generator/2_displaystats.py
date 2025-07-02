@@ -19,7 +19,7 @@ def displayAll(L):
 #=========================================================================== get data
 
      
-for prefix in ["levels_0/level_","levels_1/level_","levels_2/level_"]:
+for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/levels_1/level_","generated_levels/raw/levels_2/level_"]:
 
     print('----> Current prefix', prefix)
     L=[]

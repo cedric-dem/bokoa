@@ -47,13 +47,13 @@ for difficulty in [0,1,2]:
 
     if difficulty==0:
         size=4
-        prefix="levels_0/level_"
+        prefix="generated_levels/raw/levels_0/level_"
     elif difficulty==1:
         size=5
-        prefix="levels_1/level_"
+        prefix="generated_levels/raw/levels_1/level_"
     elif difficulty==2:
         size=6
-        prefix="levels_2/level_"
+        prefix="generated_levels/raw/levels_2/level_"
 
 
 
@@ -165,7 +165,7 @@ for difficulty in [0,1,2]:
         #print(elem.getGoodFormat())
 
         print("====> NEW")
-        foo(elem, "assets/difficulty_"+str(difficulty)+"/level_"+str(idx)+".json")
+        foo(elem, "generated_levels/processed/difficulty_"+str(difficulty)+"/level_"+str(idx)+".json")
 
         idx+=1
 

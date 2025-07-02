@@ -56,12 +56,12 @@ def makeOne(grid_size,fn):
 
 for grid_size in [[4,4],[5,5],[6,6]]:
     if (grid_size[0]==4):
-        prefix="levels_0/level_"
+        prefix="generated_levels/raw/levels_0/level_"
     elif (grid_size[0]==5):
-        prefix="levels_1/level_"
+        prefix="generated_levels/raw/levels_1/level_"
 
     elif (grid_size[0]==6):
-        prefix="levels_2/level_"
+        prefix="generated_levels/raw/levels_2/level_"
 
     print("Currently on size ",grid_size," prefix", prefix )
 
