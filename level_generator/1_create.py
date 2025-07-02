@@ -26,7 +26,7 @@ def getReadableMoves(lm):
 
     return res
 
-def makeOne(grid_size,fn):
+def createOneLevel(grid_size, fn):
     ##create level
     lv=Level(grid_size)
     
@@ -70,7 +70,7 @@ for grid_size in [[4,4],[5,5],[6,6]]:
 
     for i in range (levels_to_generate):
         print("==> generate level",i)
-        this_score=makeOne(grid_size,prefix+str(offset+i))
+        this_score=createOneLevel(grid_size, prefix + str(offset + i))
         print(offset+i+1,"/",levels_to_generate," finished. Score : ",this_score)
 
 

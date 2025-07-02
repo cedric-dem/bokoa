@@ -8,7 +8,7 @@ import json
 
 nb_levels=1000
 
-def foo(l,filename):
+def createLevelFileAsJson(l, filename):
     #print(dir(l))
     """
     print("------",filename)
@@ -165,7 +165,7 @@ for difficulty in [0,1,2]:
         #print(elem.getGoodFormat())
 
         print("====> NEW")
-        foo(elem, "generated_levels/processed/difficulty_"+str(difficulty)+"/level_"+str(idx)+".json")
+        createLevelFileAsJson(elem, "generated_levels/processed/difficulty_" + str(difficulty) + "/level_" + str(idx) + ".json")
 
         idx+=1
 
