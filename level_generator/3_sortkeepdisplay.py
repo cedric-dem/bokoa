@@ -23,21 +23,19 @@ def getIndexOfClosestFrom(to_search,lst):
 
     return closest_index
 
-for difficulty in [0,1,2]:
+for difficulty in difficulties:
 
     print('====> Current difficulty',difficulty)
 
     #=========================================================================== blabla
 
     if difficulty==0:
-        size=4
         prefix="generated_levels/raw/levels_0/level_"
     elif difficulty==1:
-        size=5
         prefix="generated_levels/raw/levels_1/level_"
     elif difficulty==2:
-        size=6
         prefix="generated_levels/raw/levels_2/level_"
+    size=all_grid_sizes[difficulty][0]
 
     #=========================================================================== get data
     L_all=[]
