@@ -1,0 +1,6 @@
+raw_levels_to_generate=1000
+
+number_levels_to_keep=100
+
+all_grid_sizes=[[4,4],[5,5],[6,6]]
+

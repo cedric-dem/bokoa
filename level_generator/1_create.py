@@ -4,10 +4,11 @@ from levelWithSol import LevelWithSol
 from level import Level
 import pickle
 import time
+from config import *
 
 offset=0
 
-levels_to_generate=10
+
 
 def getReadableMoves(lm):
     res=[]
@@ -54,9 +55,10 @@ def createOneLevel(grid_size, fn):
     return best_score
     
 
-for grid_size in [[4,4],[5,5],[6,6]]:
+for grid_size in all_grid_sizes:
     if (grid_size[0]==4):
         prefix="generated_levels/raw/levels_0/level_"
+
     elif (grid_size[0]==5):
         prefix="generated_levels/raw/levels_1/level_"
 
@@ -68,12 +70,12 @@ for grid_size in [[4,4],[5,5],[6,6]]:
 
     t0=time.time()
 
-    for i in range (levels_to_generate):
+    for i in range (raw_levels_to_generate):
         print("==> generate level",i)
         this_score=createOneLevel(grid_size, prefix + str(offset + i))
-        print(offset+i+1,"/",levels_to_generate," finished. Score : ",this_score)
+        print(offset + i + 1,"/", raw_levels_to_generate, " finished. Score : ", this_score)
 
 
     t1=time.time()
 
-    print("Time taken : "+str((t1-t0)/(levels_to_generate))+' seconds per it')
+    print("Time taken : " + str((t1-t0) / (raw_levels_to_generate)) + ' seconds per it')

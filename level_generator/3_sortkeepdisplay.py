@@ -1,7 +1,7 @@
 import pickle
 import json
+from config import *
 
-number_existing_levels=1000
 
 def createLevelFileAsJson(l, filename):
     result={
@@ -43,7 +43,7 @@ for difficulty in [0,1,2]:
     L_all=[]
 
     ##open all the files, put in a list
-    for i in range (number_existing_levels):
+    for i in range (raw_levels_to_generate):
         file = open(prefix+str(i), 'rb')
         data = pickle.load(file)
         
@@ -88,11 +88,11 @@ for difficulty in [0,1,2]:
     ###############theoretical
     theoretical=[]
 
-    average_step=(L[-1].fitness-L[0].fitness)/100
+    average_step=(L[-1].fitness-L[0].fitness)/number_levels_to_keep
 
     current=L[0].fitness
 
-    for i in range (100):
+    for i in range (number_levels_to_keep):
         theoretical.append(current)
         current+=average_step
 
