@@ -29,7 +29,6 @@ def describe_list(lst_name,lst):
     print("10% high", numpy.percentile(lst, 90))
     print("max : ", max(lst))
 
-
 def get_complete_levels_list(prefix, quantity):
     complete_levels_list = []
 
@@ -40,44 +39,50 @@ def get_complete_levels_list(prefix, quantity):
         complete_levels_list.append(elem)
     return complete_levels_list
 
+
+def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_name):
+    prefix = prefixes_list[grid_size_id]
+    print('====> Current prefix :', prefix)
+
+    complete_levels_list = get_complete_levels_list(prefix, quantity)
+
+    print("====> Number of levels :  ", len(complete_levels_list))
+
+    # =========================================================================== get stats
+    scores, sizes, fitness = [], [], []
+
+    ##open all them files, put in a list
+    for data in complete_levels_list:
+        data.setFitnessScore()
+
+        scores.append(data.best_score)
+        sizes.append(len(data.best_moves))
+        fitness.append(data.fitness)
+
+    # =========================================================================== Describe stats in terminal
+
+    describe_list("Scores", scores)
+    describe_list("Sizes", sizes)
+    describe_list("Fitness", fitness)
+
+    # =========================================================================== Display stats as plots
+
+    plot_all_evolutions(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_size_id))
+
+    scores.sort()
+    fitness.sort()
+    sizes.sort()
+
+    plot_graph(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]),
+               "Level ID", "Final Score")
+    plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]),
+               "Level ID", "Fitness Score")
+    plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID",
+               "Best Solution Size")
+
 def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
-
     for grid_size_id in grid_sizes_id:
-        prefix=prefixes_list[grid_size_id]
-        print('====> Current prefix :', prefix)
-
-        complete_levels_list=get_complete_levels_list(prefix, quantity)
-
-        print("====> Number of levels :  ", len(complete_levels_list))
-
-        # =========================================================================== get stats
-        scores, sizes, fitness = [], [], []
-
-        ##open all them files, put in a list
-        for data in complete_levels_list:
-            data.setFitnessScore()
-
-            scores.append(data.best_score)
-            sizes.append(len(data.best_moves))
-            fitness.append(data.fitness)
-
-        # =========================================================================== Describe stats in terminal
-
-        describe_list("Scores",scores)
-        describe_list("Sizes",sizes)
-        describe_list("Fitness",fitness)
-
-        # =========================================================================== Display stats as plots
-
-        plot_all_evolutions(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_size_id))
-
-        scores.sort()
-        fitness.sort()
-        sizes.sort()
-
-        plot_graph(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Final Score")
-        plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Fitness Score")
-        plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Best Solution Size")
+        describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_name)
 
 def create_level_file(level, filename):
     temp=open(filename,"wb")
@@ -92,21 +97,15 @@ def get_index_of_closest_from(to_search, levels_list):
 
     return closest_index
 
+
+
 def reduce_levels_set():
     for current_grid_size_id in grid_sizes_id:
 
         print('====> Current grid size id ',current_grid_size_id)
-        print('====> Current grid size id ',current_grid_size_id)
 
         #=========================================================================== get data
-        complete_levels_list=[]
-
-        ##open all the files, put in a list
-        for reduced_levels_index in range (raw_levels_to_generate):
-            file = open(file_prefixes_raw[current_grid_size_id] + str(reduced_levels_index), 'rb')
-            data = pickle.load(file)
-
-            complete_levels_list.append(data)
+        complete_levels_list=get_complete_levels_list(file_prefixes_raw[current_grid_size_id], raw_levels_to_generate)
 
         print("====>  Initially total of  ",len(complete_levels_list)," levels")
 
