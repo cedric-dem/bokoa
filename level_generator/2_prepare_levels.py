@@ -5,8 +5,8 @@ from config import *
 import pickle
 import json
 
-def plotAllEvolutions(list_evolutions):
-    plt.title("All evolution")
+def plotAllEvolutions(list_evolutions, context_name):
+    plt.title("All evolution" + context_name)
     for elem in list_evolutions:
         plt.plot(elem.historyOfScores)
     plt.show()
@@ -18,9 +18,10 @@ def describeList(lst):
     print("10% high", numpy.percentile(lst, 90))
     print("max : ", max(lst))
 
-def describeBunchOfLevels(prefixes_list, quantity):
+def describeBunchOfLevels(prefixes_list, quantity, levels_set_name):
 
-    for prefix in prefixes_list:
+    for grid_size_id in grid_sizes_id:
+        prefix=prefixes_list[grid_size_id]
         print('====> Current prefix :', prefix)
         complete_levels_list = []
 
@@ -58,15 +59,15 @@ def describeBunchOfLevels(prefixes_list, quantity):
 
         # =========================================================================== Display stats as plots
 
-        plotAllEvolutions(complete_levels_list)
+        plotAllEvolutions(complete_levels_list, levels_set_name + "  - Grid  size : "+str(grid_size_id))
 
         scores.sort()
         fitness.sort()
         sizes.sort()
 
-        plotGraph(scores, "All final scores")
-        plotGraph(fitness, "All fitness")
-        plotGraph(sizes, "All sizes")
+        plotGraph(scores, "All final scores" + levels_set_name + "  - Grid  size : "+str(grid_size_id))
+        plotGraph(fitness, "All fitness" + levels_set_name + "  - Grid  size : "+str(grid_size_id))
+        plotGraph(sizes, "All sizes" + levels_set_name + "  - Grid  size : "+str(grid_size_id))
 
 def plotGraph(scores, plotname):
     plt.title(plotname)
@@ -196,10 +197,10 @@ def exportAllLevelsAsJson():
             createLevelFileAsJson(data, file_prefixes_processed_as_json[difficulty] + str(final_index_level) + ".json")
 
 print("========> step 1: describe complete set of levels")
-describeBunchOfLevels(file_prefixes_raw, raw_levels_to_generate)
+describeBunchOfLevels(file_prefixes_raw, raw_levels_to_generate, " Complete")
 print("========> step 2: reduce set of levels")
 reduceLevelsSet()
 print("========> step 3: describe reduced set of levels")
-describeBunchOfLevels(file_prefixes_processed, number_levels_to_keep)
+describeBunchOfLevels(file_prefixes_processed, number_levels_to_keep, " Reduced")
 print("========> step 4: export as json")
 exportAllLevelsAsJson()
