@@ -56,10 +56,10 @@ def create_levels():
 
         t0=time.time()
 
-        for i in range (raw_levels_to_generate):
-            print("==> generate level",i)
-            create_one_level(grid_size_id, prefix + str(i)+".json")
-            print( i + 1,"/", raw_levels_to_generate, " finished")
+        for current_level_index in range (raw_levels_to_generate):
+            print("==> generate level",current_level_index)
+            create_one_level(grid_size_id, prefix + str(current_level_index)+".json")
+            print( current_level_index + 1,"/", raw_levels_to_generate, " finished")
 
         t1=time.time()
 
