@@ -16,7 +16,7 @@ def get_direction(move):
     
     return result
     
-class LevelWithSol(object):
+class LevelWithSolution(object):
     def __init__(self,level,best_score,best_moves):
         self.level=level
         self.best_score=best_score

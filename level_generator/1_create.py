@@ -34,17 +34,17 @@ def create_level_file_as_json(operations, best_score, best_moves, filename):
         json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
 
 def create_one_level(grid_size_id, fn):
-    ##create level
+    # create level
     temp_level=Level(grid_size_id)
     
-    ##create game
+    # create game
     temp_game=Game(temp_level)
     
-    ##do the backtrack
+    # do the backtrack
     grid_size=grid_sizes[grid_size_id]
     best_score, best_moves = back_track(temp_game, grid_size[0] * grid_size[1])
 
-    #save level with solution as json
+    # save level with solution as json
     create_level_file_as_json(temp_level.level, best_score, get_readable_moves(best_moves), fn)
 
 def create_levels():

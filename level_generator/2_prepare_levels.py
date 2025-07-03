@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from config import *
 import pickle
 import json
-from levelWithSol import *
+from levelWithSolution import *
 from level import *
 
 def plot_all_evolutions(list_evolutions, context_name):
@@ -43,7 +43,7 @@ def get_complete_levels_list(grid_size_id,prefix, quantity):
             new_level=Level(grid_size_id)
             new_level.level=data["operations"]
 
-            new_level_with_sol = LevelWithSol(new_level,data["bestScore"],data["bestMoves"])
+            new_level_with_sol = LevelWithSolution(new_level, data["bestScore"], data["bestMoves"])
             complete_levels_list.append(new_level_with_sol)
 
     return complete_levels_list
