@@ -40,8 +40,9 @@ class LevelWithSolution(object):
 		self.grid_size_id = level.grid_size_id
 		self.grid_size = level.grid_size
 
-	def set_fitness_score(self):
 		self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self.level)
+
+	def set_fitness_score(self):
 
 		increasing_steps_counter = 0
 
