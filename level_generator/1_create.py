@@ -3,7 +3,6 @@ from backtrack import back_track
 from game import Game
 from level import Level
 import time
-from config import *
 from misc import *
 
 def get_readable_moves(moves_list):
