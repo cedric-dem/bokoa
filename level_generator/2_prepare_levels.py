@@ -90,14 +90,7 @@ def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
         describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_name)
 
 def create_level_file(level, filename):
-    #temp=open(filename,"wb")
-    #pickle.dump(level, temp)
-    operations = level.level.level
-    best_moves = level.best_moves
-    best_score = level.best_score
-
-    #print('===',operations, best_moves, best_score, filename)
-    create_level_file_as_json(operations, best_score, best_moves, filename+".json")
+    create_level_file_as_json(level.level.level, level.best_score, level.best_moves, filename+".json")
 
 def create_level_file_as_json(operations, best_score, best_moves, filename):
     result = {
@@ -164,7 +157,13 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
 
     for index_reduced in range (len(levels_reduced)):
         current_level=levels_reduced[index_reduced]
-        create_level_file(current_level, file_prefixes_reduced[current_grid_size_id] + str(index_reduced))
+
+        create_level_file_as_json(
+            current_level.level.level,
+            current_level.best_score,
+            current_level.best_moves,
+            file_prefixes_reduced[current_grid_size_id] + str(index_reduced) + ".json"
+        )
 
     print("====>  Keeping ", len(levels_reduced), " levels")
 
