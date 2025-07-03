@@ -23,7 +23,6 @@ def get_readable_moves(moves_list):
 
     return result
 
-
 def create_one_level(grid_size_id, fn):
     # create level
     temp_level=Level(grid_size_id, None)

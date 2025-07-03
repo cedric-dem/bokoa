@@ -85,8 +85,6 @@ def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
 def create_level_file(level, filename):
     create_level_file_as_json(level.operations_grid.operations_grid, level.best_score, level.best_moves, filename + ".json")
 
-
-
 def get_index_of_closest_from(to_search, levels_list):
     closest_index=0
 
