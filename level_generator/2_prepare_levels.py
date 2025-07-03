@@ -135,14 +135,7 @@ def reduce_levels_set():
         #######################################doing the mod
         theoretical_fitness= get_theoretical_fitness(levels_size_acceptable)
 
-        ###################doing the job
-        levels_reduced=[]
-
-        for reduced_levels_index in range (number_levels_to_keep):
-            index=get_index_of_closest_from(theoretical_fitness[reduced_levels_index], levels_size_acceptable)
-            this_one=levels_size_acceptable.pop(index)
-            levels_reduced.append(this_one)
-        levels_reduced.sort()
+        levels_reduced=get_reduced_levels(theoretical_fitness, levels_size_acceptable)
 
         fitness=[]
         for current_level in levels_reduced:
@@ -155,6 +148,16 @@ def reduce_levels_set():
             create_level_file(current_level, file_prefixes_processed[current_grid_size_id] + str(index_reduced))
 
         print("====>  Keeping ", len(levels_reduced), " levels")
+
+def get_reduced_levels(theoretical_fitness, levels_size_acceptable):
+    levels_reduced=[]
+
+    for reduced_levels_index in range(number_levels_to_keep):
+        index = get_index_of_closest_from(theoretical_fitness[reduced_levels_index], levels_size_acceptable)
+        this_one = levels_size_acceptable.pop(index)
+        levels_reduced.append(this_one)
+    levels_reduced.sort()
+    return levels_reduced
 
 def get_theoretical_fitness(levels_list):
     theoretical_fitness = []
