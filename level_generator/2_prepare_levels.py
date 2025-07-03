@@ -68,7 +68,7 @@ def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_n
 
     # ==== Display stats as plots
 
-    plot_all_evolutions(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_size_id))
+    plot_all_evolutions(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]))
 
     scores.sort()
     fitness.sort()
