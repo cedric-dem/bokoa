@@ -43,8 +43,7 @@ def get_complete_levels_list(grid_size_id,prefix, quantity):
 
     return complete_levels_list
 
-def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_name):
-    prefix = prefixes_list[grid_size_id]
+def describe_given_grid_size(grid_size_id, prefix, quantity, levels_set_name):
     print('====> Current prefix :', prefix)
 
     complete_levels_list = get_complete_levels_list(grid_size_id, prefix, quantity)
@@ -78,10 +77,6 @@ def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_n
     plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]),"Level ID", "Fitness Score")
     plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID","Best Solution Size")
 
-def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
-    for grid_size_id in grid_sizes_id:
-        describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_name)
-
 def create_level_file(level, filename):
     create_level_file_as_json(level.operations_grid.operations_grid, level.best_score, level.best_moves, filename + ".json")
 
@@ -110,7 +105,7 @@ def reduce_levels_set():
 def reduce_levels_set_given_grid_size_id(current_grid_size_id):
     print('====> Current grid size id ',current_grid_size_id)
 
-    complete_levels_list=get_complete_levels_list(current_grid_size_id, file_prefixes_complete[current_grid_size_id], raw_levels_to_generate)
+    complete_levels_list=get_complete_levels_list(current_grid_size_id, get_file_prefix_complete(current_grid_size_id), raw_levels_to_generate)
     print("====>  Initially total of  ",len(complete_levels_list)," levels")
 
     levels_size_acceptable=get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
@@ -144,7 +139,7 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
             current_level.level.operations_grid,
             current_level.best_score,
             current_level.best_moves,
-            file_prefixes_reduced[current_grid_size_id] + str(index_reduced) + ".json"
+            get_file_prefix_reduced(current_grid_size_id) + str(index_reduced) + ".json"
         )
 
     print("====>  Keeping ", len(levels_reduced), " levels")
@@ -175,8 +170,12 @@ def get_theoretical_fitness(levels_list):
     return theoretical_fitness
 
 print("========> step 1: describe complete set of levels")
-describe_bunch_of_levels(file_prefixes_complete, raw_levels_to_generate, " Complete")
+for grid_size_id in grid_sizes_id:
+    describe_given_grid_size(grid_size_id, get_file_prefix_complete(grid_size_id) ,raw_levels_to_generate, " Complete")
+
 print("========> step 2: reduce set of levels")
 reduce_levels_set()
+
 print("========> step 3: describe reduced set of levels")
-describe_bunch_of_levels(file_prefixes_reduced, number_levels_to_keep, " Reduced")
+for grid_size_id in grid_sizes_id:
+    describe_given_grid_size(grid_size_id, get_file_prefix_reduced(grid_size_id), number_levels_to_keep, " Reduced")

@@ -40,7 +40,7 @@ def create_one_level(grid_size_id, fn):
 def create_levels():
     for grid_size_id in grid_sizes_id:
         grid_size=grid_sizes[grid_size_id]
-        prefix=file_prefixes_complete[grid_size_id]
+        prefix=get_file_prefix_complete(grid_size_id)
 
         print("Currently on size ",grid_size," prefix", prefix )
 

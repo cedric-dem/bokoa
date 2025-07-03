@@ -25,10 +25,3 @@ grid_size_folder_prefix="grid_size_"
 
 level_file_name="level_"
 
-file_prefixes_complete=[
-    generated_levels_folder_name + "/"+complete_folder_name+"/"+grid_size_folder_prefix+str(i)+"/"+level_file_name for i in range (len(grid_sizes))
-]
-
-file_prefixes_reduced=[
-    generated_levels_folder_name + "/"+reduced_folder_name+"/"+grid_size_folder_prefix+str(i)+"/"+level_file_name for i in range (len(grid_sizes))
-]
