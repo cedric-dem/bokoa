@@ -1,8 +1,8 @@
 def is_move_in_bound(gm, new_pos):
-    return (new_pos[0]>=0 and  new_pos[1]>=0 and new_pos[0]<gm.grid_size[1]  and   new_pos[1]<gm.grid_size[0])
+    return new_pos[0]>=0 and  new_pos[1]>=0 and new_pos[0]<gm.grid_size[1] and new_pos[1]<gm.grid_size[0]
 
 def is_move_in_history(gm, new_pos):
-    return (new_pos in gm.position_history)
+    return new_pos in gm.position_history
 
 def get_all_but_inverse_of_last_move(gm):
     if len(gm.moves_history)==0:
@@ -33,7 +33,6 @@ def back_track(gm, max_depth):
     else:
         best_score=1
         best_moves=[]
-
     
     if len(gm.moves_history)<max_depth:  #else stop
         for new_move in  get_all_but_inverse_of_last_move(gm):
@@ -41,7 +40,7 @@ def back_track(gm, max_depth):
             new_pos=[gm.position_history[-1][0]+new_move[0],gm.position_history[-1][1]+new_move[1]]
 
             ##if move ok + not coming back
-            if (is_move_in_bound(gm, new_pos) and (not is_move_in_history(gm, new_pos))):
+            if is_move_in_bound(gm, new_pos) and (not is_move_in_history(gm, new_pos)):
                 #save old score
                 old_score=gm.score
             
@@ -56,8 +55,7 @@ def back_track(gm, max_depth):
                 gm.moves_history.pop()
                 gm.position_history.pop()
 
-
-                if (best_score<temp_best_score):  #if new res better than prev:
+                if best_score<temp_best_score:  #if new res better than prev:
                     #best_score and best_moves refresh
                     best_score=temp_best_score
                     best_moves=temp_best_moves[::]

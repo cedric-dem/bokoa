@@ -1,8 +1,6 @@
 import numpy
 import statistics
 import matplotlib.pyplot as plt
-from config import *
-import pickle
 import json
 from levelWithSolution import *
 from level import *
@@ -45,7 +43,6 @@ def get_complete_levels_list(grid_size_id,prefix, quantity):
 
     return complete_levels_list
 
-
 def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_name):
     prefix = prefixes_list[grid_size_id]
     print('====> Current prefix :', prefix)
@@ -65,7 +62,6 @@ def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_n
         fitness.append(data.fitness)
 
     # ==== Describe stats in terminal
-
     describe_list("Scores", scores)
     describe_list("Sizes", sizes)
     describe_list("Fitness", fitness)

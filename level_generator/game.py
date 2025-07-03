@@ -1,5 +1,3 @@
-
-
 class Game(object):
     def __init__(self,level):
         self.level=level
@@ -30,4 +28,3 @@ class Game(object):
 
         elif operation[0]=='÷':
             self.score/=int(operation[1])
-
