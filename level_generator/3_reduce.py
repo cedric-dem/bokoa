@@ -14,101 +14,104 @@ def getIndexOfClosestFrom(to_search,lst):
 
     return closest_index
 
-for difficulty in difficulties:
+def reduceLevelsSet():
+    for difficulty in difficulties:
 
-    print('====> Current difficulty',difficulty)
+        print('====> Current difficulty',difficulty)
 
-    size=all_grid_sizes[difficulty][0]
+        size=all_grid_sizes[difficulty][0]
 
-    #=========================================================================== get data
-    L_all=[]
+        #=========================================================================== get data
+        L_all=[]
 
-    ##open all the files, put in a list
-    for final_index_level in range (raw_levels_to_generate):
-        file = open(file_prefixes_raw[difficulty] + str(final_index_level), 'rb')
-        data = pickle.load(file)
-        
-        L_all.append(data)
-        
-    print("\n==============>  Initially total of  ",len(L_all)," levels")
+        ##open all the files, put in a list
+        for final_index_level in range (raw_levels_to_generate):
+            file = open(file_prefixes_raw[difficulty] + str(final_index_level), 'rb')
+            data = pickle.load(file)
 
-    #=========================================================================== kept levels
-    L=[]
-    if size==4:
-        lowest_size=6
-    elif size==5:
-        lowest_size=12
-    else:
-        lowest_size=18
+            L_all.append(data)
 
-    for elem in L_all:
-        if len(elem.best_moves)>=lowest_size:
-            L.append(elem)
+        print("\n==============>  Initially total of  ",len(L_all)," levels")
 
-    print("\n==============>  After remove  total of  ",len(L)," levels")
+        #=========================================================================== kept levels
+        L=[]
+        if size==4:
+            lowest_size=6
+        elif size==5:
+            lowest_size=12
+        else:
+            lowest_size=18
 
-    #=========================================================================== set fitness of kept levels
-    for elem in L:
-        elem.setFitnessScore()
+        for elem in L_all:
+            if len(elem.best_moves)>=lowest_size:
+                L.append(elem)
 
-    #=========================================================================== sort kept levels
-    L.sort()
-    #keep=keep[::-1]
+        print("\n==============>  After remove  total of  ",len(L)," levels")
 
-    #=========================================================================== Display infos
+        #=========================================================================== set fitness of kept levels
+        for elem in L:
+            elem.setFitnessScore()
 
-    print("********************************************************************************************************************* BEFOR")
-    fitness=[]
+        #=========================================================================== sort kept levels
+        L.sort()
+        #keep=keep[::-1]
 
-    for elem in L:
-        fitness.append(elem.fitness)
+        #=========================================================================== Display infos
 
-    #=========================================================================== modify it
+        print("********************************************************************************************************************* BEFOR")
+        fitness=[]
 
-    #######################################doing the mod
-    ###############theoretical
-    theoretical=[]
+        for elem in L:
+            fitness.append(elem.fitness)
 
-    average_step=(L[-1].fitness-L[0].fitness)/number_levels_to_keep
+        #=========================================================================== modify it
 
-    current=L[0].fitness
+        #######################################doing the mod
+        ###############theoretical
+        theoretical=[]
 
-    for final_index_level in range (number_levels_to_keep):
-        theoretical.append(current)
-        current+=average_step
+        average_step=(L[-1].fitness-L[0].fitness)/number_levels_to_keep
 
-    #print(len(theoretical))
-    #print('avg s',average_step)
-    print("THEORETICAL : ",theoretical)
+        current=L[0].fitness
 
-    ###################doing the job
+        for final_index_level in range (number_levels_to_keep):
+            theoretical.append(current)
+            current+=average_step
 
-    final_levels_list=[]
-    #keep_list.append(keep[0])
+        #print(len(theoretical))
+        #print('avg s',average_step)
+        print("THEORETICAL : ",theoretical)
 
-    for final_index_level in range (100):
-        index=getIndexOfClosestFrom(theoretical[final_index_level], L)
-        this_one=L.pop(index)
-        final_levels_list.append(this_one)
+        ###################doing the job
 
-    print("************************************************************************************************************* AFER")
-    fitness=[]
+        final_levels_list=[]
+        #keep_list.append(keep[0])
 
-    final_levels_list.sort()
+        for final_index_level in range (100):
+            index=getIndexOfClosestFrom(theoretical[final_index_level], L)
+            this_one=L.pop(index)
+            final_levels_list.append(this_one)
 
-    for elem in final_levels_list:
-        fitness.append(elem.fitness)
+        print("************************************************************************************************************* AFER")
+        fitness=[]
 
-    print("FITNESS : ",fitness)
-    print(len(fitness))
+        final_levels_list.sort()
 
-    print('\n==============> Result : ')
-    idx=0
-    for elem in final_levels_list:
+        for elem in final_levels_list:
+            fitness.append(elem.fitness)
 
-        print("====> NEW")
-        createLevelFile(elem,  file_prefixes_processed[difficulty] + str(idx))
+        print("FITNESS : ",fitness)
+        print(len(fitness))
 
-        idx+=1
+        print('\n==============> Result : ')
+        idx=0
+        for elem in final_levels_list:
 
-    print("\n==============>  Keeping ", len(final_levels_list), " levels")
+            print("====> NEW")
+            createLevelFile(elem,  file_prefixes_processed[difficulty] + str(idx))
+
+            idx+=1
+
+        print("\n==============>  Keeping ", len(final_levels_list), " levels")
+
+reduceLevelsSet()
