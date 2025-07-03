@@ -12,7 +12,7 @@ class Game(object):
     def move(self,direction,new_pos):
         self.moves_history.append(direction)
 
-        new_operation=self.level.level[new_pos[0]][new_pos[1]]
+        new_operation=self.level.operations_grid[new_pos[0]][new_pos[1]]
 
         self.apply_operation(new_operation)
 

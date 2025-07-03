@@ -21,22 +21,20 @@ class Level(object):
         self.grid_size_id=grid_size_id
         self.grid_size=grid_sizes[grid_size_id]
 
-        self.operations_grid=operations_grid
-        if (operations_grid==None):
+        if operations_grid==None:
+            self.operations_grid=[[None for _ in range (self.grid_size[0])] for _ in range (self.grid_size[1])]
             self.create_level()
         else:
-            self.level=operations_grid
+            self.operations_grid=operations_grid
     
     def create_level(self):
 
         operations_reserve=get_operations_reserve(self.grid_size)
 
-        self.level=[[None for _ in range (self.grid_size[0])] for _ in range (self.grid_size[1])]
-        
         for i in range (self.grid_size[0]):
             for j in range (self.grid_size[1]):
                 if i==0 and j==0:
-                    self.level[0][0]="1"
+                    self.operations_grid[0][0]= "1"
                 else:
                     if operations_reserve[0]=="×" or operations_reserve[0]=="÷":
                         new_operation=operations_reserve[0]+str(random.randint(2,5))
@@ -44,9 +42,9 @@ class Level(object):
                     else:
                         new_operation=operations_reserve[0]+str(random.randint(1,5))
                         
-                    self.level[j][i]=new_operation
+                    self.operations_grid[j][i]=new_operation
                     del operations_reserve[0]
 
     def display_level(self):
-        for line in self.level:
+        for line in self.operations_grid:
             print(line)

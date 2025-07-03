@@ -45,7 +45,7 @@ def create_one_level(grid_size_id, fn):
     best_score, best_moves = back_track(temp_game, grid_size[0] * grid_size[1])
 
     # save level with solution as json
-    create_level_file_as_json(temp_level.level, best_score, get_readable_moves(best_moves), fn)
+    create_level_file_as_json(temp_level.operations_grid, best_score, get_readable_moves(best_moves), fn)
 
 def create_levels():
     for grid_size_id in grid_sizes_id:
