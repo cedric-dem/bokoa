@@ -75,9 +75,9 @@ def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
         fitness.sort()
         sizes.sort()
 
-        plot_graph(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_size_id), "Level ID", "Final Score")
-        plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_size_id), "Level ID", "Fitness Score")
-        plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_size_id), "Level ID", "Best Solution Size")
+        plot_graph(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Final Score")
+        plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Fitness Score")
+        plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Best Solution Size")
 
 def create_level_file(level, filename):
     temp=open(filename,"wb")
@@ -93,16 +93,17 @@ def get_index_of_closest_from(to_search, levels_list):
     return closest_index
 
 def reduce_levels_set():
-    for difficulty in grid_sizes_id:
+    for current_grid_size_id in grid_sizes_id:
 
-        print('====> Current difficulty',difficulty)
+        print('====> Current grid size id ',current_grid_size_id)
+        print('====> Current grid size id ',current_grid_size_id)
 
         #=========================================================================== get data
         complete_levels_list=[]
 
         ##open all the files, put in a list
         for reduced_levels_index in range (raw_levels_to_generate):
-            file = open(file_prefixes_raw[difficulty] + str(reduced_levels_index), 'rb')
+            file = open(file_prefixes_raw[current_grid_size_id] + str(reduced_levels_index), 'rb')
             data = pickle.load(file)
 
             complete_levels_list.append(data)
@@ -111,7 +112,7 @@ def reduce_levels_set():
 
         #=========================================================================== kept levels
         levels_size_acceptable=[]
-        lowest_size=lowest_solution_sizes[difficulty]
+        lowest_size=lowest_solution_sizes[current_grid_size_id]
 
         for current_level in complete_levels_list:
             if len(current_level.best_moves)>=lowest_size:
@@ -169,7 +170,7 @@ def reduce_levels_set():
 
         for index_reduced in range (len(levels_reduced)):
             current_level=levels_reduced[index_reduced]
-            create_level_file(current_level, file_prefixes_processed[difficulty] + str(index_reduced))
+            create_level_file(current_level, file_prefixes_processed[current_grid_size_id] + str(index_reduced))
 
         print("====>  Keeping ", len(levels_reduced), " levels")
 
