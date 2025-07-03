@@ -32,7 +32,6 @@ def describe_list(lst_name,lst):
 def get_complete_levels_list(prefix, quantity):
     complete_levels_list = []
 
-    ##open all the files, put in a list
     for current_level_index in range(quantity):
         file = open(prefix + str(current_level_index), 'rb')
         elem = pickle.load(file)
@@ -48,10 +47,9 @@ def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_n
 
     print("====> Number of levels :  ", len(complete_levels_list))
 
-    # =========================================================================== get stats
+    # ==== get stats
     scores, sizes, fitness = [], [], []
 
-    ##open all them files, put in a list
     for data in complete_levels_list:
         data.setFitnessScore()
 
@@ -59,13 +57,13 @@ def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_n
         sizes.append(len(data.best_moves))
         fitness.append(data.fitness)
 
-    # =========================================================================== Describe stats in terminal
+    # ==== Describe stats in terminal
 
     describe_list("Scores", scores)
     describe_list("Sizes", sizes)
     describe_list("Fitness", fitness)
 
-    # =========================================================================== Display stats as plots
+    # ==== Display stats as plots
 
     plot_all_evolutions(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_size_id))
 
@@ -116,22 +114,20 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
     levels_size_acceptable=get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
     print("====>  After remove too small levels total of  ",len(levels_size_acceptable)," levels")
 
-    #=========================================================================== set fitness of kept levels
+    #===== set fitness of kept levels
     for current_level in levels_size_acceptable:
         current_level.setFitnessScore()
 
-    #=========================================================================== sort kept levels
+    #====  sort kept levels
     levels_size_acceptable.sort()
 
-    #=========================================================================== Display infos
+    #==== Display infos
 
     fitness=[]
     for current_level in levels_size_acceptable:
         fitness.append(current_level.fitness)
 
-    #=========================================================================== modify it
-
-    #######################################doing the mod
+    # ==== get theoretical fitness to reduce
     theoretical_fitness= get_theoretical_fitness(levels_size_acceptable)
 
     levels_reduced=get_reduced_levels(theoretical_fitness, levels_size_acceptable)
@@ -184,7 +180,6 @@ def export_all_levels_as_json():
     for difficulty in grid_sizes_id:
         print('====> Current difficulty', difficulty)
 
-        ##open all the files, put in a list
         for final_index_level in range(number_levels_to_keep):
             file = open(file_prefixes_processed[difficulty] + str(final_index_level), 'rb')
             data = pickle.load(file)
