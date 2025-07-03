@@ -1,5 +1,5 @@
 import random
-from utils.config import *
+from level_generator.config.config import *
 
 random.seed(123456789)
 

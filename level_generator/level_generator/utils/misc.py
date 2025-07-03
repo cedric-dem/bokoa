@@ -4,8 +4,8 @@ import numpy
 import statistics
 import matplotlib.pyplot as plt
 
-from classes.levelWithSolution import *
-from classes.level import *
+from level_generator.classes.levelWithSolution import *
+from level_generator.classes.level import *
 
 def plot_all_evolutions(list_evolutions, context_name):
 	plt.title("All evolution" + context_name)

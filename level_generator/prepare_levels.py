@@ -1,4 +1,4 @@
-from utils.misc import *
+from level_generator.utils.misc import *
 
 print("========> step 1: describe complete set of levels")
 for grid_size_id in grid_sizes_id:

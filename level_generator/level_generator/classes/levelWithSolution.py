@@ -1,5 +1,5 @@
-from classes.game import Game
-from utils.config import *
+from level_generator.classes.game import Game
+from level_generator.config.config import *
 
 def get_history_of_scores_for_given_solution_on_given_level(solution, level):
 	current_game = Game(level)
