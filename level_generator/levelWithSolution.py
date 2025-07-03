@@ -1,11 +1,10 @@
 from game import Game
 from config import *
 
-
 def get_history_of_scores_for_given_solution_on_given_level(solution, level):
     current_game = Game(level)
 
-    historyOfScoresForBestSolution = [1]
+    history_of_scores_for_best_solution = [1]
 
     for move in solution:
         move_direction = get_direction(move)
@@ -13,13 +12,12 @@ def get_history_of_scores_for_given_solution_on_given_level(solution, level):
         new_position = [current_position[0] + move_direction[0], current_position[1] + move_direction[1]]
         current_game.move(move_direction, new_position)
 
-        historyOfScoresForBestSolution.append(current_game.score)
+        history_of_scores_for_best_solution.append(current_game.score)
 
-    return historyOfScoresForBestSolution
-
+    return history_of_scores_for_best_solution
 
 def get_direction(move):
-    if move == ">":  # good
+    if move == ">":
         result = [0, 1]
 
     elif move == "<":
@@ -47,8 +45,7 @@ class LevelWithSolution(object):
         self.grid_size = level.grid_size
 
     def set_fitness_score(self):
-        self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves,
-                                                                                                      self.level)
+        self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves,self.level)
 
         increasing_steps_counter = 0
 
@@ -66,10 +63,10 @@ class LevelWithSolution(object):
             if new_score < old_score:
                 total_score_decreasing += (old_score - new_score)
 
-        average_increase_per_move= increasing_steps_counter / (len(self.historyOfScoresForBestSolution))
+        proportion_of_increasing_steps= increasing_steps_counter / (len(self.historyOfScoresForBestSolution))
         score_decreasing_normalized = (total_score_decreasing / self.historyOfScoresForBestSolution[-1])
 
-        fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * average_increase_per_move)
+        fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * proportion_of_increasing_steps)
         fitness_second_term =  score_decreasing_normalized / coefficient_fitness_second_term_a[self.grid_size_id]
 
         self.estimated_difficulty = (coefficient_fitness_second_term * fitness_second_term) + fitness_first_term
