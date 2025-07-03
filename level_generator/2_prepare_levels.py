@@ -142,11 +142,9 @@ def reduce_levels_set():
             index=get_index_of_closest_from(theoretical_fitness[reduced_levels_index], levels_size_acceptable)
             this_one=levels_size_acceptable.pop(index)
             levels_reduced.append(this_one)
-
-        fitness=[]
-
         levels_reduced.sort()
 
+        fitness=[]
         for current_level in levels_reduced:
             fitness.append(current_level.fitness)
 
@@ -157,8 +155,6 @@ def reduce_levels_set():
             create_level_file(current_level, file_prefixes_processed[current_grid_size_id] + str(index_reduced))
 
         print("====>  Keeping ", len(levels_reduced), " levels")
-
-
 
 def get_theoretical_fitness(levels_list):
     theoretical_fitness = []
@@ -174,7 +170,6 @@ def get_theoretical_fitness(levels_list):
     print('====> Average step', average_step)
     print("====> Theoretical fitness : ", theoretical_fitness)
     return theoretical_fitness
-
 
 def create_level_file_as_json(l, filename):
     result={
