@@ -1,4 +1,5 @@
 import random
+from config import *
 
 random.seed(123456789)
 
@@ -16,8 +17,9 @@ def get_operations_reserve(grid_size):
     return operations_reserve
 
 class Level(object):
-    def __init__(self,grid_size):
-        self.grid_size=grid_size
+    def __init__(self,grid_size_id):
+        self.grid_size_id=grid_size_id
+        self.grid_size=grid_sizes[grid_size_id]
 
         self.create_level()
     

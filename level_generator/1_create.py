@@ -24,14 +24,15 @@ def get_readable_moves(moves_list):
 
     return result
 
-def create_one_level(grid_size, fn):
+def create_one_level(grid_size_id, fn):
     ##create level
-    temp_level=Level(grid_size)
+    temp_level=Level(grid_size_id)
     
     ##create game
     temp_game=Game(temp_level)
     
     ##do the backtrack
+    grid_size=grid_sizes[grid_size_id]
     best_score, best_moves = back_track(temp_game, grid_size[0] * grid_size[1])
 
     #create level with solution
@@ -60,7 +61,7 @@ def create_levels():
 
         for i in range (raw_levels_to_generate):
             print("==> generate level",i)
-            this_score=create_one_level(grid_size, prefix + str(i))
+            this_score=create_one_level(grid_size_id, prefix + str(i))
             print( i + 1,"/", raw_levels_to_generate, " finished. Score : ", this_score)
 
         t1=time.time()
