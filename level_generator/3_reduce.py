@@ -2,17 +2,9 @@ import pickle
 import json
 from config import *
 
-
-def createLevelFileAsJson(l, filename):
-    result={
-        "operations":l.level.level,
-        "bestScore":round(float(l.best_score),2),
-        "bestMoves":l.best_moves
-    }
-
-    with open(filename, 'w') as file:
-        json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
-
+def createLevelFile(level, filename):
+    temp=open(filename,"wb")
+    pickle.dump(level, temp)
 
 def getIndexOfClosestFrom(to_search,lst):
     closest_index=0
@@ -119,7 +111,8 @@ for difficulty in difficulties:
     for elem in final_levels_list:
 
         print("====> NEW")
-        createLevelFileAsJson(elem, file_prefixes_processed[difficulty] + str(idx) + ".json")
+        #createLevelFileAsJson(elem, file_prefixes_processed[difficulty] + str(idx) + ".json")
+        createLevelFile(elem,  file_prefixes_processed[difficulty] + str(idx))
 
         idx+=1
 

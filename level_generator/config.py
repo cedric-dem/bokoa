@@ -17,3 +17,10 @@ file_prefixes_processed=[
     "generated_levels/processed/difficulty_1/level_",
     "generated_levels/processed/difficulty_2/level_"
 ]
+
+
+file_prefixes_processed_as_json=[
+    "generated_levels/processed_json/difficulty_0/level_",
+    "generated_levels/processed_json/difficulty_1/level_",
+    "generated_levels/processed_json/difficulty_2/level_"
+]
