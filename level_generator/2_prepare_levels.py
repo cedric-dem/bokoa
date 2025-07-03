@@ -23,11 +23,13 @@ def plot_graph(evolution, plot_name, x_labels, y_labels):
 
 def describe_list(lst_name,lst):
     print("====> describe list ", lst_name)
-    print("min : ", min(lst))
-    print("10% low", numpy.percentile(lst, 10))
-    print("med", statistics.median(lst))
-    print("10% high", numpy.percentile(lst, 90))
-    print("max : ", max(lst))
+    print(
+        "min : ", round(min(lst),2)," ; ",
+        "10% low", round(numpy.percentile(lst, 10),2)," ; ",
+        "med", round(statistics.median(lst),2)," ; ",
+        "10% high", round(numpy.percentile(lst, 90),2)," ; ",
+        "max : ", round(max(lst),2)
+    )
 
 def get_complete_levels_list(grid_size_id,prefix, quantity):
     complete_levels_list = []
