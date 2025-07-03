@@ -32,12 +32,7 @@ class LevelWithSolution(object):
         self.historyOfScores=[1]
         current_game=Game(self.level)
 
-        decreasing_steps_counter=0
         increasing_steps_counter=0
-
-        found_first_pos=False
-
-        consecutive_first_steps_diminish=0
 
         total_score_decreasing=0
         total_score_increasing=0
@@ -54,16 +49,11 @@ class LevelWithSolution(object):
             new_score=current_game.score
 
             if new_score>old_score:
-                found_first_pos=True
                 increasing_steps_counter+=1
                 total_score_increasing+=(new_score-old_score)
 
             if new_score<old_score:
-                if not found_first_pos:
-                    consecutive_first_steps_diminish+=1
-
                 total_score_decreasing+=(old_score-new_score)
-                decreasing_steps_counter+=1
 
         fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * (increasing_steps_counter / (len(self.historyOfScores))))
         fitness_second_term = (total_score_decreasing / self.historyOfScores[-1]) / coefficient_fitness_second_term_a[self.grid_size_id]
