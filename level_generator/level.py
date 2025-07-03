@@ -11,8 +11,6 @@ def get_operations_reserve(grid_size):
             ['×' for _ in range(total_of_each_op)] +
             ['÷' for _ in range(total_of_each_op)])
 
-    if grid_size == [4, 4] or grid_size == [5, 6]:
-        operations_reserve += ["+"]
     random.shuffle(operations_reserve)
     return operations_reserve
 
