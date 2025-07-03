@@ -31,7 +31,6 @@ class LevelWithSol(object):
         decreasing_steps_counter=0
         increasing_steps_counter=0
 
-        found_first_neg=False
         found_first_pos=False
 
         consecutive_first_steps_diminish=0
@@ -90,7 +89,7 @@ class LevelWithSol(object):
         print(self.best_score)
 
     def __gt__(self,other):
-        return (self.fitness>other.fitness) 
+        return self.fitness>other.fitness
 
     def __eq__(self,other):
-        return (self.fitness==other.fitness) 
+        return self.fitness==other.fitness
