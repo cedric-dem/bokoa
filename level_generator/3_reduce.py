@@ -1,5 +1,4 @@
 import pickle
-import json
 from config import *
 
 def createLevelFile(level, filename):
@@ -18,9 +17,6 @@ def getIndexOfClosestFrom(to_search,lst):
 for difficulty in difficulties:
 
     print('====> Current difficulty',difficulty)
-
-    #=========================================================================== blabla
-
 
     size=all_grid_sizes[difficulty][0]
 
@@ -111,7 +107,6 @@ for difficulty in difficulties:
     for elem in final_levels_list:
 
         print("====> NEW")
-        #createLevelFileAsJson(elem, file_prefixes_processed[difficulty] + str(idx) + ".json")
         createLevelFile(elem,  file_prefixes_processed[difficulty] + str(idx))
 
         idx+=1
