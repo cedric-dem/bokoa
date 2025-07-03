@@ -19,9 +19,12 @@ def get_direction(move):
 class LevelWithSolution(object):
     def __init__(self,level,best_score,best_moves):
         self.level=level
+
         self.best_score=best_score
         self.best_moves=best_moves
+
         self.historyOfScores=None
+
         self.grid_size_id=level.grid_size_id
         self.grid_size=level.grid_size
     
@@ -61,8 +64,6 @@ class LevelWithSolution(object):
 
                 total_score_decreasing+=(old_score-new_score)
                 decreasing_steps_counter+=1
-
-        ####################################################################################################################
 
         fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * (increasing_steps_counter / (len(self.historyOfScores))))
         fitness_second_term = (total_score_decreasing / self.historyOfScores[-1]) / coefficient_fitness_second_term_a[self.grid_size_id]

@@ -21,11 +21,11 @@ class Level(object):
         self.grid_size_id=grid_size_id
         self.grid_size=grid_sizes[grid_size_id]
 
-        if operations_grid==None:
+        if operations_grid:
+            self.operations_grid=operations_grid
+        else:
             self.operations_grid=[[None for _ in range (self.grid_size[0])] for _ in range (self.grid_size[1])]
             self.create_level()
-        else:
-            self.operations_grid=operations_grid
     
     def create_level(self):
 
