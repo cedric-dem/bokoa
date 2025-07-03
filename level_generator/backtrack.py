@@ -24,12 +24,12 @@ def get_all_but_inverse_of_last_move(gm):
         print('Error')
         return None
 
-def back_track(game, max_depth):
+def back_track(game, max_solution_size):
 
     current_best_score=game.score
     current_best_solution= game.moves_history[::]
     
-    if len(game.moves_history)<max_depth:  #else stop
+    if len(game.moves_history)<max_solution_size:  #else stop
         for new_move in  get_all_but_inverse_of_last_move(game):
 
             new_position=[game.position_history[-1][0] + new_move[0], game.position_history[-1][1] + new_move[1]]
@@ -43,7 +43,7 @@ def back_track(game, max_depth):
                 game.move(new_move, new_position)
 
                 #launch backtrack
-                temp_best_score,temp_best_moves=back_track(game, max_depth)
+                temp_best_score,temp_best_moves=back_track(game, max_solution_size)
 
                 ##restore old state
                 game.score=old_score
