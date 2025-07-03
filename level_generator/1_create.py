@@ -1,3 +1,5 @@
+from random import random
+
 from backtrack import backTrack
 from game import Game
 from levelWithSol import LevelWithSol
@@ -57,13 +59,13 @@ def createOneLevel(grid_size, fn):
 
 for grid_size in grid_sizes:
     if (grid_size[0]==4):
-        prefix="generated_levels/raw/levels_0/level_"
+        prefix=file_prefixes_raw[0]
 
     elif (grid_size[0]==5):
-        prefix="generated_levels/raw/levels_1/level_"
+        prefix=file_prefixes_raw[1]
 
     elif (grid_size[0]==6):
-        prefix="generated_levels/raw/levels_2/level_"
+        prefix=file_prefixes_raw[2]
 
     print("Currently on size ",grid_size," prefix", prefix )
 
