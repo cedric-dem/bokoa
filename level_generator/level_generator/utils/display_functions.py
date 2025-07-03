@@ -3,7 +3,7 @@ import statistics
 import matplotlib.pyplot as plt
 
 from level_generator.config.config import grid_sizes
-from level_generator.utils.misc import get_complete_levels_list
+from level_generator.utils.misc_functions import get_complete_levels_list
 
 def plot_all_evolutions(list_evolutions, context_name):
 	plt.title("All evolution" + context_name)
