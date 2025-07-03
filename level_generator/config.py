@@ -12,7 +12,7 @@ display_new_levels=True
 
 coefficient_second_term=1.5
 
-generated_levels_path="generated_levels_test"
+generated_levels_path="generated_levels_published"
 
 file_prefixes_raw=[
     generated_levels_path+"/raw/grid_size_0/level_",
