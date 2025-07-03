@@ -44,7 +44,6 @@ def create_one_level(grid_size_id, fn):
 
     #debug
     if display_new_levels:
-        print("Best sol : ",best_score,get_readable_moves(best_moves))
         lws.display_everything()
         print("=======================================================================")
 

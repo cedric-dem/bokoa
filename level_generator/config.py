@@ -1,6 +1,6 @@
 raw_levels_to_generate=3
 
-number_levels_to_keep=100
+number_levels_to_keep=3
 
 grid_sizes=[[4, 4], [5, 5], [6, 6]]
 

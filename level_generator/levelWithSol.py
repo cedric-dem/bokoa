@@ -84,9 +84,10 @@ class LevelWithSol(object):
         self.fitness= (coefficient_second_term * t2) + (t1)
 
     def display_everything(self):
+        print('==> Grid :')
         self.level.display_level()
-        print(self.best_moves)
-        print(self.best_score)
+        print('==> Solution :',self.best_moves)
+        print('==> Best Score : ',self.best_score)
 
     def __gt__(self,other):
         return self.fitness>other.fitness
