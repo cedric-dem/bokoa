@@ -108,46 +108,48 @@ def get_levels_size_acceptable(complete_levels_list,current_grid_size_id):
 
 def reduce_levels_set():
     for current_grid_size_id in grid_sizes_id:
+        reduce_levels_set_given_grid_size_id(current_grid_size_id)
 
-        print('====> Current grid size id ',current_grid_size_id)
+def reduce_levels_set_given_grid_size_id(current_grid_size_id):
+    print('====> Current grid size id ',current_grid_size_id)
 
-        complete_levels_list=get_complete_levels_list(file_prefixes_raw[current_grid_size_id], raw_levels_to_generate)
-        print("====>  Initially total of  ",len(complete_levels_list)," levels")
+    complete_levels_list=get_complete_levels_list(file_prefixes_raw[current_grid_size_id], raw_levels_to_generate)
+    print("====>  Initially total of  ",len(complete_levels_list)," levels")
 
-        levels_size_acceptable=get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
-        print("====>  After remove too small levels total of  ",len(levels_size_acceptable)," levels")
+    levels_size_acceptable=get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
+    print("====>  After remove too small levels total of  ",len(levels_size_acceptable)," levels")
 
-        #=========================================================================== set fitness of kept levels
-        for current_level in levels_size_acceptable:
-            current_level.setFitnessScore()
+    #=========================================================================== set fitness of kept levels
+    for current_level in levels_size_acceptable:
+        current_level.setFitnessScore()
 
-        #=========================================================================== sort kept levels
-        levels_size_acceptable.sort()
+    #=========================================================================== sort kept levels
+    levels_size_acceptable.sort()
 
-        #=========================================================================== Display infos
+    #=========================================================================== Display infos
 
-        fitness=[]
-        for current_level in levels_size_acceptable:
-            fitness.append(current_level.fitness)
+    fitness=[]
+    for current_level in levels_size_acceptable:
+        fitness.append(current_level.fitness)
 
-        #=========================================================================== modify it
+    #=========================================================================== modify it
 
-        #######################################doing the mod
-        theoretical_fitness= get_theoretical_fitness(levels_size_acceptable)
+    #######################################doing the mod
+    theoretical_fitness= get_theoretical_fitness(levels_size_acceptable)
 
-        levels_reduced=get_reduced_levels(theoretical_fitness, levels_size_acceptable)
+    levels_reduced=get_reduced_levels(theoretical_fitness, levels_size_acceptable)
 
-        fitness=[]
-        for current_level in levels_reduced:
-            fitness.append(current_level.fitness)
+    fitness=[]
+    for current_level in levels_reduced:
+        fitness.append(current_level.fitness)
 
-        print("====> Real Fitness : ",fitness)
+    print("====> Real Fitness : ",fitness)
 
-        for index_reduced in range (len(levels_reduced)):
-            current_level=levels_reduced[index_reduced]
-            create_level_file(current_level, file_prefixes_processed[current_grid_size_id] + str(index_reduced))
+    for index_reduced in range (len(levels_reduced)):
+        current_level=levels_reduced[index_reduced]
+        create_level_file(current_level, file_prefixes_processed[current_grid_size_id] + str(index_reduced))
 
-        print("====>  Keeping ", len(levels_reduced), " levels")
+    print("====>  Keeping ", len(levels_reduced), " levels")
 
 def get_reduced_levels(theoretical_fitness, levels_size_acceptable):
     levels_reduced=[]
