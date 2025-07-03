@@ -1,12 +1,11 @@
 import numpy
-import pickle
 import statistics
 import matplotlib.pyplot as plt
 from config import *
 import pickle
 import json
 
-def displayAll(L):
+def plotAllEvolutions(L):
     plt.title("All evolution")
     for elem in L:
         plt.plot(elem.historyOfScores)
@@ -60,7 +59,7 @@ def describeBunchOfLevels(prefixes_list, quantity):
 
         # =========================================================================== Display stats as plots
 
-        displayAll(complete_levels_list)
+        plotAllEvolutions(complete_levels_list)
 
         scores.sort()
         fitness.sort()
