@@ -166,31 +166,9 @@ def get_theoretical_fitness(levels_list):
     print("====> Theoretical fitness : ", theoretical_fitness)
     return theoretical_fitness
 
-def create_level_file_as_json(l, filename):
-    result={
-        "operations":l.level.level,
-        "bestScore":round(float(l.best_score),2),
-        "bestMoves":l.best_moves
-    }
-
-    with open(filename, 'w') as file:
-        json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
-
-def export_all_levels_as_json():
-    for difficulty in grid_sizes_id:
-        print('====> Current difficulty', difficulty)
-
-        for final_index_level in range(number_levels_to_keep):
-            file = open(file_prefixes_reduced[difficulty] + str(final_index_level), 'rb')
-            data = pickle.load(file)
-
-            create_level_file_as_json(data, file_prefixes_processed_as_json[difficulty] + str(final_index_level) + ".json")
-
 print("========> step 1: describe complete set of levels")
-describe_bunch_of_levels(file_prefixes_complete, raw_levels_to_generate, " Complete")
+#describe_bunch_of_levels(file_prefixes_complete, raw_levels_to_generate, " Complete")
 print("========> step 2: reduce set of levels")
-reduce_levels_set()
+#reduce_levels_set()
 print("========> step 3: describe reduced set of levels")
-describe_bunch_of_levels(file_prefixes_reduced, number_levels_to_keep, " Reduced")
-print("========> step 4: export as json")
-export_all_levels_as_json()
+#describe_bunch_of_levels(file_prefixes_reduced, number_levels_to_keep, " Reduced")
