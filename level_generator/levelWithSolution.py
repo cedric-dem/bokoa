@@ -66,11 +66,8 @@ class LevelWithSolution(object):
             if new_score < old_score:
                 total_score_decreasing += (old_score - new_score)
 
-        fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (
-                    coefficient_fitness_first_term_b[self.grid_size_id] * (
-                        increasing_steps_counter / (len(self.historyOfScoresForBestSolution))))
-        fitness_second_term = (total_score_decreasing / self.historyOfScoresForBestSolution[-1]) / \
-                              coefficient_fitness_second_term_a[self.grid_size_id]
+        fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * ( increasing_steps_counter / (len(self.historyOfScoresForBestSolution))))
+        fitness_second_term = (total_score_decreasing / self.historyOfScoresForBestSolution[-1]) / coefficient_fitness_second_term_a[self.grid_size_id]
 
         self.estimated_difficulty = (coefficient_fitness_second_term * fitness_second_term) + fitness_first_term
 
