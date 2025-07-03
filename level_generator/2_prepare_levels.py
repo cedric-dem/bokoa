@@ -73,12 +73,9 @@ def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_n
     fitness.sort()
     sizes.sort()
 
-    plot_graph(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]),
-               "Level ID", "Final Score")
-    plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]),
-               "Level ID", "Fitness Score")
-    plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID",
-               "Best Solution Size")
+    plot_graph(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]),"Level ID", "Final Score")
+    plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]),"Level ID", "Fitness Score")
+    plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID","Best Solution Size")
 
 def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
     for grid_size_id in grid_sizes_id:
@@ -139,10 +136,7 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
 
     levels_reduced=get_reduced_levels(theoretical_fitness, levels_size_acceptable)
 
-    fitness=[]
-    for current_level in levels_reduced:
-        fitness.append(current_level.fitness)
-
+    fitness=[current_level.fitness for current_level in levels_reduced]
     print("====> Real Fitness : ",fitness)
 
     for index_reduced in range (len(levels_reduced)):
