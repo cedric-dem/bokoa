@@ -8,7 +8,7 @@ from level import *
 def plot_all_evolutions(list_evolutions, context_name):
     plt.title("All evolution" + context_name)
     for elem in list_evolutions:
-        plt.plot(elem.historyOfScores)
+        plt.plot(elem.historyOfScoresForBestSolution)
 
     plt.xlabel("Number Of Moves")
     plt.ylabel("Score")

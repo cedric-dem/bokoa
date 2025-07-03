@@ -23,13 +23,13 @@ class LevelWithSolution(object):
         self.best_score=best_score
         self.best_moves=best_moves
 
-        self.historyOfScores=None
+        self.historyOfScoresForBestSolution=None
 
         self.grid_size_id=level.grid_size_id
         self.grid_size=level.grid_size
     
     def set_fitness_score(self):
-        self.historyOfScores=[1]
+        self.historyOfScoresForBestSolution=[1]
         current_game=Game(self.level)
 
         increasing_steps_counter=0
@@ -45,7 +45,7 @@ class LevelWithSolution(object):
             new_position=[current_position[0]+move_direction[0], current_position[1]+move_direction[1]]
             current_game.move(move_direction,new_position)
             
-            self.historyOfScores.append(current_game.score)
+            self.historyOfScoresForBestSolution.append(current_game.score)
             new_score=current_game.score
 
             if new_score>old_score:
@@ -55,8 +55,8 @@ class LevelWithSolution(object):
             if new_score<old_score:
                 total_score_decreasing+=(old_score-new_score)
 
-        fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * (increasing_steps_counter / (len(self.historyOfScores))))
-        fitness_second_term = (total_score_decreasing / self.historyOfScores[-1]) / coefficient_fitness_second_term_a[self.grid_size_id]
+        fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * (increasing_steps_counter / (len(self.historyOfScoresForBestSolution))))
+        fitness_second_term = (total_score_decreasing / self.historyOfScoresForBestSolution[-1]) / coefficient_fitness_second_term_a[self.grid_size_id]
 
         self.estimated_difficulty= (coefficient_fitness_second_term * fitness_second_term) + fitness_first_term
 
