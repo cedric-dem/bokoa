@@ -36,6 +36,6 @@ class Level(object):
                     del raw[0]
 
 
-    def displayLevel(self):
+    def display_level(self):
         for line in self.level:
             print(line)

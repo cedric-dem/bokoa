@@ -1,5 +1,5 @@
 
-from backtrack import backTrack
+from backtrack import back_track
 from game import Game
 from levelWithSol import LevelWithSol
 from level import Level
@@ -32,7 +32,7 @@ def create_one_level(grid_size, fn):
     temp_game=Game(temp_level)
     
     ##do the backtrack
-    best_score, best_moves = backTrack(temp_game,grid_size[0]*grid_size[1])
+    best_score, best_moves = back_track(temp_game, grid_size[0] * grid_size[1])
 
     #create level with solution
     lws=LevelWithSol(temp_level, best_score, get_readable_moves(best_moves))
@@ -43,7 +43,7 @@ def create_one_level(grid_size, fn):
 
     #debug
     if (display_new_levels):
-        temp_level.displayLevel()
+        temp_level.display_level()
         print("Best sol : ",best_score,get_readable_moves(best_moves))
         lws.display_everything()
         print("=======================================================================")

@@ -84,7 +84,7 @@ class LevelWithSol(object):
         self.fitness=(1.5*t2)+(t1)
 
     def display_everything(self):
-        self.level.displayLevel()
+        self.level.display_level()
         print(self.best_moves)
         print(self.best_score)
 
