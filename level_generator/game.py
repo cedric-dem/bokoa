@@ -1,32 +1,32 @@
 class Game(object):
-    def __init__(self,level):
-        self.level=level
-        self.score=1
-        self.grid_size=level.grid_size
+	def __init__(self, level):
+		self.level = level
+		self.score = 1
+		self.grid_size = level.grid_size
 
-        self.moves_history=[]
-        self.position_history=[[0,0]]
-    
-    def move(self,direction):
-        new_pos=[self.position_history[-1][0]+direction[0],self.position_history[-1][1]+direction[1]]
+		self.moves_history = []
+		self.position_history = [[0, 0]]
 
-        self.moves_history.append(direction)
+	def move(self, direction):
+		new_pos = [self.position_history[-1][0] + direction[0], self.position_history[-1][1] + direction[1]]
 
-        new_operation=self.level.operations_grid[new_pos[0]][new_pos[1]]
+		self.moves_history.append(direction)
 
-        self.apply_operation(new_operation)
+		new_operation = self.level.operations_grid[new_pos[0]][new_pos[1]]
 
-        self.position_history.append(new_pos)
+		self.apply_operation(new_operation)
 
-    def apply_operation(self,operation):
-        if operation[0]=='+':
-            self.score+=int(operation[1])
+		self.position_history.append(new_pos)
 
-        elif operation[0]=='-':
-            self.score-=int(operation[1])
+	def apply_operation(self, operation):
+		if operation[0] == '+':
+			self.score += int(operation[1])
 
-        elif operation[0]=='×':
-            self.score*=int(operation[1])
+		elif operation[0] == '-':
+			self.score -= int(operation[1])
 
-        elif operation[0]=='÷':
-            self.score/=int(operation[1])
+		elif operation[0] == '×':
+			self.score *= int(operation[1])
+
+		elif operation[0] == '÷':
+			self.score /= int(operation[1])
