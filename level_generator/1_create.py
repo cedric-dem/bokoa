@@ -1,4 +1,3 @@
-from random import random
 
 from backtrack import backTrack
 from game import Game
@@ -8,76 +7,71 @@ import pickle
 import time
 from config import *
 
-offset=0
-
-
-
-def getReadableMoves(lm):
-    res=[]
-    for move in lm:
+def get_readable_moves(moves_list):
+    result=[]
+    for move in moves_list:
         if move==[0,-1]:
-            res.append('<')
+            result.append('<')
 
         elif move==[0,1]:
-            res.append('>')
+            result.append('>')
 
         elif move==[1,0]:
-            res.append('u')
+            result.append('u')
 
         elif move==[-1,0]:
-            res.append('n')
+            result.append('n')
 
-    return res
+    return result
 
-def createOneLevel(grid_size, fn):
+def create_one_level(grid_size, fn):
     ##create level
-    lv=Level(grid_size)
+    temp_level=Level(grid_size)
     
     ##create game
-    gm=Game(lv)
+    temp_game=Game(temp_level)
     
     ##do the backtrack
-    best_score, best_moves = backTrack(gm,grid_size[0]*grid_size[1])
+    best_score, best_moves = backTrack(temp_game,grid_size[0]*grid_size[1])
 
-    #create levelwithsol
-    lws=LevelWithSol(lv, best_score, getReadableMoves(best_moves))
+    #create level with solution
+    lws=LevelWithSol(temp_level, best_score, get_readable_moves(best_moves))
 
-    #save levelwithsol
+    #save level with solution
     temp=open(fn,"wb")
     pickle.dump(lws, temp)
-    
 
     #debug
-    """
-    lv.displayLevel()
-    print("Best sol : ",best_score,getReadableMoves(best_moves))
-    lws.printGf()
-    print("=======================================================================")
-    """
+    if (display_new_levels):
+        temp_level.displayLevel()
+        print("Best sol : ",best_score,get_readable_moves(best_moves))
+        lws.printGf()
+        print("=======================================================================")
+
     return best_score
     
+def create_levels():
+    for grid_size in grid_sizes:
+        if (grid_size[0]==4):
+            prefix=file_prefixes_raw[0]
 
-for grid_size in grid_sizes:
-    if (grid_size[0]==4):
-        prefix=file_prefixes_raw[0]
+        elif (grid_size[0]==5):
+            prefix=file_prefixes_raw[1]
 
-    elif (grid_size[0]==5):
-        prefix=file_prefixes_raw[1]
+        elif (grid_size[0]==6):
+            prefix=file_prefixes_raw[2]
 
-    elif (grid_size[0]==6):
-        prefix=file_prefixes_raw[2]
+        print("Currently on size ",grid_size," prefix", prefix )
 
-    print("Currently on size ",grid_size," prefix", prefix )
+        t0=time.time()
 
+        for i in range (raw_levels_to_generate):
+            print("==> generate level",i)
+            this_score=create_one_level(grid_size, prefix + str(i))
+            print( i + 1,"/", raw_levels_to_generate, " finished. Score : ", this_score)
 
-    t0=time.time()
+        t1=time.time()
 
-    for i in range (raw_levels_to_generate):
-        print("==> generate level",i)
-        this_score=createOneLevel(grid_size, prefix + str(offset + i))
-        print(offset + i + 1,"/", raw_levels_to_generate, " finished. Score : ", this_score)
+        print("Time taken : " + str((t1-t0) / raw_levels_to_generate) + ' seconds per it')
 
-
-    t1=time.time()
-
-    print("Time taken : " + str((t1-t0) / (raw_levels_to_generate)) + ' seconds per it')
+create_levels()

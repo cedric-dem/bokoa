@@ -8,6 +8,8 @@ lowest_solution_sizes= [6,12,18]
 
 grid_sizes_id = [i for i in range (len(grid_sizes))]
 
+display_new_levels=True
+
 file_prefixes_raw=[
     "generated_levels_test/raw/grid_size_0/level_",
     "generated_levels_test/raw/grid_size_1/level_",
