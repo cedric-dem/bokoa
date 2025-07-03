@@ -64,25 +64,10 @@ class LevelWithSolution(object):
 
         ####################################################################################################################
 
-        if self.grid_size_id==0:#self.grid_size[0]==4:
-            k1=2.0998
-            k2=2.34
-            k3=1.21
+        fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * (increasing_steps_counter / (len(self.historyOfScores))))
+        fitness_second_term = (total_score_decreasing / self.historyOfScores[-1]) / coefficient_fitness_second_term_a[self.grid_size_id]
 
-        elif self.grid_size_id==1:#self.grid_size[0]==5:
-            k1=2.332
-            k2=2.666
-            k3=0.626
-
-        elif self.grid_size_id==2:#self.grid_size[0]==6:
-            k1=1.92
-            k2=2.026
-            k3=0.743
-
-        t1 = k1 - (k2 * (increasing_steps_counter / (len(self.historyOfScores))))
-        t2 = (total_score_decreasing / self.historyOfScores[-1]) / k3
-
-        self.fitness= (coefficient_second_term * t2) + (t1)
+        self.fitness= (coefficient_fitness_second_term * fitness_second_term) + fitness_first_term
 
     def display_everything(self):
         print('==> Grid :')
