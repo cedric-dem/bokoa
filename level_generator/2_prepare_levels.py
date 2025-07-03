@@ -59,7 +59,7 @@ def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_n
 
         scores.append(data.best_score)
         sizes.append(len(data.best_moves))
-        fitness.append(data.fitness)
+        fitness.append(data.estimated_difficulty)
 
     # ==== Describe stats in terminal
     describe_list("Scores", scores)
@@ -100,7 +100,7 @@ def get_index_of_closest_from(to_search, levels_list):
     closest_index=0
 
     for i in range (len(levels_list)):
-        if abs(to_search - levels_list[closest_index].fitness)>abs(to_search - levels_list[i].fitness):
+        if abs(to_search - levels_list[closest_index].estimated_difficulty)>abs(to_search - levels_list[i].estimated_difficulty):
             closest_index=i
 
     return closest_index
@@ -138,14 +138,14 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
 
     fitness=[]
     for current_level in levels_size_acceptable:
-        fitness.append(current_level.fitness)
+        fitness.append(current_level.estimated_difficulty)
 
     # ==== get theoretical fitness to reduce
     theoretical_fitness= get_theoretical_fitness(levels_size_acceptable)
 
     levels_reduced=get_reduced_levels(theoretical_fitness, levels_size_acceptable)
 
-    fitness=[current_level.fitness for current_level in levels_reduced]
+    fitness=[current_level.estimated_difficulty for current_level in levels_reduced]
     print("====> Real Fitness : ",fitness)
 
     for index_reduced in range (len(levels_reduced)):
@@ -173,9 +173,9 @@ def get_reduced_levels(theoretical_fitness, levels_size_acceptable):
 def get_theoretical_fitness(levels_list):
     theoretical_fitness = []
 
-    average_step = (levels_list[-1].fitness - levels_list[0].fitness) / number_levels_to_keep
+    average_step = (levels_list[-1].estimated_difficulty - levels_list[0].estimated_difficulty) / number_levels_to_keep
 
-    current = levels_list[0].fitness
+    current = levels_list[0].estimated_difficulty
 
     for reduced_levels_index in range(number_levels_to_keep):
         theoretical_fitness.append(current)
