@@ -87,11 +87,11 @@ def getIndexOfClosestFrom(to_search, levels_list):
     return closest_index
 
 def reduceLevelsSet():
-    for difficulty in difficulties:
+    for difficulty in grid_sizes_id:
 
         print('====> Current difficulty',difficulty)
 
-        size=all_grid_sizes[difficulty][0]
+        size=grid_sizes[difficulty][0]
 
         #=========================================================================== get data
         complete_levels_list=[]
@@ -185,7 +185,7 @@ def createLevelFileAsJson(l, filename):
         json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
 
 def exportAllLevelsAsJson():
-    for difficulty in difficulties:
+    for difficulty in grid_sizes_id:
         print('====> Current difficulty', difficulty)
 
         ##open all the files, put in a list

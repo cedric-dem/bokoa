@@ -55,7 +55,7 @@ def createOneLevel(grid_size, fn):
     return best_score
     
 
-for grid_size in all_grid_sizes:
+for grid_size in grid_sizes:
     if (grid_size[0]==4):
         prefix="generated_levels/raw/levels_0/level_"
 
