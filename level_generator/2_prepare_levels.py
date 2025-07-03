@@ -64,17 +64,14 @@ def describeBunchOfLevels(prefixes_list, quantity):
         fitness.sort()
         sizes.sort()
 
-        plt.title("All final scores")
-        plt.plot(scores)
-        plt.show()
+        plotGraph(scores, "All final scores")
+        plotGraph(fitness, "All fitness")
+        plotGraph(sizes, "All sizes")
 
-        plt.title("All final fitness")
-        plt.plot(fitness)
-        plt.show()
-
-        plt.title("All final sizes")
-        plt.plot(sizes)
-        plt.show()
+def plotGraph(scores, plotname):
+    plt.title(plotname)
+    plt.plot(scores)
+    plt.show()
 
 def createLevelFile(level, filename):
     temp=open(filename,"wb")
@@ -97,16 +94,16 @@ def reduceLevelsSet():
         size=all_grid_sizes[difficulty][0]
 
         #=========================================================================== get data
-        L_all=[]
+        complete_levels_list=[]
 
         ##open all the files, put in a list
-        for final_index_level in range (raw_levels_to_generate):
-            file = open(file_prefixes_raw[difficulty] + str(final_index_level), 'rb')
+        for reduced_levels_index in range (raw_levels_to_generate):
+            file = open(file_prefixes_raw[difficulty] + str(reduced_levels_index), 'rb')
             data = pickle.load(file)
 
-            L_all.append(data)
+            complete_levels_list.append(data)
 
-        print("\n==============>  Initially total of  ",len(L_all)," levels")
+        print("\n==============>  Initially total of  ",len(complete_levels_list)," levels")
 
         #=========================================================================== kept levels
         levels_size_acceptable=[]
@@ -117,7 +114,7 @@ def reduceLevelsSet():
         else:
             lowest_size=18
 
-        for current_level in L_all:
+        for current_level in complete_levels_list:
             if len(current_level.best_moves)>=lowest_size:
                 levels_size_acceptable.append(current_level)
 
@@ -132,7 +129,7 @@ def reduceLevelsSet():
 
         #=========================================================================== Display infos
 
-        print("********************************************************************************************************************* BEFOR")
+        print("********************************************************************************************************************* BEFORE")
         fitness=[]
 
         for current_level in levels_size_acceptable:
@@ -141,26 +138,25 @@ def reduceLevelsSet():
         #=========================================================================== modify it
 
         #######################################doing the mod
-        ###############theoretical
-        theoretical=[]
+        ###############theoretical_fitness
+        theoretical_fitness=[]
 
         average_step=(levels_size_acceptable[-1].fitness-levels_size_acceptable[0].fitness)/number_levels_to_keep
 
         current=levels_size_acceptable[0].fitness
 
-        for final_index_level in range (number_levels_to_keep):
-            theoretical.append(current)
+        for reduced_levels_index in range (number_levels_to_keep):
+            theoretical_fitness.append(current)
             current+=average_step
 
-        #print(len(theoretical))
-        print('avgerage step',average_step)
-        print("THEORETICAL : ",theoretical)
+        print('average step',average_step)
+        print("Theoretical fitness : ",theoretical_fitness)
 
         ###################doing the job
         levels_reduced=[]
 
-        for final_index_level in range (100):
-            index=getIndexOfClosestFrom(theoretical[final_index_level], levels_size_acceptable)
+        for reduced_levels_index in range (number_levels_to_keep):
+            index=getIndexOfClosestFrom(theoretical_fitness[reduced_levels_index], levels_size_acceptable)
             this_one=levels_size_acceptable.pop(index)
             levels_reduced.append(this_one)
 
@@ -172,14 +168,14 @@ def reduceLevelsSet():
         for current_level in levels_reduced:
             fitness.append(current_level.fitness)
 
-        print("FITNESS : ",fitness)
+        print("Fitness : ",fitness)
         print(len(fitness))
 
         print('\n==============> Result : ')
-        for idx in range (len(levels_reduced)):
-            current_level=levels_reduced[idx]
+        for index_reduced in range (len(levels_reduced)):
+            current_level=levels_reduced[index_reduced]
             print("====> NEW")
-            createLevelFile(current_level,  file_prefixes_processed[difficulty] + str(idx))
+            createLevelFile(current_level,  file_prefixes_processed[difficulty] + str(index_reduced))
 
         print("\n==============>  Keeping ", len(levels_reduced), " levels")
 
