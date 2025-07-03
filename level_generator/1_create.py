@@ -33,7 +33,6 @@ def create_level_file_as_json(operations, best_score, best_moves, filename):
     with open(filename, 'w') as file:
         json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
 
-
 def create_one_level(grid_size_id, fn):
     ##create level
     temp_level=Level(grid_size_id)
@@ -48,7 +47,6 @@ def create_one_level(grid_size_id, fn):
     #save level with solution as json
     create_level_file_as_json(temp_level.level, best_score, get_readable_moves(best_moves), fn)
 
-    
 def create_levels():
     for grid_size_id in grid_sizes_id:
         grid_size=grid_sizes[grid_size_id]
