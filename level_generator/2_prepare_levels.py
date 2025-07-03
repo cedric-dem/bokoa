@@ -97,26 +97,24 @@ def get_index_of_closest_from(to_search, levels_list):
 
     return closest_index
 
+def get_levels_size_acceptable(complete_levels_list,current_grid_size_id):
+    levels_size_acceptable = []
+    lowest_size = lowest_solution_sizes[current_grid_size_id]
 
+    for current_level in complete_levels_list:
+        if len(current_level.best_moves) >= lowest_size:
+            levels_size_acceptable.append(current_level)
+    return levels_size_acceptable
 
 def reduce_levels_set():
     for current_grid_size_id in grid_sizes_id:
 
         print('====> Current grid size id ',current_grid_size_id)
 
-        #=========================================================================== get data
         complete_levels_list=get_complete_levels_list(file_prefixes_raw[current_grid_size_id], raw_levels_to_generate)
-
         print("====>  Initially total of  ",len(complete_levels_list)," levels")
 
-        #=========================================================================== kept levels
-        levels_size_acceptable=[]
-        lowest_size=lowest_solution_sizes[current_grid_size_id]
-
-        for current_level in complete_levels_list:
-            if len(current_level.best_moves)>=lowest_size:
-                levels_size_acceptable.append(current_level)
-
+        levels_size_acceptable=get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
         print("====>  After remove too small levels total of  ",len(levels_size_acceptable)," levels")
 
         #=========================================================================== set fitness of kept levels
@@ -129,7 +127,6 @@ def reduce_levels_set():
         #=========================================================================== Display infos
 
         fitness=[]
-
         for current_level in levels_size_acceptable:
             fitness.append(current_level.fitness)
 
