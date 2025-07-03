@@ -1,10 +1,10 @@
-def isMoveInBound(gm,new_pos):
+def is_move_in_bound(gm, new_pos):
     return (new_pos[0]>=0 and  new_pos[1]>=0 and new_pos[0]<gm.grid_size[1]  and   new_pos[1]<gm.grid_size[0])
 
-def isMoveInSnake(gm,new_pos):
+def is_move_in_history(gm, new_pos):
     return (new_pos in gm.position_history)
 
-def getAllButInverseOfLastMove(gm):
+def get_all_but_inverse_of_last_move(gm):
     if len(gm.moves_history)==0:
         return [[0,-1],[0,1],[1,0],[-1,0]]
 
@@ -21,10 +21,10 @@ def getAllButInverseOfLastMove(gm):
         return [[0,1],[1,0],[-1,0]]
 
     else:
-        print('YEET')
+        print('Error')
         return None
 
-def backTrack(gm,max_depth):
+def back_track(gm, max_depth):
 
     if 1<gm.score:
         best_score=gm.score
@@ -36,12 +36,12 @@ def backTrack(gm,max_depth):
 
     
     if len(gm.moves_history)<max_depth:  #else stop
-        for new_move in  getAllButInverseOfLastMove(gm):
+        for new_move in  get_all_but_inverse_of_last_move(gm):
 
             new_pos=[gm.position_history[-1][0]+new_move[0],gm.position_history[-1][1]+new_move[1]]
 
             ##if move ok + not coming back
-            if (isMoveInBound(gm,new_pos) and (not isMoveInSnake(gm,new_pos))):
+            if (is_move_in_bound(gm, new_pos) and (not is_move_in_history(gm, new_pos))):
                 #save old score
                 old_score=gm.score
             
@@ -49,7 +49,7 @@ def backTrack(gm,max_depth):
                 gm.move(new_move,new_pos)
 
                 #launch backtrack
-                temp_best_score,temp_best_moves=backTrack(gm,max_depth)
+                temp_best_score,temp_best_moves=back_track(gm, max_depth)
 
                 ##restore old state
                 gm.score=old_score

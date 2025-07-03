@@ -1,5 +1,20 @@
 import random
 
+random.seed(123456789)
+
+def get_operations_reserve(grid_size):
+    total_of_each_op = (grid_size[0] * grid_size[1]) // 4
+    operations_reserve = (
+            ['+' for _ in range(total_of_each_op)] +
+            ['-' for _ in range(total_of_each_op)] +
+            ['×' for _ in range(total_of_each_op)] +
+            ['÷' for _ in range(total_of_each_op)])
+
+    if grid_size == [4, 4] or grid_size == [5, 6]:
+        operations_reserve += ["+"]
+    random.shuffle(operations_reserve)
+    return operations_reserve
+
 class Level(object):
     def __init__(self,grid_size):
         self.grid_size=grid_size
@@ -8,32 +23,24 @@ class Level(object):
     
     def create_level(self):
 
-        total_of_each_op=((self.grid_size[0]*self.grid_size[1]))//4
-        raw=['+' for i in range (total_of_each_op)]+['-' for i in range (total_of_each_op)]+['×' for i in range (total_of_each_op)]+['÷' for i in range (total_of_each_op)]
-        
-        if self.grid_size==[4,4] or self.grid_size==[5,6]:
-            raw+=["+"]
-        
-        random.shuffle(raw)
+        operations_reserve=get_operations_reserve(self.grid_size)
 
-        self.level=[[None for i in range (self.grid_size[0])] for j in range (self.grid_size[1])]
-        
+        self.level=[[None for _ in range (self.grid_size[0])] for _ in range (self.grid_size[1])]
         
         for i in range (self.grid_size[0]):
             for j in range (self.grid_size[1]):
                 if i==0 and j==0:
                     self.level[0][0]="1"
                 else:
-                    if raw[0]=="×" or raw[0]=="÷":
-                        tmp=raw[0]+str(random.randint(2,5))
+                    if operations_reserve[0]=="×" or operations_reserve[0]=="÷":
+                        new_operation=operations_reserve[0]+str(random.randint(2,5))
                         
                     else:
-                        tmp=raw[0]+str(random.randint(1,5))
+                        new_operation=operations_reserve[0]+str(random.randint(1,5))
                         
-                    self.level[j][i]=tmp
-                    del raw[0]
+                    self.level[j][i]=new_operation
+                    del operations_reserve[0]
 
-
-    def displayLevel(self):
+    def display_level(self):
         for line in self.level:
             print(line)

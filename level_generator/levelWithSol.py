@@ -1,19 +1,20 @@
 from game import Game
+from config import *
 
-def getDirection(move):
+def get_direction(move):
     if move==">": #good
-        res=[0,1]
+        result=[0,1]
         
     elif move=="<":
-        res=[0,-1]
+        result=[0,-1]
         
     elif move=="u":
-        res=[1,0]
+        result=[1,0]
     
     elif move=="n":
-        res=[-1,0]
+        result=[-1,0]
     
-    return res
+    return result
     
 class LevelWithSol(object):
     def __init__(self,level,best_score,best_moves):
@@ -23,103 +24,70 @@ class LevelWithSol(object):
         self.historyOfScores=None
         self.grid_size=level.grid_size
     
-    def setFitnessScore(self):
+    def set_fitness_score(self):
         self.historyOfScores=[1]
-        gm=Game(self.level)
+        current_game=Game(self.level)
 
-        decreasing_ctr=0
-        increasing_ctr=0
+        decreasing_steps_counter=0
+        increasing_steps_counter=0
 
         found_first_neg=False
         found_first_pos=False
 
         consecutive_first_steps_diminish=0
 
-        total_diminution=0
-        total_augmentation=0
-
+        total_score_decreasing=0
+        total_score_increasing=0
         
         for move in self.best_moves:
-            old_score=gm.score
+            old_score=current_game.score
 
-            d=getDirection(move)
-            current_pos=gm.position_history[-1]
-            new_pos=[current_pos[0]+d[0], current_pos[1]+d[1]]
-            gm.move(d,new_pos)
+            move_direction=get_direction(move)
+            current_position=current_game.position_history[-1]
+            new_position=[current_position[0]+move_direction[0], current_position[1]+move_direction[1]]
+            current_game.move(move_direction,new_position)
             
-            self.historyOfScores.append(gm.score)
-            new_score=gm.score
+            self.historyOfScores.append(current_game.score)
+            new_score=current_game.score
 
-            if (new_score>old_score):
+            if new_score>old_score:
                 found_first_pos=True
-                increasing_ctr+=1
-                total_augmentation+=(new_score-old_score)
+                increasing_steps_counter+=1
+                total_score_increasing+=(new_score-old_score)
 
-            if (new_score<old_score):
+            if new_score<old_score:
                 if not found_first_pos:
                     consecutive_first_steps_diminish+=1
 
-                total_diminution+=(old_score-new_score)
-                decreasing_ctr+=1
-                if not found_first_neg:
-                    found_first_neg=True
-                    first_neg=len(self.historyOfScores)
-
-        if not found_first_neg:
-            first_neg=len(self.historyOfScores)
+                total_score_decreasing+=(old_score-new_score)
+                decreasing_steps_counter+=1
 
         ####################################################################################################################
 
         if self.grid_size[0]==4:
-            t1=2.0998-(2.34*(increasing_ctr/(len(self.historyOfScores))))
-            t2=(total_diminution/self.historyOfScores[-1])/1.21
+            k1=2.0998
+            k2=2.34
+            k3=1.21
 
         elif self.grid_size[0]==5:
-            t1=2.332-(2.666*(increasing_ctr/(len(self.historyOfScores))))
-            t2=(total_diminution/self.historyOfScores[-1])/0.626
+            k1=2.332
+            k2=2.666
+            k3=0.626
 
         elif self.grid_size[0]==6:
-            t1=1.92-(2.026*(increasing_ctr/(len(self.historyOfScores))))
-            t2=(total_diminution/self.historyOfScores[-1])/0.743
+            k1=1.92
+            k2=2.026
+            k3=0.743
 
+        t1 = k1 - (k2 * (increasing_steps_counter / (len(self.historyOfScores))))
+        t2 = (total_score_decreasing / self.historyOfScores[-1]) / k3
 
-        self.fitness=(1.5*t2)+(t1)
+        self.fitness= (coefficient_second_term * t2) + (t1)
 
-
-    def printGf(self):
-        self.level.displayLevel()
+    def display_everything(self):
+        self.level.display_level()
         print(self.best_moves)
         print(self.best_score)
-    
-    def getGoodFormat(self):
-
-        ## Level itself
-        res='new Level(new String[][] {'
-        for i in range (self.grid_size[1]):
-
-            res=res+"{"
-            
-            for j in self.level.level[i]:
-                res=res+'"'+j+'",'
-
-            if i!=self.grid_size:
-                res=res+"}, "
-            else:
-                res=res+"}"
-            
-        res=res+'}, '
-        
-        ## max score : 
-        res=res+str(round(self.best_score,2))+'F, '
-
-        ## best sol
-        res=res+'new String[] {'
-        for mov in self.best_moves:
-            res=res+'"'+str(mov)+'", '
-        res=res+'}),'
-
-        return res
-
 
     def __gt__(self,other):
         return (self.fitness>other.fitness) 

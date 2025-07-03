@@ -1,199 +1,172 @@
 import numpy
-import pickle
 import statistics
 import matplotlib.pyplot as plt
 from config import *
 import pickle
 import json
 
-def displayAll(L):
-    plt.title("All evolution")
-    for elem in L:
+def plot_all_evolutions(list_evolutions, context_name):
+    plt.title("All evolution" + context_name)
+    for elem in list_evolutions:
         plt.plot(elem.historyOfScores)
+
+    plt.xlabel("Number Of Moves")
+    plt.ylabel("Score")
     plt.show()
 
-def describeList(L):
-    print("min : ",min(L))
-    print("10% low",numpy.percentile(L, 10))
-    print("med",statistics.median(L))
-    print("10% high",numpy.percentile(L, 90))
-    print("max : ",max(L))
+def plot_graph(evolution, plot_name, x_labels, y_labels):
+    plt.title(plot_name)
+    plt.xlabel(x_labels)
+    plt.ylabel(y_labels)
+    plt.plot(evolution)
+    plt.show()
+
+def describe_list(lst_name,lst):
+    print("====> describe list ", lst_name)
+    print("min : ", min(lst))
+    print("10% low", numpy.percentile(lst, 10))
+    print("med", statistics.median(lst))
+    print("10% high", numpy.percentile(lst, 90))
+    print("max : ", max(lst))
+
+def get_complete_levels_list(prefix, quantity):
+    complete_levels_list = []
+
+    for current_level_index in range(quantity):
+        file = open(prefix + str(current_level_index), 'rb')
+        elem = pickle.load(file)
+        complete_levels_list.append(elem)
+    return complete_levels_list
 
 
-def describeBunchOfLevels(prefixes_list, quantity):
-    for prefix in prefixes_list:
+def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_name):
+    prefix = prefixes_list[grid_size_id]
+    print('====> Current prefix :', prefix)
 
-        print('----> Current prefix', prefix)
-        complete_levels_list = []
+    complete_levels_list = get_complete_levels_list(prefix, quantity)
 
-        ##open all the files, put in a list
-        for current_level_index in range(quantity):
-            file = open(prefix + str(current_level_index), 'rb')
-            elem = pickle.load(file)
-            complete_levels_list.append(elem)
+    print("====> Number of levels :  ", len(complete_levels_list))
 
-        print("\n==============> Nb of levels :  ", len(complete_levels_list), " levels")
+    # ==== get stats
+    scores, sizes, fitness = [], [], []
 
-        # =========================================================================== get stats
-        scores = []
-        sizes = []
-        fitness = []
+    for data in complete_levels_list:
+        data.set_fitness_score()
 
-        ##open all them files, put in a list
-        for data in complete_levels_list:
-            data.setFitnessScore()
+        scores.append(data.best_score)
+        sizes.append(len(data.best_moves))
+        fitness.append(data.fitness)
 
-            scores.append(data.best_score)
-            sizes.append(len(data.best_moves))
-            fitness.append(data.fitness)
+    # ==== Describe stats in terminal
 
-        # =========================================================================== Describe stats in terminal
+    describe_list("Scores", scores)
+    describe_list("Sizes", sizes)
+    describe_list("Fitness", fitness)
 
-        print('\n==============> Scores')
-        describeList(scores)
+    # ==== Display stats as plots
 
-        print('\n==============> Sizes')
-        describeList(sizes)
+    plot_all_evolutions(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_size_id))
 
-        print('\n==============> Fitness')
-        describeList(fitness)
+    scores.sort()
+    fitness.sort()
+    sizes.sort()
 
-        # =========================================================================== Display stats as plots
+    plot_graph(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]),"Level ID", "Final Score")
+    plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]),"Level ID", "Fitness Score")
+    plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID","Best Solution Size")
 
-        displayAll(complete_levels_list)
+def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
+    for grid_size_id in grid_sizes_id:
+        describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_name)
 
-        scores.sort()
-        fitness.sort()
-        sizes.sort()
-
-        plt.title("All final scores")
-        plt.plot(scores)
-        plt.show()
-
-        plt.title("All final fitness")
-        plt.plot(fitness)
-        plt.show()
-
-        plt.title("All final sizes")
-        plt.plot(sizes)
-        plt.show()
-
-
-
-def createLevelFile(level, filename):
+def create_level_file(level, filename):
     temp=open(filename,"wb")
     pickle.dump(level, temp)
 
-def getIndexOfClosestFrom(to_search,lst):
+def get_index_of_closest_from(to_search, levels_list):
     closest_index=0
 
-    for i in range (len(lst)):
-        if abs(to_search-lst[closest_index].fitness)>abs(to_search-lst[i].fitness):
+    for i in range (len(levels_list)):
+        if abs(to_search - levels_list[closest_index].fitness)>abs(to_search - levels_list[i].fitness):
             closest_index=i
 
     return closest_index
 
-def reduceLevelsSet():
-    for difficulty in difficulties:
+def get_levels_size_acceptable(complete_levels_list,current_grid_size_id):
+    levels_size_acceptable = []
+    lowest_size = lowest_solution_sizes[current_grid_size_id]
 
-        print('====> Current difficulty',difficulty)
+    for current_level in complete_levels_list:
+        if len(current_level.best_moves) >= lowest_size:
+            levels_size_acceptable.append(current_level)
+    return levels_size_acceptable
 
-        size=all_grid_sizes[difficulty][0]
+def reduce_levels_set():
+    for current_grid_size_id in grid_sizes_id:
+        reduce_levels_set_given_grid_size_id(current_grid_size_id)
 
-        #=========================================================================== get data
-        L_all=[]
+def reduce_levels_set_given_grid_size_id(current_grid_size_id):
+    print('====> Current grid size id ',current_grid_size_id)
 
-        ##open all the files, put in a list
-        for final_index_level in range (raw_levels_to_generate):
-            file = open(file_prefixes_raw[difficulty] + str(final_index_level), 'rb')
-            data = pickle.load(file)
+    complete_levels_list=get_complete_levels_list(file_prefixes_raw[current_grid_size_id], raw_levels_to_generate)
+    print("====>  Initially total of  ",len(complete_levels_list)," levels")
 
-            L_all.append(data)
+    levels_size_acceptable=get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
+    print("====>  After remove too small levels total of  ",len(levels_size_acceptable)," levels")
 
-        print("\n==============>  Initially total of  ",len(L_all)," levels")
+    #===== set fitness of kept levels
+    for current_level in levels_size_acceptable:
+        current_level.set_fitness_score()
 
-        #=========================================================================== kept levels
-        L=[]
-        if size==4:
-            lowest_size=6
-        elif size==5:
-            lowest_size=12
-        else:
-            lowest_size=18
+    #====  sort kept levels
+    levels_size_acceptable.sort()
 
-        for elem in L_all:
-            if len(elem.best_moves)>=lowest_size:
-                L.append(elem)
+    #==== Display infos
 
-        print("\n==============>  After remove  total of  ",len(L)," levels")
+    fitness=[]
+    for current_level in levels_size_acceptable:
+        fitness.append(current_level.fitness)
 
-        #=========================================================================== set fitness of kept levels
-        for elem in L:
-            elem.setFitnessScore()
+    # ==== get theoretical fitness to reduce
+    theoretical_fitness= get_theoretical_fitness(levels_size_acceptable)
 
-        #=========================================================================== sort kept levels
-        L.sort()
-        #keep=keep[::-1]
+    levels_reduced=get_reduced_levels(theoretical_fitness, levels_size_acceptable)
 
-        #=========================================================================== Display infos
+    fitness=[current_level.fitness for current_level in levels_reduced]
+    print("====> Real Fitness : ",fitness)
 
-        print("********************************************************************************************************************* BEFOR")
-        fitness=[]
+    for index_reduced in range (len(levels_reduced)):
+        current_level=levels_reduced[index_reduced]
+        create_level_file(current_level, file_prefixes_processed[current_grid_size_id] + str(index_reduced))
 
-        for elem in L:
-            fitness.append(elem.fitness)
+    print("====>  Keeping ", len(levels_reduced), " levels")
 
-        #=========================================================================== modify it
+def get_reduced_levels(theoretical_fitness, levels_size_acceptable):
+    levels_reduced=[]
 
-        #######################################doing the mod
-        ###############theoretical
-        theoretical=[]
+    for reduced_levels_index in range(number_levels_to_keep):
+        index = get_index_of_closest_from(theoretical_fitness[reduced_levels_index], levels_size_acceptable)
+        this_one = levels_size_acceptable.pop(index)
+        levels_reduced.append(this_one)
+    levels_reduced.sort()
+    return levels_reduced
 
-        average_step=(L[-1].fitness-L[0].fitness)/number_levels_to_keep
+def get_theoretical_fitness(levels_list):
+    theoretical_fitness = []
 
-        current=L[0].fitness
+    average_step = (levels_list[-1].fitness - levels_list[0].fitness) / number_levels_to_keep
 
-        for final_index_level in range (number_levels_to_keep):
-            theoretical.append(current)
-            current+=average_step
+    current = levels_list[0].fitness
 
-        #print(len(theoretical))
-        #print('avg s',average_step)
-        print("THEORETICAL : ",theoretical)
+    for reduced_levels_index in range(number_levels_to_keep):
+        theoretical_fitness.append(current)
+        current += average_step
 
-        ###################doing the job
+    print('====> Average step', average_step)
+    print("====> Theoretical fitness : ", theoretical_fitness)
+    return theoretical_fitness
 
-        final_levels_list=[]
-        #keep_list.append(keep[0])
-
-        for final_index_level in range (100):
-            index=getIndexOfClosestFrom(theoretical[final_index_level], L)
-            this_one=L.pop(index)
-            final_levels_list.append(this_one)
-
-        print("************************************************************************************************************* AFER")
-        fitness=[]
-
-        final_levels_list.sort()
-
-        for elem in final_levels_list:
-            fitness.append(elem.fitness)
-
-        print("FITNESS : ",fitness)
-        print(len(fitness))
-
-        print('\n==============> Result : ')
-        idx=0
-        for elem in final_levels_list:
-
-            print("====> NEW")
-            createLevelFile(elem,  file_prefixes_processed[difficulty] + str(idx))
-
-            idx+=1
-
-        print("\n==============>  Keeping ", len(final_levels_list), " levels")
-
-def createLevelFileAsJson(l, filename):
+def create_level_file_as_json(l, filename):
     result={
         "operations":l.level.level,
         "bestScore":round(float(l.best_score),2),
@@ -203,23 +176,21 @@ def createLevelFileAsJson(l, filename):
     with open(filename, 'w') as file:
         json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
 
-def exportAllLevelsAsJson():
-    for difficulty in difficulties:
+def export_all_levels_as_json():
+    for difficulty in grid_sizes_id:
         print('====> Current difficulty', difficulty)
 
-        ##open all the files, put in a list
         for final_index_level in range(number_levels_to_keep):
             file = open(file_prefixes_processed[difficulty] + str(final_index_level), 'rb')
             data = pickle.load(file)
 
-            createLevelFileAsJson(data, file_prefixes_processed_as_json[difficulty] + str(final_index_level) + ".json")
+            create_level_file_as_json(data, file_prefixes_processed_as_json[difficulty] + str(final_index_level) + ".json")
 
-
-print("==> step 1")
-describeBunchOfLevels(file_prefixes_raw, raw_levels_to_generate)
-print("==> step 2")
-reduceLevelsSet()
-print("==> step 3")
-describeBunchOfLevels(file_prefixes_processed, number_levels_to_keep)
-print("==> step 4")
-exportAllLevelsAsJson()
+print("========> step 1: describe complete set of levels")
+describe_bunch_of_levels(file_prefixes_raw, raw_levels_to_generate, " Complete")
+print("========> step 2: reduce set of levels")
+reduce_levels_set()
+print("========> step 3: describe reduced set of levels")
+describe_bunch_of_levels(file_prefixes_processed, number_levels_to_keep, " Reduced")
+print("========> step 4: export as json")
+export_all_levels_as_json()
