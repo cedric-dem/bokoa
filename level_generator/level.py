@@ -25,7 +25,7 @@ class Level(object):
 
         operations_reserve=get_operations_reserve(self.grid_size)
 
-        self.level=[[None for i in range (self.grid_size[0])] for j in range (self.grid_size[1])]
+        self.level=[[None for _ in range (self.grid_size[0])] for _ in range (self.grid_size[1])]
         
         for i in range (self.grid_size[0]):
             for j in range (self.grid_size[1]):
