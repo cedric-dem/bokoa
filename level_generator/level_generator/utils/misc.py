@@ -193,7 +193,6 @@ def get_file_prefix_complete(grid_size_index):
 def get_file_prefix_reduced(grid_size_index):
 	return generated_levels_folder_name + "/" + reduced_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name
 
-
 def get_readable_moves(moves_list):
 	result = []
 	for move in moves_list:
@@ -242,7 +241,6 @@ def create_levels():
 		t1 = time.time()
 
 		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per it')
-
 
 def is_move_in_bound(gm, new_pos):
 	return new_pos[0] >= 0 and new_pos[1] >= 0 and new_pos[0] < gm.grid_size[1] and new_pos[1] < gm.grid_size[0]
