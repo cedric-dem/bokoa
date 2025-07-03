@@ -10,6 +10,8 @@ grid_sizes_id = [i for i in range (len(grid_sizes))]
 
 display_new_levels=True
 
+coefficient_second_term=1.5
+
 file_prefixes_raw=[
     "generated_levels_test/raw/grid_size_0/level_",
     "generated_levels_test/raw/grid_size_1/level_",

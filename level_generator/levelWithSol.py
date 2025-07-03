@@ -1,4 +1,5 @@
 from game import Game
+from config import *
 
 def get_direction(move):
     if move==">": #good
@@ -64,18 +65,24 @@ class LevelWithSol(object):
         ####################################################################################################################
 
         if self.grid_size[0]==4:
-            t1=2.0998-(2.34*(increasing_steps_counter/(len(self.historyOfScores))))
-            t2=(total_score_decreasing/self.historyOfScores[-1])/1.21
+            k1=2.0998
+            k2=2.34
+            k3=1.21
 
         elif self.grid_size[0]==5:
-            t1=2.332-(2.666*(increasing_steps_counter/(len(self.historyOfScores))))
-            t2=(total_score_decreasing/self.historyOfScores[-1])/0.626
+            k1=2.332
+            k2=2.666
+            k3=0.626
 
         elif self.grid_size[0]==6:
-            t1=1.92-(2.026*(increasing_steps_counter/(len(self.historyOfScores))))
-            t2=(total_score_decreasing/self.historyOfScores[-1])/0.743
+            k1=1.92
+            k2=2.026
+            k3=0.743
 
-        self.fitness=(1.5*t2)+(t1)
+        t1 = k1 - (k2 * (increasing_steps_counter / (len(self.historyOfScores))))
+        t2 = (total_score_decreasing / self.historyOfScores[-1]) / k3
+
+        self.fitness= (coefficient_second_term * t2) + (t1)
 
     def display_everything(self):
         self.level.display_level()
