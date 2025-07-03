@@ -22,6 +22,7 @@ class LevelWithSol(object):
         self.best_score=best_score
         self.best_moves=best_moves
         self.historyOfScores=None
+        self.grid_size_id=level.grid_size_id
         self.grid_size=level.grid_size
     
     def set_fitness_score(self):
@@ -63,17 +64,17 @@ class LevelWithSol(object):
 
         ####################################################################################################################
 
-        if self.grid_size[0]==4:
+        if self.grid_size_id==0:#self.grid_size[0]==4:
             k1=2.0998
             k2=2.34
             k3=1.21
 
-        elif self.grid_size[0]==5:
+        elif self.grid_size_id==1:#self.grid_size[0]==5:
             k1=2.332
             k2=2.666
             k3=0.626
 
-        elif self.grid_size[0]==6:
+        elif self.grid_size_id==2:#self.grid_size[0]==6:
             k1=1.92
             k2=2.026
             k3=0.743
