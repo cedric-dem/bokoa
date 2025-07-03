@@ -4,20 +4,20 @@ def is_move_in_bound(gm, new_pos):
 def is_move_in_history(gm, new_pos):
     return new_pos in gm.position_history
 
-def get_all_but_inverse_of_last_move(gm):
-    if len(gm.moves_history)==0:
+def get_all_but_inverse_of_last_move(moves_history):
+    if len(moves_history)==0:
         return [[0,-1],[0,1],[1,0],[-1,0]]
 
-    elif gm.moves_history[-1]==[1,0]:
+    elif moves_history[-1]==[1,0]:
         return [[0,-1],[0,1],[1,0]]
 
-    elif gm.moves_history[-1]==[-1,0]:
+    elif moves_history[-1]==[-1,0]:
         return [[0,-1],[0,1],[-1,0]]
 
-    elif gm.moves_history[-1]==[0,-1]:
+    elif moves_history[-1]==[0,-1]:
         return [[0,-1],[1,0],[-1,0]]
 
-    elif gm.moves_history[-1]==[0,1]:
+    elif moves_history[-1]==[0,1]:
         return [[0,1],[1,0],[-1,0]]
 
     else:
@@ -30,7 +30,7 @@ def back_track(game, max_solution_size):
     current_best_solution= game.moves_history[::]
     
     if len(game.moves_history)<max_solution_size:  #else stop
-        for new_move in  get_all_but_inverse_of_last_move(game):
+        for new_move in  get_all_but_inverse_of_last_move(game.moves_history):
 
             new_position=[game.position_history[-1][0] + new_move[0], game.position_history[-1][1] + new_move[1]]
 
