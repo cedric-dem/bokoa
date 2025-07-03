@@ -84,10 +84,13 @@ def create_level_file(level, filename):
 
 def get_index_of_closest_from(to_search, levels_list):
     closest_index=0
+    closest_distance=float("inf")
 
-    for i in range (len(levels_list)):
-        if abs(to_search - levels_list[closest_index].estimated_difficulty)>abs(to_search - levels_list[i].estimated_difficulty):
-            closest_index=i
+    for current_index in range (len(levels_list)):
+        this_distance=abs(to_search - levels_list[current_index].estimated_difficulty)
+        if closest_distance>this_distance:
+            closest_index=current_index
+            closest_distance=this_distance
 
     return closest_index
 
