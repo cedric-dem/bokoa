@@ -1,4 +1,4 @@
-raw_levels_to_generate=1000
+raw_levels_to_generate=3
 
 number_levels_to_keep=100
 
@@ -12,7 +12,7 @@ display_new_levels=True
 
 coefficient_second_term=1.5
 
-generated_levels_path="generated_levels_published"
+generated_levels_path="generated_levels_test"
 
 file_prefixes_raw=[
     generated_levels_path+"/raw/grid_size_0/level_",
