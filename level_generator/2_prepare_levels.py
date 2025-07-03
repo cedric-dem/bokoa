@@ -90,8 +90,25 @@ def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
         describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_name)
 
 def create_level_file(level, filename):
-    temp=open(filename,"wb")
-    pickle.dump(level, temp)
+    #temp=open(filename,"wb")
+    #pickle.dump(level, temp)
+    operations = level.level.level
+    best_moves = level.best_moves
+    best_score = level.best_score
+
+    #print('===',operations, best_moves, best_score, filename)
+    create_level_file_as_json(operations, best_score, best_moves, filename+".json")
+
+def create_level_file_as_json(operations, best_score, best_moves, filename):
+    result = {
+        "operations": operations,
+        "bestScore": round(float(best_score), 2),
+        "bestMoves": best_moves
+    }
+
+    with open(filename, 'w') as file:
+        json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
+
 
 def get_index_of_closest_from(to_search, levels_list):
     closest_index=0
@@ -179,6 +196,6 @@ def get_theoretical_fitness(levels_list):
 print("========> step 1: describe complete set of levels")
 describe_bunch_of_levels(file_prefixes_complete, raw_levels_to_generate, " Complete")
 print("========> step 2: reduce set of levels")
-#reduce_levels_set()
+reduce_levels_set()
 print("========> step 3: describe reduced set of levels")
 #describe_bunch_of_levels(file_prefixes_reduced, number_levels_to_keep, " Reduced")
