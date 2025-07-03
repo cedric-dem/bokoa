@@ -1,7 +1,7 @@
 import numpy
 import statistics
 import matplotlib.pyplot as plt
-import json
+from misc import *
 from levelWithSolution import *
 from level import *
 
@@ -85,15 +85,6 @@ def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
 def create_level_file(level, filename):
     create_level_file_as_json(level.operations_grid.operations_grid, level.best_score, level.best_moves, filename + ".json")
 
-def create_level_file_as_json(operations, best_score, best_moves, filename):
-    result = {
-        "operations": operations,
-        "bestScore": round(float(best_score), 2),
-        "bestMoves": best_moves
-    }
-
-    with open(filename, 'w') as file:
-        json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
 
 
 def get_index_of_closest_from(to_search, levels_list):

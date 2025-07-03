@@ -4,7 +4,7 @@ from game import Game
 from level import Level
 import time
 from config import *
-import json
+from misc import *
 
 def get_readable_moves(moves_list):
     result=[]
@@ -23,15 +23,6 @@ def get_readable_moves(moves_list):
 
     return result
 
-def create_level_file_as_json(operations, best_score, best_moves, filename):
-    result={
-        "operations":operations,
-        "bestScore":round(float(best_score),2),
-        "bestMoves":best_moves
-    }
-
-    with open(filename, 'w') as file:
-        json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
 
 def create_one_level(grid_size_id, fn):
     # create level
