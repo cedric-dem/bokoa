@@ -19,7 +19,6 @@ def get_complete_levels_list(grid_size_id, prefix, quantity):
 
 	return complete_levels_list
 
-
 def create_level_file(level, filename):
 	create_level_file_as_json(level.operations_grid.operations_grid, level.best_score, level.best_moves, filename + ".json")
 
