@@ -3,7 +3,6 @@ import time
 
 from level_generator.classes.levelWithSolution import *
 from level_generator.classes.level import *
-from level_generator.utils.display_functions import describe_list, plot_all_evolutions, plot_graph
 
 def get_complete_levels_list(grid_size_id, prefix, quantity):
 	complete_levels_list = []
@@ -19,39 +18,6 @@ def get_complete_levels_list(grid_size_id, prefix, quantity):
 
 	return complete_levels_list
 
-def describe_given_grid_size(grid_size_id, prefix, quantity, levels_set_name):
-	print('====> Current prefix :', prefix)
-
-	complete_levels_list = get_complete_levels_list(grid_size_id, prefix, quantity)
-
-	print("====> Number of levels :  ", len(complete_levels_list))
-
-	# ==== get stats
-	scores, sizes, fitness = [], [], []
-
-	for data in complete_levels_list:
-		data.set_fitness_score()
-
-		scores.append(data.best_score)
-		sizes.append(len(data.best_moves))
-		fitness.append(data.estimated_difficulty)
-
-	# ==== Describe stats in terminal
-	describe_list("Scores", scores)
-	describe_list("Sizes", sizes)
-	describe_list("Fitness", fitness)
-
-	# ==== Display stats as plots
-
-	plot_all_evolutions(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]))
-
-	scores.sort()
-	fitness.sort()
-	sizes.sort()
-
-	plot_graph(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Final Score")
-	plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Fitness Score")
-	plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Best Solution Size")
 
 def create_level_file(level, filename):
 	create_level_file_as_json(level.operations_grid.operations_grid, level.best_score, level.best_moves, filename + ".json")
