@@ -51,7 +51,7 @@ def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_n
     scores, sizes, fitness = [], [], []
 
     for data in complete_levels_list:
-        data.setFitnessScore()
+        data.set_fitness_score()
 
         scores.append(data.best_score)
         sizes.append(len(data.best_moves))
@@ -116,7 +116,7 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
 
     #===== set fitness of kept levels
     for current_level in levels_size_acceptable:
-        current_level.setFitnessScore()
+        current_level.set_fitness_score()
 
     #====  sort kept levels
     levels_size_acceptable.sort()

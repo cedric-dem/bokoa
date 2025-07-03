@@ -45,7 +45,7 @@ def create_one_level(grid_size, fn):
     if (display_new_levels):
         temp_level.displayLevel()
         print("Best sol : ",best_score,get_readable_moves(best_moves))
-        lws.printGf()
+        lws.display_everything()
         print("=======================================================================")
 
     return best_score
