@@ -42,8 +42,7 @@ def create_one_level(grid_size, fn):
     pickle.dump(lws, temp)
 
     #debug
-    if (display_new_levels):
-        temp_level.display_level()
+    if display_new_levels:
         print("Best sol : ",best_score,get_readable_moves(best_moves))
         lws.display_everything()
         print("=======================================================================")
