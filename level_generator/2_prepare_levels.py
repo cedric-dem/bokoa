@@ -21,32 +21,37 @@ def plot_graph(evolution, plot_name, x_labels, y_labels):
     plt.plot(evolution)
     plt.show()
 
-def describe_list(lst):
+def describe_list(lst_name,lst):
+    print("====> describe list ", lst_name)
     print("min : ", min(lst))
     print("10% low", numpy.percentile(lst, 10))
     print("med", statistics.median(lst))
     print("10% high", numpy.percentile(lst, 90))
     print("max : ", max(lst))
 
+
+def get_complete_levels_list(prefix, quantity):
+    complete_levels_list = []
+
+    ##open all the files, put in a list
+    for current_level_index in range(quantity):
+        file = open(prefix + str(current_level_index), 'rb')
+        elem = pickle.load(file)
+        complete_levels_list.append(elem)
+    return complete_levels_list
+
 def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
 
     for grid_size_id in grid_sizes_id:
         prefix=prefixes_list[grid_size_id]
         print('====> Current prefix :', prefix)
-        complete_levels_list = []
 
-        ##open all the files, put in a list
-        for current_level_index in range(quantity):
-            file = open(prefix + str(current_level_index), 'rb')
-            elem = pickle.load(file)
-            complete_levels_list.append(elem)
+        complete_levels_list=get_complete_levels_list(prefix, quantity)
 
         print("====> Number of levels :  ", len(complete_levels_list))
 
         # =========================================================================== get stats
-        scores = []
-        sizes = []
-        fitness = []
+        scores, sizes, fitness = [], [], []
 
         ##open all them files, put in a list
         for data in complete_levels_list:
@@ -58,14 +63,9 @@ def describe_bunch_of_levels(prefixes_list, quantity, levels_set_name):
 
         # =========================================================================== Describe stats in terminal
 
-        print('====> Scores')
-        describe_list(scores)
-
-        print('====> Sizes')
-        describe_list(sizes)
-
-        print('====> Fitness')
-        describe_list(fitness)
+        describe_list("Scores",scores)
+        describe_list("Sizes",sizes)
+        describe_list("Fitness",fitness)
 
         # =========================================================================== Display stats as plots
 
