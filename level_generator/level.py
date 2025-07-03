@@ -17,11 +17,15 @@ def get_operations_reserve(grid_size):
     return operations_reserve
 
 class Level(object):
-    def __init__(self,grid_size_id):
+    def __init__(self,grid_size_id, operations_grid):
         self.grid_size_id=grid_size_id
         self.grid_size=grid_sizes[grid_size_id]
 
-        self.create_level()
+        self.operations_grid=operations_grid
+        if (operations_grid==None):
+            self.create_level()
+        else:
+            self.level=operations_grid
     
     def create_level(self):
 

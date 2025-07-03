@@ -39,10 +39,7 @@ def get_complete_levels_list(grid_size_id,prefix, quantity):
         with open(prefix + str(current_level_index)+".json", 'r', encoding='utf-8') as file:
             data = json.load(file)
 
-            # TODO : change the way level is handled
-            new_level=Level(grid_size_id)
-            new_level.level=data["operations"]
-
+            new_level=Level(grid_size_id,data["operations"])
             new_level_with_sol = LevelWithSolution(new_level, data["bestScore"], data["bestMoves"])
             complete_levels_list.append(new_level_with_sol)
 

@@ -35,7 +35,7 @@ def create_level_file_as_json(operations, best_score, best_moves, filename):
 
 def create_one_level(grid_size_id, fn):
     # create level
-    temp_level=Level(grid_size_id)
+    temp_level=Level(grid_size_id, None)
     
     # create game
     temp_game=Game(temp_level)
