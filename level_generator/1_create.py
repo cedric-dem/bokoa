@@ -51,15 +51,9 @@ def create_one_level(grid_size, fn):
     return best_score
     
 def create_levels():
-    for grid_size in grid_sizes:
-        if (grid_size[0]==4):
-            prefix=file_prefixes_raw[0]
-
-        elif (grid_size[0]==5):
-            prefix=file_prefixes_raw[1]
-
-        elif (grid_size[0]==6):
-            prefix=file_prefixes_raw[2]
+    for grid_size_id in grid_sizes_id:
+        grid_size=grid_sizes[grid_size_id]
+        prefix=file_prefixes_raw[grid_size_id]
 
         print("Currently on size ",grid_size," prefix", prefix )
 
