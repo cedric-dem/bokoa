@@ -133,19 +133,7 @@ def reduce_levels_set():
         #=========================================================================== modify it
 
         #######################################doing the mod
-        ###############theoretical_fitness
-        theoretical_fitness=[]
-
-        average_step=(levels_size_acceptable[-1].fitness-levels_size_acceptable[0].fitness)/number_levels_to_keep
-
-        current=levels_size_acceptable[0].fitness
-
-        for reduced_levels_index in range (number_levels_to_keep):
-            theoretical_fitness.append(current)
-            current+=average_step
-
-        print('====> Average step',average_step)
-        print("====> Theoretical fitness : ",theoretical_fitness)
+        theoretical_fitness= get_theoretical_fitness(levels_size_acceptable)
 
         ###################doing the job
         levels_reduced=[]
@@ -169,6 +157,24 @@ def reduce_levels_set():
             create_level_file(current_level, file_prefixes_processed[current_grid_size_id] + str(index_reduced))
 
         print("====>  Keeping ", len(levels_reduced), " levels")
+
+
+
+def get_theoretical_fitness(levels_list):
+    theoretical_fitness = []
+
+    average_step = (levels_list[-1].fitness - levels_list[0].fitness) / number_levels_to_keep
+
+    current = levels_list[0].fitness
+
+    for reduced_levels_index in range(number_levels_to_keep):
+        theoretical_fitness.append(current)
+        current += average_step
+
+    print('====> Average step', average_step)
+    print("====> Theoretical fitness : ", theoretical_fitness)
+    return theoretical_fitness
+
 
 def create_level_file_as_json(l, filename):
     result={
