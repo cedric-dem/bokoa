@@ -1,9 +1,9 @@
 import numpy
 import statistics
 import matplotlib.pyplot as plt
-from misc import *
-from levelWithSolution import *
-from level import *
+from utils.misc import *
+from classes.levelWithSolution import *
+from classes.level import *
 
 def plot_all_evolutions(list_evolutions, context_name):
 	plt.title("All evolution" + context_name)

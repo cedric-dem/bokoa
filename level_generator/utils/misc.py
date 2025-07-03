@@ -1,5 +1,5 @@
 import json
-from config import *
+from utils.config import *
 
 def create_level_file_as_json(operations, best_score, best_moves, filename):
 	result = {

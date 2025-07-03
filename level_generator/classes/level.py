@@ -1,5 +1,5 @@
 import random
-from config import *
+from utils.config import *
 
 random.seed(123456789)
 

@@ -1,8 +1,8 @@
-from backtrack import back_track
-from game import Game
-from level import Level
+from utils.backtrack import back_track
+from classes.game import Game
+from classes.level import Level
 import time
-from misc import *
+from utils.misc import *
 
 def get_readable_moves(moves_list):
 	result = []
