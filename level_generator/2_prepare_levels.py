@@ -5,23 +5,22 @@ from config import *
 import pickle
 import json
 
-def plotAllEvolutions(L):
+def plotAllEvolutions(list_evolutions):
     plt.title("All evolution")
-    for elem in L:
+    for elem in list_evolutions:
         plt.plot(elem.historyOfScores)
     plt.show()
 
-def describeList(L):
-    print("min : ",min(L))
-    print("10% low",numpy.percentile(L, 10))
-    print("med",statistics.median(L))
-    print("10% high",numpy.percentile(L, 90))
-    print("max : ",max(L))
-
+def describeList(lst):
+    print("min : ", min(lst))
+    print("10% low", numpy.percentile(lst, 10))
+    print("med", statistics.median(lst))
+    print("10% high", numpy.percentile(lst, 90))
+    print("max : ", max(lst))
 
 def describeBunchOfLevels(prefixes_list, quantity):
-    for prefix in prefixes_list:
 
+    for prefix in prefixes_list:
         print('----> Current prefix', prefix)
         complete_levels_list = []
 
@@ -77,17 +76,15 @@ def describeBunchOfLevels(prefixes_list, quantity):
         plt.plot(sizes)
         plt.show()
 
-
-
 def createLevelFile(level, filename):
     temp=open(filename,"wb")
     pickle.dump(level, temp)
 
-def getIndexOfClosestFrom(to_search,lst):
+def getIndexOfClosestFrom(to_search, levels_list):
     closest_index=0
 
-    for i in range (len(lst)):
-        if abs(to_search-lst[closest_index].fitness)>abs(to_search-lst[i].fitness):
+    for i in range (len(levels_list)):
+        if abs(to_search - levels_list[closest_index].fitness)>abs(to_search - levels_list[i].fitness):
             closest_index=i
 
     return closest_index
@@ -112,7 +109,7 @@ def reduceLevelsSet():
         print("\n==============>  Initially total of  ",len(L_all)," levels")
 
         #=========================================================================== kept levels
-        L=[]
+        levels_size_acceptable=[]
         if size==4:
             lowest_size=6
         elif size==5:
@@ -120,27 +117,26 @@ def reduceLevelsSet():
         else:
             lowest_size=18
 
-        for elem in L_all:
-            if len(elem.best_moves)>=lowest_size:
-                L.append(elem)
+        for current_level in L_all:
+            if len(current_level.best_moves)>=lowest_size:
+                levels_size_acceptable.append(current_level)
 
-        print("\n==============>  After remove  total of  ",len(L)," levels")
+        print("\n==============>  After remove  total of  ",len(levels_size_acceptable)," levels")
 
         #=========================================================================== set fitness of kept levels
-        for elem in L:
-            elem.setFitnessScore()
+        for current_level in levels_size_acceptable:
+            current_level.setFitnessScore()
 
         #=========================================================================== sort kept levels
-        L.sort()
-        #keep=keep[::-1]
+        levels_size_acceptable.sort()
 
         #=========================================================================== Display infos
 
         print("********************************************************************************************************************* BEFOR")
         fitness=[]
 
-        for elem in L:
-            fitness.append(elem.fitness)
+        for current_level in levels_size_acceptable:
+            fitness.append(current_level.fitness)
 
         #=========================================================================== modify it
 
@@ -148,49 +144,44 @@ def reduceLevelsSet():
         ###############theoretical
         theoretical=[]
 
-        average_step=(L[-1].fitness-L[0].fitness)/number_levels_to_keep
+        average_step=(levels_size_acceptable[-1].fitness-levels_size_acceptable[0].fitness)/number_levels_to_keep
 
-        current=L[0].fitness
+        current=levels_size_acceptable[0].fitness
 
         for final_index_level in range (number_levels_to_keep):
             theoretical.append(current)
             current+=average_step
 
         #print(len(theoretical))
-        #print('avg s',average_step)
+        print('avgerage step',average_step)
         print("THEORETICAL : ",theoretical)
 
         ###################doing the job
-
-        final_levels_list=[]
-        #keep_list.append(keep[0])
+        levels_reduced=[]
 
         for final_index_level in range (100):
-            index=getIndexOfClosestFrom(theoretical[final_index_level], L)
-            this_one=L.pop(index)
-            final_levels_list.append(this_one)
+            index=getIndexOfClosestFrom(theoretical[final_index_level], levels_size_acceptable)
+            this_one=levels_size_acceptable.pop(index)
+            levels_reduced.append(this_one)
 
-        print("************************************************************************************************************* AFER")
+        print("******************************* AFTER")
         fitness=[]
 
-        final_levels_list.sort()
+        levels_reduced.sort()
 
-        for elem in final_levels_list:
-            fitness.append(elem.fitness)
+        for current_level in levels_reduced:
+            fitness.append(current_level.fitness)
 
         print("FITNESS : ",fitness)
         print(len(fitness))
 
         print('\n==============> Result : ')
-        idx=0
-        for elem in final_levels_list:
-
+        for idx in range (len(levels_reduced)):
+            current_level=levels_reduced[idx]
             print("====> NEW")
-            createLevelFile(elem,  file_prefixes_processed[difficulty] + str(idx))
+            createLevelFile(current_level,  file_prefixes_processed[difficulty] + str(idx))
 
-            idx+=1
-
-        print("\n==============>  Keeping ", len(final_levels_list), " levels")
+        print("\n==============>  Keeping ", len(levels_reduced), " levels")
 
 def createLevelFileAsJson(l, filename):
     result={
@@ -213,12 +204,11 @@ def exportAllLevelsAsJson():
 
             createLevelFileAsJson(data, file_prefixes_processed_as_json[difficulty] + str(final_index_level) + ".json")
 
-
-print("==> step 1")
+print("==> step 1: describe complete set of levels")
 describeBunchOfLevels(file_prefixes_raw, raw_levels_to_generate)
-print("==> step 2")
+print("==> step 2: reduce set of levels")
 reduceLevelsSet()
-print("==> step 3")
+print("==> step 3: describe reduced set of levels")
 describeBunchOfLevels(file_prefixes_processed, number_levels_to_keep)
-print("==> step 4")
+print("==> step 4: export as json")
 exportAllLevelsAsJson()
