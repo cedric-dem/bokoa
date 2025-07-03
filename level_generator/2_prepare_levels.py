@@ -9,6 +9,16 @@ def plotAllEvolutions(list_evolutions, context_name):
     plt.title("All evolution" + context_name)
     for elem in list_evolutions:
         plt.plot(elem.historyOfScores)
+
+    plt.xlabel("Number Of Moves")
+    plt.ylabel("Score")
+    plt.show()
+
+def plotGraph(evolution, plot_name, x_labels, y_labels):
+    plt.title(plot_name)
+    plt.xlabel(x_labels)
+    plt.ylabel(y_labels)
+    plt.plot(evolution)
     plt.show()
 
 def describeList(lst):
@@ -65,14 +75,10 @@ def describeBunchOfLevels(prefixes_list, quantity, levels_set_name):
         fitness.sort()
         sizes.sort()
 
-        plotGraph(scores, "All final scores" + levels_set_name + "  - Grid  size : "+str(grid_size_id))
-        plotGraph(fitness, "All fitness" + levels_set_name + "  - Grid  size : "+str(grid_size_id))
-        plotGraph(sizes, "All sizes" + levels_set_name + "  - Grid  size : "+str(grid_size_id))
+        plotGraph(scores, "All final scores" + levels_set_name + "  - Grid  size : "+str(grid_size_id), "Final Score", "Level ID")
+        plotGraph(fitness, "All fitness" + levels_set_name + "  - Grid  size : "+str(grid_size_id), "Fitness Score", "Level ID")
+        plotGraph(sizes, "All sizes" + levels_set_name + "  - Grid  size : "+str(grid_size_id), "Best Solution Size", "Level ID")
 
-def plotGraph(scores, plotname):
-    plt.title(plotname)
-    plt.plot(scores)
-    plt.show()
 
 def createLevelFile(level, filename):
     temp=open(filename,"wb")
