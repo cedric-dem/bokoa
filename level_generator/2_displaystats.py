@@ -21,7 +21,7 @@ def describeList(L):
 
 #=========================================================================== get data
 
-for prefix in ["generated_levels/raw/levels_0/level_","generated_levels/raw/levels_1/level_","generated_levels/raw/levels_2/level_"]:
+for prefix in file_prefixes_raw:
 
     print('----> Current prefix', prefix)
     complete_levels_list=[]
