@@ -7,7 +7,9 @@ class Game(object):
         self.moves_history=[]
         self.position_history=[[0,0]]
     
-    def move(self,direction,new_pos):
+    def move(self,direction):
+        new_pos=[self.position_history[-1][0]+direction[0],self.position_history[-1][1]+direction[1]]
+
         self.moves_history.append(direction)
 
         new_operation=self.level.operations_grid[new_pos[0]][new_pos[1]]
