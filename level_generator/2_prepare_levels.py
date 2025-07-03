@@ -108,7 +108,7 @@ def reduce_levels_set():
 def reduce_levels_set_given_grid_size_id(current_grid_size_id):
     print('====> Current grid size id ',current_grid_size_id)
 
-    complete_levels_list=get_complete_levels_list(file_prefixes_raw[current_grid_size_id], raw_levels_to_generate)
+    complete_levels_list=get_complete_levels_list(file_prefixes_complete[current_grid_size_id], raw_levels_to_generate)
     print("====>  Initially total of  ",len(complete_levels_list)," levels")
 
     levels_size_acceptable=get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
@@ -137,7 +137,7 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
 
     for index_reduced in range (len(levels_reduced)):
         current_level=levels_reduced[index_reduced]
-        create_level_file(current_level, file_prefixes_processed[current_grid_size_id] + str(index_reduced))
+        create_level_file(current_level, file_prefixes_reduced[current_grid_size_id] + str(index_reduced))
 
     print("====>  Keeping ", len(levels_reduced), " levels")
 
@@ -181,16 +181,16 @@ def export_all_levels_as_json():
         print('====> Current difficulty', difficulty)
 
         for final_index_level in range(number_levels_to_keep):
-            file = open(file_prefixes_processed[difficulty] + str(final_index_level), 'rb')
+            file = open(file_prefixes_reduced[difficulty] + str(final_index_level), 'rb')
             data = pickle.load(file)
 
             create_level_file_as_json(data, file_prefixes_processed_as_json[difficulty] + str(final_index_level) + ".json")
 
 print("========> step 1: describe complete set of levels")
-describe_bunch_of_levels(file_prefixes_raw, raw_levels_to_generate, " Complete")
+describe_bunch_of_levels(file_prefixes_complete, raw_levels_to_generate, " Complete")
 print("========> step 2: reduce set of levels")
 reduce_levels_set()
 print("========> step 3: describe reduced set of levels")
-describe_bunch_of_levels(file_prefixes_processed, number_levels_to_keep, " Reduced")
+describe_bunch_of_levels(file_prefixes_reduced, number_levels_to_keep, " Reduced")
 print("========> step 4: export as json")
 export_all_levels_as_json()
