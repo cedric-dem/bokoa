@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from config import *
 import pickle
 import json
+from levelWithSol import *
+from level import *
 
 def plot_all_evolutions(list_evolutions, context_name):
     plt.title("All evolution" + context_name)
@@ -29,13 +31,21 @@ def describe_list(lst_name,lst):
     print("10% high", numpy.percentile(lst, 90))
     print("max : ", max(lst))
 
-def get_complete_levels_list(prefix, quantity):
+def get_complete_levels_list(grid_size_id,prefix, quantity):
     complete_levels_list = []
 
     for current_level_index in range(quantity):
-        file = open(prefix + str(current_level_index), 'rb')
-        elem = pickle.load(file)
-        complete_levels_list.append(elem)
+        #load json :
+        with open(prefix + str(current_level_index)+".json", 'r', encoding='utf-8') as file:
+            data = json.load(file)
+
+            # TODO : change the way level is handled
+            new_level=Level(grid_size_id)
+            new_level.level=data["operations"]
+
+            new_level_with_sol = LevelWithSol(new_level,data["bestScore"],data["bestMoves"])
+            complete_levels_list.append(new_level_with_sol)
+
     return complete_levels_list
 
 
@@ -43,7 +53,7 @@ def describe_given_grid_size(grid_size_id, prefixes_list, quantity, levels_set_n
     prefix = prefixes_list[grid_size_id]
     print('====> Current prefix :', prefix)
 
-    complete_levels_list = get_complete_levels_list(prefix, quantity)
+    complete_levels_list = get_complete_levels_list(grid_size_id, prefix, quantity)
 
     print("====> Number of levels :  ", len(complete_levels_list))
 
@@ -108,7 +118,7 @@ def reduce_levels_set():
 def reduce_levels_set_given_grid_size_id(current_grid_size_id):
     print('====> Current grid size id ',current_grid_size_id)
 
-    complete_levels_list=get_complete_levels_list(file_prefixes_complete[current_grid_size_id], raw_levels_to_generate)
+    complete_levels_list=get_complete_levels_list(current_grid_size_id, file_prefixes_complete[current_grid_size_id], raw_levels_to_generate)
     print("====>  Initially total of  ",len(complete_levels_list)," levels")
 
     levels_size_acceptable=get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
@@ -167,7 +177,7 @@ def get_theoretical_fitness(levels_list):
     return theoretical_fitness
 
 print("========> step 1: describe complete set of levels")
-#describe_bunch_of_levels(file_prefixes_complete, raw_levels_to_generate, " Complete")
+describe_bunch_of_levels(file_prefixes_complete, raw_levels_to_generate, " Complete")
 print("========> step 2: reduce set of levels")
 #reduce_levels_set()
 print("========> step 3: describe reduced set of levels")
