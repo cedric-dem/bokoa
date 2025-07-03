@@ -1,11 +1,10 @@
 
 from backtrack import back_track
 from game import Game
-from levelWithSol import LevelWithSol
 from level import Level
-import pickle
 import time
 from config import *
+import json
 
 def get_readable_moves(moves_list):
     result=[]
@@ -24,6 +23,17 @@ def get_readable_moves(moves_list):
 
     return result
 
+def create_level_file_as_json(operations, best_score, best_moves, filename):
+    result={
+        "operations":operations,
+        "bestScore":round(float(best_score),2),
+        "bestMoves":best_moves
+    }
+
+    with open(filename, 'w') as file:
+        json.dump(result, file, indent=4, separators=(',', ': '), ensure_ascii=False)
+
+
 def create_one_level(grid_size_id, fn):
     ##create level
     temp_level=Level(grid_size_id)
@@ -35,19 +45,9 @@ def create_one_level(grid_size_id, fn):
     grid_size=grid_sizes[grid_size_id]
     best_score, best_moves = back_track(temp_game, grid_size[0] * grid_size[1])
 
-    #create level with solution
-    lws=LevelWithSol(temp_level, best_score, get_readable_moves(best_moves))
+    #save level with solution as json
+    create_level_file_as_json(temp_level.level, best_score, get_readable_moves(best_moves), fn)
 
-    #save level with solution
-    temp=open(fn,"wb")
-    pickle.dump(lws, temp)
-
-    #debug
-    if display_new_levels:
-        lws.display_everything()
-        print("=======================================================================")
-
-    return best_score
     
 def create_levels():
     for grid_size_id in grid_sizes_id:
@@ -60,8 +60,8 @@ def create_levels():
 
         for i in range (raw_levels_to_generate):
             print("==> generate level",i)
-            this_score=create_one_level(grid_size_id, prefix + str(i))
-            print( i + 1,"/", raw_levels_to_generate, " finished. Score : ", this_score)
+            create_one_level(grid_size_id, prefix + str(i)+".json")
+            print( i + 1,"/", raw_levels_to_generate, " finished")
 
         t1=time.time()
 
