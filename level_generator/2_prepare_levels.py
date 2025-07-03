@@ -197,4 +197,4 @@ describe_bunch_of_levels(file_prefixes_complete, raw_levels_to_generate, " Compl
 print("========> step 2: reduce set of levels")
 reduce_levels_set()
 print("========> step 3: describe reduced set of levels")
-#describe_bunch_of_levels(file_prefixes_reduced, number_levels_to_keep, " Reduced")
+describe_bunch_of_levels(file_prefixes_reduced, number_levels_to_keep, " Reduced")
