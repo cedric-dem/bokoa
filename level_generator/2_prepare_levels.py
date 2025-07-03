@@ -114,12 +114,7 @@ def reduce_levels_set():
 
         #=========================================================================== kept levels
         levels_size_acceptable=[]
-        if size==4:
-            lowest_size=6
-        elif size==5:
-            lowest_size=12
-        else:
-            lowest_size=18
+        lowest_size=lowest_solution_sizes[difficulty]
 
         for current_level in complete_levels_list:
             if len(current_level.best_moves)>=lowest_size:
