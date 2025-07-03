@@ -24,36 +24,36 @@ def get_all_but_inverse_of_last_move(gm):
         print('Error')
         return None
 
-def back_track(gm, max_depth):
+def back_track(game, max_depth):
 
-    if 1<gm.score:
-        best_score=gm.score
-        best_moves=gm.moves_history[::]
+    if 1<game.score:
+        best_score=game.score
+        best_moves= game.moves_history[::]
 
     else:
         best_score=1
         best_moves=[]
     
-    if len(gm.moves_history)<max_depth:  #else stop
-        for new_move in  get_all_but_inverse_of_last_move(gm):
+    if len(game.moves_history)<max_depth:  #else stop
+        for new_move in  get_all_but_inverse_of_last_move(game):
 
-            new_pos=[gm.position_history[-1][0]+new_move[0],gm.position_history[-1][1]+new_move[1]]
+            new_pos=[game.position_history[-1][0] + new_move[0], game.position_history[-1][1] + new_move[1]]
 
             ##if move ok + not coming back
-            if is_move_in_bound(gm, new_pos) and (not is_move_in_history(gm, new_pos)):
+            if is_move_in_bound(game, new_pos) and (not is_move_in_history(game, new_pos)):
                 #save old score
-                old_score=gm.score
+                old_score=game.score
             
                 #move
-                gm.move(new_move,new_pos)
+                game.move(new_move, new_pos)
 
                 #launch backtrack
-                temp_best_score,temp_best_moves=back_track(gm, max_depth)
+                temp_best_score,temp_best_moves=back_track(game, max_depth)
 
                 ##restore old state
-                gm.score=old_score
-                gm.moves_history.pop()
-                gm.position_history.pop()
+                game.score=old_score
+                game.moves_history.pop()
+                game.position_history.pop()
 
                 if best_score<temp_best_score:  #if new res better than prev:
                     #best_score and best_moves refresh
