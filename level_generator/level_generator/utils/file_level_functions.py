@@ -33,5 +33,5 @@ def create_level_file_as_json(operations, best_score, best_moves, filename):
 def get_level_path_complete(grid_size_index, level_index):
 	return generated_levels_folder_name + "/" + complete_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name + str(level_index) + ".json"
 
-def get_file_prefix_reduced(grid_size_index):
-	return generated_levels_folder_name + "/" + reduced_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name
+def get_level_path_reduced(grid_size_index, level_index):
+	return generated_levels_folder_name + "/" + reduced_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name + str(level_index) + ".json"

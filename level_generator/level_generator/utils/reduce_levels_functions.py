@@ -1,5 +1,5 @@
 from level_generator.classes.level import *
-from level_generator.utils.file_level_functions import get_level_path_complete, get_complete_levels_list, create_level_file_as_json, get_file_prefix_reduced
+from level_generator.utils.file_level_functions import get_complete_levels_list, create_level_file_as_json, get_level_path_reduced
 
 def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	closest_index = 0
@@ -54,7 +54,7 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
 			current_level.level.operations_grid,
 			current_level.best_score,
 			current_level.best_moves,
-			get_file_prefix_reduced(current_grid_size_id) + str(index_reduced) + ".json"
+			get_level_path_reduced(current_grid_size_id, index_reduced) + str(index_reduced) + ".json"
 		)
 
 	print("====>  Keeping ", len(levels_reduced), " levels")

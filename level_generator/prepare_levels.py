@@ -1,5 +1,4 @@
 from level_generator.utils.display_functions import describe_given_grid_size
-from level_generator.utils.file_level_functions import get_level_path_complete, get_file_prefix_reduced
 from level_generator.utils.misc_functions import *
 from level_generator.utils.reduce_levels_functions import reduce_levels_set
 

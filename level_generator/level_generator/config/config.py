@@ -1,6 +1,6 @@
-raw_levels_to_generate = 3
+raw_levels_to_generate = 1000
 
-number_levels_to_keep = 3
+number_levels_to_keep = 100
 
 grid_sizes = [[4, 4], [5, 5], [6, 6]]
 
@@ -16,7 +16,7 @@ coefficient_difficulty_first_term_a = [2.0998, 2.332, 1.92]
 coefficient_difficulty_first_term_b = [2.34, 2.666, 2.026]
 coefficient_difficulty_second_term_a = [1.21, 0.626, 0.743]
 
-generated_levels_folder_name = "generated_levels_test"
+generated_levels_folder_name = "generated_levels_published"
 
 complete_folder_name = "complete"
 reduced_folder_name = "reduced"
