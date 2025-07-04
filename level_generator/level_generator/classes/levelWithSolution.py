@@ -31,10 +31,16 @@ class LevelWithSolution(object):
 		self.first_term_raw = -increasing_steps_counter / (len(self.historyOfScoresForBestSolution))
 		self.second_term_raw = (total_score_decreasing / self.historyOfScoresForBestSolution[-1])
 
-		self.first_term_normalized = coefficient_difficulty_first_term_a[self.level.grid_size_id] + (coefficient_difficulty_first_term_b[self.level.grid_size_id] * self.first_term_raw)
-		self.second_term_normalized = self.second_term_raw * coefficient_difficulty_second_term_a[self.level.grid_size_id]
+		###########
+		self.old_first_term_normalized = old_coefficient_difficulty_first_term_a[self.level.grid_size_id] + (old_coefficient_difficulty_first_term_b[self.level.grid_size_id] * self.first_term_raw)
+		self.old_second_term_normalized = self.second_term_raw * old_coefficient_difficulty_second_term_a[self.level.grid_size_id]
+		self.old_estimated_difficulty = (coefficient_difficulty_first_term * self.old_first_term_normalized) + (coefficient_difficulty_second_term * self.old_second_term_normalized)
 
-		self.estimated_difficulty = (coefficient_difficulty_first_term * self.first_term_normalized) + (coefficient_difficulty_second_term * self.second_term_normalized)
+		###########
+		self.new_first_term_normalized = new_coefficient_difficulty_first_term_a[self.level.grid_size_id] + (new_coefficient_difficulty_first_term_b[self.level.grid_size_id] * self.first_term_raw)
+		self.new_second_term_normalized = self.second_term_raw * new_coefficient_difficulty_second_term_a[self.level.grid_size_id]
+
+		self.new_estimated_difficulty = (coefficient_difficulty_first_term * self.new_first_term_normalized) + (coefficient_difficulty_second_term * self.new_second_term_normalized)
 
 	def display_everything(self):
 		print('==> Grid :')
@@ -43,7 +49,7 @@ class LevelWithSolution(object):
 		print('==> Best Score : ', self.best_score)
 
 	def __gt__(self, other):
-		return self.estimated_difficulty > other.estimated_difficulty
+		return self.old_estimated_difficulty > other.old_estimated_difficulty
 
 	def __eq__(self, other):
-		return self.estimated_difficulty == other.estimated_difficulty
+		return self.old_estimated_difficulty == other.old_estimated_difficulty
