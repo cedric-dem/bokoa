@@ -24,3 +24,5 @@ reduced_folder_name = "reduced"
 grid_size_folder_prefix = "grid_size_"
 
 level_file_name = "level_"
+
+directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]

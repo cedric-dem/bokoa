@@ -3,7 +3,7 @@ import time
 from level_generator.classes.game import Game
 from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json
-
+from level_generator.config.config import *
 
 def get_move_from_direction(move):
 	match move:
@@ -60,24 +60,13 @@ def create_levels_and_solutions():
 		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per it')
 
 def get_all_but_inverse_of_last_move(moves_history):
-	if len(moves_history) == 0:
-		return [[0, -1], [0, 1], [1, 0], [-1, 0]]
-
-	elif moves_history[-1] == [1, 0]:
-		return [[0, -1], [0, 1], [1, 0]]
-
-	elif moves_history[-1] == [-1, 0]:
-		return [[0, -1], [0, 1], [-1, 0]]
-
-	elif moves_history[-1] == [0, -1]:
-		return [[0, -1], [1, 0], [-1, 0]]
-
-	elif moves_history[-1] == [0, 1]:
-		return [[0, 1], [1, 0], [-1, 0]]
-
+	if len(moves_history)==0:
+		result=directions
 	else:
-		print('Error')
-		return None
+		last_move = moves_history[-1]
+		inverse = [-last_move[0], -last_move[1]]
+		result= [d for d in directions if d != inverse]
+	return result
 
 def back_track(game, max_solution_size):
 	current_best_score = game.score
