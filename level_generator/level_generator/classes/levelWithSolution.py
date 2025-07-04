@@ -15,7 +15,7 @@ class LevelWithSolution(object):
 
 		self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self.level)
 
-	def set_fitness_score(self):
+	def set_estimated_difficulty(self):
 
 		increasing_steps_counter = 0
 
@@ -36,10 +36,10 @@ class LevelWithSolution(object):
 		proportion_of_increasing_steps = increasing_steps_counter / (len(self.historyOfScoresForBestSolution))
 		score_decreasing_normalized = (total_score_decreasing / self.historyOfScoresForBestSolution[-1])
 
-		fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * proportion_of_increasing_steps)
-		fitness_second_term = score_decreasing_normalized / coefficient_fitness_second_term_a[self.grid_size_id]
+		difficulty_first_term = coefficient_difficulty_first_term_a[self.grid_size_id] - (coefficient_difficulty_first_term_b[self.grid_size_id] * proportion_of_increasing_steps)
+		difficulty_second_term = score_decreasing_normalized / coefficient_difficulty_second_term_a[self.grid_size_id]
 
-		self.estimated_difficulty = ((coefficient_fitness_second_term * fitness_second_term) + fitness_first_term)/2
+		self.estimated_difficulty = ((coefficient_difficulty_second_term * difficulty_second_term) + difficulty_first_term) / 2
 
 	def display_everything(self):
 		print('==> Grid :')

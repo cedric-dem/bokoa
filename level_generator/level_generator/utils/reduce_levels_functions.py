@@ -27,26 +27,26 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
 	levels_size_acceptable = get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
 	print("====>  After remove too small levels total of  ", len(levels_size_acceptable), " levels")
 
-	# ===== set fitness of kept levels
+	# ===== set difficulty  of kept levels
 	for current_level in levels_size_acceptable:
-		current_level.set_fitness_score()
+		current_level.set_estimated_difficulty()
 
 	# ====  sort kept levels
 	levels_size_acceptable.sort()
 
 	# ==== Display infos
 
-	fitness = []
+	estimated_difficulties = []
 	for current_level in levels_size_acceptable:
-		fitness.append(current_level.estimated_difficulty)
+		estimated_difficulties.append(current_level.estimated_difficulty)
 
-	# ==== get theoretical fitness to reduce
-	theoretical_fitness = get_theoretical_fitness(levels_size_acceptable)
+	# ==== get theoretical estimated_difficulties to reduce
+	theoretical_difficulties = get_theoretical_difficulties(levels_size_acceptable)
 
-	levels_reduced = get_reduced_levels(theoretical_fitness, levels_size_acceptable)
+	levels_reduced = get_reduced_levels(theoretical_difficulties, levels_size_acceptable)
 
-	fitness = [current_level.estimated_difficulty for current_level in levels_reduced]
-	print("====> Real Fitness : ", fitness)
+	estimated_difficulties = [current_level.estimated_difficulty for current_level in levels_reduced]
+	print("====> Real Difficulties : ", estimated_difficulties)
 
 	for index_reduced in range(len(levels_reduced)):
 		current_level = levels_reduced[index_reduced]
@@ -70,27 +70,27 @@ def get_levels_size_acceptable(complete_levels_list, current_grid_size_id):
 	return levels_size_acceptable
 
 
-def get_reduced_levels(theoretical_fitness, levels_size_acceptable):
+def get_reduced_levels(theoretical_difficulties, levels_size_acceptable):
 	levels_reduced = []
 
 	for reduced_levels_index in range(number_levels_to_keep):
-		index = get_index_of_closest_difficulty(theoretical_fitness[reduced_levels_index], levels_size_acceptable)
+		index = get_index_of_closest_difficulty(theoretical_difficulties[reduced_levels_index], levels_size_acceptable)
 		this_one = levels_size_acceptable.pop(index)
 		levels_reduced.append(this_one)
 	levels_reduced.sort()
 	return levels_reduced
 
-def get_theoretical_fitness(levels_list):
-	theoretical_fitness = []
+def get_theoretical_difficulties(levels_list):
+	theoretical_difficulties = []
 
 	average_step = (levels_list[-1].estimated_difficulty - levels_list[0].estimated_difficulty) / number_levels_to_keep
 
 	current = levels_list[0].estimated_difficulty
 
 	for reduced_levels_index in range(number_levels_to_keep):
-		theoretical_fitness.append(current)
+		theoretical_difficulties.append(current)
 		current += average_step
 
 	print('====> Average step', average_step)
-	print("====> Theoretical fitness : ", theoretical_fitness)
-	return theoretical_fitness
+	print("====> Theoretical difficulties : ", theoretical_difficulties)
+	return theoretical_difficulties

@@ -39,28 +39,28 @@ def describe_given_grid_size(grid_size_id, prefix, quantity, levels_set_name):
 	print("====> Number of levels :  ", len(complete_levels_list))
 
 	# ==== get stats
-	scores, sizes, fitness = [], [], []
+	scores, sizes, estimated_difficulties = [], [], []
 
 	for data in complete_levels_list:
-		data.set_fitness_score()
+		data.set_estimated_difficulty()
 
 		scores.append(data.best_score)
 		sizes.append(len(data.best_moves))
-		fitness.append(data.estimated_difficulty)
+		estimated_difficulties.append(data.estimated_difficulty)
 
 	# ==== Describe stats in terminal
 	describe_list("Scores", scores)
 	describe_list("Sizes", sizes)
-	describe_list("Fitness", fitness)
+	describe_list("Difficulty", estimated_difficulties)
 
 	# ==== Display stats as plots
 
 	display_multiple_evolution(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]))
 
 	scores.sort()
-	fitness.sort()
+	estimated_difficulties.sort()
 	sizes.sort()
 
 	display_one_evolution(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Final Score")
-	display_one_evolution(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Fitness Score")
+	display_one_evolution(estimated_difficulties, "All estimated_difficulties" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Difficulty Score")
 	display_one_evolution(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Best Solution Size")
