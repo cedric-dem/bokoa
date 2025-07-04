@@ -31,6 +31,15 @@ def describe_list(lst_name, lst):
 		"maximum : ", round(max(lst), 2)
 	)
 
+def get_coef_affine(min_value, max_value):
+	K1 = -min_value / (max_value - min_value)
+	K2 = 1 / (max_value - min_value)
+	return K1, K2
+
+def get_coef_linear(max_value):
+	K2 = 1 / (max_value)
+	return K2
+
 def describe_difficulty_terms(grid_size_id, quantity):
 	print('"====> Describe  difficulty terms')
 	print('====> Current grid size :', grid_sizes[grid_size_id])
@@ -49,11 +58,16 @@ def describe_difficulty_terms(grid_size_id, quantity):
 		first_term_normalized.append(data.first_term_normalized)
 		second_term_normalized.append(data.second_term_normalized)
 
+	coefficient_difficulty_first_term_a,coefficient_difficulty_first_term_b=get_coef_affine(min(first_term_raw), max(first_term_raw))
+	coefficient_difficulty_second_term_a =get_coef_linear(max(second_term_raw))
+
+	print("coefs : ",coefficient_difficulty_first_term_a,coefficient_difficulty_first_term_b, coefficient_difficulty_second_term_a)
+
 	describe_list("Difficulty Term 1 Raw", first_term_raw)
 	describe_list("Difficulty Term 2 Raw", second_term_raw)
 
-	describe_list("Difficulty Term 1 Normalized", first_term_normalized)
-	describe_list("Difficulty Term 2 Normalized", second_term_normalized)
+	#describe_list("Difficulty Term 1 Normalized", first_term_normalized)
+	#describe_list("Difficulty Term 2 Normalized", second_term_normalized)
 
 def describe_given_grid_size(grid_size_id, quantity, levels_set_name):
 	print('====> Current grid size :', grid_sizes[grid_size_id])
