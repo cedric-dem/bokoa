@@ -31,6 +31,27 @@ def describe_list(lst_name, lst):
 		"maximum : ", round(max(lst), 2)
 	)
 
+def describe_difficulty_terms(grid_size_id, quantity):
+	print('"====> Describe  difficulty terms')
+	print('====> Current grid size :', grid_sizes[grid_size_id])
+
+	complete_levels_list = get_complete_levels_list(grid_size_id,  quantity)
+
+	print("====> Number of levels :  ", len(complete_levels_list))
+
+	# ==== get stats
+	difficulty_term_increasing, difficulty_term_decreasing = [], []
+
+	for data in complete_levels_list:
+		data.set_estimated_difficulty()
+
+		difficulty_term_increasing.append(data.t1)
+		difficulty_term_decreasing.append(data.t2)
+
+	describe_list("Difficulty Term Increasing", difficulty_term_increasing)
+	describe_list("Difficulty Term Decreasing", difficulty_term_decreasing)
+
+
 def describe_given_grid_size(grid_size_id, quantity, levels_set_name):
 
 	print('====> Current grid size :', grid_sizes[grid_size_id])
@@ -40,7 +61,7 @@ def describe_given_grid_size(grid_size_id, quantity, levels_set_name):
 	print("====> Number of levels :  ", len(complete_levels_list))
 
 	# ==== get stats
-	scores, sizes, estimated_difficulties, difficulty_term_increasing, difficulty_term_decreasing = [], [], [], [], []
+	scores, sizes, estimated_difficulties = [], [], []
 
 	for data in complete_levels_list:
 		data.set_estimated_difficulty()
@@ -49,15 +70,10 @@ def describe_given_grid_size(grid_size_id, quantity, levels_set_name):
 		sizes.append(len(data.best_moves))
 		estimated_difficulties.append(data.estimated_difficulty)
 
-		difficulty_term_increasing.append(data.t1)
-		difficulty_term_decreasing.append(data.t2)
-
 	# ==== Describe stats in terminal
 	describe_list("Scores", scores)
 	describe_list("Sizes", sizes)
 	describe_list("Difficulty", estimated_difficulties)
-	describe_list("Difficulty Term Increasing", difficulty_term_increasing)
-	describe_list("Difficulty Term Decreasing", difficulty_term_decreasing)
 
 	# ==== Display stats as plots
 
@@ -70,6 +86,3 @@ def describe_given_grid_size(grid_size_id, quantity, levels_set_name):
 	display_one_evolution(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Final Score")
 	display_one_evolution(estimated_difficulties, "All estimated_difficulties" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Difficulty Score")
 	display_one_evolution(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Best Solution Size")
-
-	display_one_evolution(difficulty_term_increasing, "Difficulty Term Increasing " + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "FS")
-	display_one_evolution(difficulty_term_decreasing, "Difficulty Term Decreasing" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "FS")
