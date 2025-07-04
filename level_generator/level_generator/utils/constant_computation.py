@@ -16,24 +16,29 @@ def get_coef_linear(max_value):
 
 def retrieve_all_constants():
 	if compute_constants:
+		t1, t2, t3 = [], [], []
 		for grid_size_id in grid_sizes_id:
 			print('=' * 190)
-			t1, t2, t3 = retrieve_constants_automatically(grid_size_id, raw_levels_to_generate)
+			tt1, tt2, tt3 = retrieve_constants_automatically(grid_size_id, raw_levels_to_generate)
+
+			t1.append(tt1)
+			t2.append(tt2)
+			t3.append(tt3)
 	else:
 		# OLD
-		# coefficient_difficulty_first_term_a = [2.0998, 2.332, 1.92]
-		# coefficient_difficulty_first_term_b = [2.34, 2.666, 2.026]
-		# coefficient_difficulty_second_term_a = [0.826446281, 1.597444089, 1.34589502]
+		#t1 = [2.0998, 2.332, 1.92]
+		#t2 = [2.34, 2.666, 2.026]
+		#t3 = [0.826446281, 1.597444089, 1.34589502]
 
 		# NEW
-		coefficient_difficulty_first_term_a = [2.076923076923077, 2.2, 1.9109589041095891]
-		coefficient_difficulty_first_term_b = [2.3076923076923075, 2.4000000000000004, 2.017123287671233]
-		coefficient_difficulty_second_term_a = [0.8157894736842106, 1.5814696485623003, 1.3325587613008851]
+		t1 = [2.076923076923077, 2.2, 1.9109589041095891]
+		t2 = [2.3076923076923075, 2.4000000000000004, 2.017123287671233]
+		t3 = [0.8157894736842106, 1.5814696485623003, 1.3325587613008851]
 
 	return {
-		"coefficient_difficulty_first_term_a" : [2.0998, 2.332, 1.92],
-		"coefficient_difficulty_first_term_b" : [2.34, 2.666, 2.026],
-		"coefficient_difficulty_second_term_a" : [0.826446281, 1.597444089, 1.34589502]
+		"coefficient_difficulty_first_term_a" : t1,
+		"coefficient_difficulty_first_term_b" : t2,
+		"coefficient_difficulty_second_term_a" : t3
 	}
 
 def retrieve_constants_automatically(grid_size_id, quantity):
