@@ -8,8 +8,6 @@ class LevelWithSolution(object):
 		self.best_score = best_score
 		self.best_moves = best_moves
 
-		self.historyOfScoresForBestSolution = None
-
 		self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self.level)
 
 	def set_estimated_difficulty(self):
