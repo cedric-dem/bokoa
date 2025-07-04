@@ -39,7 +39,7 @@ class LevelWithSolution(object):
 		fitness_first_term = coefficient_fitness_first_term_a[self.grid_size_id] - (coefficient_fitness_first_term_b[self.grid_size_id] * proportion_of_increasing_steps)
 		fitness_second_term = score_decreasing_normalized / coefficient_fitness_second_term_a[self.grid_size_id]
 
-		self.estimated_difficulty = (coefficient_fitness_second_term * fitness_second_term) + fitness_first_term
+		self.estimated_difficulty = ((coefficient_fitness_second_term * fitness_second_term) + fitness_first_term)/2
 
 	def display_everything(self):
 		print('==> Grid :')
