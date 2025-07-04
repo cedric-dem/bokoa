@@ -11,7 +11,7 @@ grid_sizes_id = [i for i in range(len(grid_sizes))]
 coefficient_difficulty_first_term = 0.4
 coefficient_difficulty_second_term = 0.6
 
-compute_constants = True
+compute_constants = False
 
 generated_levels_folder_name = "generated_levels_published"
 
