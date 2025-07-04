@@ -94,6 +94,15 @@ def compare_fitness_functions(grid_size_id, quantity):
 	display_one_evolution(old, "Old fitness values", "level id", "fitness" )
 	display_one_evolution(new, "new fitness values", "level id", "fitness" )
 
+
+	delta=[]
+	print("sizes",len(old),len(new))
+	for i in range (len(old)):
+		delta.append(old[i]-new[i])
+	display_one_evolution(delta, "Delta Old NEw", "level id", "fitness delta" )
+
+
+
 def describe_given_grid_size(grid_size_id, quantity, levels_set_name):
 	print('====> Current grid size :', grid_sizes[grid_size_id])
 
