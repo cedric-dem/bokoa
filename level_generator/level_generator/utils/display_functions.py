@@ -35,28 +35,31 @@ def describe_difficulty_terms(grid_size_id, quantity):
 	print('"====> Describe  difficulty terms')
 	print('====> Current grid size :', grid_sizes[grid_size_id])
 
-	complete_levels_list = get_complete_levels_list(grid_size_id,  quantity)
+	complete_levels_list = get_complete_levels_list(grid_size_id, quantity)
 
 	print("====> Number of levels :  ", len(complete_levels_list))
 
 	# ==== get stats
-	difficulty_term_increasing, difficulty_term_decreasing = [], []
+	first_term_raw, second_term_raw, first_term_normalized, second_term_normalized = [], [], [], []
 
 	for data in complete_levels_list:
 		data.set_estimated_difficulty()
 
-		difficulty_term_increasing.append(data.t1)
-		difficulty_term_decreasing.append(data.t2)
+		first_term_raw.append(data.first_term_raw)
+		second_term_raw.append(data.second_term_raw)
+		first_term_normalized.append(data.first_term_normalized)
+		second_term_normalized.append(data.second_term_normalized)
 
-	describe_list("Difficulty Term Increasing", difficulty_term_increasing)
-	describe_list("Difficulty Term Decreasing", difficulty_term_decreasing)
+	describe_list("Difficulty Term 1 Raw", first_term_raw)
+	describe_list("Difficulty Term 2 Raw", second_term_raw)
 
+	describe_list("Difficulty Term 1 Normalized", first_term_normalized)
+	describe_list("Difficulty Term 2 Normalized", second_term_normalized)
 
 def describe_given_grid_size(grid_size_id, quantity, levels_set_name):
-
 	print('====> Current grid size :', grid_sizes[grid_size_id])
 
-	complete_levels_list = get_complete_levels_list(grid_size_id,  quantity)
+	complete_levels_list = get_complete_levels_list(grid_size_id, quantity)
 
 	print("====> Number of levels :  ", len(complete_levels_list))
 

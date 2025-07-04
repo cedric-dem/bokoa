@@ -28,13 +28,13 @@ class LevelWithSolution(object):
 			if new_score < old_score:
 				total_score_decreasing += (old_score - new_score)
 
-		proportion_of_increasing_steps = increasing_steps_counter / (len(self.historyOfScoresForBestSolution))
-		score_decreasing_normalized = (total_score_decreasing / self.historyOfScoresForBestSolution[-1])
+		self.first_term_raw = -increasing_steps_counter / (len(self.historyOfScoresForBestSolution))
+		self.second_term_raw = (total_score_decreasing / self.historyOfScoresForBestSolution[-1])
 
-		self.t1 = coefficient_difficulty_first_term_a[self.level.grid_size_id] - (coefficient_difficulty_first_term_b[self.level.grid_size_id] * proportion_of_increasing_steps)
-		self.t2 = score_decreasing_normalized / coefficient_difficulty_second_term_a[self.level.grid_size_id]
+		self.first_term_normalized = coefficient_difficulty_first_term_a[self.level.grid_size_id] + (coefficient_difficulty_first_term_b[self.level.grid_size_id] * self.first_term_raw)
+		self.second_term_normalized = self.second_term_raw / coefficient_difficulty_second_term_a[self.level.grid_size_id]
 
-		self.estimated_difficulty = (coefficient_difficulty_first_term * self.t1)+(coefficient_difficulty_second_term * self.t2)
+		self.estimated_difficulty = (coefficient_difficulty_first_term * self.first_term_normalized) + (coefficient_difficulty_second_term * self.second_term_normalized)
 
 	def display_everything(self):
 		print('==> Grid :')
