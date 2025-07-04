@@ -12,17 +12,17 @@ def get_history_of_scores_for_given_solution_on_given_level(solution, level):
 
 	return history_of_scores_for_best_solution
 
-def get_direction_from_move(move):
-	if move == ">":
-		direction = [0, 1]
-
-	elif move == "<":
-		direction = [0, -1]
-
-	elif move == "u":
-		direction = [1, 0]
-
-	elif move == "n":
-		direction = [-1, 0]
-
+def get_direction_from_move(input_move):
+	match input_move:
+		case ">":
+			direction = [0, 1]
+		case "<":
+			direction = [0, -1]
+		case "u":
+			direction = [1, 0]
+		case "n":
+			direction = [-1, 0]
+		case _ :
+			direction = [0,0]
+			print('Error 49')
 	return direction

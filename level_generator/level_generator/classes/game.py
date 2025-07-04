@@ -19,17 +19,17 @@ class Game(object):
 		self.position_history.append(new_pos)
 
 	def apply_operation(self, operation):
-		if operation[0] == '+':
-			self.score += int(operation[1])
-
-		elif operation[0] == '-':
-			self.score -= int(operation[1])
-
-		elif operation[0] == '×':
-			self.score *= int(operation[1])
-
-		elif operation[0] == '÷':
-			self.score /= int(operation[1])
+		match operation[0]:
+			case "+":
+				self.score += int(operation[1])
+			case  '-':
+				self.score -= int(operation[1])
+			case  '×':
+				self.score *= int(operation[1])
+			case  '÷':
+				self.score /= int(operation[1])
+			case _:
+				print('Error 45')
 
 	def is_move_in_bound(self, new_pos):
 		return new_pos[0] >= 0 and new_pos[1] >= 0 and new_pos[0] < self.grid_size[1] and new_pos[1] < self.grid_size[0]

@@ -4,20 +4,25 @@ from level_generator.classes.game import Game
 from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json
 
+
+def get_move_from_direction(move):
+	if move == [0, -1]:
+		result='<'
+
+	elif move == [0, 1]:
+		result='>'
+
+	elif move == [1, 0]:
+		result='u'
+
+	elif move == [-1, 0]:
+		result='n'
+	return result
+
 def get_readable_moves(moves_list):
 	result = []
 	for move in moves_list:
-		if move == [0, -1]:
-			result.append('<')
-
-		elif move == [0, 1]:
-			result.append('>')
-
-		elif move == [1, 0]:
-			result.append('u')
-
-		elif move == [-1, 0]:
-			result.append('n')
+		result.append(get_move_from_direction(move))
 
 	return result
 
