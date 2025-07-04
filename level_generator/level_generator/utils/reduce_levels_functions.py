@@ -20,7 +20,7 @@ def reduce_levels_set(constants):
 def reduce_levels_set_given_grid_size_id(constants, current_grid_size_id):
 	print('====> Current grid size id ', current_grid_size_id)
 
-	complete_levels_list = get_levels_list(complete_folder_name,current_grid_size_id, raw_levels_to_generate)
+	complete_levels_list = get_levels_list(complete_folder_name, current_grid_size_id, raw_levels_to_generate)
 	print("====>  Initially total of  ", len(complete_levels_list), " levels")
 
 	levels_size_acceptable = get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
