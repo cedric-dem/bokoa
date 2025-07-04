@@ -15,7 +15,7 @@ coefficient_difficulty_second_term = 0.6
 
 coefficient_difficulty_first_term_a = [2.0998, 2.332, 1.92]
 coefficient_difficulty_first_term_b = [2.34, 2.666, 2.026]
-coefficient_difficulty_second_term_a = [0.8264, 1.5974, 1.3459]
+coefficient_difficulty_second_term_a = [0.826446281, 1.597444089, 1.34589502]
 
 generated_levels_folder_name = "generated_levels_published"
 
