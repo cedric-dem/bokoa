@@ -8,8 +8,6 @@ lowest_solution_sizes = [6, 12, 18]
 
 grid_sizes_id = [i for i in range(len(grid_sizes))]
 
-display_new_levels = True
-
 coefficient_difficulty_first_term = 0.4
 coefficient_difficulty_second_term = 0.6
 
