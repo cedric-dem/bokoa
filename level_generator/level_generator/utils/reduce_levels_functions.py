@@ -1,7 +1,6 @@
 
 from level_generator.classes.level import *
-from level_generator.utils.misc_functions import get_complete_levels_list, get_file_prefix_complete, create_level_file_as_json, get_file_prefix_reduced
-
+from level_generator.utils.file_level_functions import get_file_prefix_complete, get_complete_levels_list, create_level_file_as_json, get_file_prefix_reduced
 
 def get_index_of_closest_from(to_search, levels_list):
 	closest_index = 0
