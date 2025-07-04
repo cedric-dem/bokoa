@@ -1,4 +1,4 @@
-from level_generator.config.config import grid_sizes, compute_constants, grid_sizes_id, raw_levels_to_generate
+from level_generator.config.config import grid_sizes, compute_constants, grid_sizes_id, raw_levels_to_generate, complete_folder_name
 from level_generator.utils.display_functions import describe_list
 from level_generator.utils.file_level_functions import get_levels_list
 
@@ -42,7 +42,7 @@ def retrieve_constants_automatically(grid_size_id, quantity):
 	print('====> Retrieving automatically constants')
 	print('====> Current grid size :', grid_sizes[grid_size_id])
 
-	complete_levels_list = get_levels_list(grid_size_id, quantity)
+	complete_levels_list = get_levels_list(complete_folder_name,grid_size_id, quantity)
 
 	# ==== get stats
 	first_term_raw, second_term_raw = [], []
