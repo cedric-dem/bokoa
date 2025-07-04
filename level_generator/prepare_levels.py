@@ -1,5 +1,6 @@
 from level_generator.utils.display_functions import describe_given_grid_size
 from level_generator.utils.misc_functions import *
+from level_generator.utils.reduce_levels_functions import reduce_levels_set
 
 print("========> step 1: describe complete set of levels")
 for grid_size_id in grid_sizes_id:
