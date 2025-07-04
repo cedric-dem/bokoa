@@ -1,13 +1,12 @@
-
 from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_file_prefix_complete, get_complete_levels_list, create_level_file_as_json, get_file_prefix_reduced
 
-def get_index_of_closest_difficulty(difficuty_to_search, levels_list):
+def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	closest_index = 0
 	closest_distance = float("inf")
 
 	for current_index in range(len(levels_list)):
-		this_distance = abs(difficuty_to_search - levels_list[current_index].estimated_difficulty)
+		this_distance = abs(difficulty_to_search - levels_list[current_index].estimated_difficulty)
 		if closest_distance > this_distance:
 			closest_index = current_index
 			closest_distance = this_distance
@@ -68,7 +67,6 @@ def get_levels_size_acceptable(complete_levels_list, current_grid_size_id):
 		if len(current_level.best_moves) >= lowest_size:
 			levels_size_acceptable.append(current_level)
 	return levels_size_acceptable
-
 
 def get_reduced_levels(theoretical_difficulties, levels_size_acceptable):
 	levels_reduced = []

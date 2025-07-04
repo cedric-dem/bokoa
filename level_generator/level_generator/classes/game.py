@@ -36,4 +36,3 @@ class Game(object):
 
 	def is_move_in_history(self, new_pos):
 		return new_pos in self.position_history
-

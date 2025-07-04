@@ -1,4 +1,3 @@
-
 import time
 
 from level_generator.classes.game import Game
@@ -54,7 +53,6 @@ def create_levels_and_solutions():
 
 		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per it')
 
-
 def get_all_but_inverse_of_last_move(moves_history):
 	if len(moves_history) == 0:
 		return [[0, -1], [0, 1], [1, 0], [-1, 0]]
@@ -85,7 +83,7 @@ def back_track(game, max_solution_size):
 			new_position = [game.position_history[-1][0] + new_move[0], game.position_history[-1][1] + new_move[1]]
 
 			##if move ok + not coming back
-			if game.is_move_in_bound(new_position) and (not game.is_move_in_history( new_position)):
+			if game.is_move_in_bound(new_position) and (not game.is_move_in_history(new_position)):
 				# save old score
 				old_score = game.score
 
