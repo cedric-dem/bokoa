@@ -22,6 +22,6 @@ def get_direction_from_move(input_move):
 			direction = [1, 0]
 		case "n":
 			direction = [-1, 0]
-		case _ :
-			raise ValueError("Invalid Value  (In Get Direction) : ",input_move)
+		case _:
+			raise ValueError("Invalid Value  (In Get Direction) : ", input_move)
 	return direction

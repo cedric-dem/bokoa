@@ -8,15 +8,15 @@ from level_generator.config.config import *
 def get_move_from_direction(move):
 	match move:
 		case [0, -1]:
-			result='<'
-		case[0, 1]:
-			result='>'
-		case  [1, 0]:
-			result='u'
+			result = '<'
+		case [0, 1]:
+			result = '>'
+		case [1, 0]:
+			result = 'u'
 		case [-1, 0]:
-			result='n'
+			result = 'n'
 		case _:
-			raise ValueError("Invalid Value  (in Get Move) : ",move)
+			raise ValueError("Invalid Value  (in Get Move) : ", move)
 	return result
 
 def get_readable_moves(moves_list):
@@ -60,12 +60,12 @@ def create_levels_and_solutions():
 
 def get_all_but_inverse_of_last_move(moves_history):
 	directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
-	if len(moves_history)==0:
-		result=directions
+	if len(moves_history) == 0:
+		result = directions
 	else:
 		last_move = moves_history[-1]
 		inverse = [-last_move[0], -last_move[1]]
-		result= [d for d in directions if d != inverse]
+		result = [d for d in directions if d != inverse]
 	return result
 
 def back_track(game, max_solution_size):

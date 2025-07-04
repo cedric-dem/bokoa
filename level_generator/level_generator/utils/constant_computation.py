@@ -1,6 +1,3 @@
-import numpy
-import statistics
-import matplotlib.pyplot as plt
 from level_generator.config.config import grid_sizes, compute_constants, grid_sizes_id, raw_levels_to_generate
 from level_generator.utils.display_functions import describe_list
 from level_generator.utils.file_level_functions import get_complete_levels_list
@@ -26,9 +23,9 @@ def retrieve_all_constants():
 			t3.append(tt3)
 	else:
 		# OLD
-		#t1 = [2.0998, 2.332, 1.92]
-		#t2 = [2.34, 2.666, 2.026]
-		#t3 = [0.826446281, 1.597444089, 1.34589502]
+		# t1 = [2.0998, 2.332, 1.92]
+		# t2 = [2.34, 2.666, 2.026]
+		# t3 = [0.826446281, 1.597444089, 1.34589502]
 
 		# NEW
 		t1 = [2.076923076923077, 2.2, 1.9109589041095891]
@@ -36,9 +33,9 @@ def retrieve_all_constants():
 		t3 = [0.8157894736842106, 1.5814696485623003, 1.3325587613008851]
 
 	return {
-		"coefficient_difficulty_first_term_a" : t1,
-		"coefficient_difficulty_first_term_b" : t2,
-		"coefficient_difficulty_second_term_a" : t3
+		"coefficient_difficulty_first_term_a": t1,
+		"coefficient_difficulty_first_term_b": t2,
+		"coefficient_difficulty_second_term_a": t3
 	}
 
 def retrieve_constants_automatically(grid_size_id, quantity):
