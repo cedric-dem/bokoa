@@ -37,7 +37,6 @@ def describe_difficulty_terms(grid_size_id, quantity):
 
 	complete_levels_list = get_complete_levels_list(grid_size_id, quantity)
 
-	print("====> Number of levels :  ", len(complete_levels_list))
 
 	# ==== get stats
 	first_term_raw, second_term_raw, first_term_normalized, second_term_normalized = [], [], [], []
