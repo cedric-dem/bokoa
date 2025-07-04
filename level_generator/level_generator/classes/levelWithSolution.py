@@ -10,9 +10,6 @@ class LevelWithSolution(object):
 
 		self.historyOfScoresForBestSolution = None
 
-		self.grid_size_id = level.grid_size_id
-		self.grid_size = level.grid_size
-
 		self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self.level)
 
 	def set_estimated_difficulty(self):
@@ -36,8 +33,8 @@ class LevelWithSolution(object):
 		proportion_of_increasing_steps = increasing_steps_counter / (len(self.historyOfScoresForBestSolution))
 		score_decreasing_normalized = (total_score_decreasing / self.historyOfScoresForBestSolution[-1])
 
-		difficulty_first_term = coefficient_difficulty_first_term_a[self.grid_size_id] - (coefficient_difficulty_first_term_b[self.grid_size_id] * proportion_of_increasing_steps)
-		difficulty_second_term = score_decreasing_normalized / coefficient_difficulty_second_term_a[self.grid_size_id]
+		difficulty_first_term = coefficient_difficulty_first_term_a[self.level.grid_size_id] - (coefficient_difficulty_first_term_b[self.level.grid_size_id] * proportion_of_increasing_steps)
+		difficulty_second_term = score_decreasing_normalized / coefficient_difficulty_second_term_a[self.level.grid_size_id]
 
 		self.estimated_difficulty = ((coefficient_difficulty_second_term * difficulty_second_term) + difficulty_first_term) / 2
 
