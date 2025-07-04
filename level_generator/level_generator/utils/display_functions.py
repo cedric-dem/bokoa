@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from level_generator.config.config import grid_sizes
 from level_generator.utils.file_level_functions import get_complete_levels_list
 
-def plot_all_evolutions(list_evolutions, context_name):
+def display_multiple_evolution(list_evolutions, context_name):
 	plt.title("All evolution" + context_name)
 	for elem in list_evolutions:
 		plt.plot(elem.historyOfScoresForBestSolution)
@@ -14,7 +14,7 @@ def plot_all_evolutions(list_evolutions, context_name):
 	plt.ylabel("Score")
 	plt.show()
 
-def plot_graph(evolution, plot_name, x_labels, y_labels):
+def display_one_evolution(evolution, plot_name, x_labels, y_labels):
 	plt.title(plot_name)
 	plt.xlabel(x_labels)
 	plt.ylabel(y_labels)
@@ -55,12 +55,12 @@ def describe_given_grid_size(grid_size_id, prefix, quantity, levels_set_name):
 
 	# ==== Display stats as plots
 
-	plot_all_evolutions(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]))
+	display_multiple_evolution(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]))
 
 	scores.sort()
 	fitness.sort()
 	sizes.sort()
 
-	plot_graph(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Final Score")
-	plot_graph(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Fitness Score")
-	plot_graph(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Best Solution Size")
+	display_one_evolution(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Final Score")
+	display_one_evolution(fitness, "All fitness" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Fitness Score")
+	display_one_evolution(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Best Solution Size")

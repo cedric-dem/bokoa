@@ -2,12 +2,12 @@
 from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_file_prefix_complete, get_complete_levels_list, create_level_file_as_json, get_file_prefix_reduced
 
-def get_index_of_closest_from(to_search, levels_list):
+def get_index_of_closest_difficulty(difficuty_to_search, levels_list):
 	closest_index = 0
 	closest_distance = float("inf")
 
 	for current_index in range(len(levels_list)):
-		this_distance = abs(to_search - levels_list[current_index].estimated_difficulty)
+		this_distance = abs(difficuty_to_search - levels_list[current_index].estimated_difficulty)
 		if closest_distance > this_distance:
 			closest_index = current_index
 			closest_distance = this_distance
@@ -74,7 +74,7 @@ def get_reduced_levels(theoretical_fitness, levels_size_acceptable):
 	levels_reduced = []
 
 	for reduced_levels_index in range(number_levels_to_keep):
-		index = get_index_of_closest_from(theoretical_fitness[reduced_levels_index], levels_size_acceptable)
+		index = get_index_of_closest_difficulty(theoretical_fitness[reduced_levels_index], levels_size_acceptable)
 		this_one = levels_size_acceptable.pop(index)
 		levels_reduced.append(this_one)
 	levels_reduced.sort()
