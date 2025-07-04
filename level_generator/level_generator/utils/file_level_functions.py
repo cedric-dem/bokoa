@@ -3,13 +3,14 @@ import json
 from level_generator.classes.levelWithSolution import *
 from level_generator.classes.level import *
 
-def get_complete_levels_list(grid_size_id, quantity):
+def get_levels_list(set_name, grid_size_id, quantity):
 	complete_levels_list = []
 
 	for current_level_index in range(quantity):
 		# load json :
 
-		this_file_path = get_level_path_complete(grid_size_id, current_level_index)
+		#this_file_path = get_level_path_complete(grid_size_id, current_level_index)
+		this_file_path = get_level_path(set_name, grid_size_id, current_level_index)
 
 		with open(this_file_path, 'r', encoding = 'utf-8') as file:
 			data = json.load(file)

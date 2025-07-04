@@ -1,6 +1,6 @@
 from level_generator.config.config import grid_sizes, compute_constants, grid_sizes_id, raw_levels_to_generate
 from level_generator.utils.display_functions import describe_list
-from level_generator.utils.file_level_functions import get_complete_levels_list
+from level_generator.utils.file_level_functions import get_levels_list
 
 def get_coef_affine(min_value, max_value):
 	K1 = -min_value / (max_value - min_value)
@@ -23,14 +23,14 @@ def retrieve_all_constants():
 			t3.append(tt3)
 	else:
 		# OLD
-		t1 = [2.0998, 2.332, 1.92]
-		t2 = [2.34, 2.666, 2.026]
-		t3 = [0.826446281, 1.597444089, 1.34589502]
+		#t1 = [2.0998, 2.332, 1.92]
+		#t2 = [2.34, 2.666, 2.026]
+		#t3 = [0.826446281, 1.597444089, 1.34589502]
 
 		# NEW
-		#t1 = [2.076923076923077, 2.2, 1.9109589041095891]
-		#t2 = [2.3076923076923075, 2.4000000000000004, 2.017123287671233]
-		#t3 = [0.8157894736842106, 1.5814696485623003, 1.3325587613008851]
+		t1 = [2.076923076923077, 2.2, 1.9109589041095891]
+		t2 = [2.3076923076923075, 2.4000000000000004, 2.017123287671233]
+		t3 = [0.8157894736842106, 1.5814696485623003, 1.3325587613008851]
 
 	return {
 		"coefficient_difficulty_first_term_a": t1,
@@ -42,7 +42,7 @@ def retrieve_constants_automatically(grid_size_id, quantity):
 	print('====> Retrieving automatically constants')
 	print('====> Current grid size :', grid_sizes[grid_size_id])
 
-	complete_levels_list = get_complete_levels_list(grid_size_id, quantity)
+	complete_levels_list = get_levels_list(grid_size_id, quantity)
 
 	# ==== get stats
 	first_term_raw, second_term_raw = [], []

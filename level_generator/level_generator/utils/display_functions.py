@@ -3,7 +3,7 @@ import statistics
 import matplotlib.pyplot as plt
 
 from level_generator.config.config import grid_sizes
-from level_generator.utils.file_level_functions import get_complete_levels_list
+from level_generator.utils.file_level_functions import get_levels_list
 
 def display_multiple_evolution(list_evolutions, context_name):
 	plt.title("All evolution" + context_name)
@@ -31,17 +31,19 @@ def describe_list(lst_name, lst):
 		"maximum : ", round(max(lst), 2)
 	)
 
-def describe_given_grid_size(constants, grid_size_id, quantity, levels_set_name):
+def describe_given_grid_size(set_name , constants, grid_size_id, quantity, levels_set_name):
+
 	print('====> Current grid size :', grid_sizes[grid_size_id])
 
-	complete_levels_list = get_complete_levels_list(grid_size_id, quantity)
+	levels_list = get_levels_list(set_name, grid_size_id, quantity)
 
-	print("====> Number of levels :  ", len(complete_levels_list))
+
+	print("====> Number of levels :  ", len(levels_list))
 
 	# ==== get stats
 	scores, sizes, estimated_difficulties = [], [], []
 
-	for data in complete_levels_list:
+	for data in levels_list:
 		data.set_estimated_difficulty(constants)
 
 		scores.append(data.best_score)
@@ -55,7 +57,7 @@ def describe_given_grid_size(constants, grid_size_id, quantity, levels_set_name)
 
 	# ==== Display stats as plots
 
-	display_multiple_evolution(complete_levels_list, levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]))
+	display_multiple_evolution(levels_list, levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]))
 
 	scores.sort()
 	estimated_difficulties.sort()
