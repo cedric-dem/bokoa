@@ -13,11 +13,11 @@ def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 
 	return closest_index
 
-def reduce_levels_set():
+def reduce_levels_set(constants):
 	for current_grid_size_id in grid_sizes_id:
-		reduce_levels_set_given_grid_size_id(current_grid_size_id)
+		reduce_levels_set_given_grid_size_id(constants, current_grid_size_id)
 
-def reduce_levels_set_given_grid_size_id(current_grid_size_id):
+def reduce_levels_set_given_grid_size_id(constants, current_grid_size_id):
 	print('====> Current grid size id ', current_grid_size_id)
 
 	complete_levels_list = get_complete_levels_list(current_grid_size_id,  raw_levels_to_generate)
@@ -28,7 +28,7 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
 
 	# ===== set difficulty  of kept levels
 	for current_level in levels_size_acceptable:
-		current_level.set_estimated_difficulty()
+		current_level.set_estimated_difficulty(constants)
 
 	# ====  sort kept levels
 	levels_size_acceptable.sort()

@@ -30,6 +30,12 @@ def retrieve_all_constants():
 		coefficient_difficulty_first_term_b = [2.3076923076923075, 2.4000000000000004, 2.017123287671233]
 		coefficient_difficulty_second_term_a = [0.8157894736842106, 1.5814696485623003, 1.3325587613008851]
 
+	return {
+		"coefficient_difficulty_first_term_a" : [2.0998, 2.332, 1.92],
+		"coefficient_difficulty_first_term_b" : [2.34, 2.666, 2.026],
+		"coefficient_difficulty_second_term_a" : [0.826446281, 1.597444089, 1.34589502]
+	}
+
 def retrieve_constants_automatically(grid_size_id, quantity):
 	print('====> Retrieving automatically constants')
 	print('====> Current grid size :', grid_sizes[grid_size_id])
@@ -37,15 +43,13 @@ def retrieve_constants_automatically(grid_size_id, quantity):
 	complete_levels_list = get_complete_levels_list(grid_size_id, quantity)
 
 	# ==== get stats
-	first_term_raw, second_term_raw, first_term_normalized, second_term_normalized = [], [], [], []
+	first_term_raw, second_term_raw = [], []
 
 	for data in complete_levels_list:
-		data.set_estimated_difficulty()
+		data.compute_raw_terms()
 
 		first_term_raw.append(data.first_term_raw)
 		second_term_raw.append(data.second_term_raw)
-		first_term_normalized.append(data.first_term_normalized)
-		second_term_normalized.append(data.second_term_normalized)
 
 	coefficient_difficulty_first_term_a, coefficient_difficulty_first_term_b = get_coef_affine(min(first_term_raw), max(first_term_raw))
 	coefficient_difficulty_second_term_a = get_coef_linear(max(second_term_raw))
@@ -55,6 +59,4 @@ def retrieve_constants_automatically(grid_size_id, quantity):
 	describe_list("Difficulty Term 1 Raw", first_term_raw)
 	describe_list("Difficulty Term 2 Raw", second_term_raw)
 
-	describe_list("Difficulty Term 1 Normalized", first_term_normalized)
-	describe_list("Difficulty Term 2 Normalized", second_term_normalized)
 	return coefficient_difficulty_first_term_a, coefficient_difficulty_first_term_b, coefficient_difficulty_second_term_a
