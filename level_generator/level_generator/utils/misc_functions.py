@@ -6,17 +6,18 @@ from level_generator.utils.file_level_functions import get_level_path_complete, 
 
 
 def get_move_from_direction(move):
-	if move == [0, -1]:
-		result='<'
-
-	elif move == [0, 1]:
-		result='>'
-
-	elif move == [1, 0]:
-		result='u'
-
-	elif move == [-1, 0]:
-		result='n'
+	match move:
+		case [0, -1]:
+			result='<'
+		case[0, 1]:
+			result='>'
+		case  [1, 0]:
+			result='u'
+		case [-1, 0]:
+			result='n'
+		case _:
+			result = "n"
+			print('error 987')
 	return result
 
 def get_readable_moves(moves_list):
