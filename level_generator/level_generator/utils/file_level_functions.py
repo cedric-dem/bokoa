@@ -31,7 +31,11 @@ def create_level_file_as_json(operations, best_score, best_moves, filename):
 		json.dump(result, file, indent = 4, separators = (',', ': '), ensure_ascii = False)
 
 def get_level_path_complete(grid_size_index, level_index):
-	return generated_levels_folder_name + "/" + complete_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name + str(level_index) + ".json"
+	return get_level_path(complete_folder_name, grid_size_index, level_index)
 
 def get_level_path_reduced(grid_size_index, level_index):
-	return generated_levels_folder_name + "/" + reduced_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name + str(level_index) + ".json"
+	return get_level_path(reduced_folder_name, grid_size_index, level_index)
+
+def get_level_path(levels_set_folder_name, grid_size_index, level_index):
+	return generated_levels_folder_name + "/" + levels_set_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name + str(level_index) + ".json"
+
