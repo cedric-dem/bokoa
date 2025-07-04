@@ -2,7 +2,7 @@ import time
 
 from level_generator.classes.game import Game
 from level_generator.classes.level import *
-from level_generator.utils.file_level_functions import get_file_prefix_complete, create_level_file_as_json
+from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json
 
 def get_readable_moves(moves_list):
 	result = []
@@ -38,15 +38,15 @@ def create_a_level_and_solution(grid_size_id, fn):
 def create_levels_and_solutions():
 	for grid_size_id in grid_sizes_id:
 		grid_size = grid_sizes[grid_size_id]
-		prefix = get_file_prefix_complete(grid_size_id)
 
-		print("Currently on size ", grid_size, " prefix", prefix)
+		print("Currently on size ", grid_size)
 
 		t0 = time.time()
 
 		for current_level_index in range(raw_levels_to_generate):
 			print("==> generate level", current_level_index)
-			create_a_level_and_solution(grid_size_id, prefix + str(current_level_index) + ".json")
+			path = get_level_path_complete(grid_size_id, current_level_index)
+			create_a_level_and_solution(grid_size_id, path)
 			print(current_level_index + 1, "/", raw_levels_to_generate, " finished")
 
 		t1 = time.time()

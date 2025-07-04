@@ -3,12 +3,15 @@ import json
 from level_generator.classes.levelWithSolution import *
 from level_generator.classes.level import *
 
-def get_complete_levels_list(grid_size_id, prefix, quantity):
+def get_complete_levels_list(grid_size_id, quantity):
 	complete_levels_list = []
 
 	for current_level_index in range(quantity):
 		# load json :
-		with open(prefix + str(current_level_index) + ".json", 'r', encoding = 'utf-8') as file:
+
+		this_file_path=get_level_path_complete(grid_size_id, current_level_index)
+
+		with open(this_file_path, 'r', encoding = 'utf-8') as file:
 			data = json.load(file)
 
 			new_level = Level(grid_size_id, data["operations"])
@@ -27,8 +30,8 @@ def create_level_file_as_json(operations, best_score, best_moves, filename):
 	with open(filename, 'w') as file:
 		json.dump(result, file, indent = 4, separators = (',', ': '), ensure_ascii = False)
 
-def get_file_prefix_complete(grid_size_index):
-	return generated_levels_folder_name + "/" + complete_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name
+def get_level_path_complete(grid_size_index, level_index):
+	return generated_levels_folder_name + "/" + complete_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name + str(level_index) + ".json"
 
 def get_file_prefix_reduced(grid_size_index):
 	return generated_levels_folder_name + "/" + reduced_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name
