@@ -54,7 +54,7 @@ def reduce_levels_set_given_grid_size_id(current_grid_size_id):
 			current_level.level.operations_grid,
 			current_level.best_score,
 			current_level.best_moves,
-			get_level_path_reduced(current_grid_size_id, index_reduced) + str(index_reduced) + ".json"
+			get_level_path_reduced(current_grid_size_id, index_reduced)
 		)
 
 	print("====>  Keeping ", len(levels_reduced), " levels")
