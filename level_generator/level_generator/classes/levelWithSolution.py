@@ -31,7 +31,6 @@ class LevelWithSolution(object):
 		self.first_term_raw = -increasing_steps_counter / (len(self.historyOfScoresForBestSolution))
 		self.second_term_raw = (total_score_decreasing / self.historyOfScoresForBestSolution[-1])
 
-		###########
 		self.first_term_normalized = coefficient_difficulty_first_term_a[self.level.grid_size_id] + (coefficient_difficulty_first_term_b[self.level.grid_size_id] * self.first_term_raw)
 		self.second_term_normalized = self.second_term_raw * coefficient_difficulty_second_term_a[self.level.grid_size_id]
 

@@ -68,41 +68,6 @@ def describe_difficulty_terms(grid_size_id, quantity):
 	describe_list("Difficulty Term 1 Normalized", first_term_normalized)
 	describe_list("Difficulty Term 2 Normalized", second_term_normalized)
 
-
-def compare_fitness_functions(grid_size_id, quantity):
-	print('"====> Compare fitness functions')
-	print('====> Current grid size :', grid_sizes[grid_size_id])
-
-	complete_levels_list = get_complete_levels_list(grid_size_id, quantity)
-
-	# ==== get stats
-	old, new = [], []
-
-
-	for data in complete_levels_list:
-		data.set_estimated_difficulty()
-
-	complete_levels_list.sort()
-
-	for data in complete_levels_list:
-		old.append(data.old_estimated_difficulty)
-		new.append(data.new_estimated_difficulty)
-
-	describe_list("Difficulty Old", old)
-	describe_list("Difficulty New", new)
-
-	display_one_evolution(old, "Old fitness values", "level id", "fitness" )
-	display_one_evolution(new, "new fitness values", "level id", "fitness" )
-
-
-	delta=[]
-	print("sizes",len(old),len(new))
-	for i in range (len(old)):
-		delta.append(old[i]-new[i])
-	display_one_evolution(delta, "Delta Old NEw", "level id", "fitness delta" )
-
-
-
 def describe_given_grid_size(grid_size_id, quantity, levels_set_name):
 	print('====> Current grid size :', grid_sizes[grid_size_id])
 
