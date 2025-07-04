@@ -29,7 +29,7 @@ class Game(object):
 			case  '÷':
 				self.score /= int(operation[1])
 			case _:
-				print('Error 45')
+				raise ValueError("Invalid Value  (in Apply Operation) : ",operation[0])
 
 	def is_move_in_bound(self, new_pos):
 		return new_pos[0] >= 0 and new_pos[1] >= 0 and new_pos[0] < self.grid_size[1] and new_pos[1] < self.grid_size[0]

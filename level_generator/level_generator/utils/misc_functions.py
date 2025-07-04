@@ -16,8 +16,7 @@ def get_move_from_direction(move):
 		case [-1, 0]:
 			result='n'
 		case _:
-			result = "n"
-			print('error 987')
+			raise ValueError("Invalid Value  (in Get Move) : ",move)
 	return result
 
 def get_readable_moves(moves_list):
