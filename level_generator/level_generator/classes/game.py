@@ -30,3 +30,10 @@ class Game(object):
 
 		elif operation[0] == '÷':
 			self.score /= int(operation[1])
+
+	def is_move_in_bound(self, new_pos):
+		return new_pos[0] >= 0 and new_pos[1] >= 0 and new_pos[0] < self.grid_size[1] and new_pos[1] < self.grid_size[0]
+
+	def is_move_in_history(self, new_pos):
+		return new_pos in self.position_history
+

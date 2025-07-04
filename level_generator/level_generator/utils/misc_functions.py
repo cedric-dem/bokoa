@@ -19,8 +19,6 @@ def get_complete_levels_list(grid_size_id, prefix, quantity):
 
 	return complete_levels_list
 
-
-
 def create_level_file_as_json(operations, best_score, best_moves, filename):
 	result = {
 		"operations": operations,
@@ -86,11 +84,6 @@ def create_levels_and_solutions():
 
 		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per it')
 
-def is_move_in_bound(gm, new_pos):
-	return new_pos[0] >= 0 and new_pos[1] >= 0 and new_pos[0] < gm.grid_size[1] and new_pos[1] < gm.grid_size[0]
-
-def is_move_in_history(gm, new_pos):
-	return new_pos in gm.position_history
 
 def get_all_but_inverse_of_last_move(moves_history):
 	if len(moves_history) == 0:
@@ -122,7 +115,7 @@ def back_track(game, max_solution_size):
 			new_position = [game.position_history[-1][0] + new_move[0], game.position_history[-1][1] + new_move[1]]
 
 			##if move ok + not coming back
-			if is_move_in_bound(game, new_position) and (not is_move_in_history(game, new_position)):
+			if game.is_move_in_bound(new_position) and (not game.is_move_in_history( new_position)):
 				# save old score
 				old_score = game.score
 
