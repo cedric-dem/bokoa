@@ -42,13 +42,9 @@ def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 		for level_index in range(len(initial_set_of_levels[current_grid_size_id])):
 			initial_set_of_levels[current_grid_size_id][level_index].set_estimated_difficulty(constants)
 
-def reduce_levels_set(constants, levels_size_acceptable):
+def reduce_levels_set(levels_size_acceptable):
 	for current_grid_size_id in grid_sizes_id:
 		print('====> Current grid size id ', current_grid_size_id)
-
-		# ===== set difficulty  of kept levels
-		for current_level in levels_size_acceptable[current_grid_size_id]:
-			current_level.set_estimated_difficulty(constants)
 
 		# ====  sort kept levels
 		levels_size_acceptable[current_grid_size_id].sort()

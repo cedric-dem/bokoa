@@ -31,7 +31,7 @@ def describe_list(lst_name, lst):
 		"maximum : ", round(max(lst), 2)
 	)
 
-def describe_given_grid_size(levels_list, constants, grid_size_id, levels_set_name):
+def describe_given_grid_size(levels_list,grid_size_id, levels_set_name):
 	print('====> Current grid size :', grid_sizes[grid_size_id])
 
 	print("====> Number of levels :  ", len(levels_list))
@@ -40,7 +40,6 @@ def describe_given_grid_size(levels_list, constants, grid_size_id, levels_set_na
 	scores, sizes, estimated_difficulties = [], [], []
 
 	for data in levels_list:
-		data.set_estimated_difficulty(constants)
 
 		scores.append(data.best_score)
 		sizes.append(len(data.best_moves))

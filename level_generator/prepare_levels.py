@@ -15,16 +15,17 @@ set_difficulty_for_all_levels(initial_set_of_levels, constants)
 
 print("========> step 3: describe initial state of levels")
 for grid_size_id in range(len(initial_set_of_levels)):
-	describe_given_grid_size(initial_set_of_levels[grid_size_id], constants, grid_size_id, " Initial ")
+	describe_given_grid_size(initial_set_of_levels[grid_size_id], grid_size_id, " Initial ")
 
 print("========> step 4; remove unacceptable sizes")
 first_reduced_set=remove_unacceptable_sizes(initial_set_of_levels)
 
 print("========> step 5: describe level set after first reduce")
 for grid_size_id in range(len(first_reduced_set)):
-	describe_given_grid_size(first_reduced_set[grid_size_id], constants, grid_size_id, " After First Reduction ")
+	describe_given_grid_size(first_reduced_set[grid_size_id], grid_size_id, " After First Reduction ")
 
 print("========> step 6: reduce level to desired quantity")
+reduce_levels_set(first_reduced_set)
 
 print("========> step 7: describe levels after second reduction")
 
