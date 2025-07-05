@@ -43,6 +43,9 @@ def save_all_levels(levels_reduced) :
 				get_level_path_reduced(current_grid_size_id, level_index)
 			)
 
+def describe_all_grid_sizes(levels_list, levels_set_name):
+	for grid_size_id in range(len(grid_sizes)):
+		describe_given_grid_size(levels_list[grid_size_id], grid_size_id, levels_set_name)
 
 def describe_given_grid_size(levels_list,grid_size_id, levels_set_name):
 	print('====> Current grid size :', grid_sizes[grid_size_id])
