@@ -22,11 +22,11 @@ def get_all_levels():
 
 	return result
 
-def remove_out_of_bounds_levels(current_set_of_levels):
-	##TODO add max solution size, max best score, min best score
+def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 	acceptable_levels = [None for i in range(len(grid_sizes))]
 	for current_grid_size_id in range(len(grid_sizes)):
 		print('====> Current grid size : ', current_grid_size_id)
+		##TODO exploit boundaries to add max solution size, max best score, min best score
 		acceptable_levels[current_grid_size_id] = get_levels_size_acceptable(current_set_of_levels[current_grid_size_id], current_grid_size_id)
 
 	return acceptable_levels

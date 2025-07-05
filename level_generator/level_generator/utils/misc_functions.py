@@ -99,3 +99,15 @@ def back_track(game, max_solution_size):
 					current_best_solution = temp_best_moves[::]
 
 	return current_best_score, current_best_solution
+
+def get_boundaries(initial_set_of_levels):
+	##TODO replace this by setting limit at which top 10% levels are
+	boundaries = {
+		"min_size":[1,2,9],
+		"max_size":[10,23,60],
+		"min_score":[10,50,300],
+		"max_score":[10000,50000,3000000],
+	}
+
+
+	return boundaries
