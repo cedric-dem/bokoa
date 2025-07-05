@@ -23,23 +23,22 @@ def get_all_levels():
 	return result
 
 def is_passing_criterias(current_level, current_grid_size_id, boundaries):
+	this_size = len(current_level.best_moves)
+	min_size = boundaries["min_size"][current_grid_size_id]
+	max_size = boundaries["max_size"][current_grid_size_id]
 
-	this_size=len(current_level.best_moves)
-	min_size=boundaries["min_size"][current_grid_size_id]
-	max_size=boundaries["max_size"][current_grid_size_id]
+	this_score = current_level.best_score
+	min_score = boundaries["min_score"][current_grid_size_id]
+	max_score = boundaries["max_score"][current_grid_size_id]
 
-	this_score=current_level.best_score
-	min_score=boundaries["min_score"][current_grid_size_id]
-	max_score=boundaries["max_score"][current_grid_size_id]
-
-	return  this_size >= min_size and this_size <= max_size and this_score >= min_score and this_score <= max_score
+	return this_size >= min_size and this_size <= max_size and this_score >= min_score and this_score <= max_score
 
 def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 	acceptable_levels = [[] for _ in range(len(grid_sizes))]
 	for current_grid_size_id in range(len(grid_sizes)):
 		print('====> Current grid size : ', current_grid_size_id)
 		for current_old_level_index in range(len(current_set_of_levels[current_grid_size_id])):
-			current_level=current_set_of_levels[current_grid_size_id][current_old_level_index]
+			current_level = current_set_of_levels[current_grid_size_id][current_old_level_index]
 
 			if is_passing_criterias(current_level, current_grid_size_id, boundaries):
 				acceptable_levels[current_grid_size_id].append(current_level)
@@ -78,7 +77,6 @@ def reduce_levels_set(acceptable_levels):
 			current_level = levels_reduced[index_reduced]
 			reduced_to_final_set[current_grid_size_id].append(current_level)
 	return reduced_to_final_set
-
 
 def get_reduced_levels(theoretical_difficulties, levels_size_acceptable):
 	levels_reduced = []

@@ -15,7 +15,6 @@ def save_all_levels(levels_reduced):
 				get_level_path_reduced(current_grid_size_id, level_index)
 			)
 
-
 def get_levels_list(set_name, grid_size_id, quantity):
 	complete_levels_list = []
 

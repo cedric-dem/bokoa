@@ -129,10 +129,10 @@ def get_boundaries(initial_set_of_levels):
 		"min_score": min_scores,
 		"max_score": max_scores,
 
-		#"min_size": [6, 12, 18],
-		#"max_size": [17, 26, 37],
-		#"min_score": [1, 3, 4],
-		#"max_score": [9999999, 99999999, 999999999],
+		# "min_size": [6, 12, 18],
+		# "max_size": [17, 26, 37],
+		# "min_score": [1, 3, 4],
+		# "max_score": [9999999, 99999999, 999999999],
 	}
 
 	display_boundaries(boundaries)

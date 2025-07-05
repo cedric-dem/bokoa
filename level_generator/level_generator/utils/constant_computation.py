@@ -40,7 +40,6 @@ def retrieve_all_constants(set_of_levels):
 	}
 
 def retrieve_constants_automatically(complete_levels_list):
-
 	# ==== get stats
 	first_term_raw, second_term_raw = [], []
 
