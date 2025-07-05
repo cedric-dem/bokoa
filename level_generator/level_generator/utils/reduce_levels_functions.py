@@ -22,47 +22,47 @@ def get_all_levels():
 
 	return result
 
-def remove_unacceptable_sizes(current_set_of_levels):
-	levels_size_acceptable = [None for i in range(len(grid_sizes))]
+def remove_out_of_bounds_levels(current_set_of_levels):
+	##TODO add max solution size, max best score, min best score
+	acceptable_levels = [None for i in range(len(grid_sizes))]
 	for current_grid_size_id in range(len(grid_sizes)):
 		print('====> Current grid size : ', current_grid_size_id)
-		levels_size_acceptable[current_grid_size_id] = get_levels_size_acceptable(current_set_of_levels[current_grid_size_id], current_grid_size_id)
-		print("====>  After remove too small levels total of  ", len(levels_size_acceptable), " levels")
+		acceptable_levels[current_grid_size_id] = get_levels_size_acceptable(current_set_of_levels[current_grid_size_id], current_grid_size_id)
 
-	return levels_size_acceptable
+	return acceptable_levels
 
 def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 	for current_grid_size_id in range(len(grid_sizes)):
 		for level_index in range(len(initial_set_of_levels[current_grid_size_id])):
 			initial_set_of_levels[current_grid_size_id][level_index].set_estimated_difficulty(constants)
 
-def reduce_levels_set(levels_size_acceptable):
-	result = [[] for _ in range(len(grid_sizes))]
+def reduce_levels_set(acceptable_levels):
+	reduced_to_final_set = [[] for _ in range(len(grid_sizes))]
 
 	for current_grid_size_id in grid_sizes_id:
 		print('====> Current grid size id ', current_grid_size_id)
 
 		# ====  sort kept levels
-		levels_size_acceptable[current_grid_size_id].sort()
+		acceptable_levels[current_grid_size_id].sort()
 
 		# ==== Display infos
 
 		estimated_difficulties = []
-		for current_level in levels_size_acceptable[current_grid_size_id]:
+		for current_level in acceptable_levels[current_grid_size_id]:
 			estimated_difficulties.append(current_level.estimated_difficulty)
 
 		# ==== get theoretical estimated_difficulties to reduce
-		theoretical_difficulties = get_theoretical_difficulties(levels_size_acceptable[current_grid_size_id])
+		theoretical_difficulties = get_theoretical_difficulties(acceptable_levels[current_grid_size_id])
 
-		levels_reduced = get_reduced_levels(theoretical_difficulties, levels_size_acceptable[current_grid_size_id])
+		levels_reduced = get_reduced_levels(theoretical_difficulties, acceptable_levels[current_grid_size_id])
 
 		estimated_difficulties = [current_level.estimated_difficulty for current_level in levels_reduced]
 		print("====> Real Difficulties : ", estimated_difficulties)
 
 		for index_reduced in range(len(levels_reduced)):
 			current_level = levels_reduced[index_reduced]
-			result[current_grid_size_id].append(current_level)
-	return result
+			reduced_to_final_set[current_grid_size_id].append(current_level)
+	return reduced_to_final_set
 
 def get_levels_size_acceptable(complete_levels_list, current_grid_size_id):
 	levels_size_acceptable = []
