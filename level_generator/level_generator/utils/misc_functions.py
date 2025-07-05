@@ -56,7 +56,7 @@ def create_levels_and_solutions():
 
 		t1 = time.time()
 
-		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per it')
+		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per level')
 
 def get_all_but_inverse_of_last_move(moves_history):
 	directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]

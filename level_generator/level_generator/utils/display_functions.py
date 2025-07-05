@@ -3,7 +3,6 @@ import statistics
 import matplotlib.pyplot as plt
 
 from level_generator.config.config import grid_sizes
-from level_generator.utils.file_level_functions import create_level_file_as_json, get_level_path_reduced
 
 def display_multiple_evolution(list_evolutions, context_name):
 	plt.title("All evolution" + context_name)
