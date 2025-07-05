@@ -31,18 +31,6 @@ def describe_list(lst_name, lst):
 		"maximum : ", round(max(lst), 2)
 	)
 
-def save_all_levels(levels_reduced):
-	for current_grid_size_id in range(len(grid_sizes)):
-		for level_index in range(len(levels_reduced[current_grid_size_id])):
-			current_level = levels_reduced[current_grid_size_id][level_index]
-
-			create_level_file_as_json(
-				current_level.level.operations_grid,
-				current_level.best_score,
-				current_level.best_moves,
-				get_level_path_reduced(current_grid_size_id, level_index)
-			)
-
 def describe_all_grid_sizes(levels_list, levels_set_name):
 	for grid_size_id in range(len(grid_sizes)):
 		describe_given_grid_size(levels_list[grid_size_id], grid_size_id, levels_set_name)
