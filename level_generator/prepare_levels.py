@@ -1,5 +1,6 @@
 from level_generator.utils.constant_computation import retrieve_all_constants
-from level_generator.utils.display_functions import describe_given_grid_size, save_all_levels, describe_all_grid_sizes
+from level_generator.utils.display_functions import describe_all_grid_sizes
+from level_generator.utils.file_level_functions import save_all_levels
 from level_generator.utils.reduce_levels_functions import reduce_levels_set, remove_unacceptable_sizes, get_all_levels, set_difficulty_for_all_levels
 
 print("========> step 0: Retrieve initial set of levels")

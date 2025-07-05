@@ -15,13 +15,14 @@ def retrieve_all_constants(set_of_levels):
 		t1, t2, t3 = [], [], []
 		for grid_size_id in grid_sizes_id:
 			print('=' * 190)
-			print('====> Current grid size :', grid_sizes[grid_size_id])
-			tt1, tt2, tt3 = retrieve_constants_automatically(set_of_levels[grid_size_id], raw_levels_to_generate)
+			print('====> Retrieving Automatically constants  grid size :', grid_sizes[grid_size_id])
+			tt1, tt2, tt3 = retrieve_constants_automatically(set_of_levels[grid_size_id])
 
 			t1.append(tt1)
 			t2.append(tt2)
 			t3.append(tt3)
 	else:
+		print('====> Retrieving HardCoded constants  grid size ')
 		# OLD
 		# t1 = [2.0998, 2.332, 1.92]
 		# t2 = [2.34, 2.666, 2.026]
@@ -38,8 +39,7 @@ def retrieve_all_constants(set_of_levels):
 		"coefficient_difficulty_second_term_a": t3
 	}
 
-def retrieve_constants_automatically(complete_levels_list, quantity):
-	print('====> Retrieving automatically constants')
+def retrieve_constants_automatically(complete_levels_list):
 
 	# ==== get stats
 	first_term_raw, second_term_raw = [], []
