@@ -34,8 +34,9 @@ def describe_list(lst_name, lst):
 def save_all_levels(levels_reduced) :
 
 	for current_grid_size_id in range(len(grid_sizes)):
-		for level_index in range(len(levels_reduced)):
-			print('okok')
+		print('current grid size: ', current_grid_size_id)
+		for level_index in range(len(levels_reduced[current_grid_size_id])) :
+			print('current level index: ', level_index)
 			current_level = levels_reduced[current_grid_size_id][level_index]
 
 			create_level_file_as_json(
