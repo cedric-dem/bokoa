@@ -1,7 +1,10 @@
 import time
 
+import numpy
+
 from level_generator.classes.game import Game
 from level_generator.classes.level import *
+from level_generator.utils.display_functions import describe_list
 from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json
 from level_generator.config.config import *
 
@@ -101,7 +104,31 @@ def back_track(game, max_solution_size):
 	return current_best_score, current_best_solution
 
 def get_boundaries(initial_set_of_levels):
-	##TODO replace this by setting limit at which top 10% levels are
+	k = 10 #will ignore top 10%, bottom 10% (scores and sizes)
+
+	sizes=[[] for _ in range (len(grid_sizes))]
+	scores=[[] for _ in range (len(grid_sizes))]
+
+	min_sizes=[]
+	max_sizes=[]
+	min_scores=[]
+	max_scores=[]
+
+	for current_grid_id in range (len(grid_sizes)):
+		for level_index in range (len(initial_set_of_levels[current_grid_id])):
+			sizes[current_grid_id].append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
+			scores[current_grid_id].append(initial_set_of_levels[current_grid_id][level_index].best_score)
+
+		current_sizes=sizes[current_grid_id]
+		current_scores=scores[current_grid_id]
+
+		min_sizes.append(round(float(numpy.percentile(current_sizes, k)), 2))
+		max_sizes.append(round(float(numpy.percentile(current_sizes, 100-k)), 2))
+		min_scores.append(round(float(numpy.percentile(current_scores, k)), 2))
+		max_scores.append(round(float(numpy.percentile(current_scores, 100-k)), 2))
+
+	print("Obtained boundaries : ",min_sizes, max_sizes, min_scores, max_scores)
+
 	boundaries = {
 		"min_size":[6,12,18],
 		"max_size":[17,26,37],
@@ -109,5 +136,10 @@ def get_boundaries(initial_set_of_levels):
 		"max_score":[9999999,99999999,999999999],
 	}
 
-
+	display_boundaries(boundaries)
 	return boundaries
+
+def display_boundaries(boundaries):
+	print('====> Calculated boundaries : ')
+	for key in boundaries:
+		print('=> ',key,boundaries[key])
