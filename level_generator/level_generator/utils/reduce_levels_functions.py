@@ -24,9 +24,15 @@ def get_all_levels():
 
 def is_passing_criterias(current_level, current_grid_size_id, boundaries):
 
-	lowest_size=boundaries["min_size"][current_grid_size_id]
+	this_size=len(current_level.best_moves)
+	min_size=boundaries["min_size"][current_grid_size_id]
+	max_size=boundaries["max_size"][current_grid_size_id]
 
-	return  len(current_level.best_moves) >= lowest_size
+	this_score=current_level.best_score
+	min_score=boundaries["min_score"][current_grid_size_id]
+	max_score=boundaries["max_score"][current_grid_size_id]
+
+	return  this_size >= min_size
 
 def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 	acceptable_levels = [[] for _ in range(len(grid_sizes))]
