@@ -104,9 +104,9 @@ def get_boundaries(initial_set_of_levels):
 	##TODO replace this by setting limit at which top 10% levels are
 	boundaries = {
 		"min_size":[6,12,18],
-		"max_size":[10,23,60],
-		"min_score":[10,50,300],
-		"max_score":[10000,50000,3000000],
+		"max_size":[17,26,37],
+		"min_score":[1,3,4],
+		"max_score":[9999999,99999999,999999999],
 	}
 
 
