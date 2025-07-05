@@ -1,5 +1,3 @@
-from fontTools.cffLib import topDictOperators
-
 from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_levels_list, create_level_file_as_json, get_level_path_reduced
 
