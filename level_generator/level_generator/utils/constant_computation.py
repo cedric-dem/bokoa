@@ -11,12 +11,13 @@ def get_coef_linear(max_value):
 	K2 = 1 / (max_value)
 	return K2
 
-def retrieve_all_constants():
+def retrieve_all_constants(set_of_levels):
 	if compute_constants:
 		t1, t2, t3 = [], [], []
 		for grid_size_id in grid_sizes_id:
 			print('=' * 190)
-			tt1, tt2, tt3 = retrieve_constants_automatically(grid_size_id, raw_levels_to_generate)
+			print('====> Current grid size :', grid_sizes[grid_size_id])
+			tt1, tt2, tt3 = retrieve_constants_automatically(set_of_levels[grid_size_id], raw_levels_to_generate)
 
 			t1.append(tt1)
 			t2.append(tt2)
@@ -38,11 +39,8 @@ def retrieve_all_constants():
 		"coefficient_difficulty_second_term_a": t3
 	}
 
-def retrieve_constants_automatically(grid_size_id, quantity):
+def retrieve_constants_automatically(complete_levels_list, quantity):
 	print('====> Retrieving automatically constants')
-	print('====> Current grid size :', grid_sizes[grid_size_id])
-
-	complete_levels_list = get_levels_list(complete_folder_name,grid_size_id, quantity)
 
 	# ==== get stats
 	first_term_raw, second_term_raw = [], []

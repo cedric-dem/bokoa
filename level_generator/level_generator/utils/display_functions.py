@@ -31,10 +31,8 @@ def describe_list(lst_name, lst):
 		"maximum : ", round(max(lst), 2)
 	)
 
-def describe_given_grid_size(set_name, constants, grid_size_id, quantity, levels_set_name):
+def describe_given_grid_size(levels_list, constants, grid_size_id, levels_set_name):
 	print('====> Current grid size :', grid_sizes[grid_size_id])
-
-	levels_list = get_levels_list(set_name, grid_size_id, quantity)
 
 	print("====> Number of levels :  ", len(levels_list))
 
