@@ -13,51 +13,64 @@ def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 
 	return closest_index
 
-def reduce_levels_set(constants):
+def get_all_grid_sizes():
+	result=[None for i in range (len(grid_sizes))]
+
+	for current_grid_size_id in range(len(grid_sizes)):
+		complete_levels_list = get_levels_list(complete_folder_name, current_grid_size_id, raw_levels_to_generate)
+		result[current_grid_size_id] = complete_levels_list
+
+	return result
+
+def remove_unacceptable_sizes():
+	complete_levels_list=get_all_grid_sizes()
+
+	levels_size_acceptable = [None for i in range (len(grid_sizes))]\
+
+	for current_grid_size_id in range (len(grid_sizes)):
+		print('====> Current grid size : ',current_grid_size_id)
+		print("====> Initially total of  ", len(complete_levels_list[current_grid_size_id]), " levels")
+		levels_size_acceptable[current_grid_size_id] = get_levels_size_acceptable(complete_levels_list[current_grid_size_id], current_grid_size_id)
+		print("====>  After remove too small levels total of  ", len(levels_size_acceptable), " levels")
+
+	return levels_size_acceptable
+
+def reduce_levels_set(constants, levels_size_acceptable):
 	for current_grid_size_id in grid_sizes_id:
-		reduce_levels_set_given_grid_size_id(constants, current_grid_size_id)
+		print('====> Current grid size id ', current_grid_size_id)
 
-def reduce_levels_set_given_grid_size_id(constants, current_grid_size_id):
-	print('====> Current grid size id ', current_grid_size_id)
+		# ===== set difficulty  of kept levels
+		for current_level in levels_size_acceptable[current_grid_size_id]:
+			current_level.set_estimated_difficulty(constants)
 
-	complete_levels_list = get_levels_list(complete_folder_name, current_grid_size_id, raw_levels_to_generate)
-	print("====>  Initially total of  ", len(complete_levels_list), " levels")
+		# ====  sort kept levels
+		levels_size_acceptable[current_grid_size_id].sort()
 
-	levels_size_acceptable = get_levels_size_acceptable(complete_levels_list, current_grid_size_id)
-	print("====>  After remove too small levels total of  ", len(levels_size_acceptable), " levels")
+		# ==== Display infos
 
-	# ===== set difficulty  of kept levels
-	for current_level in levels_size_acceptable:
-		current_level.set_estimated_difficulty(constants)
+		estimated_difficulties = []
+		for current_level in levels_size_acceptable[current_grid_size_id]:
+			estimated_difficulties.append(current_level.estimated_difficulty)
 
-	# ====  sort kept levels
-	levels_size_acceptable.sort()
+		# ==== get theoretical estimated_difficulties to reduce
+		theoretical_difficulties = get_theoretical_difficulties(levels_size_acceptable[current_grid_size_id])
 
-	# ==== Display infos
+		levels_reduced = get_reduced_levels(theoretical_difficulties, levels_size_acceptable[current_grid_size_id])
 
-	estimated_difficulties = []
-	for current_level in levels_size_acceptable:
-		estimated_difficulties.append(current_level.estimated_difficulty)
+		estimated_difficulties = [current_level.estimated_difficulty for current_level in levels_reduced]
+		print("====> Real Difficulties : ", estimated_difficulties)
 
-	# ==== get theoretical estimated_difficulties to reduce
-	theoretical_difficulties = get_theoretical_difficulties(levels_size_acceptable)
+		for index_reduced in range(len(levels_reduced)):
+			current_level = levels_reduced[index_reduced]
 
-	levels_reduced = get_reduced_levels(theoretical_difficulties, levels_size_acceptable)
+			create_level_file_as_json(
+				current_level.level.operations_grid,
+				current_level.best_score,
+				current_level.best_moves,
+				get_level_path_reduced(current_grid_size_id, index_reduced)
+			)
 
-	estimated_difficulties = [current_level.estimated_difficulty for current_level in levels_reduced]
-	print("====> Real Difficulties : ", estimated_difficulties)
-
-	for index_reduced in range(len(levels_reduced)):
-		current_level = levels_reduced[index_reduced]
-
-		create_level_file_as_json(
-			current_level.level.operations_grid,
-			current_level.best_score,
-			current_level.best_moves,
-			get_level_path_reduced(current_grid_size_id, index_reduced)
-		)
-
-	print("====>  Keeping ", len(levels_reduced), " levels")
+		print("====>  Keeping ", len(levels_reduced), " levels")
 
 def get_levels_size_acceptable(complete_levels_list, current_grid_size_id):
 	levels_size_acceptable = []
