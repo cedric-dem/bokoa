@@ -4,8 +4,6 @@ number_levels_to_keep = 100
 
 grid_sizes = [[4, 4], [5, 5], [6, 6]]
 
-lowest_solution_sizes = [6, 12, 18]
-
 grid_sizes_id = [i for i in range(len(grid_sizes))]
 
 coefficient_difficulty_first_term = 0.4
