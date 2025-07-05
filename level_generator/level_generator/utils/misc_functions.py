@@ -1,5 +1,7 @@
 import time
 
+import numpy
+
 from level_generator.classes.game import Game
 from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json
@@ -56,7 +58,7 @@ def create_levels_and_solutions():
 
 		t1 = time.time()
 
-		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per it')
+		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per level')
 
 def get_all_but_inverse_of_last_move(moves_history):
 	directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
@@ -99,3 +101,48 @@ def back_track(game, max_solution_size):
 					current_best_solution = temp_best_moves[::]
 
 	return current_best_score, current_best_solution
+
+def get_boundaries(initial_set_of_levels):
+	k = 1  # will ignore top 10%, bottom 10% (scores and sizes)
+
+	min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
+
+	for current_grid_id in range(len(grid_sizes)):
+
+		current_sizes = []
+		current_scores = []
+
+		for level_index in range(len(initial_set_of_levels[current_grid_id])):
+			current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
+			current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
+
+		min_sizes.append(round(float(numpy.percentile(current_sizes, k)), 2))
+		max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - k)), 2))
+
+		min_scores.append(round(float(numpy.percentile(current_scores, k)), 2))
+		max_scores.append(round(float(numpy.percentile(current_scores, 100 - k)), 2))
+
+	boundaries = {
+		# "min_size": min_sizes,
+		# "max_size": max_sizes,
+		# "min_score": min_scores,
+		# "max_score": max_scores,
+
+		# "min_size": [0, 1, 2],
+		"min_size": [6, 12, 18],
+		"max_size": [17, 26, 37],
+		"min_score": [1, 3, 4],
+		"max_score": [9999999, 99999999, 999999999],
+	}
+
+	display_boundaries(boundaries)
+	return boundaries
+
+def display_boundaries(boundaries):
+	print('====> Calculated boundaries : ')
+	for key in boundaries:
+		print('=> ', key, boundaries[key])
+
+def sort_levels_set(level_set):
+	for i in range(len(level_set)):
+		level_set[i].sort()

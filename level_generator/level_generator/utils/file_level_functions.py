@@ -3,6 +3,18 @@ import json
 from level_generator.classes.levelWithSolution import *
 from level_generator.classes.level import *
 
+def save_all_levels(levels_reduced):
+	for current_grid_size_id in range(len(grid_sizes)):
+		for level_index in range(len(levels_reduced[current_grid_size_id])):
+			current_level = levels_reduced[current_grid_size_id][level_index]
+
+			create_level_file_as_json(
+				current_level.level.operations_grid,
+				current_level.best_score,
+				current_level.best_moves,
+				get_level_path_reduced(current_grid_size_id, level_index)
+			)
+
 def get_levels_list(set_name, grid_size_id, quantity):
 	complete_levels_list = []
 

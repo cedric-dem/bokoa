@@ -1,5 +1,6 @@
 from level_generator.classes.level import *
-from level_generator.utils.file_level_functions import get_levels_list, create_level_file_as_json, get_level_path_reduced
+from level_generator.utils.file_level_functions import get_levels_list
+import copy
 
 def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	closest_index = 0
@@ -14,7 +15,7 @@ def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	return closest_index
 
 def get_all_levels():
-	result=[None for _ in range (len(grid_sizes))]
+	result = [None for _ in range(len(grid_sizes))]
 
 	for current_grid_size_id in range(len(grid_sizes)):
 		complete_levels_list = get_levels_list(complete_folder_name, current_grid_size_id, raw_levels_to_generate)
@@ -22,60 +23,61 @@ def get_all_levels():
 
 	return result
 
+def is_passing_criterias(current_level, current_grid_size_id, boundaries):
+	this_size = len(current_level.best_moves)
+	min_size = boundaries["min_size"][current_grid_size_id]
+	max_size = boundaries["max_size"][current_grid_size_id]
 
-def remove_unacceptable_sizes(current_set_of_levels):
+	this_score = current_level.best_score
+	min_score = boundaries["min_score"][current_grid_size_id]
+	max_score = boundaries["max_score"][current_grid_size_id]
 
-	levels_size_acceptable = [None for i in range (len(grid_sizes))]\
+	return this_size >= min_size and this_size <= max_size and this_score >= min_score and this_score <= max_score
 
-	for current_grid_size_id in range (len(grid_sizes)):
-		print('====> Current grid size : ',current_grid_size_id)
-		levels_size_acceptable[current_grid_size_id] = get_levels_size_acceptable(current_set_of_levels[current_grid_size_id], current_grid_size_id)
-		print("====>  After remove too small levels total of  ", len(levels_size_acceptable), " levels")
+def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
+	acceptable_levels = [[] for _ in range(len(grid_sizes))]
+	for current_grid_size_id in range(len(grid_sizes)):
+		print('====> Current grid size : ', current_grid_size_id)
+		for current_old_level_index in range(len(current_set_of_levels[current_grid_size_id])):
+			current_level = current_set_of_levels[current_grid_size_id][current_old_level_index]
 
-	return levels_size_acceptable
+			if is_passing_criterias(current_level, current_grid_size_id, boundaries):
+				acceptable_levels[current_grid_size_id].append(current_level)
 
+	return acceptable_levels
 
 def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 	for current_grid_size_id in range(len(grid_sizes)):
 		for level_index in range(len(initial_set_of_levels[current_grid_size_id])):
 			initial_set_of_levels[current_grid_size_id][level_index].set_estimated_difficulty(constants)
 
-def reduce_levels_set(levels_size_acceptable):
-	result=[[] for _ in range (len(grid_sizes))]
+def reduce_levels_set(acceptable_levels):
+	reduced_to_final_set = [[] for _ in range(len(grid_sizes))]
 
 	for current_grid_size_id in grid_sizes_id:
 		print('====> Current grid size id ', current_grid_size_id)
 
 		# ====  sort kept levels
-		levels_size_acceptable[current_grid_size_id].sort()
+		acceptable_levels[current_grid_size_id].sort()
 
 		# ==== Display infos
 
 		estimated_difficulties = []
-		for current_level in levels_size_acceptable[current_grid_size_id]:
+		for current_level in acceptable_levels[current_grid_size_id]:
 			estimated_difficulties.append(current_level.estimated_difficulty)
 
 		# ==== get theoretical estimated_difficulties to reduce
-		theoretical_difficulties = get_theoretical_difficulties(levels_size_acceptable[current_grid_size_id])
+		theoretical_difficulties = get_theoretical_difficulties(acceptable_levels[current_grid_size_id], True)
 
-		levels_reduced = get_reduced_levels(theoretical_difficulties, levels_size_acceptable[current_grid_size_id])
+		levels_reduced = get_reduced_levels(theoretical_difficulties, copy.deepcopy(acceptable_levels[current_grid_size_id]))
 
 		estimated_difficulties = [current_level.estimated_difficulty for current_level in levels_reduced]
 		print("====> Real Difficulties : ", estimated_difficulties)
 
 		for index_reduced in range(len(levels_reduced)):
 			current_level = levels_reduced[index_reduced]
-			result[current_grid_size_id].append(current_level)
-	return result
-
-def get_levels_size_acceptable(complete_levels_list, current_grid_size_id):
-	levels_size_acceptable = []
-	lowest_size = lowest_solution_sizes[current_grid_size_id]
-
-	for current_level in complete_levels_list:
-		if len(current_level.best_moves) >= lowest_size:
-			levels_size_acceptable.append(current_level)
-	return levels_size_acceptable
+			reduced_to_final_set[current_grid_size_id].append(current_level)
+	return reduced_to_final_set
 
 def get_reduced_levels(theoretical_difficulties, levels_size_acceptable):
 	levels_reduced = []
@@ -87,7 +89,7 @@ def get_reduced_levels(theoretical_difficulties, levels_size_acceptable):
 	levels_reduced.sort()
 	return levels_reduced
 
-def get_theoretical_difficulties(levels_list):
+def get_theoretical_difficulties(levels_list, verbose):
 	theoretical_difficulties = []
 
 	average_step = (levels_list[-1].estimated_difficulty - levels_list[0].estimated_difficulty) / number_levels_to_keep
@@ -98,6 +100,7 @@ def get_theoretical_difficulties(levels_list):
 		theoretical_difficulties.append(current)
 		current += average_step
 
-	print('====> Average step', average_step)
-	print("====> Theoretical difficulties : ", theoretical_difficulties)
+	if verbose:
+		print('====> Average step', average_step)
+		print("====> Theoretical difficulties : ", theoretical_difficulties)
 	return theoretical_difficulties
