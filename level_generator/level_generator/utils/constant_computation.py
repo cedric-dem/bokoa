@@ -1,6 +1,5 @@
-from level_generator.config.config import grid_sizes, compute_constants, grid_sizes_id, raw_levels_to_generate, complete_folder_name
+from level_generator.config.config import grid_sizes, compute_constants, grid_sizes_id, raw_levels_to_generate
 from level_generator.utils.display_functions import describe_list
-from level_generator.utils.file_level_functions import get_levels_list
 
 def get_coef_affine(min_value, max_value):
 	K1 = -min_value / (max_value - min_value)

@@ -1,5 +1,5 @@
 from level_generator.classes.level import *
-from level_generator.utils.file_level_functions import get_levels_list, create_level_file_as_json, get_level_path_reduced
+from level_generator.utils.file_level_functions import get_levels_list
 
 def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	closest_index = 0
@@ -14,7 +14,7 @@ def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	return closest_index
 
 def get_all_levels():
-	result=[None for _ in range (len(grid_sizes))]
+	result = [None for _ in range(len(grid_sizes))]
 
 	for current_grid_size_id in range(len(grid_sizes)):
 		complete_levels_list = get_levels_list(complete_folder_name, current_grid_size_id, raw_levels_to_generate)
@@ -22,18 +22,14 @@ def get_all_levels():
 
 	return result
 
-
 def remove_unacceptable_sizes(current_set_of_levels):
-
-	levels_size_acceptable = [None for i in range (len(grid_sizes))]\
-
-	for current_grid_size_id in range (len(grid_sizes)):
-		print('====> Current grid size : ',current_grid_size_id)
+	levels_size_acceptable = [None for i in range(len(grid_sizes))]
+	for current_grid_size_id in range(len(grid_sizes)):
+		print('====> Current grid size : ', current_grid_size_id)
 		levels_size_acceptable[current_grid_size_id] = get_levels_size_acceptable(current_set_of_levels[current_grid_size_id], current_grid_size_id)
 		print("====>  After remove too small levels total of  ", len(levels_size_acceptable), " levels")
 
 	return levels_size_acceptable
-
 
 def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 	for current_grid_size_id in range(len(grid_sizes)):
@@ -41,7 +37,7 @@ def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 			initial_set_of_levels[current_grid_size_id][level_index].set_estimated_difficulty(constants)
 
 def reduce_levels_set(levels_size_acceptable):
-	result=[[] for _ in range (len(grid_sizes))]
+	result = [[] for _ in range(len(grid_sizes))]
 
 	for current_grid_size_id in grid_sizes_id:
 		print('====> Current grid size id ', current_grid_size_id)

@@ -3,7 +3,7 @@ import statistics
 import matplotlib.pyplot as plt
 
 from level_generator.config.config import grid_sizes
-from level_generator.utils.file_level_functions import get_levels_list, create_level_file_as_json, get_level_path_reduced
+from level_generator.utils.file_level_functions import create_level_file_as_json, get_level_path_reduced
 
 def display_multiple_evolution(list_evolutions, context_name):
 	plt.title("All evolution" + context_name)
@@ -31,9 +31,9 @@ def describe_list(lst_name, lst):
 		"maximum : ", round(max(lst), 2)
 	)
 
-def save_all_levels(levels_reduced) :
+def save_all_levels(levels_reduced):
 	for current_grid_size_id in range(len(grid_sizes)):
-		for level_index in range(len(levels_reduced[current_grid_size_id])) :
+		for level_index in range(len(levels_reduced[current_grid_size_id])):
 			current_level = levels_reduced[current_grid_size_id][level_index]
 
 			create_level_file_as_json(
@@ -47,7 +47,7 @@ def describe_all_grid_sizes(levels_list, levels_set_name):
 	for grid_size_id in range(len(grid_sizes)):
 		describe_given_grid_size(levels_list[grid_size_id], grid_size_id, levels_set_name)
 
-def describe_given_grid_size(levels_list,grid_size_id, levels_set_name):
+def describe_given_grid_size(levels_list, grid_size_id, levels_set_name):
 	print('====> Current grid size :', grid_sizes[grid_size_id])
 
 	print("====> Number of levels :  ", len(levels_list))
@@ -56,7 +56,6 @@ def describe_given_grid_size(levels_list,grid_size_id, levels_set_name):
 	scores, sizes, estimated_difficulties = [], [], []
 
 	for data in levels_list:
-
 		scores.append(data.best_score)
 		sizes.append(len(data.best_moves))
 		estimated_difficulties.append(data.estimated_difficulty)
