@@ -3,7 +3,7 @@ import statistics
 import matplotlib.pyplot as plt
 
 from level_generator.config.config import grid_sizes
-from level_generator.utils.file_level_functions import get_levels_list
+from level_generator.utils.file_level_functions import get_levels_list, create_level_file_as_json, get_level_path_reduced
 
 def display_multiple_evolution(list_evolutions, context_name):
 	plt.title("All evolution" + context_name)
@@ -30,6 +30,21 @@ def describe_list(lst_name, lst):
 		"10% high : ", round(numpy.percentile(lst, 90), 2), " ; ",
 		"maximum : ", round(max(lst), 2)
 	)
+
+def save_all_levels(levels_reduced) :
+
+	for current_grid_size_id in range(len(grid_sizes)):
+		for level_index in range(len(levels_reduced)):
+			print('okok')
+			current_level = levels_reduced[current_grid_size_id][level_index]
+
+			create_level_file_as_json(
+				current_level.level.operations_grid,
+				current_level.best_score,
+				current_level.best_moves,
+				get_level_path_reduced(current_grid_size_id, level_index)
+			)
+
 
 def describe_given_grid_size(levels_list,grid_size_id, levels_set_name):
 	print('====> Current grid size :', grid_sizes[grid_size_id])

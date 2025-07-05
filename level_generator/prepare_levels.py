@@ -1,5 +1,5 @@
 from level_generator.utils.constant_computation import retrieve_all_constants
-from level_generator.utils.display_functions import describe_given_grid_size
+from level_generator.utils.display_functions import describe_given_grid_size, save_all_levels
 from level_generator.utils.file_level_functions import get_levels_list
 from level_generator.utils.misc_functions import *
 from level_generator.utils.reduce_levels_functions import reduce_levels_set, remove_unacceptable_sizes, get_all_levels, set_difficulty_for_all_levels
@@ -25,10 +25,14 @@ for grid_size_id in range(len(first_reduced_set)):
 	describe_given_grid_size(first_reduced_set[grid_size_id], grid_size_id, " After First Reduction ")
 
 print("========> step 6: reduce level to desired quantity")
-reduce_levels_set(first_reduced_set)
+reduced_reduced_level_set=reduce_levels_set(first_reduced_set)
 
 print("========> step 7: describe levels after second reduction")
+for grid_size_id in range(len(first_reduced_set)):
+	describe_given_grid_size(reduced_reduced_level_set[grid_size_id], grid_size_id, " After Second Reduction ")
 
+print("========> step 8: save levels")
+save_all_levels(reduced_reduced_level_set)
 
 """
 print("========> step 0: retrieve constants")

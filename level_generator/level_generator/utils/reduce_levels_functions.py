@@ -43,6 +43,8 @@ def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 			initial_set_of_levels[current_grid_size_id][level_index].set_estimated_difficulty(constants)
 
 def reduce_levels_set(levels_size_acceptable):
+	result=[[] for _ in range (len(grid_sizes))]
+
 	for current_grid_size_id in grid_sizes_id:
 		print('====> Current grid size id ', current_grid_size_id)
 
@@ -65,15 +67,8 @@ def reduce_levels_set(levels_size_acceptable):
 
 		for index_reduced in range(len(levels_reduced)):
 			current_level = levels_reduced[index_reduced]
-
-			create_level_file_as_json(
-				current_level.level.operations_grid,
-				current_level.best_score,
-				current_level.best_moves,
-				get_level_path_reduced(current_grid_size_id, index_reduced)
-			)
-
-		print("====>  Keeping ", len(levels_reduced), " levels")
+			result[current_grid_size_id].append(current_level)
+	return result
 
 def get_levels_size_acceptable(complete_levels_list, current_grid_size_id):
 	levels_size_acceptable = []
