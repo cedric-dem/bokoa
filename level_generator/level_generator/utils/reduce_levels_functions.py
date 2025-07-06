@@ -60,8 +60,6 @@ def reduce_levels_set(acceptable_levels):
 		# ====  sort kept levels
 		acceptable_levels[current_grid_size_id].sort()
 
-		# ==== Display infos
-
 		estimated_difficulties = []
 		for current_level in acceptable_levels[current_grid_size_id]:
 			estimated_difficulties.append(current_level.estimated_difficulty)
