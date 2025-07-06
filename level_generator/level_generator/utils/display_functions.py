@@ -7,7 +7,10 @@ from level_generator.config.config import grid_sizes
 from level_generator.utils.reduce_levels_functions import get_theoretical_difficulties
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
-	""""
+	print('\n=> Plot Difficulties <========')
+	for current_grid_index in range(len(grid_sizes)):
+		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
+
 	print('\n=> Plot Sizes <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, current_grid_index)
@@ -20,10 +23,6 @@ def plot_levels_sets_statistics(levels_list, levels_set_names):
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
 
-	print('\n=> Plot Difficulties <========')
-	for current_grid_index in range(len(grid_sizes)):
-		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
-	"""
 	print('\n=> Plot Min Values At Each Move <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_min_values_at_each_move(levels_list, levels_set_names, current_grid_index)
@@ -136,6 +135,7 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 		ymin, _ = axes[levels_set_index].get_ylim()
 
 		axes[levels_set_index].set_ylim(ymin, 1.05 * all_time_max)
+		axes[levels_set_index].set_xlim(0, (grid_sizes[grid_size_index][0] * grid_sizes[grid_size_index][1]))
 
 		axes[levels_set_index].grid(True)
 		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
@@ -198,7 +198,7 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 	print("All time min max : ", all_time_max_min)
 
 	for levels_set_index in range(len(levels_list)):
-		axes[levels_set_index].plot(mins_at_each_step[levels_set_index], color = 'green')
+		axes[levels_set_index].plot(mins_at_each_step[levels_set_index], color = 'red')
 
 		axes[levels_set_index].set_title("Evolution of min score at each move for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
 
@@ -208,6 +208,7 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 		ymin, _ = axes[levels_set_index].get_ylim()
 
 		axes[levels_set_index].set_ylim(ymin - 10, all_time_max_min * 1.05)
+		axes[levels_set_index].set_xlim(0, (grid_sizes[grid_size_index][0] * grid_sizes[grid_size_index][1]))
 
 		axes[levels_set_index].grid(True)
 		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
