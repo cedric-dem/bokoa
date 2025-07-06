@@ -168,8 +168,24 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 	plt.show()
 
 def get_mins_at_each_step(levels_list, grid_size_index):
-	# TODO
-	return [[j for i in range(12)] for j in range(3)]
+	result = []
+
+	for levels_set_index in range(len(levels_list)):
+		current_mins_list = []
+		for level_index in range(len(levels_list[levels_set_index][grid_size_index])):
+			this_level = levels_list[levels_set_index][grid_size_index][level_index]
+
+			for current_position in range(len(this_level.historyOfScoresForBestSolution)):
+				current_value = this_level.historyOfScoresForBestSolution[current_position]
+
+				if current_position >= len(current_mins_list):
+					current_mins_list.append(current_value)
+				else:
+					current_mins_list[current_position] = min(current_mins_list[current_position], current_value)
+
+		result.append(current_mins_list)
+
+	return result
 
 def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
@@ -179,6 +195,7 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 	mins_at_each_step = get_mins_at_each_step(levels_list, grid_size_index)
 
 	all_time_max_min = max([mins_at_each_step[i][-1] for i in range(len(mins_at_each_step))])
+	print("All time min max : ", all_time_max_min)
 
 	for levels_set_index in range(len(levels_list)):
 		axes[levels_set_index].plot(mins_at_each_step[levels_set_index], color = 'green')
