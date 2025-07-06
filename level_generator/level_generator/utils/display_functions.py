@@ -1,3 +1,4 @@
+import math
 import numpy
 import statistics
 import matplotlib.pyplot as plt
@@ -84,39 +85,49 @@ def describe_levels_set_terminal(levels_list, levels_set_name):
 		print()
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
-	for current_grid_index in range (len(grid_sizes)):
+	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, current_grid_index)
 
-	for current_grid_index in range (len(grid_sizes)):
+	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
 
-	for current_grid_index in range (len(grid_sizes)):
+	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
 
 def plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, grid_size_index):
-	pass
+	sizes = [[] for _ in range(len(levels_list))]
+	scores = [[] for _ in range(len(levels_list))]
 
-	#levels_list[level_set_index][grid_size_index][level_index]
+	for level_set_index in range(len(levels_list)):
+		for current_level_index in range(len(levels_list[level_set_index][grid_size_index])):
+			current_level = levels_list[level_set_index][grid_size_index][current_level_index]
 
-	"""
-	scores, sizes, estimated_difficulties = [
-		[[] for _ in range(len(grid_sizes))],
-		[[] for _ in range(len(grid_sizes))],
-		[[] for _ in range(len(grid_sizes))]
-	]
+			sizes[level_set_index].append(len(current_level.best_moves))
 
-	for current_grid_size_id in range(len(grid_sizes)):
-		for data in levels_list[current_grid_size_id]:
-			scores[current_grid_size_id].append(data.best_score)
-			sizes[current_grid_size_id].append(len(data.best_moves))
-			estimated_difficulties[current_grid_size_id].append(data.estimated_difficulty)
+			scores[level_set_index].append(current_level.best_score)
+	# scores[level_set_index].append(math.log(current_level.best_score))
 
-	display_plot_box(sizes, "Sizes", levels_set_names)
-	display_plot_box(scores, "Scores", levels_set_names)
-	"""
+	print("====> Plot  Sizes and Scores for grid size ", grid_sizes[grid_size_index])
 
-def display_plot_box(data, name, levels_set_names):
-	pass
+	display_plot_box(sizes, " Sizes ", str(grid_sizes[grid_size_index]), levels_set_names)
+	display_plot_box(scores, " Scores", str(grid_sizes[grid_size_index]), levels_set_names)
+
+def display_plot_box(data, name, grid_size, levels_set_names):
+	print("===> now displaying ", name, " for grid size ", grid_size)
+
+	box = plt.boxplot(data, patch_artist = True, labels = levels_set_names)
+
+	plt.title("Comparing 3 Levels Sets For " + name + "for grid size " + str(grid_size))
+	plt.xlabel("Level Set")
+	plt.ylabel(name)
+	plt.grid(True)
+
+	colors = ['blue', 'green', 'orange']
+	for patch, color in zip(box['boxes'], colors):
+		patch.set_facecolor(color)
+	plt.legend([box["boxes"][0], box["boxes"][1], box["boxes"][2]], levels_set_names, loc = "upper left")
+
+	plt.show()
 
 def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size_index):
 	pass
