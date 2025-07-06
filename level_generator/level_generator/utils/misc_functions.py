@@ -1,11 +1,13 @@
+import os
 import time
 
 import numpy
 
 from level_generator.classes.game import Game
 from level_generator.classes.level import *
-from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json
+from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json, get_complete_folder_path
 from level_generator.config.config import *
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 def get_move_from_direction(move):
 	match move:
@@ -42,23 +44,46 @@ def create_a_level_and_solution(grid_size_id, fn):
 	# save level with solution as json
 	create_level_file_as_json(temp_level.operations_grid, best_score, get_readable_moves(best_moves), fn)
 
-def create_levels_and_solutions():
-	for grid_size_id in grid_sizes_id:
-		grid_size = grid_sizes[grid_size_id]
+def get_amount_of_existing_levels_for_given_grid_size(grid_size_id):
+	return len(os.listdir(get_complete_folder_path(grid_size_id)))
 
-		print("Currently on size ", grid_size)
+def create_levels_and_solutions(grid_size_id):
+	existing_levels = get_amount_of_existing_levels_for_given_grid_size(grid_size_id)
 
-		t0 = time.time()
+	if existing_levels == raw_levels_to_generate:
+		print('==> Enough levels have been generated on this grid_size')
 
-		for current_level_index in range(raw_levels_to_generate):
-			print("==> generate level", current_level_index)
-			path = get_level_path_complete(grid_size_id, current_level_index)
-			create_a_level_and_solution(grid_size_id, path)
-			print(current_level_index + 1, "/", raw_levels_to_generate, " finished")
+	else:
+		if (use_multiple_cores_for_levels_generation):
+			generate_levels_in_parallel(grid_size_id, existing_levels)
+		else:
+			for current_level_index in range(existing_levels, raw_levels_to_generate):
+				generate_one_level(current_level_index, grid_size_id)
 
-		t1 = time.time()
+def generate_one_level(current_level_index, grid_size_id):
+	t0 = time.time()
+	print(f"==> generate level {current_level_index + 1}")
 
-		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per level')
+	path = get_level_path_complete(grid_size_id, current_level_index)
+	create_a_level_and_solution(grid_size_id, path)
+
+	t1 = time.time()
+	print(f"finished level {current_level_index + 1}. Time taken: {round(t1 - t0, 3)} seconds")
+	return current_level_index
+
+def generate_levels_in_parallel(grid_size_id, existing_levels):
+	with ProcessPoolExecutor(max_workers = n_cores) as executor:
+		futures = []
+		for current_level_index in range(existing_levels, raw_levels_to_generate):
+			futures.append(executor.submit(generate_one_level, current_level_index, grid_size_id))
+
+		"""
+		for future in as_completed(futures):
+			try:
+				# Post checks ?
+			except Exception as e:
+				print(f"Error in level generation: {e}")
+		"""
 
 def get_all_but_inverse_of_last_move(moves_history):
 	directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
@@ -103,37 +128,48 @@ def back_track(game, max_solution_size):
 	return current_best_score, current_best_solution
 
 def get_boundaries(initial_set_of_levels):
-	k = 1  # will ignore top 10%, bottom 10% (scores and sizes)
+	if (compute_boundaries == "AUTOMATIC"):
+		k = 10  # will ignore top 10%, bottom 10% (scores and sizes)
 
-	min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
+		min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
 
-	for current_grid_id in range(len(grid_sizes)):
+		for current_grid_id in range(len(grid_sizes)):
 
-		current_sizes = []
-		current_scores = []
+			current_sizes = []
+			current_scores = []
 
-		for level_index in range(len(initial_set_of_levels[current_grid_id])):
-			current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
-			current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
+			for level_index in range(len(initial_set_of_levels[current_grid_id])):
+				current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
+				current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
 
-		min_sizes.append(round(float(numpy.percentile(current_sizes, k)), 2))
-		max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - k)), 2))
+			min_sizes.append(round(float(numpy.percentile(current_sizes, k)), 2))
+			max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - k)), 2))
 
-		min_scores.append(round(float(numpy.percentile(current_scores, k)), 2))
-		max_scores.append(round(float(numpy.percentile(current_scores, 100 - k)), 2))
+			min_scores.append(round(float(numpy.percentile(current_scores, k)), 2))
+			max_scores.append(round(float(numpy.percentile(current_scores, 100 - k)), 2))
 
-	boundaries = {
-		# "min_size": min_sizes,
-		# "max_size": max_sizes,
-		# "min_score": min_scores,
-		# "max_score": max_scores,
+		boundaries = {
+			"min_size": min_sizes,
+			"max_size": max_sizes,
+			"min_score": min_scores,
+			"max_score": max_scores,
+		}
 
-		# "min_size": [0, 1, 2],
-		"min_size": [6, 12, 18],
-		"max_size": [17, 26, 37],
-		"min_score": [1, 3, 4],
-		"max_score": [9999999, 99999999, 999999999],
-	}
+	elif (compute_boundaries == "USE_OLD"):
+		boundaries = {
+			"min_size": [6, 12, 18],
+			"max_size": [17, 26, 37],
+			"min_score": [1, 3, 4],
+			"max_score": [9999999, 99999999, 999999999],
+		}
+
+	elif (compute_boundaries == "USE_NO_RESTRICTION"):
+		boundaries = {
+			"min_size": [0, 1, 2],
+			"max_size": [17, 26, 37],
+			"min_score": [1, 3, 4],
+			"max_score": [9999999, 99999999, 999999999],
+		}
 
 	display_boundaries(boundaries)
 	return boundaries

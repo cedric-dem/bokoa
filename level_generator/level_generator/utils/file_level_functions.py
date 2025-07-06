@@ -50,4 +50,7 @@ def get_level_path_reduced(grid_size_index, level_index):
 	return get_level_path(reduced_folder_name, grid_size_index, level_index)
 
 def get_level_path(levels_set_folder_name, grid_size_index, level_index):
-	return generated_levels_folder_name + "/" + levels_set_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name + str(level_index) + ".json"
+	return generated_levels_folder_name + "/" + levels_set_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/" + level_file_name + (6-len(str(level_index))) * "0"  + str(level_index) + ".json"
+
+def get_complete_folder_path(grid_size_index):
+	return generated_levels_folder_name + "/" + complete_folder_name + "/" + grid_size_folder_prefix + str(grid_size_index) + "/"

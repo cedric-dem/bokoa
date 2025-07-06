@@ -37,7 +37,7 @@ class LevelWithSolution(object):
 		self.first_term_normalized = constants["coefficient_difficulty_first_term_a"][self.level.grid_size_id] + (constants["coefficient_difficulty_first_term_b"][self.level.grid_size_id] * self.first_term_raw)
 		self.second_term_normalized = self.second_term_raw * constants["coefficient_difficulty_second_term_a"][self.level.grid_size_id]
 
-		self.estimated_difficulty = (coefficient_difficulty_first_term * self.first_term_normalized) + (coefficient_difficulty_second_term * self.second_term_normalized)
+		self.estimated_difficulty = round((coefficient_difficulty_first_term * self.first_term_normalized) + (coefficient_difficulty_second_term * self.second_term_normalized), 6)
 
 	def display_everything(self):
 		print('==> Grid :')
