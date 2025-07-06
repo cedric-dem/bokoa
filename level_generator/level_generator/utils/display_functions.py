@@ -1,6 +1,7 @@
 import numpy
 import statistics
 import matplotlib.pyplot as plt
+from matplotlib import ticker
 from matplotlib.ticker import FuncFormatter
 from level_generator.config.config import grid_sizes
 from level_generator.utils.reduce_levels_functions import get_theoretical_difficulties
@@ -82,6 +83,12 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 	plt.xlabel("Level Set")
 	plt.ylabel(name)
 	plt.grid(True)
+
+	formatter = ticker.FuncFormatter(get_formatted_integer)
+	plt.gca().yaxis.set_major_formatter(formatter)
+
+	#axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
+
 
 	colors = ['blue', 'red', 'green']
 	for patch, color in zip(box['boxes'], colors):
