@@ -84,7 +84,7 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 	plt.ylabel(name)
 	plt.grid(True)
 
-	colors = ['yellow', 'orange', 'green']
+	colors = ['blue', 'red', 'green']
 	for patch, color in zip(box['boxes'], colors):
 		patch.set_facecolor(color)
 	plt.legend([box["boxes"][0], box["boxes"][1], box["boxes"][2]], levels_set_names, loc = "upper left")
