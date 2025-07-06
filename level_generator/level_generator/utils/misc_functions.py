@@ -103,37 +103,49 @@ def back_track(game, max_solution_size):
 	return current_best_score, current_best_solution
 
 def get_boundaries(initial_set_of_levels):
-	k = 10  # will ignore top 10%, bottom 10% (scores and sizes)
+	if (compute_boundaries=="AUTOMATIC"):
+		k = 10  # will ignore top 10%, bottom 10% (scores and sizes)
 
-	min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
+		min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
 
-	for current_grid_id in range(len(grid_sizes)):
+		for current_grid_id in range(len(grid_sizes)):
 
-		current_sizes = []
-		current_scores = []
+			current_sizes = []
+			current_scores = []
 
-		for level_index in range(len(initial_set_of_levels[current_grid_id])):
-			current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
-			current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
+			for level_index in range(len(initial_set_of_levels[current_grid_id])):
+				current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
+				current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
 
-		min_sizes.append(round(float(numpy.percentile(current_sizes, k)), 2))
-		max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - k)), 2))
+			min_sizes.append(round(float(numpy.percentile(current_sizes, k)), 2))
+			max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - k)), 2))
 
-		min_scores.append(round(float(numpy.percentile(current_scores, k)), 2))
-		max_scores.append(round(float(numpy.percentile(current_scores, 100 - k)), 2))
+			min_scores.append(round(float(numpy.percentile(current_scores, k)), 2))
+			max_scores.append(round(float(numpy.percentile(current_scores, 100 - k)), 2))
 
-	boundaries = {
-		# "min_size": min_sizes,
-		# "max_size": max_sizes,
-		# "min_score": min_scores,
-		# "max_score": max_scores,
+		boundaries = {
+			"min_size": min_sizes,
+			"max_size": max_sizes,
+			"min_score": min_scores,
+			"max_score": max_scores,
+		}
 
-		# "min_size": [0, 1, 2],
-		"min_size": [6, 12, 18],
-		"max_size": [17, 26, 37],
-		"min_score": [1, 3, 4],
-		"max_score": [9999999, 99999999, 999999999],
-	}
+	elif (compute_boundaries == "USE_OLD"):
+		boundaries = {
+			# "min_size": [0, 1, 2],
+			"min_size": [6, 12, 18],
+			"max_size": [17, 26, 37],
+			"min_score": [1, 3, 4],
+			"max_score": [9999999, 99999999, 999999999],
+		}
+
+	elif (compute_boundaries == "USE_NO_RESTRICTION"):
+		boundaries = {
+			"min_size": [0, 1, 2],
+			"max_size": [17, 26, 37],
+			"min_score": [1, 3, 4],
+			"max_score": [9999999, 99999999, 999999999],
+		}
 
 	display_boundaries(boundaries)
 	return boundaries
