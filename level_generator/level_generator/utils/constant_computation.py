@@ -1,4 +1,4 @@
-from level_generator.config.config import grid_sizes, compute_constants, grid_sizes_id
+from level_generator.config.config import grid_sizes, compute_constants
 from level_generator.utils.display_functions import describe_list
 
 def get_coef_affine(min_value, max_value):
@@ -13,7 +13,7 @@ def get_coef_linear(max_value):
 def retrieve_all_constants(set_of_levels):
 	if compute_constants:
 		t1, t2, t3 = [], [], []
-		for grid_size_id in grid_sizes_id:
+		for grid_size_id in range(len(grid_sizes)):
 			print('=' * 190)
 			print('====> Retrieving Automatically constants  grid size :', grid_sizes[grid_size_id])
 			tt1, tt2, tt3 = retrieve_constants_automatically(set_of_levels[grid_size_id])

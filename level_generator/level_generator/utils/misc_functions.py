@@ -43,7 +43,7 @@ def create_a_level_and_solution(grid_size_id, fn):
 	create_level_file_as_json(temp_level.operations_grid, best_score, get_readable_moves(best_moves), fn)
 
 def create_levels_and_solutions():
-	for grid_size_id in grid_sizes_id:
+	for grid_size_id in range(len(grid_sizes)):
 		grid_size = grid_sizes[grid_size_id]
 
 		print("Currently on size ", grid_size)

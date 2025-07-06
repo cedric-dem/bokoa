@@ -54,7 +54,7 @@ def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 def reduce_levels_set(acceptable_levels):
 	reduced_to_final_set = [[] for _ in range(len(grid_sizes))]
 
-	for current_grid_size_id in grid_sizes_id:
+	for current_grid_size_id in range(len(grid_sizes)):
 		print('====> Current grid size id ', current_grid_size_id)
 
 		# ====  sort kept levels
