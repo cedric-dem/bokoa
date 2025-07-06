@@ -4,6 +4,7 @@ import statistics
 import matplotlib.pyplot as plt
 
 from level_generator.config.config import grid_sizes
+from level_generator.utils.reduce_levels_functions import get_theoretical_difficulties
 
 def display_multiple_evolution(list_evolutions, context_name):
 	plt.title("All evolution" + context_name)
@@ -157,6 +158,10 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
 
 	print('==> plot difficulty for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
+
+	ideal_diff = get_theoretical_difficulties(levels_list[2][grid_size_index])
+	print(ideal_diff)
+	axes[2].plot(ideal_diff)
 
 	for levels_set_index in range(3):
 		estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].estimated_difficulty for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
