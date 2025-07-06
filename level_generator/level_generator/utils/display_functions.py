@@ -33,9 +33,13 @@ def describe_levels_set_terminal(levels_list, levels_set_name):
 		print()
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
-	print('\n=> Plot Sizes and scores <========')
+	print('\n=> Plot Sizes <========')
 	for current_grid_index in range(len(grid_sizes)):
-		plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, current_grid_index)
+		plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, current_grid_index)
+
+	print('\n=> Plot Scores <========')
+	for current_grid_index in range(len(grid_sizes)):
+		plot_levels_sets_scores_for_grid(levels_list, levels_set_names, current_grid_index)
 
 	print('\n=> Plot Evolutions <========')
 	for current_grid_index in range(len(grid_sizes)):
@@ -45,22 +49,30 @@ def plot_levels_sets_statistics(levels_list, levels_set_names):
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
 
-def plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, grid_size_index):
-	sizes = [[] for _ in range(len(levels_list))]
+def plot_levels_sets_scores_for_grid(levels_list, levels_set_names, grid_size_index):
 	scores = [[] for _ in range(len(levels_list))]
 
 	for level_set_index in range(len(levels_list)):
 		for current_level_index in range(len(levels_list[level_set_index][grid_size_index])):
 			current_level = levels_list[level_set_index][grid_size_index][current_level_index]
 
-			sizes[level_set_index].append(len(current_level.best_moves))
-
 			# scores[level_set_index].append(math.log(current_level.best_score))
 			scores[level_set_index].append(current_level.best_score)
 
 	print('==> Plot grid size', grid_sizes[grid_size_index])
-	display_plot_box(sizes, " Sizes ", str(grid_sizes[grid_size_index]), levels_set_names)
 	display_plot_box(scores, " Scores", str(grid_sizes[grid_size_index]), levels_set_names)
+
+def plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, grid_size_index):
+	sizes = [[] for _ in range(len(levels_list))]
+
+	for level_set_index in range(len(levels_list)):
+		for current_level_index in range(len(levels_list[level_set_index][grid_size_index])):
+			current_level = levels_list[level_set_index][grid_size_index][current_level_index]
+			sizes[level_set_index].append(len(current_level.best_moves))
+
+	print('==> Plot grid size', grid_sizes[grid_size_index])
+	display_plot_box(sizes, " Sizes ", str(grid_sizes[grid_size_index]), levels_set_names)
+
 
 def display_plot_box(data, name, grid_size, levels_set_names):
 	print("===> now displaying ", name, " for grid size ", grid_size, " number of levels :", str([len(i) for i in data]))
