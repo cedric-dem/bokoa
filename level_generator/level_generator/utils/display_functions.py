@@ -88,12 +88,13 @@ def plot_levels_sets_statistics(levels_list, levels_set_names):
 	"""
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, current_grid_index)
-
+	"""
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
 	"""
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
+	"""
 
 def plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, grid_size_index):
 	sizes = [[] for _ in range(len(levels_list))]
@@ -131,23 +132,15 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 	plt.show()
 
 def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size_index):
-	import numpy as np
-	x = np.linspace(0, 10, 100)
-	y1 = np.sin(x)
-	y2 = np.cos(x)
-	y3 = np.tan(x)
-
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
 
-	axes[0].plot(x, y1)
-	axes[0].set_title("sin(x)")
+	for levels_set_index in range(3):
+		list_evolutions = [levels_list[levels_set_index][grid_size_index][level_index].historyOfScoresForBestSolution for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 
-	axes[1].plot(x, y2)
-	axes[1].set_title("cos(x)")
+		for current_evolution in list_evolutions:
+			axes[levels_set_index].plot(current_evolution)
 
-	axes[2].plot(x, y3)
-	axes[2].set_title("tan(x)")
-	axes[2].set_ylim(-10, 10)
+		axes[levels_set_index].set_title("Evolution of all scores for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
 
 	plt.tight_layout()
 	plt.show()
@@ -159,7 +152,7 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 		estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].estimated_difficulty for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 
 		axes[levels_set_index].plot(estimated_difficulties)
-		axes[levels_set_index].set_title(levels_set_names[levels_set_index])
+		axes[levels_set_index].set_title("Evolution of difficulty for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
 
 	plt.tight_layout()
 	plt.show()

@@ -50,6 +50,8 @@ def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 		for level_index in range(len(initial_set_of_levels[current_grid_size_id])):
 			initial_set_of_levels[current_grid_size_id][level_index].set_estimated_difficulty(constants)
 
+# initial_set_of_levels.sort()
+
 def reduce_levels_set(acceptable_levels):
 	reduced_to_final_set = [[] for _ in range(len(grid_sizes))]
 
