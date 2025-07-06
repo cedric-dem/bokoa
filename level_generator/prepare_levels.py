@@ -17,7 +17,7 @@ print("========> step 3: compute difficulty")
 set_difficulty_for_all_levels(initial_set_of_levels, constants)
 
 print("========> step 4; remove unacceptable sizes")
-#TODO maybe move step 5 before ? to ensure a flatter difficulty ?
+# TODO maybe move step 5 before ? to ensure a flatter difficulty ?
 acceptable_levels_set = remove_out_of_bounds_levels(initial_set_of_levels, boundaries)
 
 print("========> step 5: reduce level to desired quantity")
@@ -27,9 +27,9 @@ print("========> step 6: save levels")
 save_all_levels(reduced_to_final_set)
 
 print("========> step 7: show statistics in terminal")
-describe_levels_set_terminal(initial_set_of_levels,"Initial Set Of Levels")
-describe_levels_set_terminal(acceptable_levels_set,"Acceptable Levels")
-describe_levels_set_terminal(reduced_to_final_set,"Reduced Set Of Levels")
+describe_levels_set_terminal(initial_set_of_levels, "Initial Set Of Levels")
+describe_levels_set_terminal(acceptable_levels_set, "Acceptable Levels")
+describe_levels_set_terminal(reduced_to_final_set, "Reduced Set Of Levels")
 
 print("========> step 8: plot statistics")
 plot_levels_sets_statistics(
@@ -45,11 +45,11 @@ plot_levels_sets_statistics(
 	]
 )
 
-#print("========> describe initial state of levels")
-#describe_all_grid_sizes(initial_set_of_levels, " Initial ")
+# print("========> describe initial state of levels")
+# describe_all_grid_sizes(initial_set_of_levels, " Initial ")
 
-#print("========>  describe level set after first reduce")
-#describe_all_grid_sizes(acceptable_levels_set, " Acceptable Levels ")
+# print("========>  describe level set after first reduce")
+# describe_all_grid_sizes(acceptable_levels_set, " Acceptable Levels ")
 
-#print("========>  describe levels after second reduction")
-#describe_all_grid_sizes(reduced_to_final_set, " Reduced to final set ")
+# print("========>  describe levels after second reduction")
+# describe_all_grid_sizes(reduced_to_final_set, " Reduced to final set ")

@@ -64,9 +64,25 @@ def describe_given_grid_size(levels_list, grid_size_id, levels_set_name):
 	display_one_evolution(estimated_difficulties, "All estimated_difficulties" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Difficulty Score")
 	display_one_evolution(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Best Solution Size")
 
+######################################################
 
 def describe_levels_set_terminal(levels_list, levels_set_name):
-	pass
+	print("====> Describe levels set terminal ", levels_set_name)
+	for current_grid_size_id in range(len(grid_sizes)):
+		print("====> current grid size :  ", grid_sizes[current_grid_size_id])
+		print("====> Number of levels :  ", len(levels_list[current_grid_size_id]))
+
+		scores, sizes, estimated_difficulties = [], [], []
+		for data in levels_list[current_grid_size_id]:
+			scores.append(data.best_score)
+			sizes.append(len(data.best_moves))
+			estimated_difficulties.append(data.estimated_difficulty)
+
+		describe_list("Scores", scores)
+		describe_list("Sizes", sizes)
+		describe_list("Difficulty", estimated_difficulties)
+		print()
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
+	# TODO
 	pass
