@@ -16,6 +16,9 @@ constants = retrieve_all_constants(initial_set_of_levels)
 print("========> step 3: compute difficulty")
 set_difficulty_for_all_levels(initial_set_of_levels, constants)
 
+for i in range (len(initial_set_of_levels)):
+	initial_set_of_levels[i].sort()
+
 print("========> step 4; remove unacceptable sizes")
 # TODO maybe move step 5 before ? to ensure a flatter difficulty ?
 acceptable_levels_set = remove_out_of_bounds_levels(initial_set_of_levels, boundaries)
