@@ -66,7 +66,7 @@ def reduce_levels_set(acceptable_levels):
 			estimated_difficulties.append(current_level.estimated_difficulty)
 
 		# ==== get theoretical estimated_difficulties to reduce
-		theoretical_difficulties = get_theoretical_difficulties(acceptable_levels[current_grid_size_id])
+		theoretical_difficulties = get_theoretical_difficulties(acceptable_levels[current_grid_size_id], True)
 
 		levels_reduced = get_reduced_levels(theoretical_difficulties, acceptable_levels[current_grid_size_id])
 
@@ -88,7 +88,7 @@ def get_reduced_levels(theoretical_difficulties, levels_size_acceptable):
 	levels_reduced.sort()
 	return levels_reduced
 
-def get_theoretical_difficulties(levels_list):
+def get_theoretical_difficulties(levels_list, verbose):
 	theoretical_difficulties = []
 
 	average_step = (levels_list[-1].estimated_difficulty - levels_list[0].estimated_difficulty) / number_levels_to_keep
@@ -99,6 +99,7 @@ def get_theoretical_difficulties(levels_list):
 		theoretical_difficulties.append(current)
 		current += average_step
 
-	print('====> Average step', average_step)
-	print("====> Theoretical difficulties : ", theoretical_difficulties)
+	if verbose:
+		print('====> Average step', average_step)
+		print("====> Theoretical difficulties : ", theoretical_difficulties)
 	return theoretical_difficulties

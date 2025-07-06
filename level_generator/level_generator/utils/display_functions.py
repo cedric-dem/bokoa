@@ -159,7 +159,7 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 
 	print('==> plot difficulty for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
-	ideal_diff = get_theoretical_difficulties(levels_list[2][grid_size_index])
+	ideal_diff = get_theoretical_difficulties(levels_list[2][grid_size_index], False)
 	axes[2].plot(ideal_diff, label = "Theoretical Difficulty")
 
 	for levels_set_index in range(3):
