@@ -47,8 +47,16 @@ def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 	return acceptable_levels
 
 def are_levels_exactly_the_same(level_a, level_b):
-	#TODO
-	return True
+	found_one_difference = False
+	i = 0
+	while i < (len(level_a.level.operations_grid)) and not found_one_difference:
+		j=0
+		while j < (len(level_a.level.operations_grid)) and not found_one_difference:
+			if level_a.level.operations_grid[i][j] != level_b.level.operations_grid[i][j]:
+				found_one_difference = True
+			j+=1
+		i+=1
+	return not found_one_difference
 
 def remove_duplicated(set_of_levels):
 	for grid_size_id in range(len(grid_sizes)):
