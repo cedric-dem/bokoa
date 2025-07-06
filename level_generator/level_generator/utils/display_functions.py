@@ -195,7 +195,7 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 	mins_at_each_step = get_mins_at_each_step(levels_list, grid_size_index)
 
 	all_time_max_min = max([mins_at_each_step[i][-1] for i in range(len(mins_at_each_step))])
-	print("All time min max : ", all_time_max_min)
+	print("==> All time min max : ", all_time_max_min)
 
 	for levels_set_index in range(len(levels_list)):
 		axes[levels_set_index].plot(mins_at_each_step[levels_set_index], color = 'red')
