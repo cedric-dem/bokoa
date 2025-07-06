@@ -1,5 +1,5 @@
 from level_generator.utils.constant_computation import retrieve_all_constants
-from level_generator.utils.display_functions import describe_all_grid_sizes, describe_levels_set_terminal, plot_levels_sets_statistics
+from level_generator.utils.display_functions import describe_levels_set_terminal, plot_levels_sets_statistics
 from level_generator.utils.file_level_functions import save_all_levels
 from level_generator.utils.misc_functions import get_boundaries, sort_levels_set
 from level_generator.utils.reduce_levels_functions import reduce_levels_set, remove_out_of_bounds_levels, get_all_levels, set_difficulty_for_all_levels

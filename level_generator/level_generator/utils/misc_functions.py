@@ -128,7 +128,7 @@ def get_boundaries(initial_set_of_levels):
 		# "min_score": min_scores,
 		# "max_score": max_scores,
 
-		#"min_size": [0, 1, 2],
+		# "min_size": [0, 1, 2],
 		"min_size": [6, 12, 18],
 		"max_size": [17, 26, 37],
 		"min_score": [1, 3, 4],

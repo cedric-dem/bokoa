@@ -1,4 +1,3 @@
-import math
 import numpy
 import statistics
 import matplotlib.pyplot as plt
