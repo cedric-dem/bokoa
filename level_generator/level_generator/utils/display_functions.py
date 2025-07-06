@@ -104,8 +104,8 @@ def plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, grid_s
 
 			sizes[level_set_index].append(len(current_level.best_moves))
 
+			# scores[level_set_index].append(math.log(current_level.best_score))
 			scores[level_set_index].append(current_level.best_score)
-	# scores[level_set_index].append(math.log(current_level.best_score))
 
 	print("====> Plot  Sizes and Scores for grid size ", grid_sizes[grid_size_index])
 
@@ -122,7 +122,7 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 	plt.ylabel(name)
 	plt.grid(True)
 
-	colors = ['blue', 'green', 'orange']
+	colors = ['yellow', 'orange', 'green']
 	for patch, color in zip(box['boxes'], colors):
 		patch.set_facecolor(color)
 	plt.legend([box["boxes"][0], box["boxes"][1], box["boxes"][2]], levels_set_names, loc = "upper left")
