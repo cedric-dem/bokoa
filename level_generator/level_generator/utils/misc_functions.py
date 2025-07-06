@@ -1,10 +1,11 @@
+import os
 import time
 
 import numpy
 
 from level_generator.classes.game import Game
 from level_generator.classes.level import *
-from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json
+from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json, get_complete_folder_path
 from level_generator.config.config import *
 
 def get_move_from_direction(move):
@@ -42,17 +43,26 @@ def create_a_level_and_solution(grid_size_id, fn):
 	# save level with solution as json
 	create_level_file_as_json(temp_level.operations_grid, best_score, get_readable_moves(best_moves), fn)
 
+def get_amount_of_existing_levels_for_given_grid_size(grid_size_id):
+	return len(os.listdir(get_complete_folder_path(grid_size_id)))
+
 def create_levels_and_solutions(grid_size_id):
-	for current_level_index in range(raw_levels_to_generate):
-		t0 = time.time()
+	existing_levels = get_amount_of_existing_levels_for_given_grid_size(grid_size_id)
 
-		print("==> generate level", current_level_index + 1, "/", raw_levels_to_generate)
-		path = get_level_path_complete(grid_size_id, current_level_index)
-		create_a_level_and_solution(grid_size_id, path)
+	if existing_levels == raw_levels_to_generate:
+		print('==> Enough levels have been generated on this grid_size')
 
-		t1 = time.time()
+	else:
+		for current_level_index in range(existing_levels, raw_levels_to_generate):
+			t0 = time.time()
 
-		print("finished. Time taken : " + str(round(t1 - t0, 3)) + ' seconds for this  level')
+			print("==> generate level", current_level_index + 1, "/", raw_levels_to_generate)
+			path = get_level_path_complete(grid_size_id, current_level_index)
+			create_a_level_and_solution(grid_size_id, path)
+
+			t1 = time.time()
+
+			print("finished. Time taken : " + str(round(t1 - t0, 3)) + ' seconds for this  level')
 
 def get_all_but_inverse_of_last_move(moves_history):
 	directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
