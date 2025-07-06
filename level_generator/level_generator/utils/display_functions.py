@@ -84,5 +84,42 @@ def describe_levels_set_terminal(levels_list, levels_set_name):
 		print()
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
-	# TODO
+	for current_grid_index in range (len(grid_sizes)):
+		plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, current_grid_index)
+
+	for current_grid_index in range (len(grid_sizes)):
+		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
+
+	for current_grid_index in range (len(grid_sizes)):
+		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
+
+def plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, grid_size_index):
+	pass
+
+	#levels_list[level_set_index][grid_size_index][level_index]
+
+	"""
+	scores, sizes, estimated_difficulties = [
+		[[] for _ in range(len(grid_sizes))],
+		[[] for _ in range(len(grid_sizes))],
+		[[] for _ in range(len(grid_sizes))]
+	]
+
+	for current_grid_size_id in range(len(grid_sizes)):
+		for data in levels_list[current_grid_size_id]:
+			scores[current_grid_size_id].append(data.best_score)
+			sizes[current_grid_size_id].append(len(data.best_moves))
+			estimated_difficulties[current_grid_size_id].append(data.estimated_difficulty)
+
+	display_plot_box(sizes, "Sizes", levels_set_names)
+	display_plot_box(scores, "Scores", levels_set_names)
+	"""
+
+def display_plot_box(data, name, levels_set_names):
+	pass
+
+def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size_index):
+	pass
+
+def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_size_index):
 	pass
