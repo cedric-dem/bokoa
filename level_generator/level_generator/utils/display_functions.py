@@ -63,3 +63,10 @@ def describe_given_grid_size(levels_list, grid_size_id, levels_set_name):
 	display_one_evolution(scores, "All final scores" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Final Score")
 	display_one_evolution(estimated_difficulties, "All estimated_difficulties" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Difficulty Score")
 	display_one_evolution(sizes, "All sizes" + levels_set_name + "  - Grid  size : " + str(grid_sizes[grid_size_id]), "Level ID", "Best Solution Size")
+
+
+def describe_levels_set_terminal(levels_list, levels_set_name):
+	pass
+
+def plot_levels_sets_statistics(levels_list, levels_set_names):
+	pass
