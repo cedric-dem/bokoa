@@ -11,8 +11,7 @@ def get_coef_linear(max_value):
 	return K2
 
 def retrieve_all_constants(set_of_levels):
-
-	if compute_constants=="AUTOMATIC":
+	if compute_constants == "AUTOMATIC":
 		t1, t2, t3 = [], [], []
 		for grid_size_id in range(len(grid_sizes)):
 			print('=' * 190)
@@ -23,7 +22,7 @@ def retrieve_all_constants(set_of_levels):
 			t2.append(tt2)
 			t3.append(tt3)
 
-	elif compute_constants=="USE_OLD":
+	elif compute_constants == "USE_OLD":
 		print('====> Retrieving HardCoded constants  grid size ')
 		# OLD
 		t1 = [2.0998, 2.332, 1.92]
