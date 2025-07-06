@@ -96,15 +96,15 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 
 	print('==> plot evolution for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
-	for levels_set_index in range(3):
+	for levels_set_index in range(len(levels_list)):
 
 		list_evolutions = [levels_list[levels_set_index][grid_size_index][level_index].historyOfScoresForBestSolution for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 
 		num_curves = len(list_evolutions)
 
 		for idx, current_evolution in enumerate(list_evolutions):
-			r = int(255 * (1 - idx / (num_curves - 1)))
-			g = int(255 * (idx / (num_curves - 1)))
+			g = int(255 * (1 - idx / (num_curves - 1)))
+			r = int(255 * (idx / (num_curves - 1)))
 
 			axes[levels_set_index].plot(current_evolution, color = f'#{r:02x}{g:02x}{0:02x}')
 
@@ -122,7 +122,7 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 	ideal_diff = get_theoretical_difficulties(levels_list[2][grid_size_index], False)
 	axes[2].plot(ideal_diff, label = "Theoretical Difficulty")
 
-	for levels_set_index in range(3):
+	for levels_set_index in range(len(levels_list)):
 		estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].estimated_difficulty for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 
 		axes[levels_set_index].plot(estimated_difficulties, label = "Estimated Difficulty")
