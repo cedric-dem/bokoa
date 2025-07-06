@@ -120,12 +120,12 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 	print('==> plot difficulty for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
 	ideal_diff = get_theoretical_difficulties(levels_list[2][grid_size_index], False)
-	axes[2].plot(ideal_diff, label = "Theoretical Difficulty")
+	axes[2].plot(ideal_diff, label = "Theoretical Difficulty", color="green")
 
 	for levels_set_index in range(len(levels_list)):
 		estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].estimated_difficulty for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 
-		axes[levels_set_index].plot(estimated_difficulties, label = "Estimated Difficulty")
+		axes[levels_set_index].plot(estimated_difficulties, label = "Estimated Difficulty", color="red")
 		axes[levels_set_index].set_title("Evolution of difficulty for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
 
 		axes[levels_set_index].set_xlabel("Level ID")
