@@ -1,4 +1,4 @@
-raw_levels_to_generate = 1000
+raw_levels_to_generate = 10000
 
 number_levels_to_keep = 100
 
@@ -10,7 +10,7 @@ coefficient_difficulty_second_term = 0.6
 compute_constants = "AUTOMATIC"
 compute_boundaries = "USE_OLD"
 
-generated_levels_folder_name = "generated_levels_published"
+generated_levels_folder_name = "generated_levels_new"
 
 complete_folder_name = "complete"
 reduced_folder_name = "reduced"
