@@ -1,7 +1,7 @@
 import numpy
 import statistics
 import matplotlib.pyplot as plt
-
+from matplotlib.ticker import FuncFormatter
 from level_generator.config.config import grid_sizes
 from level_generator.utils.reduce_levels_functions import get_theoretical_difficulties
 
@@ -73,7 +73,6 @@ def plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, grid_size_ind
 	print('==> Plot grid size', grid_sizes[grid_size_index])
 	display_plot_box(sizes, " Sizes ", str(grid_sizes[grid_size_index]), levels_set_names)
 
-
 def display_plot_box(data, name, grid_size, levels_set_names):
 	print("===> now displaying ", name, " for grid size ", grid_size, " number of levels :", str([len(i) for i in data]))
 
@@ -90,6 +89,9 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 	plt.legend([box["boxes"][0], box["boxes"][1], box["boxes"][2]], levels_set_names, loc = "upper left")
 
 	plt.show()
+
+def get_formatted_integer(x, pos):
+	return f'{int(x):,}'.replace(',', ' ')
 
 def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
@@ -110,6 +112,7 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 
 		axes[levels_set_index].set_title("Evolution of all scores for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
 		axes[levels_set_index].grid(True)
+		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
 
 	plt.tight_layout()
 	plt.show()
@@ -120,12 +123,12 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 	print('==> plot difficulty for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
 	ideal_diff = get_theoretical_difficulties(levels_list[2][grid_size_index], False)
-	axes[2].plot(ideal_diff, label = "Theoretical Difficulty", color="green")
+	axes[2].plot(ideal_diff, label = "Theoretical Difficulty", color = "green")
 
 	for levels_set_index in range(len(levels_list)):
 		estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].estimated_difficulty for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 
-		axes[levels_set_index].plot(estimated_difficulties, label = "Estimated Difficulty", color="red")
+		axes[levels_set_index].plot(estimated_difficulties, label = "Estimated Difficulty", color = "red")
 		axes[levels_set_index].set_title("Evolution of difficulty for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
 
 		axes[levels_set_index].set_xlabel("Level ID")
