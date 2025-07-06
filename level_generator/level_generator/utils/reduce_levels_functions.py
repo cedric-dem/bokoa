@@ -46,6 +46,26 @@ def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 
 	return acceptable_levels
 
+def are_levels_exactly_the_same(level_a, level_b):
+	#TODO
+	return True
+
+def remove_duplicated(set_of_levels):
+	for grid_size_id in range(len(grid_sizes)):
+		indexes_to_remove = []
+		for level_index_a in range(len(set_of_levels[grid_size_id])):
+			for level_index_b in range(len(set_of_levels[grid_size_id])):
+				if level_index_a != level_index_b:  # Not itself
+					if abs(set_of_levels[grid_size_id][level_index_a].best_score - set_of_levels[grid_size_id][level_index_b].best_score) < 0.1:  # worth trying to verify
+						if are_levels_exactly_the_same(set_of_levels[grid_size_id][level_index_a], set_of_levels[grid_size_id][level_index_b]):
+							indexes_to_remove.append(level_index_a)
+
+		if len(indexes_to_remove) > 0:
+			# TODO remove them
+			print("Found " + str(len(indexes_to_remove)) + " duplicated  in grid size ", grid_sizes[grid_size_id], " index ", indexes_to_remove)
+
+	return set_of_levels
+
 def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 	for current_grid_size_id in range(len(grid_sizes)):
 		for level_index in range(len(initial_set_of_levels[current_grid_size_id])):
