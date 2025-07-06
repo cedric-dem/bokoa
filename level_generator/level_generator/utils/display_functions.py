@@ -85,16 +85,19 @@ def describe_levels_set_terminal(levels_list, levels_set_name):
 		print()
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
-	"""
+
+	print('\n=> Plot Sizes and scores <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, current_grid_index)
-	"""
+
+	print('\n=> Plot Evolutions <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
-	"""
+
+	print('\n=> Plot Difficulties <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
-	"""
+
 
 def plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, grid_size_index):
 	sizes = [[] for _ in range(len(levels_list))]
@@ -109,13 +112,12 @@ def plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, grid_s
 			# scores[level_set_index].append(math.log(current_level.best_score))
 			scores[level_set_index].append(current_level.best_score)
 
-	print("====> Plot  Sizes and Scores for grid size ", grid_sizes[grid_size_index])
-
+	print('==> Plot grid size', grid_sizes[grid_size_index])
 	display_plot_box(sizes, " Sizes ", str(grid_sizes[grid_size_index]), levels_set_names)
 	display_plot_box(scores, " Scores", str(grid_sizes[grid_size_index]), levels_set_names)
 
 def display_plot_box(data, name, grid_size, levels_set_names):
-	print("===> now displaying ", name, " for grid size ", grid_size)
+	print("===> now displaying ", name, " for grid size ", grid_size, " number of levels :", str([len(i) for i in data]))
 
 	box = plt.boxplot(data, patch_artist = True, labels = levels_set_names)
 
@@ -133,6 +135,8 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 
 def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
+
+	print('==> plot evolution for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
 	for levels_set_index in range(3):
 
@@ -153,6 +157,8 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 
 def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
+
+	print('==> plot difficulty for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
 	for levels_set_index in range(3):
 		estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].estimated_difficulty for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
