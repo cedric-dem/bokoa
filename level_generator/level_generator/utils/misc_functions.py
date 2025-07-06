@@ -4,7 +4,6 @@ import numpy
 
 from level_generator.classes.game import Game
 from level_generator.classes.level import *
-from level_generator.utils.display_functions import describe_list
 from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json
 from level_generator.config.config import *
 
@@ -124,10 +123,10 @@ def get_boundaries(initial_set_of_levels):
 		max_scores.append(round(float(numpy.percentile(current_scores, 100 - k)), 2))
 
 	boundaries = {
-		#"min_size": min_sizes,
-		#"max_size": max_sizes,
-		#"min_score": min_scores,
-		#"max_score": max_scores,
+		# "min_size": min_sizes,
+		# "max_size": max_sizes,
+		# "min_score": min_scores,
+		# "max_score": max_scores,
 
 		"min_size": [6, 12, 18],
 		"max_size": [17, 26, 37],
