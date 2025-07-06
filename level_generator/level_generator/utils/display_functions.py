@@ -207,7 +207,7 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 
 		ymin, _ = axes[levels_set_index].get_ylim()
 
-		axes[levels_set_index].set_ylim(ymin - 2, all_time_max_min + 2)
+		axes[levels_set_index].set_ylim(ymin - 10, all_time_max_min * 1.05)
 
 		axes[levels_set_index].grid(True)
 		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
