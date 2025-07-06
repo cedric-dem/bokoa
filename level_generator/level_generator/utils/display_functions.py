@@ -7,6 +7,7 @@ from level_generator.config.config import grid_sizes
 from level_generator.utils.reduce_levels_functions import get_theoretical_difficulties
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
+	""""
 	print('\n=> Plot Sizes <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, current_grid_index)
@@ -22,7 +23,7 @@ def plot_levels_sets_statistics(levels_list, levels_set_names):
 	print('\n=> Plot Difficulties <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
-
+	"""
 	print('\n=> Plot Min Values At Each Move <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_min_values_at_each_move(levels_list, levels_set_names, current_grid_index)
@@ -166,6 +167,33 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 	plt.tight_layout()
 	plt.show()
 
-def plot_min_values_at_each_move(levels_list, levels_set_names, current_grid_index):
+def get_mins_at_each_step(levels_list, grid_size_index):
 	# TODO
-	pass
+	return [[j for i in range(12)] for j in range(3)]
+
+def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index):
+	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
+
+	print('==> plot min score at each move for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
+
+	mins_at_each_step = get_mins_at_each_step(levels_list, grid_size_index)
+
+	all_time_max_min = max([mins_at_each_step[i][-1] for i in range(len(mins_at_each_step))])
+
+	for levels_set_index in range(len(levels_list)):
+		axes[levels_set_index].plot(mins_at_each_step[levels_set_index], color = 'green')
+
+		axes[levels_set_index].set_title("Evolution of min score at each move for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
+
+		axes[levels_set_index].set_xlabel("Number of Moves")
+		axes[levels_set_index].set_ylabel("Score")
+
+		ymin, _ = axes[levels_set_index].get_ylim()
+
+		axes[levels_set_index].set_ylim(ymin - 2, all_time_max_min + 2)
+
+		axes[levels_set_index].grid(True)
+		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
+
+	plt.tight_layout()
+	plt.show()
