@@ -7,7 +7,7 @@ grid_sizes = [[4, 4], [5, 5], [6, 6]]
 coefficient_difficulty_first_term = 0.4
 coefficient_difficulty_second_term = 0.6
 
-compute_constants = False
+compute_constants = "AUTOMATIC"
 
 generated_levels_folder_name = "generated_levels_published"
 

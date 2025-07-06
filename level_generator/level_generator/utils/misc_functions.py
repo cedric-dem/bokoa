@@ -103,7 +103,7 @@ def back_track(game, max_solution_size):
 	return current_best_score, current_best_solution
 
 def get_boundaries(initial_set_of_levels):
-	k = 1  # will ignore top 10%, bottom 10% (scores and sizes)
+	k = 10  # will ignore top 10%, bottom 10% (scores and sizes)
 
 	min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
 
