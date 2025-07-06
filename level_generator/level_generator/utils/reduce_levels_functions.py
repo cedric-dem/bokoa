@@ -90,13 +90,13 @@ def get_reduced_levels(theoretical_difficulties, levels_size_acceptable):
 def get_theoretical_difficulties(levels_list, verbose):
 	theoretical_difficulties = []
 
-	average_step = (levels_list[-1].estimated_difficulty - levels_list[0].estimated_difficulty) / number_levels_to_keep
+	initial_difficulty = levels_list[0].estimated_difficulty
+	end_difficulty = levels_list[-1].estimated_difficulty
 
-	current = levels_list[0].estimated_difficulty
+	average_step = (end_difficulty - initial_difficulty) / number_levels_to_keep
 
 	for reduced_levels_index in range(number_levels_to_keep):
-		theoretical_difficulties.append(current)
-		current += average_step
+		theoretical_difficulties.append(initial_difficulty + (reduced_levels_index * average_step))
 
 	if verbose:
 		print('====> Average step', average_step)
