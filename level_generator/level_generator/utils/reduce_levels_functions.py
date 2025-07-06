@@ -50,15 +50,16 @@ def are_levels_exactly_the_same(level_a, level_b):
 	found_one_difference = False
 	i = 0
 	while i < (len(level_a.level.operations_grid)) and not found_one_difference:
-		j=0
+		j = 0
 		while j < (len(level_a.level.operations_grid)) and not found_one_difference:
 			if level_a.level.operations_grid[i][j] != level_b.level.operations_grid[i][j]:
 				found_one_difference = True
-			j+=1
-		i+=1
+			j += 1
+		i += 1
 	return not found_one_difference
 
 def remove_duplicated(set_of_levels):
+	result = []
 	for grid_size_id in range(len(grid_sizes)):
 		indexes_to_remove = []
 		for level_index_a in range(len(set_of_levels[grid_size_id])):
@@ -69,10 +70,12 @@ def remove_duplicated(set_of_levels):
 							indexes_to_remove.append(level_index_a)
 
 		if len(indexes_to_remove) > 0:
-			# TODO remove them
 			print("Found " + str(len(indexes_to_remove)) + " duplicated  in grid size ", grid_sizes[grid_size_id], " index ", indexes_to_remove)
+		else:
+			print("Did not found duplicated levels in grid size ", grid_sizes[grid_size_id])
 
-	return set_of_levels
+		result.append([elem for i, elem in enumerate(set_of_levels[grid_size_id]) if i not in indexes_to_remove])
+	return result
 
 def set_difficulty_for_all_levels(initial_set_of_levels, constants):
 	for current_grid_size_id in range(len(grid_sizes)):
