@@ -96,7 +96,7 @@ def get_theoretical_difficulties(levels_list, verbose):
 	average_step = (end_difficulty - initial_difficulty) / number_levels_to_keep
 
 	for reduced_levels_index in range(number_levels_to_keep):
-		theoretical_difficulties.append(initial_difficulty + (reduced_levels_index * average_step))
+		theoretical_difficulties.append(round(initial_difficulty + (reduced_levels_index * average_step), 6))
 
 	if verbose:
 		print('====> Average step', average_step)

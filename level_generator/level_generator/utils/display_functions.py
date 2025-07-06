@@ -98,7 +98,7 @@ def get_formatted_integer(x, pos):
 	return f'{int(x):,}'.replace(',', ' ')
 
 def get_all_time_max(levels_list, grid_size_index):
-	all_time_max=float('-inf')
+	all_time_max = float('-inf')
 	for levels_set_index in range(len(levels_list)):
 		max_scores = [levels_list[levels_set_index][grid_size_index][level_index].best_score for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 		all_time_max = max(all_time_max, max(max_scores))
@@ -109,7 +109,7 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 
 	print('==> plot evolution for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
-	all_time_max=get_all_time_max(levels_list, grid_size_index)
+	all_time_max = get_all_time_max(levels_list, grid_size_index)
 
 	for levels_set_index in range(len(levels_list)):
 
@@ -130,7 +130,7 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 
 		ymin, _ = axes[levels_set_index].get_ylim()
 
-		axes[levels_set_index].set_ylim(ymin, 1.05*all_time_max)
+		axes[levels_set_index].set_ylim(ymin, 1.05 * all_time_max)
 
 		axes[levels_set_index].grid(True)
 		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
