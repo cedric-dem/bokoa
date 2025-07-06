@@ -42,23 +42,17 @@ def create_a_level_and_solution(grid_size_id, fn):
 	# save level with solution as json
 	create_level_file_as_json(temp_level.operations_grid, best_score, get_readable_moves(best_moves), fn)
 
-def create_levels_and_solutions():
-	for grid_size_id in range(len(grid_sizes)):
-		grid_size = grid_sizes[grid_size_id]
-
-		print("Currently on size ", grid_size)
-
+def create_levels_and_solutions(grid_size_id):
+	for current_level_index in range(raw_levels_to_generate):
 		t0 = time.time()
 
-		for current_level_index in range(raw_levels_to_generate):
-			print("==> generate level", current_level_index)
-			path = get_level_path_complete(grid_size_id, current_level_index)
-			create_a_level_and_solution(grid_size_id, path)
-			print(current_level_index + 1, "/", raw_levels_to_generate, " finished")
+		print("==> generate level", current_level_index + 1, "/", raw_levels_to_generate)
+		path = get_level_path_complete(grid_size_id, current_level_index)
+		create_a_level_and_solution(grid_size_id, path)
 
 		t1 = time.time()
 
-		print("Time taken : " + str((t1 - t0) / raw_levels_to_generate) + ' seconds per level')
+		print("finished. Time taken : " + str(round(t1 - t0, 3)) + ' seconds for this  level')
 
 def get_all_but_inverse_of_last_move(moves_history):
 	directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
