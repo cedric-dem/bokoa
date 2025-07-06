@@ -2,6 +2,8 @@ from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_levels_list
 import copy
 
+from level_generator.utils.misc_functions import get_amount_of_existing_levels_for_given_grid_size
+
 def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	closest_index = 0
 	closest_distance = float("inf")
@@ -18,7 +20,7 @@ def get_all_levels():
 	result = [None for _ in range(len(grid_sizes))]
 
 	for current_grid_size_id in range(len(grid_sizes)):
-		complete_levels_list = get_levels_list(complete_folder_name, current_grid_size_id, raw_levels_to_generate)
+		complete_levels_list = get_levels_list(complete_folder_name, current_grid_size_id, get_amount_of_existing_levels_for_given_grid_size(current_grid_size_id))
 		result[current_grid_size_id] = complete_levels_list
 
 	return result
@@ -35,6 +37,7 @@ def is_passing_criterias(current_level, current_grid_size_id, boundaries):
 	return this_size >= min_size and this_size <= max_size and this_score >= min_score and this_score <= max_score
 
 def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
+	print("====> remove out of bounds levels")
 	acceptable_levels = [[] for _ in range(len(grid_sizes))]
 	for current_grid_size_id in range(len(grid_sizes)):
 		print('====> Current grid size : ', current_grid_size_id)
@@ -59,8 +62,10 @@ def are_levels_exactly_the_same(level_a, level_b):
 	return not found_one_difference
 
 def remove_duplicated(set_of_levels):
+	print("====> remove duplicated levels")
 	result = []
 	for grid_size_id in range(len(grid_sizes)):
+		print('====> Current grid size : ', grid_size_id)
 		indexes_to_remove = []
 		for level_index_a in range(len(set_of_levels[grid_size_id])):
 			for level_index_b in range(len(set_of_levels[grid_size_id])):
