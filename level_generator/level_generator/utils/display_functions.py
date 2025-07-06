@@ -97,10 +97,19 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 def get_formatted_integer(x, pos):
 	return f'{int(x):,}'.replace(',', ' ')
 
+def get_all_time_max(levels_list, grid_size_index):
+	all_time_max=float('-inf')
+	for levels_set_index in range(len(levels_list)):
+		max_scores = [levels_list[levels_set_index][grid_size_index][level_index].best_score for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
+		all_time_max = max(all_time_max, max(max_scores))
+	return all_time_max
+
 def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
 
 	print('==> plot evolution for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
+
+	all_time_max=get_all_time_max(levels_list, grid_size_index)
 
 	for levels_set_index in range(len(levels_list)):
 
@@ -115,6 +124,14 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 			axes[levels_set_index].plot(current_evolution, color = f'#{r:02x}{g:02x}{0:02x}')
 
 		axes[levels_set_index].set_title("Evolution of all scores for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
+
+		axes[levels_set_index].set_xlabel("Number of Moves")
+		axes[levels_set_index].set_ylabel("Score")
+
+		ymin, _ = axes[levels_set_index].get_ylim()
+
+		axes[levels_set_index].set_ylim(ymin, 1.05*all_time_max)
+
 		axes[levels_set_index].grid(True)
 		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
 
