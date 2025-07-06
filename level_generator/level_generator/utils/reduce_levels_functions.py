@@ -1,5 +1,6 @@
 from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_levels_list
+import copy
 
 def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	closest_index = 0
@@ -68,7 +69,7 @@ def reduce_levels_set(acceptable_levels):
 		# ==== get theoretical estimated_difficulties to reduce
 		theoretical_difficulties = get_theoretical_difficulties(acceptable_levels[current_grid_size_id], True)
 
-		levels_reduced = get_reduced_levels(theoretical_difficulties, acceptable_levels[current_grid_size_id])
+		levels_reduced = get_reduced_levels(theoretical_difficulties, copy.deepcopy(acceptable_levels[current_grid_size_id]))
 
 		estimated_difficulties = [current_level.estimated_difficulty for current_level in levels_reduced]
 		print("====> Real Difficulties : ", estimated_difficulties)
