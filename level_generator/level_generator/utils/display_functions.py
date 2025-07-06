@@ -85,7 +85,6 @@ def describe_levels_set_terminal(levels_list, levels_set_name):
 		print()
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
-
 	print('\n=> Plot Sizes and scores <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, current_grid_index)
@@ -97,7 +96,6 @@ def plot_levels_sets_statistics(levels_list, levels_set_names):
 	print('\n=> Plot Difficulties <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
-
 
 def plot_levels_sets_sizes_scores_for_grid(levels_list, levels_set_names, grid_size_index):
 	sizes = [[] for _ in range(len(levels_list))]

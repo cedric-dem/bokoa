@@ -141,3 +141,7 @@ def display_boundaries(boundaries):
 	print('====> Calculated boundaries : ')
 	for key in boundaries:
 		print('=> ', key, boundaries[key])
+
+def sort_levels_set(level_set):
+	for i in range(len(level_set)):
+		level_set[i].sort()
