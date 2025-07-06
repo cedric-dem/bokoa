@@ -6,6 +6,27 @@ from matplotlib.ticker import FuncFormatter
 from level_generator.config.config import grid_sizes
 from level_generator.utils.reduce_levels_functions import get_theoretical_difficulties
 
+def plot_levels_sets_statistics(levels_list, levels_set_names):
+	print('\n=> Plot Sizes <========')
+	for current_grid_index in range(len(grid_sizes)):
+		plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, current_grid_index)
+
+	print('\n=> Plot Scores <========')
+	for current_grid_index in range(len(grid_sizes)):
+		plot_levels_sets_scores_for_grid(levels_list, levels_set_names, current_grid_index)
+
+	print('\n=> Plot Evolutions <========')
+	for current_grid_index in range(len(grid_sizes)):
+		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
+
+	print('\n=> Plot Difficulties <========')
+	for current_grid_index in range(len(grid_sizes)):
+		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
+
+	print('\n=> Plot Min Values At Each Move <========')
+	for current_grid_index in range(len(grid_sizes)):
+		plot_min_values_at_each_move(levels_list, levels_set_names, current_grid_index)
+
 def describe_list(lst_name, lst):
 	print("====> describe list ", lst_name)
 	print(
@@ -32,23 +53,6 @@ def describe_levels_set_terminal(levels_list, levels_set_name):
 		describe_list("Sizes", sizes)
 		describe_list("Difficulty", estimated_difficulties)
 		print()
-
-def plot_levels_sets_statistics(levels_list, levels_set_names):
-	print('\n=> Plot Sizes <========')
-	for current_grid_index in range(len(grid_sizes)):
-		plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, current_grid_index)
-
-	print('\n=> Plot Scores <========')
-	for current_grid_index in range(len(grid_sizes)):
-		plot_levels_sets_scores_for_grid(levels_list, levels_set_names, current_grid_index)
-
-	print('\n=> Plot Evolutions <========')
-	for current_grid_index in range(len(grid_sizes)):
-		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
-
-	print('\n=> Plot Difficulties <========')
-	for current_grid_index in range(len(grid_sizes)):
-		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
 
 def plot_levels_sets_scores_for_grid(levels_list, levels_set_names, grid_size_index):
 	scores = [[] for _ in range(len(levels_list))]
@@ -161,3 +165,7 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 
 	plt.tight_layout()
 	plt.show()
+
+def plot_min_values_at_each_move(levels_list, levels_set_names, current_grid_index):
+	# TODO
+	pass
