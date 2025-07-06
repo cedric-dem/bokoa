@@ -87,9 +87,6 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 	formatter = ticker.FuncFormatter(get_formatted_integer)
 	plt.gca().yaxis.set_major_formatter(formatter)
 
-	#axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
-
-
 	colors = ['blue', 'red', 'green']
 	for patch, color in zip(box['boxes'], colors):
 		patch.set_facecolor(color)
