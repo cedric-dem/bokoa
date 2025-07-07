@@ -116,7 +116,7 @@ def back_track(game, max_solution_size):
 			new_position = [game.current_position_head[0] + new_move[0], game.current_position_head[1] + new_move[1]]
 
 			##if move ok + not coming back
-			if game.is_move_in_bound(new_position) and (not game.is_move_in_history(new_position)):
+			if game.is_move_in_bound_and_not_in_history(new_position):
 				# save old score
 				old_score = game.score
 				old_head_position = game.current_position_head
