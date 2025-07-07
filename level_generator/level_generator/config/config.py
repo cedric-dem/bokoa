@@ -11,7 +11,7 @@ compute_constants = "AUTOMATIC"
 compute_boundaries = "USE_OLD"
 
 use_multiple_cores_for_levels_generation = True
-n_cores = 4
+n_cores = 6
 
 generated_levels_folder_name = "generated_levels_new"
 
