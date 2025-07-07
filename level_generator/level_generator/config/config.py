@@ -10,6 +10,9 @@ coefficient_difficulty_second_term = 0.6
 compute_constants = "AUTOMATIC"
 compute_boundaries = "USE_OLD"
 
+use_multiple_cores_for_levels_generation = True
+n_cores = 4
+
 generated_levels_folder_name = "generated_levels_new"
 
 complete_folder_name = "complete"

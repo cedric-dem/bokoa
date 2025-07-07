@@ -7,6 +7,7 @@ from level_generator.classes.game import Game
 from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_level_path_complete, create_level_file_as_json, get_complete_folder_path
 from level_generator.config.config import *
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 def get_move_from_direction(move):
 	match move:
@@ -53,16 +54,36 @@ def create_levels_and_solutions(grid_size_id):
 		print('==> Enough levels have been generated on this grid_size')
 
 	else:
+		if (use_multiple_cores_for_levels_generation):
+			generate_levels_in_parallel(grid_size_id, existing_levels)
+		else:
+			for current_level_index in range(existing_levels, raw_levels_to_generate):
+				generate_one_level(current_level_index, grid_size_id)
+
+def generate_one_level(current_level_index, grid_size_id):
+	t0 = time.time()
+	print(f"==> generate level {current_level_index + 1}")
+
+	path = get_level_path_complete(grid_size_id, current_level_index)
+	create_a_level_and_solution(grid_size_id, path)
+
+	t1 = time.time()
+	print(f"finished level {current_level_index + 1}. Time taken: {round(t1 - t0, 3)} seconds")
+	return current_level_index
+
+def generate_levels_in_parallel(grid_size_id, existing_levels):
+	with ProcessPoolExecutor(max_workers = n_cores) as executor:
+		futures = []
 		for current_level_index in range(existing_levels, raw_levels_to_generate):
-			t0 = time.time()
+			futures.append(executor.submit(generate_one_level, current_level_index, grid_size_id))
 
-			print("==> generate level", current_level_index + 1, "/", raw_levels_to_generate)
-			path = get_level_path_complete(grid_size_id, current_level_index)
-			create_a_level_and_solution(grid_size_id, path)
-
-			t1 = time.time()
-
-			print("finished. Time taken : " + str(round(t1 - t0, 3)) + ' seconds for this  level')
+		"""
+		for future in as_completed(futures):
+			try:
+				# Post checks ?
+			except Exception as e:
+				print(f"Error in level generation: {e}")
+		"""
 
 def get_all_but_inverse_of_last_move(moves_history):
 	directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
