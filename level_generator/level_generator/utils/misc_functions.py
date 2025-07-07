@@ -55,27 +55,31 @@ def create_levels_and_solutions(grid_size_id):
 
 	else:
 		if (use_multiple_cores_for_levels_generation):
-			generate_levels_in_parallel(grid_size_id, existing_levels)
+			generate_levels_in_parallel(grid_size_id)
 		else:
-			for current_level_index in range(existing_levels, raw_levels_to_generate):
-				generate_one_level(current_level_index, grid_size_id)
+			for current_level_index in range(raw_levels_to_generate):
+				generate_one_level_if_not_exists(current_level_index, grid_size_id)
 
-def generate_one_level(current_level_index, grid_size_id):
-	t0 = time.time()
-	print(f"==> generate level {current_level_index + 1}")
-
+def generate_one_level_if_not_exists(current_level_index, grid_size_id):
 	path = get_level_path_complete(grid_size_id, current_level_index)
-	create_a_level_and_solution(grid_size_id, path)
 
-	t1 = time.time()
-	print(f"finished level {current_level_index + 1}. Time taken: {round(t1 - t0, 3)} seconds")
-	return current_level_index
+	if os.path.exists(path):
+		print("==> level ", current_level_index + 1, " already exists")
 
-def generate_levels_in_parallel(grid_size_id, existing_levels):
+	else:
+		t0 = time.time()
+		print("==> generate level ", current_level_index + 1)
+
+		create_a_level_and_solution(grid_size_id, path)
+
+		t1 = time.time()
+		print("finished level ", current_level_index + 1, ". Time taken: ", round(t1 - t0, 3), " seconds")
+
+def generate_levels_in_parallel(grid_size_id):
 	with ProcessPoolExecutor(max_workers = n_cores) as executor:
 		futures = []
-		for current_level_index in range(existing_levels, raw_levels_to_generate):
-			futures.append(executor.submit(generate_one_level, current_level_index, grid_size_id))
+		for current_level_index in range(raw_levels_to_generate):
+			futures.append(executor.submit(generate_one_level_if_not_exists, current_level_index, grid_size_id))
 
 		"""
 		for future in as_completed(futures):
@@ -86,31 +90,39 @@ def generate_levels_in_parallel(grid_size_id, existing_levels):
 		"""
 
 def get_all_but_inverse_of_last_move(moves_history):
-	directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 	if len(moves_history) == 0:
-		result = directions
+		result = list_all_directions
 	else:
-		last_move = moves_history[-1]
-		inverse = [-last_move[0], -last_move[1]]
-		result = [d for d in directions if d != inverse]
+		match moves_history[-1]:
+			case [0, -1]:
+				result = [[0, -1], [1, 0], [-1, 0]]
+			case [0, 1]:
+				result = [[0, 1], [1, 0], [-1, 0]]
+			case [1, 0]:
+				result = [[0, -1], [0, 1], [1, 0]]
+			case [-1, 0]:
+				result = [[0, -1], [0, 1], [-1, 0]]
+			case _:
+				result = list_all_directions
 	return result
 
 def back_track(game, max_solution_size):
 	current_best_score = game.score
-	current_best_solution = game.moves_history[::]
+	current_best_solution = None
 
 	if len(game.moves_history) < max_solution_size:  # else stop
 		for new_move in get_all_but_inverse_of_last_move(game.moves_history):
 
-			new_position = [game.position_history[-1][0] + new_move[0], game.position_history[-1][1] + new_move[1]]
+			new_position = [game.current_position_head[0] + new_move[0], game.current_position_head[1] + new_move[1]]
 
 			##if move ok + not coming back
-			if game.is_move_in_bound(new_position) and (not game.is_move_in_history(new_position)):
+			if game.is_move_in_bound_and_not_in_history(new_position):
 				# save old score
 				old_score = game.score
+				old_head_position = game.current_position_head
 
 				# move
-				game.apply_move(new_move)
+				game.apply_move_given_direction_and_new_pos(new_move, new_position)
 
 				# launch backtrack
 				temp_best_score, temp_best_moves = back_track(game, max_solution_size)
@@ -118,18 +130,22 @@ def back_track(game, max_solution_size):
 				##restore old state
 				game.score = old_score
 				game.moves_history.pop()
-				game.position_history.pop()
+				game.current_position_head = old_head_position
+
+				# game.occupation_matrix[old_head_position[0]][old_head_position[1]] = False
+				game.occupation_matrix[new_position[0]][new_position[1]] = False
 
 				if current_best_score < temp_best_score:  # if new res better than prev:
-					# current_best_score and current_best_solution refresh
 					current_best_score = temp_best_score
 					current_best_solution = temp_best_moves[::]
+
+	if not current_best_solution:
+		current_best_solution = game.moves_history[::]
 
 	return current_best_score, current_best_solution
 
 def get_boundaries(initial_set_of_levels):
 	if (compute_boundaries == "AUTOMATIC"):
-		k = 10  # will ignore top 10%, bottom 10% (scores and sizes)
 
 		min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
 
@@ -142,11 +158,11 @@ def get_boundaries(initial_set_of_levels):
 				current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
 				current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
 
-			min_sizes.append(round(float(numpy.percentile(current_sizes, k)), 2))
-			max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - k)), 2))
+			min_sizes.append(round(float(numpy.percentile(current_sizes, ignore_extreme_values)), 2))
+			max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - ignore_extreme_values)), 2))
 
-			min_scores.append(round(float(numpy.percentile(current_scores, k)), 2))
-			max_scores.append(round(float(numpy.percentile(current_scores, 100 - k)), 2))
+			min_scores.append(round(float(numpy.percentile(current_scores, ignore_extreme_values)), 2))
+			max_scores.append(round(float(numpy.percentile(current_scores, 100 - ignore_extreme_values)), 2))
 
 		boundaries = {
 			"min_size": min_sizes,

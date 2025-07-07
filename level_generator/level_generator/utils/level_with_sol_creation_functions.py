@@ -7,7 +7,8 @@ def get_history_of_scores_for_given_solution_on_given_level(solution, level):
 
 	for move in solution:
 		move_direction = get_direction_from_move(move)
-		current_game.apply_move(move_direction)
+
+		current_game.apply_move_given_direction(move_direction)
 		history_of_scores_for_best_solution.append(current_game.score)
 
 	return history_of_scores_for_best_solution

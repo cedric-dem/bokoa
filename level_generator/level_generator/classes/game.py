@@ -5,10 +5,19 @@ class Game(object):
 		self.grid_size = level.grid_size
 
 		self.moves_history = []
-		self.position_history = [[0, 0]]
 
-	def apply_move(self, direction):
-		new_pos = [self.position_history[-1][0] + direction[0], self.position_history[-1][1] + direction[1]]
+		self.current_position_head = [0, 0]
+
+		self.occupation_matrix = [[False for _ in range(self.grid_size[0])] for _ in range(self.grid_size[1])]
+		self.occupation_matrix[0][0] = True
+
+	def apply_move_given_direction(self, direction):
+		new_pos = [self.current_position_head[0] + direction[0], self.current_position_head[1] + direction[1]]
+
+		self.apply_move_given_direction_and_new_pos(direction, new_pos)
+
+	def apply_move_given_direction_and_new_pos(self, direction, new_pos):
+		# For optimization purposes, back_track can call directly this function given new pos, saves like 5% of time not to recompute new_pos
 
 		self.moves_history.append(direction)
 
@@ -16,23 +25,21 @@ class Game(object):
 
 		self.apply_operation(new_operation)
 
-		self.position_history.append(new_pos)
+		self.occupation_matrix[new_pos[0]][new_pos[1]] = True
+		self.current_position_head = new_pos
 
 	def apply_operation(self, operation):
-		match operation[0]:
+		match operation.operation:
 			case "+":
-				self.score += int(operation[1])
+				self.score += operation.operand
 			case '-':
-				self.score -= int(operation[1])
+				self.score -= operation.operand
 			case '×':
-				self.score *= int(operation[1])
+				self.score *= operation.operand
 			case '÷':
-				self.score /= int(operation[1])
+				self.score /= operation.operand
 			case _:
 				raise ValueError("Invalid Value  (in Apply Operation) : ", operation[0])
 
-	def is_move_in_bound(self, new_pos):
-		return new_pos[0] >= 0 and new_pos[1] >= 0 and new_pos[0] < self.grid_size[1] and new_pos[1] < self.grid_size[0]
-
-	def is_move_in_history(self, new_pos):
-		return new_pos in self.position_history
+	def is_move_in_bound_and_not_in_history(self, new_pos):
+		return new_pos[0] >= 0 and new_pos[1] >= 0 and new_pos[0] < self.grid_size[1] and new_pos[1] < self.grid_size[0] and (not self.occupation_matrix[new_pos[0]][new_pos[1]])
