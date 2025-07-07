@@ -108,7 +108,7 @@ def get_all_but_inverse_of_last_move(moves_history):
 
 def back_track(game, max_solution_size):
 	current_best_score = game.score
-	current_best_solution = game.moves_history[::]
+	current_best_solution = None
 
 	if len(game.moves_history) < max_solution_size:  # else stop
 		for new_move in get_all_but_inverse_of_last_move(game.moves_history):
@@ -132,9 +132,11 @@ def back_track(game, max_solution_size):
 				game.position_history.pop()
 
 				if current_best_score < temp_best_score:  # if new res better than prev:
-					# current_best_score and current_best_solution refresh
 					current_best_score = temp_best_score
 					current_best_solution = temp_best_moves[::]
+
+	if current_best_solution == None:
+		current_best_solution = game.moves_history[::]
 
 	return current_best_score, current_best_solution
 
