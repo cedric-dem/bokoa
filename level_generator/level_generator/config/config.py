@@ -8,7 +8,7 @@ coefficient_difficulty_first_term = 0.4
 coefficient_difficulty_second_term = 0.6
 
 compute_constants = "AUTOMATIC"
-compute_boundaries = "USE_OLD"
+compute_boundaries = "AUTOMATIC"
 
 use_multiple_cores_for_levels_generation = True
 n_cores = 4
