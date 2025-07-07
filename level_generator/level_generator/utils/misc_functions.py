@@ -133,7 +133,6 @@ def back_track(game, max_solution_size):
 
 def get_boundaries(initial_set_of_levels):
 	if (compute_boundaries == "AUTOMATIC"):
-		k = 10  # will ignore top 10%, bottom 10% (scores and sizes)
 
 		min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
 
@@ -146,11 +145,11 @@ def get_boundaries(initial_set_of_levels):
 				current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
 				current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
 
-			min_sizes.append(round(float(numpy.percentile(current_sizes, k)), 2))
-			max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - k)), 2))
+			min_sizes.append(round(float(numpy.percentile(current_sizes, ignore_extreme_values)), 2))
+			max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - ignore_extreme_values)), 2))
 
-			min_scores.append(round(float(numpy.percentile(current_scores, k)), 2))
-			max_scores.append(round(float(numpy.percentile(current_scores, 100 - k)), 2))
+			min_scores.append(round(float(numpy.percentile(current_scores, ignore_extreme_values)), 2))
+			max_scores.append(round(float(numpy.percentile(current_scores, 100 - ignore_extreme_values)), 2))
 
 		boundaries = {
 			"min_size": min_sizes,
