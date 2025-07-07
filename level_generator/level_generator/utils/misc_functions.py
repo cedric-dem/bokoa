@@ -55,27 +55,31 @@ def create_levels_and_solutions(grid_size_id):
 
 	else:
 		if (use_multiple_cores_for_levels_generation):
-			generate_levels_in_parallel(grid_size_id, existing_levels)
+			generate_levels_in_parallel(grid_size_id)
 		else:
-			for current_level_index in range(existing_levels, raw_levels_to_generate):
-				generate_one_level(current_level_index, grid_size_id)
+			for current_level_index in range(raw_levels_to_generate):
+				generate_one_level_if_not_exists(current_level_index, grid_size_id)
 
-def generate_one_level(current_level_index, grid_size_id):
-	t0 = time.time()
-	print(f"==> generate level {current_level_index + 1}")
-
+def generate_one_level_if_not_exists(current_level_index, grid_size_id):
 	path = get_level_path_complete(grid_size_id, current_level_index)
-	create_a_level_and_solution(grid_size_id, path)
 
-	t1 = time.time()
-	print(f"finished level {current_level_index + 1}. Time taken: {round(t1 - t0, 3)} seconds")
-	return current_level_index
+	if os.path.exists(path):
+		print("==> level ", current_level_index + 1, " already exists")
 
-def generate_levels_in_parallel(grid_size_id, existing_levels):
+	else:
+		t0 = time.time()
+		print("==> generate level ", current_level_index + 1)
+
+		create_a_level_and_solution(grid_size_id, path)
+
+		t1 = time.time()
+		print("finished level ", current_level_index + 1, ". Time taken: ", round(t1 - t0, 3), " seconds")
+
+def generate_levels_in_parallel(grid_size_id):
 	with ProcessPoolExecutor(max_workers = n_cores) as executor:
 		futures = []
-		for current_level_index in range(existing_levels, raw_levels_to_generate):
-			futures.append(executor.submit(generate_one_level, current_level_index, grid_size_id))
+		for current_level_index in range(raw_levels_to_generate):
+			futures.append(executor.submit(generate_one_level_if_not_exists, current_level_index, grid_size_id))
 
 		"""
 		for future in as_completed(futures):
