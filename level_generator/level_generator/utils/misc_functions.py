@@ -90,13 +90,20 @@ def generate_levels_in_parallel(grid_size_id):
 		"""
 
 def get_all_but_inverse_of_last_move(moves_history):
-	directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 	if len(moves_history) == 0:
-		result = directions
+		result = list_all_directions
 	else:
-		last_move = moves_history[-1]
-		inverse = [-last_move[0], -last_move[1]]
-		result = [d for d in directions if d != inverse]
+		match moves_history[-1]:
+			case [0, -1]:
+				result = [[0, -1], [1, 0], [-1, 0]]
+			case [0, 1]:
+				result = [[0, 1], [1, 0], [-1, 0]]
+			case [1, 0]:
+				result = [[0, -1], [0, 1], [1, 0]]
+			case [-1, 0]:
+				result = [[0, -1], [0, 1], [-1, 0]]
+			case _:
+				result = list_all_directions
 	return result
 
 def back_track(game, max_solution_size):
