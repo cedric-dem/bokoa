@@ -135,7 +135,7 @@ def back_track(game, max_solution_size):
 					current_best_score = temp_best_score
 					current_best_solution = temp_best_moves[::]
 
-	if current_best_solution == None:
+	if not current_best_solution:
 		current_best_solution = game.moves_history[::]
 
 	return current_best_score, current_best_solution
