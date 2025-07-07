@@ -114,7 +114,7 @@ def back_track(game, max_solution_size):
 				old_score = game.score
 
 				# move
-				game.apply_move(new_move)
+				game.apply_move_given_direction_and_new_pos(new_move, new_position)
 
 				# launch backtrack
 				temp_best_score, temp_best_moves = back_track(game, max_solution_size)

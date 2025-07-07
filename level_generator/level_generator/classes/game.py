@@ -7,8 +7,13 @@ class Game(object):
 		self.moves_history = []
 		self.position_history = [[0, 0]]
 
-	def apply_move(self, direction):
+	def apply_move_given_direction(self, direction):
 		new_pos = [self.position_history[-1][0] + direction[0], self.position_history[-1][1] + direction[1]]
+
+		self.apply_move_given_direction_and_new_pos(direction, new_pos)
+
+	def apply_move_given_direction_and_new_pos(self, direction, new_pos):
+		#For optimization purposes, back_track can call directly this function given new pos, saves like 5% of time not to recompute new_pos
 
 		self.moves_history.append(direction)
 
