@@ -10,7 +10,13 @@ class Level(object):
 		self.grid_size = grid_sizes[grid_size_id]
 
 		if operations_grid:
-			self.operations_grid = operations_grid
+			self.operations_grid = [[None for _ in range(self.grid_size[0])] for _ in range(self.grid_size[1])]
+			for i in range(self.grid_size[0]):
+				for j in range(self.grid_size[1]):
+					if (i==0 and j==0):
+						self.operations_grid[i][j] = "1"
+					else:
+						self.operations_grid[i][j] = Operation(operations_grid[i][j][0], int(operations_grid[i][j][1]))
 		else:
 			self.operations_grid = [[None for _ in range(self.grid_size[0])] for _ in range(self.grid_size[1])]
 			self.create_level()
