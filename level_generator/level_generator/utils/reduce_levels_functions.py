@@ -16,16 +16,22 @@ def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 
 	return closest_index
 
-def get_all_levels():
+def get_complete_set_levels():
+	return get_levels(complete_folder_name)
+
+def get_reduced_set_levels():
+	return get_levels(reduced_folder_name)
+
+def get_levels(folder):
 	result = [None for _ in range(len(grid_sizes))]
 
 	for current_grid_size_id in range(len(grid_sizes)):
-		complete_levels_list = get_levels_list(complete_folder_name, current_grid_size_id, get_amount_of_existing_levels_for_given_grid_size(current_grid_size_id))
+		complete_levels_list = get_levels_list(folder, current_grid_size_id, get_amount_of_existing_levels_for_given_grid_size(folder, current_grid_size_id))
 		result[current_grid_size_id] = complete_levels_list
 
 	return result
 
-def is_passing_criterias(current_level, current_grid_size_id, boundaries):
+def is_passing_criteria(current_level, current_grid_size_id, boundaries):
 	this_size = len(current_level.best_moves)
 	min_size = boundaries["min_size"][current_grid_size_id]
 	max_size = boundaries["max_size"][current_grid_size_id]
@@ -34,7 +40,7 @@ def is_passing_criterias(current_level, current_grid_size_id, boundaries):
 	min_score = boundaries["min_score"][current_grid_size_id]
 	max_score = boundaries["max_score"][current_grid_size_id]
 
-	return this_size >= min_size and this_size <= max_size and this_score >= min_score and this_score <= max_score
+	return min_size <= this_size <= max_size and min_score <= this_score <= max_score
 
 def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 	print("====> remove out of bounds levels")
@@ -44,7 +50,7 @@ def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 		for current_old_level_index in range(len(current_set_of_levels[current_grid_size_id])):
 			current_level = current_set_of_levels[current_grid_size_id][current_old_level_index]
 
-			if is_passing_criterias(current_level, current_grid_size_id, boundaries):
+			if is_passing_criteria(current_level, current_grid_size_id, boundaries):
 				acceptable_levels[current_grid_size_id].append(current_level)
 
 	return acceptable_levels
@@ -52,10 +58,10 @@ def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 def are_levels_exactly_the_same(level_a, level_b):
 	found_one_difference = False
 	i = 0
-	while i < (len(level_a.level.operations_grid)) and not found_one_difference:
+	while i < (len(level_a.operations_grid)) and not found_one_difference:
 		j = 0
-		while j < (len(level_a.level.operations_grid)) and not found_one_difference:
-			if level_a.level.operations_grid[i][j] != level_b.level.operations_grid[i][j]:
+		while j < (len(level_a.operations_grid)) and not found_one_difference:
+			if level_a.operations_grid[i][j] != level_b.operations_grid[i][j]:
 				found_one_difference = True
 			j += 1
 		i += 1

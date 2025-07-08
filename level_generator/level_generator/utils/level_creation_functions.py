@@ -74,4 +74,4 @@ def set_operations_and_operand_balanced(grid_size, operations_grid):
 				operations_grid[j][i] = new_operation
 				del reserve[0]
 
-# print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
+	# print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))

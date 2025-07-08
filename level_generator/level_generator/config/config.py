@@ -13,13 +13,13 @@ compute_boundaries = "AUTOMATIC"
 list_all_directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 
 use_multiple_cores_for_levels_generation = True
-n_cores = 4
+n_cores = 6
 
-balance_operand = False
+balance_operand = True
 
-generated_levels_folder_name = "generated_levels_new"
+generated_levels_folder_name = "generated_levels/generated_levels_new_balanced"
 
-ignore_extreme_values = 10	# will ignore top 10%, bottom 10% (scores and sizes)
+ignore_extreme_values = 10  # will ignore top 10%, bottom 10% (scores and sizes)
 
 complete_folder_name = "complete"
 reduced_folder_name = "reduced"

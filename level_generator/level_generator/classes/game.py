@@ -3,6 +3,7 @@ class Game(object):
 		self.level = level
 		self.score = 1
 		self.grid_size = level.grid_size
+		self.grid_size_id = level.grid_size_id
 
 		self.moves_history = []
 

@@ -2,10 +2,10 @@ from level_generator.utils.constant_computation import retrieve_all_constants
 from level_generator.utils.display_functions import describe_levels_set_terminal, plot_levels_sets_statistics
 from level_generator.utils.file_level_functions import save_all_levels
 from level_generator.utils.misc_functions import get_boundaries, sort_levels_set
-from level_generator.utils.reduce_levels_functions import reduce_levels_set, remove_out_of_bounds_levels, get_all_levels, set_difficulty_for_all_levels, remove_duplicated
+from level_generator.utils.reduce_levels_functions import reduce_levels_set, remove_out_of_bounds_levels, get_complete_set_levels, set_difficulty_for_all_levels, remove_duplicated
 
 print("========> step 0: Retrieve initial set of levels")
-initial_set_of_levels = get_all_levels()
+initial_set_of_levels = get_complete_set_levels()
 
 print("========> step 1: Retrieve Boundaries")
 boundaries = get_boundaries(initial_set_of_levels)
