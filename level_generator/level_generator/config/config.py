@@ -1,4 +1,4 @@
-raw_levels_to_generate = 10000
+raw_levels_to_generate = 1000
 
 number_levels_to_keep = 100
 
@@ -17,7 +17,7 @@ n_cores = 4
 
 balance_operand = True
 
-generated_levels_folder_name = "generated_levels_new"
+generated_levels_folder_name = "generated_levels_new_balanced"
 
 ignore_extreme_values = 10	# will ignore top 10%, bottom 10% (scores and sizes)
 
