@@ -15,6 +15,8 @@ list_all_directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 use_multiple_cores_for_levels_generation = True
 n_cores = 4
 
+balance_operand = False
+
 generated_levels_folder_name = "generated_levels_new"
 
 ignore_extreme_values = 10	# will ignore top 10%, bottom 10% (scores and sizes)
