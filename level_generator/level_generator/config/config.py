@@ -15,7 +15,7 @@ list_all_directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 use_multiple_cores_for_levels_generation = True
 n_cores = 4
 
-balance_operand = False
+balance_operand = True
 
 generated_levels_folder_name = "generated_levels_new"
 

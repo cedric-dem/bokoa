@@ -49,7 +49,7 @@ def set_operations_and_operand_balanced(grid_size, operations_grid):
 
 	reserve = get_operations_reserve_balanced(grid_size)
 
-	print("===> Balanced number of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div), "(needed : ", total_of_each_op, ") ( factors  ", multiply_factor_addition_operations, multiply_factor_addition_operations, ")")
+	# print("===> Balanced number of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div), "(needed : ", total_of_each_op, ") ( factors  ", multiply_factor_addition_operations, multiply_factor_addition_operations, ")")
 	# print("Operands : ", operands_plus, operands_minus, operands_mul, operands_div)
 
 	for i in range(grid_size[0]):
@@ -76,4 +76,4 @@ def set_operations_and_operand_balanced(grid_size, operations_grid):
 				operations_grid[j][i] = new_operation
 				del reserve[0]
 
-	print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
+# print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
