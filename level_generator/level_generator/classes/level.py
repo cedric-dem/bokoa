@@ -1,4 +1,6 @@
 import random
+
+from level_generator.classes.operation import Operation
 from level_generator.config.config import *
 from level_generator.utils.level_creation_functions import get_operations_reserve
 
@@ -23,10 +25,10 @@ class Level(object):
 					self.operations_grid[0][0] = "1"
 				else:
 					if operations_reserve[0] == "×" or operations_reserve[0] == "÷":
-						new_operation = operations_reserve[0] + str(random.randint(2, 5))
+						new_operation = Operation(operations_reserve[0], random.randint(2, 5))
 
 					else:
-						new_operation = operations_reserve[0] + str(random.randint(1, 5))
+						new_operation = Operation(operations_reserve[0], random.randint(1, 5))
 
 					self.operations_grid[j][i] = new_operation
 					del operations_reserve[0]

@@ -29,15 +29,15 @@ class Game(object):
 		self.current_position_head = new_pos
 
 	def apply_operation(self, operation):
-		match operation[0]:
+		match operation.operation:
 			case "+":
-				self.score += int(operation[1])
+				self.score += operation.operand
 			case '-':
-				self.score -= int(operation[1])
+				self.score -= operation.operand
 			case '×':
-				self.score *= int(operation[1])
+				self.score *= operation.operand
 			case '÷':
-				self.score /= int(operation[1])
+				self.score /= operation.operand
 			case _:
 				raise ValueError("Invalid Value  (in Apply Operation) : ", operation[0])
 
