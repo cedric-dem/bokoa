@@ -19,7 +19,7 @@ def evaluate_heuristic_performance(name, levels_set):
 			reached_score = get_score_of_a_given_level_solved_using_given_heuristic(name, levels_set[grid_size_index][level_index])
 
 			this_goal = levels_set[grid_size_index][level_index].best_score
-			# print("=> level", level_index, " goal ", this_goal, "reached : ", reached_score)
+			print("=> level", level_index, " goal ", this_goal, "reached : ", reached_score)
 
 			if abs(reached_score - this_goal) < 0.01:
 				reached_goal += 1
