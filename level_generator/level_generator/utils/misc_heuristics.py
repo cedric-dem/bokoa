@@ -1,4 +1,3 @@
-from level_generator.config.config import grid_sizes
 from level_generator.heuristics_solver.backtrack_with_limited_depth import BackTrackingLimitedDepthSolver
 from level_generator.heuristics_solver.backtrack_with_score_check import BackTrackingWithScoreCheckSolver
 from level_generator.heuristics_solver.greedy import GreedySolver

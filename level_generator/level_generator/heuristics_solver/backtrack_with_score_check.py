@@ -14,7 +14,7 @@ class BackTrackingWithScoreCheckSolver(Solver):
 			case 0:
 				margin = (current_depth * 2) - 1  # starts at 0, increase as depth goes on (really fast,1.2 seconds, and 84% accuracy)
 			case 1:
-				margin =  (current_depth * 1.2)  # starts at 0, increase as depth goes on (really fast, still 93% accuracy approximately, takes 2 seconds for grid size 6x6)
+				margin = (current_depth * 1.2)  # starts at 0, increase as depth goes on (really fast, still 93% accuracy approximately, takes 2 seconds for grid size 6x6)
 			case 2:
 				margin = -1  # slower, roughly 9 sec for grid size 6x6 but 100% reliable on reduced set
 			case _:

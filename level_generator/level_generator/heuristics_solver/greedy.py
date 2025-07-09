@@ -19,7 +19,7 @@ class GreedySolver(Solver):
 
 		match self.variant:
 			case 0:
-				result = is_positive or (is_divide_and_late or is_minus_and_early) # Absolute greed, not reliable but quite instantaneous
+				result = is_positive or (is_divide_and_late or is_minus_and_early)  # Absolute greed, not reliable but quite instantaneous
 			case 1:
 				result = is_positive or is_divide_and_late or is_minus_and_early or is_after_half_max_length  # slightly better, still instantaneous
 			case _:

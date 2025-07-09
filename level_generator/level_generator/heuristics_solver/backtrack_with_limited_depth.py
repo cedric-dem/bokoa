@@ -9,9 +9,9 @@ class BackTrackingLimitedDepthSolver(Solver):
 	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
 		match self.variant:
 			case 0:
-				k=0.2
+				k = 0.2
 			case 1:
-				k=0.3
+				k = 0.3
 			case _:
 				print("Unknown variant", self.variant)
 
