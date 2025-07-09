@@ -14,7 +14,7 @@ def evaluate_heuristic_performance(name, variant, levels_set):
 	for grid_size_index in range(len(levels_set)):
 		t0 = time.time()
 		reached_goal = 0
-		print("==> on grid size ", grid_sizes[grid_size_index], " levels quantity : ", len(levels_set[grid_size_index]))
+		#print("==> on grid size ", grid_sizes[grid_size_index], " levels quantity : ", len(levels_set[grid_size_index]))
 		for level_index in range(len(levels_set[grid_size_index])):
 			reached_score = get_score_of_a_given_level_solved_using_given_heuristic(name, variant, levels_set[grid_size_index][level_index])
 
@@ -45,3 +45,16 @@ def get_score_of_a_given_level_solved_using_given_heuristic(heuristic_name, vari
 	final_score = solver.solve()
 
 	return final_score
+
+def test_proportion_of_every_variant_every_solver(set_of_levels):
+	print('=> Levels quantity',[len(set_of_levels[i]) for i in range(len(set_of_levels))])
+
+	# Greedy
+	evaluate_heuristic_performance("Greedy", 0, set_of_levels)
+	evaluate_heuristic_performance("Greedy", 1, set_of_levels)
+
+	# evaluate_heuristic_performance("Advantage Matrix",0, set_of_levels)
+
+	# evaluate_heuristic_performance("BackTracking Limited Depth",0,  set_of_levels)
+
+	# evaluate_heuristic_performance("BackTracking With Score Check", 0, set_of_levels)

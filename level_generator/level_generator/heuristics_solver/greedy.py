@@ -17,7 +17,12 @@ class GreedySolver(Solver):
 		is_divide_and_late = (is_after_half_max_length and new_operation.operation == "÷")
 		is_minus_and_early = ((not is_after_half_max_length) and new_operation.operation == "-")
 
-		# result = is_positive or (is_divide_and_late or is_minus_and_early) # Absolute greed, not reliable but quite instantaneous
-		result = is_positive or is_divide_and_late or is_minus_and_early or is_after_half_max_length  # slightly better, still instantaneous
+		match self.variant:
+			case 0:
+				result = is_positive or (is_divide_and_late or is_minus_and_early) # Absolute greed, not reliable but quite instantaneous
+			case 1:
+				result = is_positive or is_divide_and_late or is_minus_and_early or is_after_half_max_length  # slightly better, still instantaneous
+			case _:
+				print('Unknown variant')
 
 		return result

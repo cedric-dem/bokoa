@@ -1,4 +1,4 @@
-from level_generator.utils.misc_heuristics import evaluate_heuristic_performance
+from level_generator.utils.misc_heuristics import evaluate_heuristic_performance, test_proportion_of_every_variant_every_solver
 from level_generator.utils.reduce_levels_functions import get_complete_set_levels, get_reduced_set_levels
 
 print('=====> retrieve data')
@@ -7,10 +7,7 @@ print('=====> retrieve data')
 set_of_levels = [levels_for_that_grid_size[:10] for levels_for_that_grid_size in get_reduced_set_levels()]
 
 print('=====> Test Proportion of levels passed by each heuristics : ')
-# evaluate_heuristic_performance("Greedy", 0, set_of_levels)
-# evaluate_heuristic_performance("Advantage Matrix",0, set_of_levels)
-# evaluate_heuristic_performance("BackTracking Limited Depth",0,  set_of_levels)
-evaluate_heuristic_performance("BackTracking With Score Check", 0, set_of_levels)
+test_proportion_of_every_variant_every_solver(set_of_levels)
 
 print('=====> Display Performance/Time of each heuristic')
 # TODO
