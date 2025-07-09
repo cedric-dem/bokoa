@@ -29,6 +29,7 @@ class GreedySolver(Solver):
 		early_point= int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 4)
 
 		is_after_half_max_length = current_depth > half_max_length
+		is_after_early_point = current_depth > early_point
 
 		is_positive = (new_operation.operation == "+" or new_operation.operation == "×")
 		is_divide_and_late = (is_after_half_max_length and new_operation.operation == "÷")
