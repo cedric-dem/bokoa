@@ -4,6 +4,8 @@ from level_generator.heuristics_solver.greedy import GreedySolver
 from level_generator.heuristics_solver.advantage_matrix import AdvantageMatrixSolver
 import time
 
+from level_generator.utils.display_functions import display_performance_time_heuristic
+
 def evaluate_heuristic_performance(name, variant, levels_set):
 	print('====> Evaluate heuristic: ', name, "variant ", variant)
 
@@ -77,6 +79,3 @@ def test_proportion_of_every_variant_every_solver(set_of_levels):
 
 	print('=====> Display Performance/Time of each heuristic')
 	display_performance_time_heuristic(dict_time, dict_perf)
-
-def display_performance_time_heuristic(dict_time, dict_perf):
-	pass

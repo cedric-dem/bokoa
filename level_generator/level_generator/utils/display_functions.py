@@ -233,3 +233,25 @@ def get_approx_function(grid_size_index):
 			print("not found")
 			result = [0 for _ in range(size_wanted)]
 	return result
+
+def display_performance_time_heuristic(dict_time, dict_perf):
+	for grid_size_index in range(len(grid_sizes)):
+		times = []
+		perfs = []
+		names = []
+		for heuristic_setting in dict_time:
+			times.append(dict_time[heuristic_setting][grid_size_index])
+			perfs.append(dict_perf[heuristic_setting][grid_size_index])
+			names.append(heuristic_setting)
+
+		plt.scatter(times, perfs)
+
+		for current_heuristic_index in range(len(times)):
+			plt.text(times[current_heuristic_index], perfs[current_heuristic_index], names[current_heuristic_index], fontsize = 9)
+
+		plt.xlabel("Performance")
+		plt.ylabel("Time")
+		plt.title("Performance VS Time of each heuristic for grid size" + str(grid_sizes[grid_size_index]))
+
+		plt.grid(True)
+		plt.show()
