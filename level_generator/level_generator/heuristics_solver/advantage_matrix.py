@@ -31,17 +31,17 @@ def get_advantage_matrix(level):
 								operand = level.operations_grid[new_i][new_j].operand
 								match level.operations_grid[new_i][new_j].operation:
 									case "×":
-										# current_case_advantage += (3 + 3 * operand) / distance_with_case_of_interest  # TODO experiment maybe square of distancce ? sqrt ?
-										current_case_advantage += 3
+										current_case_advantage += (3 + 3 * operand) / distance_with_case_of_interest  # TODO experiment maybe square of distancce ? sqrt ?
+										#current_case_advantage += 3
 									case "+":
-										# current_case_advantage += (1.5 + 2 * operand) / distance_with_case_of_interest  # TODO experiment #TODO maybe remove the divider ?
-										current_case_advantage += 3  # TODO experiment #TODO maybe remove the divider ?
+										current_case_advantage += (1.5 + 2 * operand) / distance_with_case_of_interest  # TODO experiment #TODO maybe remove the divider ?
+										#current_case_advantage += 3  # TODO experiment #TODO maybe remove the divider ?
 									case "-":
-										# current_case_advantage -= (1.5 + 2 * operand) / distance_with_case_of_interest
-										current_case_advantage -= 3
+										current_case_advantage -= (1.5 + 2 * operand) / distance_with_case_of_interest
+										#current_case_advantage -= 3
 									case "÷":
-										# current_case_advantage -= (2 + 3 * operand) / distance_with_case_of_interest
-										current_case_advantage -= 3
+										current_case_advantage -= (2 + 3 * operand) / distance_with_case_of_interest
+										#current_case_advantage -= 3
 									case _:
 										print("not found error")
 
@@ -112,4 +112,4 @@ class AdvantageMatrixSolver(Solver):
 		return result
 
 	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
-		return self.advantage_matrix[new_position[0]][new_position[1]] >= -1
+		return self.advantage_matrix[new_position[0]][new_position[1]] >= -5
