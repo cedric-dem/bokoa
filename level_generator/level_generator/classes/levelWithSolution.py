@@ -1,12 +1,15 @@
 from level_generator.config.config import *
 from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level
 
-class LevelWithSolution(object):
+class LevelWithSolution(object): #TODO : inherit from Level
 	def __init__(self, level, best_score, best_moves):
 		self.level = level
 
 		self.best_score = best_score
 		self.best_moves = best_moves
+
+		self.grid_size = level.grid_size
+		self.grid_size_id = level.grid_size_id
 
 		self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self.level)
 
