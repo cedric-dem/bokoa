@@ -1,17 +1,16 @@
+from level_generator.classes.level import Level
 from level_generator.config.config import *
 from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level
 
-class LevelWithSolution(object): #TODO : inherit from Level
-	def __init__(self, level, best_score, best_moves):
-		self.level = level
+class LevelWithSolution(Level):  # TODO : inherit from Level
+	def __init__(self, operations_grid, best_score, best_moves, grid_size_id):
+		super().__init__(grid_size_id, operations_grid)
 
 		self.best_score = best_score
+
 		self.best_moves = best_moves
 
-		self.grid_size = level.grid_size
-		self.grid_size_id = level.grid_size_id
-
-		self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self.level)
+		self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self)
 
 	def compute_raw_terms(self):
 		increasing_steps_counter = 0
@@ -37,14 +36,14 @@ class LevelWithSolution(object): #TODO : inherit from Level
 
 		self.compute_raw_terms()
 
-		self.first_term_normalized = constants["coefficient_difficulty_first_term_a"][self.level.grid_size_id] + (constants["coefficient_difficulty_first_term_b"][self.level.grid_size_id] * self.first_term_raw)
-		self.second_term_normalized = self.second_term_raw * constants["coefficient_difficulty_second_term_a"][self.level.grid_size_id]
+		self.first_term_normalized = constants["coefficient_difficulty_first_term_a"][self.grid_size_id] + (constants["coefficient_difficulty_first_term_b"][self.grid_size_id] * self.first_term_raw)
+		self.second_term_normalized = self.second_term_raw * constants["coefficient_difficulty_second_term_a"][self.grid_size_id]
 
 		self.estimated_difficulty = round((coefficient_difficulty_first_term * self.first_term_normalized) + (coefficient_difficulty_second_term * self.second_term_normalized), 6)
 
 	def display_everything(self):
 		print('==> Grid :')
-		self.level.display_level()
+		super().display_level()
 		print('==> Solution :', self.best_moves)
 		print('==> Best Score : ', self.best_score)
 

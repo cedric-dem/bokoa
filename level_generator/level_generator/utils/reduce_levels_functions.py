@@ -31,7 +31,6 @@ def get_levels(folder):
 
 	return result
 
-
 def is_passing_criterias(current_level, current_grid_size_id, boundaries):
 	this_size = len(current_level.best_moves)
 	min_size = boundaries["min_size"][current_grid_size_id]
@@ -59,10 +58,10 @@ def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 def are_levels_exactly_the_same(level_a, level_b):
 	found_one_difference = False
 	i = 0
-	while i < (len(level_a.level.operations_grid)) and not found_one_difference:
+	while i < (len(level_a.operations_grid)) and not found_one_difference:
 		j = 0
-		while j < (len(level_a.level.operations_grid)) and not found_one_difference:
-			if level_a.level.operations_grid[i][j] != level_b.level.operations_grid[i][j]:
+		while j < (len(level_a.operations_grid)) and not found_one_difference:
+			if level_a.operations_grid[i][j] != level_b.operations_grid[i][j]:
 				found_one_difference = True
 			j += 1
 		i += 1
