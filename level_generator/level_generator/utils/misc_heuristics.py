@@ -27,7 +27,7 @@ def evaluate_heuristic_performance(name, levels_set):
 		t1 = time.time()
 		time_taken.append(round(t1 - t0, 2))
 
-	print('==> Performance : ', performance, " time taken: ", [round(time_taken[grid_size_index]/len(levels_set[grid_size_index]),2) for grid_size_index in  range (len(time_taken))])
+	print('==> Performance : ', performance, " time taken: ", [round(time_taken[grid_size_index] / len(levels_set[grid_size_index]), 2) for grid_size_index in range(len(time_taken))])
 
 def get_score_of_a_given_level_solved_using_given_heuristic(heuristic_name, level):
 	match heuristic_name:

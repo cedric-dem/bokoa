@@ -27,4 +27,4 @@ class BackTrackingWithScoreCheckSolver(Solver):
 
 	def is_solution_worth_trying(self, current_score, current_depth):
 		estimated_lower = get_approx_function(self.level_to_solve.grid_size_id)[current_depth]
-		return current_score > estimated_lower - 5
+		return current_score > estimated_lower - 3 #add margin
