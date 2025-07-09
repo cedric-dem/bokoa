@@ -7,7 +7,7 @@ import time
 def evaluate_heuristic_performance(name, variant, levels_set):
 	print('====> Evaluate heuristic: ', name, "variant ", variant)
 
-	performance = []
+	accuracy_total = []
 	time_taken = []
 
 	for grid_size_index in range(len(levels_set)):
@@ -22,11 +22,12 @@ def evaluate_heuristic_performance(name, variant, levels_set):
 
 			if abs(reached_score - this_goal) < 0.01:
 				reached_goal += 1
-		performance.append(round(reached_goal / len(levels_set[grid_size_index]), 4))
 		t1 = time.time()
-		time_taken.append(round(t1 - t0, 2))
+		accuracy_total.append(round(reached_goal / len(levels_set[grid_size_index]), 4))
+		time_taken.append(round((t1 - t0) / len(levels_set[grid_size_index]), 4))
 
-	print('==> Performance : ', performance, " time taken: ", [round(time_taken[grid_size_index] / len(levels_set[grid_size_index]), 2) for grid_size_index in range(len(time_taken))])
+	print('==> Performance : ', accuracy_total, " time taken: ", time_taken)
+	return accuracy_total, time_taken
 
 def get_score_of_a_given_level_solved_using_given_heuristic(heuristic_name, variant, level):
 	match heuristic_name:
@@ -59,8 +60,8 @@ def test_proportion_of_every_variant_every_solver(set_of_levels):
 		("BackTracking With Score Check", 2),
 	]
 
-	for heuristic_setting_index in range (len(list_heuristics_to_test)):
-		print("======================================================> ",heuristic_setting_index,"/",len(list_heuristics_to_test))
+	for heuristic_setting_index in range(len(list_heuristics_to_test)):
+		print("====> Heuristic", heuristic_setting_index, "/", len(list_heuristics_to_test))
 		this_heuristic_setting = list_heuristics_to_test[heuristic_setting_index]
 		evaluate_heuristic_performance(this_heuristic_setting[0], this_heuristic_setting[1], set_of_levels)
 
@@ -68,5 +69,5 @@ def test_proportion_of_every_variant_every_solver(set_of_levels):
 	# TODO
 
 	print('=====> Display evolution of passed levels')
-	# all in one plot
-	# TODO
+# all in one plot
+# TODO
