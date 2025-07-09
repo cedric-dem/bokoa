@@ -1,6 +1,7 @@
 from level_generator.classes.game import Game
 from level_generator.config.config import grid_sizes
 from level_generator.heuristics_solver.greedy import GreedySolver
+from level_generator.heuristics_solver.advantage_matrix import AdvantageMatrixSolver
 
 def evaluate_algorithm_performance(name, levels_set):
 	print('====> Evaluate algorithm: ', name)
@@ -21,8 +22,14 @@ def evaluate_algorithm_performance(name, levels_set):
 
 def get_score_of_a_given_level_solved_using_given_algorithm(name, level):
 	this_game = Game(level)
-	if (name=="Greedy"):
-		solver=GreedySolver(this_game)
-		solver.solve()
+	match name:
+		case 'Greedy':
+			solver=GreedySolver(this_game)
+		case 'Advantage Matrix':
+			solver=AdvantageMatrixSolver(this_game)
+		case _:
+			print("Not found solver")
+
+	solver.solve()
 
 	return this_game.score
