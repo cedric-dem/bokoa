@@ -1,6 +1,7 @@
 from level_generator.classes.game import Game
 from level_generator.classes.solverParent import Solver
 from level_generator.config.config import grid_sizes
+from level_generator.utils.display_functions import get_approx_function
 from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level
 from level_generator.utils.misc_functions import get_readable_moves
 
@@ -25,4 +26,5 @@ class BackTrackingWithScoreCheckSolver(Solver):
 		return result
 
 	def is_solution_worth_trying(self, current_score, current_depth):
-		return  current_score > -50 #TODO function that uses current_depth and grid_size
+		estimated_lower = get_approx_function(self.level_to_solve.grid_size_id)[current_depth]
+		return current_score > estimated_lower - 5
