@@ -198,7 +198,7 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 	all_time_max_min = max([mins_at_each_step[i][-1] for i in range(len(mins_at_each_step))])
 	print("==> All time min max : ", all_time_max_min)
 
-	approximation_lower_bound_function = get_approx_function(grid_size_index, levels_list[0])
+	approximation_lower_bound_function = get_approx_function(grid_size_index)
 	axes[0].plot(approximation_lower_bound_function, label = "Lower Bound Estimation", color = "green")
 
 	for levels_set_index in range(len(levels_list)):
@@ -220,15 +220,16 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 	plt.tight_layout()
 	plt.show()
 
-def get_approx_function(grid_size_index, levels_list):
+def get_approx_function(grid_size_index):
+	size_wanted = grid_sizes[grid_size_index][0] * grid_sizes[grid_size_index][1]
 	match grid_size_index:
 		case 0:
-			result = [0 for i in range (len(levels_list[grid_size_index]))]
+			result = [1, -4, -6.68, -10.63, -14.38, -14.32, -13.92, -13.4, -10.77, -6.44, -3.93, -1.22, 4.36, 10.21, 20.733, 83.66]
 		case 1:
-			result = [0 for i in range (len(levels_list[grid_size_index]))]
+			result = [1, -4, -17.4, -20.4, -22.2, -22.4, -18.6, -13.4, -11.97, -11.13, -8.09, -5.66, -3.5, -2.07, 0.15, 1.41, 5.23, 8.11, 23.28, 69.86, 251.61, 655.41, 1574.68, 2037.2000000000003, 6111.6]
 		case 2:
-			result = [0 for i in range (len(levels_list[grid_size_index]))]
+			result = [1, -4, -10.4, -12.6, -14.0, -12.6, -10.68, -9.28, -8.46, -7.31, -8.85, -7.4, -6.51, -5.43, -4.41, -0.87, -0.08, 0.78, 2.25, 2.82, 2.7, 3.82, 9.86, 18.17, 56.28, 93.67, 237.07, 374.96, 940.12, 1647.26, 3333.68, 4912.09, 5983.26, 8615.449999999999, 43077.24999999999]
 		case _:
 			print("not found")
-			result = [0 for i in range (len(levels_list[grid_size_index]))]
+			result = [0 for _ in range(size_wanted)]
 	return result
