@@ -1,4 +1,6 @@
 from level_generator.config.config import grid_sizes
+from level_generator.heuristics_solver.backtrack_with_limited_depth import BackTrackingLimitedDepthSolver
+from level_generator.heuristics_solver.backtrack_with_score_check import BackTrackingWithScoreCheckSolver
 from level_generator.heuristics_solver.greedy import GreedySolver
 from level_generator.heuristics_solver.advantage_matrix import AdvantageMatrixSolver
 import time
@@ -27,12 +29,16 @@ def evaluate_heuristic_performance(name, levels_set):
 
 	print('==> Performance : ', performance, " time taken: ", time_taken)
 
-def get_score_of_a_given_level_solved_using_given_heuristic(name, level):
-	match name:
+def get_score_of_a_given_level_solved_using_given_heuristic(heuristic_name, level):
+	match heuristic_name:
 		case 'Greedy':
 			solver = GreedySolver(level)
 		case 'Advantage Matrix':
 			solver = AdvantageMatrixSolver(level)
+		case "BackTracking Limited Depth":
+			solver = BackTrackingLimitedDepthSolver(level)
+		case "BackTracking With Score Check":
+			solver = BackTrackingWithScoreCheckSolver(level)
 		case _:
 			print("Not found solver")
 

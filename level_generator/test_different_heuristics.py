@@ -8,3 +8,5 @@ reduced_set_of_levels = get_reduced_set_levels()
 
 evaluate_heuristic_performance("Greedy", reduced_set_of_levels)
 evaluate_heuristic_performance("Advantage Matrix", reduced_set_of_levels)
+evaluate_heuristic_performance("BackTracking Limited Depth", reduced_set_of_levels)
+evaluate_heuristic_performance("BackTracking With Score Check", reduced_set_of_levels)
