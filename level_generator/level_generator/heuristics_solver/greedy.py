@@ -8,6 +8,6 @@ class GreedySolver(Solver):
 		# TODO
 		return 6096.0
 
-	def is_solution_worth_trying(self):
+	def is_solution_worth_trying(self, current_score, current_depth):
 		# TODO
 		return True

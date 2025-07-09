@@ -14,7 +14,7 @@ class BackTrackingLimitedDepthSolver(Solver):
 		################################################################################################ create temp game, to look for best solution with that heuristic
 		temp_game = Game(self.level_to_solve)
 
-		max_depth = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] * 0.5) #TODO fine tune, find best tradeoff than this
+		max_depth = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1])
 
 		best_score, best_moves = super().back_track_heuristic(temp_game, max_depth)
 
@@ -24,6 +24,6 @@ class BackTrackingLimitedDepthSolver(Solver):
 
 		return result
 
-	def is_solution_worth_trying(self):
-		# TODO
-		return True
+	def is_solution_worth_trying(self, current_score, current_depth):
+		max_depth = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] * 0.4)  # TODO fine tune, find best tradeoff than this
+		return  current_depth < max_depth

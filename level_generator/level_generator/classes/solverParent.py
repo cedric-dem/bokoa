@@ -8,10 +8,6 @@ class Solver(object):
 		# TODO
 		pass
 
-	def is_solution_worth_trying(self):
-		# TODO
-		return True
-
 	def back_track_heuristic(self, game, max_solution_size):  # Common to all solvers : a backtracking
 
 		current_best_score = game.score
@@ -25,7 +21,7 @@ class Solver(object):
 				##if move ok + not coming back
 				if game.is_move_in_bound_and_not_in_history(new_position):
 
-					if self.is_solution_worth_trying():
+					if self.is_solution_worth_trying(game.score, len(game.moves_history)):
 						# save old score
 						old_score = game.score
 						old_head_position = game.current_position_head
@@ -52,3 +48,7 @@ class Solver(object):
 			current_best_solution = game.moves_history[::]
 
 		return current_best_score, current_best_solution
+
+	def is_solution_worth_trying(self, current_score, current_depth):
+		# TODO
+		return True
