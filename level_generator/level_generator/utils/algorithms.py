@@ -1,14 +1,6 @@
 from level_generator.classes.game import Game
 from level_generator.config.config import grid_sizes
-
-class GreedySolver(object):
-	def __init__(self, game):
-		self.game = game
-
-	def solve(self):
-		#TODO
-		pass
-
+from level_generator.heuristics_solver.greedy import GreedySolver
 
 def evaluate_algorithm_performance(name, levels_set):
 	print('====> Evaluate algorithm: ', name)

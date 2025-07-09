@@ -1,4 +1,4 @@
-from level_generator.utils.alrorithms import evaluate_algorithm_performance
+from level_generator.utils.algorithms import evaluate_algorithm_performance
 from level_generator.utils.reduce_levels_functions import  get_complete_set_levels
 
 print('=====> Test Proportion of levels passed by each algorithm : ')
