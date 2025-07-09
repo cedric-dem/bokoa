@@ -22,8 +22,8 @@ class GreedySolver(Solver):
 		################################################################################################ solve level_to_solve
 		best_moves_dir = get_readable_moves(best_moves)
 		result = get_history_of_scores_for_given_solution_on_given_level(best_moves_dir, self.level_to_solve)[-1]
-
 		return result
 
 	def is_solution_worth_trying(self, current_score, current_depth, new_operation):
-		return new_operation.operation == "+" or new_operation.operation == "*"
+		point_change = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 2)
+		return (new_operation.operation == "+" or new_operation.operation == "×") or ((current_depth > point_change and new_operation.operation == "÷") or (current_depth < point_change and new_operation.operation == "-"))
