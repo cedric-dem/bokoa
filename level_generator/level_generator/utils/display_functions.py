@@ -249,8 +249,8 @@ def display_performance_time_heuristic(dict_time, dict_perf):
 		for current_heuristic_index in range(len(times)):
 			plt.text(times[current_heuristic_index], perfs[current_heuristic_index], names[current_heuristic_index], fontsize = 9)
 
-		plt.xlabel("Performance")
-		plt.ylabel("Time")
+		plt.xlabel("Time per level")
+		plt.ylabel("Accuracy")
 		plt.title("Performance VS Time of each heuristic for grid size" + str(grid_sizes[grid_size_index]))
 
 		plt.grid(True)
