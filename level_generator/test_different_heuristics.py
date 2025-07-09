@@ -8,7 +8,7 @@ reduced_set_of_levels = get_reduced_set_levels()
 
 # tiny_portion= [grid_size[:10] for grid_size in reduced_set_of_levels]
 
-# evaluate_heuristic_performance("Greedy", reduced_set_of_levels)
-# evaluate_heuristic_performance("Advantage Matrix", reduced_set_of_levels)
+# evaluate_heuristic_performance("Greedy", initial_set_of_levels)
+evaluate_heuristic_performance("Advantage Matrix", reduced_set_of_levels)
 # evaluate_heuristic_performance("BackTracking Limited Depth", reduced_set_of_levels)
-evaluate_heuristic_performance("BackTracking With Score Check", reduced_set_of_levels)
+# evaluate_heuristic_performance("BackTracking With Score Check", reduced_set_of_levels)
