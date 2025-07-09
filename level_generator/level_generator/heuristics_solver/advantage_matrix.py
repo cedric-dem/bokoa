@@ -1,8 +1,4 @@
-from level_generator.classes.game import Game
 from level_generator.classes.solverParent import Solver
-from level_generator.config.config import grid_sizes
-from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level
-from level_generator.utils.misc_functions import get_readable_moves
 from copy import deepcopy
 
 def get_advantage_matrix(level):
@@ -32,25 +28,25 @@ def get_advantage_matrix(level):
 								match level.operations_grid[new_i][new_j].operation:
 									case "×":
 										current_case_advantage += (3 + 3 * operand) / distance_with_case_of_interest  # TODO experiment maybe square of distancce ? sqrt ?
-										#current_case_advantage += 3
+									# current_case_advantage += 3
 									case "+":
 										current_case_advantage += (1.5 + 2 * operand) / distance_with_case_of_interest  # TODO experiment #TODO maybe remove the divider ?
-										#current_case_advantage += 3  # TODO experiment #TODO maybe remove the divider ?
+									# current_case_advantage += 3  # TODO experiment #TODO maybe remove the divider ?
 									case "-":
 										current_case_advantage -= (1.5 + 2 * operand) / distance_with_case_of_interest
-										#current_case_advantage -= 3
+									# current_case_advantage -= 3
 									case "÷":
 										current_case_advantage -= (2 + 3 * operand) / distance_with_case_of_interest
-										#current_case_advantage -= 3
+									# current_case_advantage -= 3
 									case _:
 										print("not found error")
 
 			# result[i][j] = current_case_advantage / seen_neighbours
 			result[i][j] = current_case_advantage
 
-
 	return result
-	#return mix_advantages(result)  # TODO see if this improve reliability or not
+
+# return mix_advantages(result)  # TODO see if this improve reliability or not
 
 def mix_advantages(current):
 	result = deepcopy(current)
@@ -95,22 +91,6 @@ class AdvantageMatrixSolver(Solver):
 		self.advantage_matrix = round_mat(get_advantage_matrix(level))
 
 	# display_advantage_matrix(self.advantage_matrix)
-
-	def solve(self):
-		# TODO clean this mess
-
-		################################################################################################ create temp game, to look for best solution with that heuristic
-		temp_game = Game(self.level_to_solve)
-
-		max_depth = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1])
-
-		best_score, best_moves = super().back_track_heuristic(temp_game, max_depth)
-
-		################################################################################################ solve level_to_solve
-		best_moves_dir = get_readable_moves(best_moves)
-		result = get_history_of_scores_for_given_solution_on_given_level(best_moves_dir, self.level_to_solve)[-1]
-
-		return result
 
 	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
 		return self.advantage_matrix[new_position[0]][new_position[1]] >= -5
