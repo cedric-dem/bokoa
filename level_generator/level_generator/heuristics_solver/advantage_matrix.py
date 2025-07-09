@@ -1,4 +1,4 @@
-from level_generator.utils.misc import Solver
+from level_generator.classes.solverParent import Solver
 
 class AdvantageMatrixSolver(Solver):
 	def __init__(self, game):
@@ -7,3 +7,7 @@ class AdvantageMatrixSolver(Solver):
 	def solve(self):
 		# TODO
 		pass
+
+	def is_solution_worth_trying(self):
+		# TODO
+		return True

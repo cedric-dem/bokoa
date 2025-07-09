@@ -1,51 +1,30 @@
-from level_generator.utils.misc import Solver
-from level_generator.utils.misc_functions import get_all_but_inverse_of_last_move
+from level_generator.classes.game import Game
+from level_generator.classes.level import Level
+from level_generator.classes.solverParent import Solver
+from level_generator.config.config import grid_sizes
 
 class GreedySolver(Solver):
 	def __init__(self, game):
 		super().__init__(game)
 
 	def solve(self):
+		# TODO clean this mess
+
+		# create level
+		# temp_level = Level(self.game.grid_size_id, self.game.level.operations_grid)
+		temp_level = Level(self.game.grid_size_id, None)
+
+		# create game
+		temp_game = Game(temp_level)
+
+		# do the backtrack
+		grid_size = grid_sizes[self.game.grid_size_id]
+
+		# best_score, best_moves = super().back_track_heuristic(temp_game, grid_size[0] * grid_size[1])
+		best_score, best_moves = super().back_track_heuristic(temp_game, 10)
+
+		print('===> best score ', best_score)
+
+	def is_solution_worth_trying(self):
 		# TODO
-		pass
-
-	"""
-	def back_track(self, game, max_solution_size):
-
-		current_best_score = game.score
-		current_best_solution = None
-
-		if len(game.moves_history) < max_solution_size:  # else stop
-			for new_move in get_all_but_inverse_of_last_move(game.moves_history):
-
-				new_position = [game.current_position_head[0] + new_move[0], game.current_position_head[1] + new_move[1]]
-
-				##if move ok + not coming back
-				if game.is_move_in_bound_and_not_in_history(new_position):
-					# save old score
-					old_score = game.score
-					old_head_position = game.current_position_head
-
-					# move
-					game.apply_move_given_direction_and_new_pos(new_move, new_position)
-
-					# launch backtrack
-					temp_best_score, temp_best_moves = back_track(game, max_solution_size)
-
-					##restore old state
-					game.score = old_score
-					game.moves_history.pop()
-					game.current_position_head = old_head_position
-
-					# game.occupation_matrix[old_head_position[0]][old_head_position[1]] = False
-					game.occupation_matrix[new_position[0]][new_position[1]] = False
-
-					if current_best_score < temp_best_score:  # if new res better than prev:
-						current_best_score = temp_best_score
-						current_best_solution = temp_best_moves[::]
-
-		if not current_best_solution:
-			current_best_solution = game.moves_history[::]
-
-		return current_best_score, current_best_solution
-	"""
+		return True
