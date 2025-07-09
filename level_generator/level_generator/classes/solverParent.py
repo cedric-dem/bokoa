@@ -2,7 +2,7 @@ from level_generator.utils.misc_functions import get_all_but_inverse_of_last_mov
 
 class Solver(object):
 	def __init__(self, game):
-		self.game = game
+		self.game_to_solve = game
 
 	def solve(self):
 		# TODO
