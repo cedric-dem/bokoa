@@ -28,13 +28,13 @@ class GreedySolver(Solver):
 		half_max_length = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 2)
 		early_point= int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 4)
 
-		is_before_half_max_length = current_depth > half_max_length
+		is_after_half_max_length = current_depth > half_max_length
 
 		is_positive = (new_operation.operation == "+" or new_operation.operation == "×")
-		is_divide_and_late = (is_before_half_max_length and new_operation.operation == "÷")
-		is_minus_and_early = ((not is_before_half_max_length) and new_operation.operation == "-")
+		is_divide_and_late = (is_after_half_max_length and new_operation.operation == "÷")
+		is_minus_and_early = ((not is_after_half_max_length) and new_operation.operation == "-")
 
 		# result = is_positive or (is_divide_and_late or is_minus_and_early) # Absolute greed, not reliable but quite instantaneous
-		result = is_positive or is_divide_and_late or is_minus_and_early or is_before_half_max_length  # slightly better, still instantaneous
+		result = is_positive or is_divide_and_late or is_minus_and_early or is_after_half_max_length  # slightly better, still instantaneous
 
 		return result
