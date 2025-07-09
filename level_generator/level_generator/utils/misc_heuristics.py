@@ -67,17 +67,16 @@ def test_proportion_of_every_variant_every_solver(set_of_levels):
 		print("====> Heuristic", heuristic_setting_index, "/", len(list_heuristics_to_test))
 		this_heuristic_setting = list_heuristics_to_test[heuristic_setting_index]
 		accuracy_total, time_taken = evaluate_heuristic_performance(this_heuristic_setting[0], this_heuristic_setting[1], set_of_levels)
-		name_in_dict = this_heuristic_setting[0] + '(variant' + str(this_heuristic_setting[1]) + ')'
+		name_in_dict = this_heuristic_setting[0] + ' ( variant ' + str(this_heuristic_setting[1]) + ' )'
 
 		dict_time[name_in_dict] = time_taken
 		dict_perf[name_in_dict] = accuracy_total
 
+	print("Time : ", dict_time)
+	print("Perf : ", dict_perf)
+
 	print('=====> Display Performance/Time of each heuristic')
-	# TODO
+	display_performance_time_heuristic(dict_time, dict_perf)
 
-	print('=====> Display evolution of passed levels')
-	# all in one plot
-	# TODO
-
-	print("Time : ",dict_time)
-	print("Perf : ",dict_perf)
+def display_performance_time_heuristic(dict_time, dict_perf):
+	pass

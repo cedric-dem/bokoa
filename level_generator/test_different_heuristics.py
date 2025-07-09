@@ -9,6 +9,10 @@ set_of_levels = [levels_for_that_grid_size[:2] for levels_for_that_grid_size in 
 print('=====> Test Proportion of levels passed by each heuristics : ')
 test_proportion_of_every_variant_every_solver(set_of_levels)
 
+print('=====> Display evolution of passed levels')
+# each algo
+# TODO
+
 print('=====> Display sum of predictors passing levels for each level')
 # sum, only one plot
 # TODO
