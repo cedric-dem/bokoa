@@ -1,4 +1,4 @@
-from level_generator.utils.misc_heuristics import evaluate_heuristic_performance, test_proportion_of_every_variant_every_solver
+from level_generator.utils.misc_heuristics import test_proportion_of_every_variant_every_solver
 from level_generator.utils.reduce_levels_functions import get_complete_set_levels, get_reduced_set_levels
 
 print('=====> retrieve data')
