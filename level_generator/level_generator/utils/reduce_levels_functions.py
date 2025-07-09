@@ -26,7 +26,7 @@ def get_levels(folder):
 	result = [None for _ in range(len(grid_sizes))]
 
 	for current_grid_size_id in range(len(grid_sizes)):
-		complete_levels_list = get_levels_list(folder, current_grid_size_id, get_amount_of_existing_levels_for_given_grid_size(current_grid_size_id))
+		complete_levels_list = get_levels_list(folder, current_grid_size_id, get_amount_of_existing_levels_for_given_grid_size(folder, current_grid_size_id))
 		result[current_grid_size_id] = complete_levels_list
 
 	return result

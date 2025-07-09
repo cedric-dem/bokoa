@@ -44,11 +44,11 @@ def create_a_level_and_solution(grid_size_id, fn):
 	# save level with solution as json
 	create_level_file_as_json(temp_level.operations_grid, best_score, get_readable_moves(best_moves), fn)
 
-def get_amount_of_existing_levels_for_given_grid_size(grid_size_id):
-	return len(os.listdir(get_complete_folder_path(grid_size_id)))
+def get_amount_of_existing_levels_for_given_grid_size(folder,grid_size_id):
+	return len(os.listdir(get_complete_folder_path(folder, grid_size_id)))
 
 def create_levels_and_solutions(grid_size_id):
-	existing_levels = get_amount_of_existing_levels_for_given_grid_size(grid_size_id)
+	existing_levels = get_amount_of_existing_levels_for_given_grid_size(complete_folder_name, grid_size_id)
 
 	if existing_levels == raw_levels_to_generate:
 		print('==> Enough levels have been generated on this grid_size')
