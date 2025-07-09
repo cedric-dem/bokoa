@@ -3,7 +3,6 @@ from level_generator.classes.solverParent import Solver
 from level_generator.config.config import grid_sizes
 from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level
 from level_generator.utils.misc_functions import get_readable_moves
-import random
 
 class GreedySolver(Solver):
 	def __init__(self, level):

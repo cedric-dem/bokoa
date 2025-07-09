@@ -69,4 +69,4 @@ class AdvantageMatrixSolver(Solver):
 		return result
 
 	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
-		return self.advantage_matrix[new_position[0]][new_position[1]]>0
+		return self.advantage_matrix[new_position[0]][new_position[1]] > 0
