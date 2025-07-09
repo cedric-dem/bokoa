@@ -1,4 +1,3 @@
-from level_generator.classes import level
 from level_generator.classes.game import Game
 from level_generator.classes.solverParent import Solver
 from level_generator.config.config import grid_sizes
@@ -31,14 +30,14 @@ def get_advantage_matrix(level):
 								distance_with_case_of_interest = abs(delta_j) + abs(delta_i)
 								operand = level.operations_grid[new_i][new_j].operand
 								match level.operations_grid[new_i][new_j].operation:
+									case "×":
+										current_case_advantage += (3 + 3 * operand) / distance_with_case_of_interest  # TODO experiment maybe square of distancce ? sqrt ?
 									case "+":
 										current_case_advantage += (1.5 + 2 * operand) / distance_with_case_of_interest  # TODO experiment #TODO maybe remove the divider ?
 									case "-":
 										current_case_advantage -= (1.5 + 2 * operand) / distance_with_case_of_interest
-									case "×":
-										current_case_advantage += (3 + 3 * operand) / distance_with_case_of_interest  # TODO experiment maybe square of distancce ? sqrt ?
 									case "÷":
-										current_case_advantage -= (3 + 3 * operand) / distance_with_case_of_interest
+										current_case_advantage -= (2 + 3 * operand) / distance_with_case_of_interest
 									case _:
 										print("not found error")
 
@@ -51,7 +50,7 @@ def get_advantage_matrix(level):
 def mix_advantages(current):
 	result = deepcopy(current)
 
-	max_dist = 3  # TODO experiment
+	max_dist = 2  # TODO experiment
 
 	for i in range(len(result)):
 		for j in range(len(result[0])):
