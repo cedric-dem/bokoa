@@ -8,7 +8,7 @@ from level_generator.utils.reduce_levels_functions import get_theoretical_diffic
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
 	print('\n=> Plot Difficulties <========')
-	"""
+
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
 
@@ -23,7 +23,7 @@ def plot_levels_sets_statistics(levels_list, levels_set_names):
 	print('\n=> Plot Evolutions <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
-	"""
+
 	print('\n=> Plot Min Values At Each Move <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_min_values_at_each_move(levels_list, levels_set_names, current_grid_index)
