@@ -1,13 +1,15 @@
+from level_generator.classes import level
 from level_generator.classes.game import Game
 from level_generator.classes.solverParent import Solver
 from level_generator.config.config import grid_sizes
 from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level
 from level_generator.utils.misc_functions import get_readable_moves
+from copy import deepcopy
 
 def get_advantage_matrix(level):
-	result = [[None for i in range(level.grid_size[0])] for j in range(level.grid_size[1])]
+	result = [[None for _ in range(level.grid_size[0])] for _ in range(level.grid_size[1])]
 
-	max_dist = 3
+	max_dist = 3  # TODO experiment
 
 	for i in range(level.grid_size[0]):
 		for j in range(level.grid_size[1]):
@@ -16,31 +18,62 @@ def get_advantage_matrix(level):
 			seen_neighbours = 0
 
 			# Go through neighbourhood of the current case, see if this is interesting to be here
-			for delta_i in range(max_dist):
+			for delta_i in range(-max_dist, max_dist):
 				new_i = i + delta_i
 				if (new_i > 0 and new_i < level.grid_size[0]):
 
-					for delta_j in range(max_dist):
+					for delta_j in range(-max_dist, max_dist):
 						new_j = j + delta_j
-						if (new_j > 0 and new_j < level.grid_size[0]):
+						if (new_i != i or new_j != j) and (new_j > 0 and new_j < level.grid_size[0]):
 
 							if (level.operations_grid[new_i][new_j] != "1"):
 								seen_neighbours += 1
+								distance_with_case_of_interest = abs(delta_j) + abs(delta_i)
 								operand = level.operations_grid[new_i][new_j].operand
 								match level.operations_grid[new_i][new_j].operation:
 									case "+":
-										current_case_advantage += 1.5 + 2 * operand
+										current_case_advantage += (1.5 + 2 * operand) / distance_with_case_of_interest  # TODO experiment #TODO maybe remove the divider ?
 									case "-":
-										current_case_advantage -= 1.5 + 2 * operand
+										current_case_advantage -= (1.5 + 2 * operand) / distance_with_case_of_interest
 									case "×":
-										current_case_advantage += 3 + 3 * operand
+										current_case_advantage += (3 + 3 * operand) / distance_with_case_of_interest  # TODO experiment maybe square of distancce ? sqrt ?
 									case "÷":
-										current_case_advantage -= 3 + 3 * operand
+										current_case_advantage -= (3 + 3 * operand) / distance_with_case_of_interest
 									case _:
 										print("not found error")
 
 			# result[i][j] = current_case_advantage / seen_neighbours
 			result[i][j] = current_case_advantage
+
+	# return result
+	return mix_advantages(result)  # TODO see if this improve reliability or not
+
+def mix_advantages(current):
+	result = deepcopy(current)
+
+	max_dist = 3  # TODO experiment
+
+	for i in range(len(result)):
+		for j in range(len(result[0])):
+			# will adjust result[i][j] depending on the neighbourhood
+
+			correction_coefficient = 0
+
+			# Go through neighbourhood of the current case, see if this is interesting to be around
+			for delta_i in range(-max_dist, max_dist):
+				new_i = i + delta_i
+				if (new_i > 0 and new_i < len(result)):
+
+					for delta_j in range(-max_dist, max_dist):
+						new_j = j + delta_j
+						if (new_i != i or new_j != j) and (new_j > 0 and new_j < len(result[0])):
+
+							if result[i][j] > 0:  # TODO maybe remove that if
+								distance_with_case_of_interest = abs(delta_j) + abs(delta_i)
+
+								correction_coefficient += result[i][j] / distance_with_case_of_interest  # TODO experiment
+
+			result[i][j] += correction_coefficient
 	return result
 
 class AdvantageMatrixSolver(Solver):
