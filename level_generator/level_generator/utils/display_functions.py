@@ -268,12 +268,12 @@ def plot_performance_of_each_solver(set_of_levels, heuristics_list):
 				else:
 					this_evolution.append(0)
 
-			print("Nb levels : ",len(this_evolution))
+			print("Nb levels : ", len(this_evolution))
 			axes[grid_size_index].plot(this_evolution, color = 'red')
 
 			axes[grid_size_index].set_title("Scores predicted for  grid size " + str(grid_sizes[grid_size_index]) + "heuristic " + current_heuristic)
 
-			axes[grid_size_index].set_ylim(-0.1,1.1)
+			axes[grid_size_index].set_ylim(-0.1, 1.1)
 			axes[grid_size_index].set_xlabel("Level Id")
 			axes[grid_size_index].set_ylabel("Found Solution")
 
@@ -282,5 +282,29 @@ def plot_performance_of_each_solver(set_of_levels, heuristics_list):
 		plt.tight_layout()
 		plt.show()
 
-def plot_quantity_predictor_passing_each_levels(set_of_levels):
-	pass
+def plot_quantity_predictor_passing_each_levels(set_of_levels, list_heuristics_str):
+	fig, axes = plt.subplots(1, len(set_of_levels), figsize = (15, 5))
+	for grid_size_index in range(len(set_of_levels)):
+
+		this_evolution = []
+		for level_index in range(len(set_of_levels[grid_size_index])):
+			this_passed = 0
+			for current_heuristic in list_heuristics_str:
+				if set_of_levels[grid_size_index][level_index].predictions_of_heuristics[current_heuristic]:
+					this_passed += 1
+				else:
+					pass
+			this_evolution.append(this_passed)
+
+		axes[grid_size_index].plot(this_evolution, color = 'red')
+
+		axes[grid_size_index].set_title("Nb of predictors predicted each levels of grid size  " + str(grid_sizes[grid_size_index]))
+
+		axes[grid_size_index].set_ylim(-0.1, len(list_heuristics_str) + 0.1)
+		axes[grid_size_index].set_xlabel("Level Id")
+		axes[grid_size_index].set_ylabel("Nb of Predictors predicted good")
+
+		axes[grid_size_index].grid(True)
+
+	plt.tight_layout()
+	plt.show()
