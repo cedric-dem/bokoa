@@ -256,8 +256,30 @@ def display_performance_time_heuristic(dict_time, dict_perf):
 		plt.grid(True)
 		plt.show()
 
-def plot_performance_of_each_solver(set_of_levels):
-	pass
+def plot_performance_of_each_solver(set_of_levels, heuristics_list):
+	for current_heuristic in heuristics_list:
+		fig, axes = plt.subplots(1, len(set_of_levels), figsize = (15, 5))
+
+		for grid_size_index in range(len(set_of_levels)):
+			this_evolution = []
+			for level_index in range(len(set_of_levels[grid_size_index])):
+				if set_of_levels[grid_size_index][level_index].predictions_of_heuristics[current_heuristic]:
+					this_evolution.append(1)
+				else:
+					this_evolution.append(0)
+
+			print("Nb levels : ",len(this_evolution))
+			axes[grid_size_index].plot(this_evolution, color = 'red')
+
+			axes[grid_size_index].set_title("Scores predicted for  grid size " + str(grid_sizes[grid_size_index]) + "heuristic " + current_heuristic)
+
+			axes[grid_size_index].set_xlabel("Level Id")
+			axes[grid_size_index].set_ylabel("Found Solution")
+
+			axes[grid_size_index].grid(True)
+
+		plt.tight_layout()
+		plt.show()
 
 def plot_quantity_predictor_passing_each_levels(set_of_levels):
 	pass

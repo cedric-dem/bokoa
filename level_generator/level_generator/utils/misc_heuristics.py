@@ -4,7 +4,7 @@ from level_generator.heuristics_solver.greedy import GreedySolver
 from level_generator.heuristics_solver.advantage_matrix import AdvantageMatrixSolver
 import time
 
-from level_generator.utils.display_functions import display_performance_time_heuristic
+from level_generator.utils.display_functions import display_performance_time_heuristic, plot_performance_of_each_solver, plot_quantity_predictor_passing_each_levels
 
 def evaluate_heuristic_performance(name, variant, levels_set):
 	print('====> Evaluate heuristic: ', name, "variant ", variant)
@@ -64,13 +64,14 @@ def test_proportion_of_every_variant_every_solver(set_of_levels):
 		("BackTracking Limited Depth", 0),
 		("BackTracking Limited Depth", 1),
 		("BackTracking With Score Check", 0),
-		("BackTracking With Score Check", 1),
-		("BackTracking With Score Check", 2),
-		("Advantage Matrix", 0),
+		# ("BackTracking With Score Check", 1),
+		# ("BackTracking With Score Check", 2),
+		# ("Advantage Matrix", 0),
 	]
 
 	dict_time = {}
 	dict_perf = {}
+	list_heuristics_str = []
 
 	for heuristic_setting_index in range(len(list_heuristics_to_test)):
 		print("====> Heuristic", heuristic_setting_index, "/", len(list_heuristics_to_test))
@@ -81,8 +82,16 @@ def test_proportion_of_every_variant_every_solver(set_of_levels):
 		dict_time[name_in_dict] = time_taken
 		dict_perf[name_in_dict] = accuracy_total
 
+		list_heuristics_str.append(name_in_dict)
+
 	print("Time : ", dict_time)
 	print("Perf : ", dict_perf)
 
 	print('=====> Display Performance/Time of each heuristic')
 	display_performance_time_heuristic(dict_time, dict_perf)
+
+	print('=====> Display evolution of passed levels')
+	plot_performance_of_each_solver(set_of_levels, list_heuristics_str)
+
+	print('=====> Display sum of predictors passing levels for each level')
+	plot_quantity_predictor_passing_each_levels(set_of_levels)
