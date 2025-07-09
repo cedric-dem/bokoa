@@ -1,7 +1,7 @@
 from level_generator.classes.solverParent import Solver
 from copy import deepcopy
 
-def get_advantage_matrix(level):
+def get_advantage_matrix(level, variant):
 	result = [[None for _ in range(level.grid_size[0])] for _ in range(level.grid_size[1])]
 
 	max_dist = 3  # TODO experiment
@@ -89,7 +89,7 @@ class AdvantageMatrixSolver(Solver):
 		super().__init__(level)
 		self.variant = variant
 
-		self.advantage_matrix = round_mat(get_advantage_matrix(level))
+		self.advantage_matrix = round_mat(get_advantage_matrix(level, self.variant))
 
 	# display_advantage_matrix(self.advantage_matrix)
 
