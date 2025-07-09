@@ -76,14 +76,21 @@ def mix_advantages(current):
 			result[i][j] += correction_coefficient
 	return result
 
+def round_mat(mat):
+	return [[round(mat[i][j], 2) for i in range(len(mat[0]))] for j in range(len(mat))]
+
+def display_advantage_matrix(mat):
+	print('==> advantage matrix : ')
+	for line in mat:
+		print(line)
+
 class AdvantageMatrixSolver(Solver):
 	def __init__(self, level):
 		super().__init__(level)
 
-		self.advantage_matrix = get_advantage_matrix(level)
-		print('advantage matrix : ')
-		for line in self.advantage_matrix:
-			print(line)
+		self.advantage_matrix = round_mat(get_advantage_matrix(level))
+
+	# display_advantage_matrix(self.advantage_matrix)
 
 	def solve(self):
 		# TODO clean this mess
@@ -102,4 +109,4 @@ class AdvantageMatrixSolver(Solver):
 		return result
 
 	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
-		return self.advantage_matrix[new_position[0]][new_position[1]] > 0
+		return self.advantage_matrix[new_position[0]][new_position[1]] >= 0
