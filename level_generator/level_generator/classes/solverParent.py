@@ -21,7 +21,7 @@ class Solver(object):
 				##if move ok + not coming back
 				if game.is_move_in_bound_and_not_in_history(new_position):
 
-					if self.is_solution_worth_trying(game.score, len(game.moves_history), game.level.operations_grid[new_position[0]][new_position[1]]):
+					if self.is_solution_worth_trying(game.score, len(game.moves_history),new_position, game.level.operations_grid[new_position[0]][new_position[1]]):
 						# save old score
 						old_score = game.score
 						old_head_position = game.current_position_head
@@ -49,6 +49,6 @@ class Solver(object):
 
 		return current_best_score, current_best_solution
 
-	def is_solution_worth_trying(self, current_score, current_depth, new_operation):
+	def is_solution_worth_trying(self, current_score, current_depth, new_position,  new_operation):
 		# TODO
 		return True

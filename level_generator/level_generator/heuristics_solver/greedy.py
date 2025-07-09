@@ -24,9 +24,9 @@ class GreedySolver(Solver):
 		result = get_history_of_scores_for_given_solution_on_given_level(best_moves_dir, self.level_to_solve)[-1]
 		return result
 
-	def is_solution_worth_trying(self, current_score, current_depth, new_operation):
+	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
 		half_max_length = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 2)
-		early_point= int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 4)
+		early_point = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 4)
 
 		is_after_half_max_length = current_depth > half_max_length
 		is_after_early_point = current_depth > early_point

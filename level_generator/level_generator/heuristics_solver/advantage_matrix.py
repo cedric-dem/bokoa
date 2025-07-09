@@ -26,15 +26,16 @@ def get_advantage_matrix(level):
 
 							if (level.operations_grid[new_i][new_j] != "1"):
 								seen_neighbours += 1
+								operand = level.operations_grid[new_i][new_j].operand
 								match level.operations_grid[new_i][new_j].operation:
 									case "+":
-										current_case_advantage += 1
+										current_case_advantage += 1.5 + 2 * operand
 									case "-":
-										current_case_advantage -= 1
+										current_case_advantage -= 1.5 + 2 * operand
 									case "×":
-										current_case_advantage += 2
+										current_case_advantage += 3 + 3 * operand
 									case "÷":
-										current_case_advantage -= 2
+										current_case_advantage -= 3 + 3 * operand
 									case _:
 										print("not found error")
 
@@ -67,6 +68,5 @@ class AdvantageMatrixSolver(Solver):
 
 		return result
 
-	def is_solution_worth_trying(self, current_score, current_depth, new_operation):
-		# TODO
-		return False
+	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
+		return self.advantage_matrix[new_position[0]][new_position[1]]>0
