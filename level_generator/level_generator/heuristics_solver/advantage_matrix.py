@@ -48,13 +48,14 @@ def get_advantage_matrix(level):
 			# result[i][j] = current_case_advantage / seen_neighbours
 			result[i][j] = current_case_advantage
 
-	# return result
-	return mix_advantages(result)  # TODO see if this improve reliability or not
+
+	return result
+	#return mix_advantages(result)  # TODO see if this improve reliability or not
 
 def mix_advantages(current):
 	result = deepcopy(current)
 
-	max_dist = 3  # TODO experiment
+	max_dist = 2  # TODO experiment
 
 	for i in range(len(result)):
 		for j in range(len(result[0])):
