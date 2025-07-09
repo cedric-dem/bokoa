@@ -26,5 +26,4 @@ class BackTrackingWithScoreCheckSolver(Solver):
 		return result
 
 	def is_solution_worth_trying(self, current_score, current_depth):
-		# TODO
-		return  random.randint(0,100)>25
+		return  current_score > -500 #TODO function that uses current_depth and grid_size
