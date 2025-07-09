@@ -8,6 +8,7 @@ from level_generator.utils.reduce_levels_functions import get_theoretical_diffic
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
 	print('\n=> Plot Difficulties <========')
+	"""
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
 
@@ -22,7 +23,7 @@ def plot_levels_sets_statistics(levels_list, levels_set_names):
 	print('\n=> Plot Evolutions <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
-
+	"""
 	print('\n=> Plot Min Values At Each Move <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_min_values_at_each_move(levels_list, levels_set_names, current_grid_index)
@@ -197,6 +198,9 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 	all_time_max_min = max([mins_at_each_step[i][-1] for i in range(len(mins_at_each_step))])
 	print("==> All time min max : ", all_time_max_min)
 
+	approximation_lower_bound_function = get_approx_function(grid_size_index, levels_list[0])
+	axes[0].plot(approximation_lower_bound_function, label = "Lower Bound Estimation", color = "green")
+
 	for levels_set_index in range(len(levels_list)):
 		axes[levels_set_index].plot(mins_at_each_step[levels_set_index], color = 'red')
 
@@ -215,3 +219,16 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 
 	plt.tight_layout()
 	plt.show()
+
+def get_approx_function(grid_size_index, levels_list):
+	match grid_size_index:
+		case 0:
+			result = [0 for i in range (len(levels_list[grid_size_index]))]
+		case 1:
+			result = [0 for i in range (len(levels_list[grid_size_index]))]
+		case 2:
+			result = [0 for i in range (len(levels_list[grid_size_index]))]
+		case _:
+			print("not found")
+			result = [0 for i in range (len(levels_list[grid_size_index]))]
+	return result
