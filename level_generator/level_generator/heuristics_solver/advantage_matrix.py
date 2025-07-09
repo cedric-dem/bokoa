@@ -5,5 +5,5 @@ class AdvantageMatrixSolver(Solver):
 		super().__init__(game)
 
 	def solve(self):
-		#TODO
+		# TODO
 		pass

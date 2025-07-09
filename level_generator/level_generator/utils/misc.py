@@ -3,5 +3,5 @@ class Solver(object):
 		self.game = game
 
 	def solve(self):
-		#TODO
+		# TODO
 		pass
