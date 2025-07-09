@@ -1,13 +1,24 @@
 from level_generator.utils.misc_heuristics import evaluate_heuristic_performance
 from level_generator.utils.reduce_levels_functions import get_complete_set_levels, get_reduced_set_levels
 
+print('=====> retrieve data')
+# set_of_levels = get_complete_set_levels()
+# set_of_levels = get_reduced_set_levels()
+set_of_levels = [levels_for_that_grid_size[:10] for levels_for_that_grid_size in get_reduced_set_levels()]
+
 print('=====> Test Proportion of levels passed by each heuristics : ')
+# evaluate_heuristic_performance("Greedy", 0, set_of_levels)
+# evaluate_heuristic_performance("Advantage Matrix",0, set_of_levels)
+# evaluate_heuristic_performance("BackTracking Limited Depth",0,  set_of_levels)
+evaluate_heuristic_performance("BackTracking With Score Check", 0, set_of_levels)
 
-#set_of_levels = get_complete_set_levels()
-set_of_levels = get_reduced_set_levels()
-# set_of_levels = [levels_for_that_grid_size[:10] for levels_for_that_grid_size in get_reduced_set_levels()]
+print('=====> Display Performance/Time of each heuristic')
+# TODO
 
-# evaluate_heuristic_performance("Greedy", set_of_levels)
-evaluate_heuristic_performance("Advantage Matrix", set_of_levels)
-# evaluate_heuristic_performance("BackTracking Limited Depth", set_of_levels)
-# evaluate_heuristic_performance("BackTracking With Score Check", set_of_levels)
+print('=====> Display evolution of passed levels')
+# all in one plot
+# TODO
+
+print('=====> Display sum of predictors passing levels for each level')
+# sum, only one plot
+# TODO

@@ -5,8 +5,8 @@ from level_generator.heuristics_solver.greedy import GreedySolver
 from level_generator.heuristics_solver.advantage_matrix import AdvantageMatrixSolver
 import time
 
-def evaluate_heuristic_performance(name, levels_set):
-	print('====> Evaluate heuristic: ', name)
+def evaluate_heuristic_performance(name, variant, levels_set):
+	print('====> Evaluate heuristic: ', name, "variant ", variant)
 
 	performance = []
 	time_taken = []
@@ -16,7 +16,7 @@ def evaluate_heuristic_performance(name, levels_set):
 		reached_goal = 0
 		print("==> on grid size ", grid_sizes[grid_size_index], " levels quantity : ", len(levels_set[grid_size_index]))
 		for level_index in range(len(levels_set[grid_size_index])):
-			reached_score = get_score_of_a_given_level_solved_using_given_heuristic(name, levels_set[grid_size_index][level_index])
+			reached_score = get_score_of_a_given_level_solved_using_given_heuristic(name, variant, levels_set[grid_size_index][level_index])
 
 			this_goal = levels_set[grid_size_index][level_index].best_score
 			# print("=> level", level_index, " goal ", this_goal, "reached : ", reached_score)
@@ -29,16 +29,16 @@ def evaluate_heuristic_performance(name, levels_set):
 
 	print('==> Performance : ', performance, " time taken: ", [round(time_taken[grid_size_index] / len(levels_set[grid_size_index]), 2) for grid_size_index in range(len(time_taken))])
 
-def get_score_of_a_given_level_solved_using_given_heuristic(heuristic_name, level):
+def get_score_of_a_given_level_solved_using_given_heuristic(heuristic_name, variant, level):
 	match heuristic_name:
 		case 'Greedy':
-			solver = GreedySolver(level)
+			solver = GreedySolver(level, variant)
 		case 'Advantage Matrix':
-			solver = AdvantageMatrixSolver(level)
+			solver = AdvantageMatrixSolver(level, variant)
 		case "BackTracking Limited Depth":
-			solver = BackTrackingLimitedDepthSolver(level)
+			solver = BackTrackingLimitedDepthSolver(level, variant)
 		case "BackTracking With Score Check":
-			solver = BackTrackingWithScoreCheckSolver(level)
+			solver = BackTrackingWithScoreCheckSolver(level, variant)
 		case _:
 			print("Not found solver")
 

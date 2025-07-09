@@ -2,8 +2,9 @@ from level_generator.classes.solverParent import Solver
 from level_generator.utils.display_functions import get_approx_function
 
 class BackTrackingWithScoreCheckSolver(Solver):
-	def __init__(self, level):
+	def __init__(self, level, variant):
 		super().__init__(level)
+		self.variant = variant
 
 	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
 		estimated_lower = get_approx_function(self.level_to_solve.grid_size_id)[current_depth]
