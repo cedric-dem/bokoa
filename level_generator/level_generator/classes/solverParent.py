@@ -1,8 +1,8 @@
 from level_generator.utils.misc_functions import get_all_but_inverse_of_last_move
 
 class Solver(object):
-	def __init__(self, game):
-		self.game_to_solve = game
+	def __init__(self, level):
+		self.level_to_solve = level
 
 	def solve(self):
 		# TODO
