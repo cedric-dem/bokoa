@@ -273,6 +273,7 @@ def plot_performance_of_each_solver(set_of_levels, heuristics_list):
 
 			axes[grid_size_index].set_title("Scores predicted for  grid size " + str(grid_sizes[grid_size_index]) + "heuristic " + current_heuristic)
 
+			axes[grid_size_index].set_ylim(-0.1,1.1)
 			axes[grid_size_index].set_xlabel("Level Id")
 			axes[grid_size_index].set_ylabel("Found Solution")
 
