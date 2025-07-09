@@ -11,4 +11,3 @@ class BackTrackingLimitedDepthSolver(Solver):
 	def is_solution_worth_trying(self):
 		# TODO
 		return True
-

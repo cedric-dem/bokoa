@@ -12,9 +12,9 @@ def evaluate_heuristic_performance(name, levels_set):
 	time_taken = []
 
 	for grid_size_index in range(len(levels_set)):
-		t0=time.time()
+		t0 = time.time()
 		reached_goal = 0
-		print("==> on grid size ", grid_sizes[grid_size_index], " levels quantity : ", len(levels_set[grid_size_index]))
+		# print("==> on grid size ", grid_sizes[grid_size_index], " levels quantity : ", len(levels_set[grid_size_index]))
 		for level_index in range(len(levels_set[grid_size_index])):
 			reached_score = get_score_of_a_given_level_solved_using_given_heuristic(name, levels_set[grid_size_index][level_index])
 
@@ -24,8 +24,8 @@ def evaluate_heuristic_performance(name, levels_set):
 			if abs(reached_score - this_goal) < 0.01:
 				reached_goal += 1
 		performance.append(round(reached_goal / len(levels_set[grid_size_index]), 2))
-		t1=time.time()
-		time_taken.append(round(t1-t0,2))
+		t1 = time.time()
+		time_taken.append(round(t1 - t0, 2))
 
 	print('==> Performance : ', performance, " time taken: ", time_taken)
 
