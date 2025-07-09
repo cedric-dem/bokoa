@@ -25,7 +25,7 @@ class BackTrackingWithScoreCheckSolver(Solver):
 
 		return result
 
-	def is_solution_worth_trying(self, current_score, current_depth):
+	def is_solution_worth_trying(self, current_score, current_depth, new_operation):
 		estimated_lower = get_approx_function(self.level_to_solve.grid_size_id)[current_depth]
 
 		# lower the margin => better accuracy, but cost more time
