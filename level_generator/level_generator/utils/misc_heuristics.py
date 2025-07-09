@@ -22,8 +22,15 @@ def evaluate_heuristic_performance(name, variant, levels_set):
 			this_goal = levels_set[grid_size_index][level_index].best_score
 			# print("=> level", level_index, " goal ", this_goal, "reached : ", reached_score)
 
-			if abs(reached_score - this_goal) < 0.01:
+			passed = abs(reached_score - this_goal) < 0.01
+			if passed:
 				reached_goal += 1
+
+			complete_name = name + ' ( variant ' + str(variant) + ' )'
+
+			# TODO : refactor handling of this
+			levels_set[grid_size_index][level_index].predictions_of_heuristics[complete_name] = passed
+
 		t1 = time.time()
 		accuracy_total.append(round(reached_goal / len(levels_set[grid_size_index]), 4))
 		time_taken.append(round((t1 - t0) / len(levels_set[grid_size_index]), 4))
@@ -54,12 +61,12 @@ def test_proportion_of_every_variant_every_solver(set_of_levels):
 	list_heuristics_to_test = [
 		("Greedy", 0),
 		("Greedy", 1),
-		("Advantage Matrix", 0),
 		("BackTracking Limited Depth", 0),
 		("BackTracking Limited Depth", 1),
 		("BackTracking With Score Check", 0),
 		("BackTracking With Score Check", 1),
 		("BackTracking With Score Check", 2),
+		("Advantage Matrix", 0),
 	]
 
 	dict_time = {}

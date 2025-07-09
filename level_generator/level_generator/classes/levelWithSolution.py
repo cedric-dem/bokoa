@@ -12,6 +12,8 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 
 		self.historyOfScoresForBestSolution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self)
 
+		self.predictions_of_heuristics = {}
+
 	def compute_raw_terms(self):
 		increasing_steps_counter = 0
 

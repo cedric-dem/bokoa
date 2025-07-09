@@ -10,9 +10,7 @@ print('=====> Test Proportion of levels passed by each heuristics : ')
 test_proportion_of_every_variant_every_solver(set_of_levels)
 
 print('=====> Display evolution of passed levels')
-# each algo
-# TODO
+plot_performance_of_each_solver(set_of_levels)
 
 print('=====> Display sum of predictors passing levels for each level')
-# sum, only one plot
-# TODO
+plot_quantity_predictor_passing_each_levels(set_of_levels)

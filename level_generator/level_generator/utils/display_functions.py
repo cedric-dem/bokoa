@@ -255,3 +255,9 @@ def display_performance_time_heuristic(dict_time, dict_perf):
 
 		plt.grid(True)
 		plt.show()
+
+def plot_performance_of_each_solver(set_of_levels):
+	pass
+
+def plot_quantity_predictor_passing_each_levels(set_of_levels):
+	pass
