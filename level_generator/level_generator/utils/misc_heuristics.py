@@ -48,18 +48,25 @@ def get_score_of_a_given_level_solved_using_given_heuristic(heuristic_name, vari
 def test_proportion_of_every_variant_every_solver(set_of_levels):
 	print('=> Levels quantity', [len(set_of_levels[i]) for i in range(len(set_of_levels))])
 
-	# Greedy
-	evaluate_heuristic_performance("Greedy", 0, set_of_levels)
-	evaluate_heuristic_performance("Greedy", 1, set_of_levels)
+	list_heuristics_to_test = [
+		("Greedy", 0),
+		("Greedy", 1),
+		("Advantage Matrix", 0),
+		("BackTracking Limited Depth", 0),
+		("BackTracking Limited Depth", 1),
+		("BackTracking With Score Check", 0),
+		("BackTracking With Score Check", 1),
+		("BackTracking With Score Check", 2),
+	]
 
-	# Advantage Matrix
-	evaluate_heuristic_performance("Advantage Matrix", 0, set_of_levels)
+	for heuristic_setting_index in range (len(list_heuristics_to_test)):
+		print("======================================================> ",heuristic_setting_index,"/",len(list_heuristics_to_test))
+		this_heuristic_setting = list_heuristics_to_test[heuristic_setting_index]
+		evaluate_heuristic_performance(this_heuristic_setting[0], this_heuristic_setting[1], set_of_levels)
 
-	# BackTracking with limited solution size
-	evaluate_heuristic_performance("BackTracking Limited Depth", 0, set_of_levels)
-	evaluate_heuristic_performance("BackTracking Limited Depth", 1, set_of_levels)
+	print('=====> Display Performance/Time of each heuristic')
+	# TODO
 
-	# BackTracking With Score Check
-	evaluate_heuristic_performance("BackTracking With Score Check", 0, set_of_levels)
-	evaluate_heuristic_performance("BackTracking With Score Check", 1, set_of_levels)
-	evaluate_heuristic_performance("BackTracking With Score Check", 2, set_of_levels)
+	print('=====> Display evolution of passed levels')
+	# all in one plot
+	# TODO
