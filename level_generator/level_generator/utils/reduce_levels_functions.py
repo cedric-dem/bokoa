@@ -148,15 +148,18 @@ def get_theoretical_difficulties(levels_list, verbose):
 
 		case "logarithmic":
 			delta_y = end_difficulty - initial_difficulty
-			a = 1 / (math.exp(delta_y) - 1)
-			b = initial_difficulty - math.log(a)
+
+			base = 10
+
+			a = 1 / (base ** delta_y - 1)
+			c = initial_difficulty - math.log(a) / math.log(base)
 
 			for reduced_levels_index in range(number_levels_to_keep):
 				x = reduced_levels_index / number_levels_to_keep
-				theoretical_difficulties.append(round(math.log(a + x) + b, 6))
+				theoretical_difficulties.append(round(math.log(a + x, base) + c, 6))
 
 			if verbose:
-				print('====> log difficulty, settings ', a, b)
+				print('====> log difficulty, settings ', a, c)
 
 	print("====> Theoretical difficulties : ", theoretical_difficulties)
 	return theoretical_difficulties
