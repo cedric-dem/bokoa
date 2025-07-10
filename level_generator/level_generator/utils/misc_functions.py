@@ -39,7 +39,7 @@ def create_a_level_and_solution(grid_size_id, fn):
 
 	# do the backtrack
 	grid_size = grid_sizes[grid_size_id]
-	best_score, best_moves = back_track(temp_game, grid_size[0] * grid_size[1])
+	best_score, best_moves = back_track(temp_game, grid_size[0] * grid_size[1], None)
 
 	# save level with solution as json
 	create_level_file_as_json(temp_level.operations_grid, best_score, get_readable_moves(best_moves), fn)
@@ -91,7 +91,7 @@ def generate_levels_in_parallel(grid_size_id):
 
 def get_all_but_inverse_of_last_move(moves_history):
 	if len(moves_history) == 0:
-		result = list_all_directions
+		result = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 	else:
 		match moves_history[-1]:
 			case [0, -1]:
@@ -103,10 +103,10 @@ def get_all_but_inverse_of_last_move(moves_history):
 			case [-1, 0]:
 				result = [[0, -1], [0, 1], [-1, 0]]
 			case _:
-				result = list_all_directions
+				result = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 	return result
 
-def back_track(game, max_solution_size):
+def back_track(game, max_solution_size, heuristic):
 	current_best_score = game.score
 	current_best_solution = None
 
@@ -116,7 +116,7 @@ def back_track(game, max_solution_size):
 			new_position = [game.current_position_head[0] + new_move[0], game.current_position_head[1] + new_move[1]]
 
 			##if move ok + not coming back
-			if game.is_move_in_bound_and_not_in_history(new_position):
+			if game.is_move_in_bound_and_not_in_history(new_position) and (heuristic is None or heuristic.is_solution_worth_trying(game, new_position)):
 				# save old score
 				old_score = game.score
 				old_head_position = game.current_position_head
@@ -125,7 +125,7 @@ def back_track(game, max_solution_size):
 				game.apply_move_given_direction_and_new_pos(new_move, new_position)
 
 				# launch backtrack
-				temp_best_score, temp_best_moves = back_track(game, max_solution_size)
+				temp_best_score, temp_best_moves = back_track(game, max_solution_size, heuristic)
 
 				##restore old state
 				game.score = old_score
@@ -199,5 +199,5 @@ def display_boundaries(boundaries):
 		print('=> ', key, boundaries[key])
 
 def sort_levels_set(level_set):
-	for i in range(len(level_set)):
-		level_set[i].sort()
+	for grid_size_index in range(len(level_set)):
+		level_set[grid_size_index].sort()

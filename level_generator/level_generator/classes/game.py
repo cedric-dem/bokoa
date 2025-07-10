@@ -43,4 +43,4 @@ class Game(object):
 				raise ValueError("Invalid Value  (in Apply Operation) : ", operation[0])
 
 	def is_move_in_bound_and_not_in_history(self, new_pos):
-		return new_pos[0] >= 0 and new_pos[1] >= 0 and new_pos[0] < self.grid_size[1] and new_pos[1] < self.grid_size[0] and (not self.occupation_matrix[new_pos[0]][new_pos[1]])
+		return 0 <= new_pos[0] < self.grid_size[1] and 0 <= new_pos[1] < self.grid_size[0] and (not self.occupation_matrix[new_pos[0]][new_pos[1]])

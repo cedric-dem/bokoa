@@ -15,11 +15,11 @@ def get_advantage_matrix(level, variant):
 			# Go through neighbourhood of the current case, see if this is interesting to be here
 			for delta_i in range(-max_dist, max_dist):
 				new_i = i + delta_i
-				if new_i > 0 and new_i < level.grid_size[0]:
+				if 0 < new_i < level.grid_size[0]:
 
 					for delta_j in range(-max_dist, max_dist):
 						new_j = j + delta_j
-						if (new_i != i or new_j != j) and (new_j > 0 and new_j < level.grid_size[0]):
+						if (new_i != i or new_j != j) and (0 < new_j < level.grid_size[0]):
 
 							if level.operations_grid[new_i][new_j] != "1":
 								seen_neighbours += 1
@@ -39,7 +39,7 @@ def get_advantage_matrix(level, variant):
 										current_case_advantage -= (2 + 3 * operand) / distance_with_case_of_interest
 									# current_case_advantage -= 3
 									case _:
-										print("not found error")
+										raise ValueError("Invalid  operation " + str(level.operations_grid[new_i][new_j].operation))
 
 			# result[i][j] = current_case_advantage / seen_neighbours
 			result[i][j] = current_case_advantage
@@ -85,12 +85,11 @@ def display_advantage_matrix(mat):
 
 class AdvantageMatrixSolver(Solver):
 	def __init__(self, level, variant):
-		super().__init__(level)
-		self.variant = variant
+		super().__init__(variant, level)
 
 		self.advantage_matrix = round_mat(get_advantage_matrix(level, self.variant))
 
 	# display_advantage_matrix(self.advantage_matrix)
 
-	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
+	def is_solution_worth_trying(self, current_game, new_position):
 		return self.advantage_matrix[new_position[0]][new_position[1]] >= -5
