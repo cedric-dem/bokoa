@@ -10,7 +10,7 @@ coefficient_difficulty_second_term = 0.6
 compute_constants = "AUTOMATIC"
 compute_boundaries = "AUTOMATIC"
 
-difficulty_setting = "logarithmic"
+difficulty_setting = "linear"
 
 list_all_directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 
