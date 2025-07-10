@@ -1,6 +1,7 @@
 from level_generator.classes.level import *
 from level_generator.utils.file_level_functions import get_levels_list
 import copy
+import math
 
 from level_generator.utils.misc_functions import get_amount_of_existing_levels_for_given_grid_size
 
@@ -135,12 +136,26 @@ def get_theoretical_difficulties(levels_list, verbose):
 	initial_difficulty = levels_list[0].estimated_difficulty
 	end_difficulty = levels_list[-1].estimated_difficulty
 
-	average_step = (end_difficulty - initial_difficulty) / number_levels_to_keep
+	match difficulty_setting:
+		case "linear":
+			average_step = (end_difficulty - initial_difficulty) / number_levels_to_keep
 
-	for reduced_levels_index in range(number_levels_to_keep):
-		theoretical_difficulties.append(round(initial_difficulty + (reduced_levels_index * average_step), 6))
+			for reduced_levels_index in range(number_levels_to_keep):
+				theoretical_difficulties.append(round(initial_difficulty + (reduced_levels_index * average_step), 6))
 
-	if verbose:
-		print('====> Average step', average_step)
-		print("====> Theoretical difficulties : ", theoretical_difficulties)
+			if verbose:
+				print('====> Linear difficulty, average step', average_step)
+
+		case "logarithmic":
+			delta_y = end_difficulty - initial_difficulty
+			a = 1 / (math.exp(delta_y) - 1)
+			b = initial_difficulty - math.log(a)
+
+			for reduced_levels_index in range(number_levels_to_keep):
+				theoretical_difficulties.append(round(math.log(a + reduced_levels_index) + b, 6))
+
+			if verbose:
+				print('====> log difficulty, settings ', a,b)
+
+	print("====> Theoretical difficulties : ", theoretical_difficulties)
 	return theoretical_difficulties
