@@ -152,10 +152,11 @@ def get_theoretical_difficulties(levels_list, verbose):
 			b = initial_difficulty - math.log(a)
 
 			for reduced_levels_index in range(number_levels_to_keep):
-				theoretical_difficulties.append(round(math.log(a + reduced_levels_index) + b, 6))
+				x = reduced_levels_index / number_levels_to_keep
+				theoretical_difficulties.append(round(math.log(a + x) + b, 6))
 
 			if verbose:
-				print('====> log difficulty, settings ', a,b)
+				print('====> log difficulty, settings ', a, b)
 
 	print("====> Theoretical difficulties : ", theoretical_difficulties)
 	return theoretical_difficulties
