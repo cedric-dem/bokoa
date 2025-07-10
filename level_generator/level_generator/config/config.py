@@ -17,7 +17,7 @@ n_cores = 6
 
 balance_operand = True
 
-generated_levels_folder_name = "generated_levels_new_balanced"
+generated_levels_folder_name = "generated_levels/generated_levels_new_balanced"
 
 ignore_extreme_values = 10  # will ignore top 10%, bottom 10% (scores and sizes)
 
