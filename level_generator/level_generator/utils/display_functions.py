@@ -8,7 +8,6 @@ from level_generator.utils.reduce_levels_functions import get_theoretical_diffic
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
 	print('\n=> Plot Difficulties <========')
-
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
 
@@ -133,9 +132,9 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 		axes[levels_set_index].set_xlabel("Number of Moves")
 		axes[levels_set_index].set_ylabel("Score")
 
-		ymin, _ = axes[levels_set_index].get_ylim()
+		min_value_y, _ = axes[levels_set_index].get_ylim()
 
-		axes[levels_set_index].set_ylim(ymin, 1.05 * all_time_max)
+		axes[levels_set_index].set_ylim(min_value_y, 1.05 * all_time_max)
 		axes[levels_set_index].set_xlim(0, (grid_sizes[grid_size_index][0] * grid_sizes[grid_size_index][1]))
 
 		axes[levels_set_index].grid(True)
@@ -209,9 +208,9 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 		axes[levels_set_index].set_xlabel("Number of Moves")
 		axes[levels_set_index].set_ylabel("Score")
 
-		ymin, _ = axes[levels_set_index].get_ylim()
+		min_value_y, _ = axes[levels_set_index].get_ylim()
 
-		axes[levels_set_index].set_ylim(ymin - 10, all_time_max_min * 1.05)
+		axes[levels_set_index].set_ylim(min_value_y - 10, all_time_max_min * 1.05)
 		axes[levels_set_index].set_xlim(0, (grid_sizes[grid_size_index][0] * grid_sizes[grid_size_index][1]))
 
 		axes[levels_set_index].grid(True)
@@ -230,24 +229,23 @@ def get_approx_function(grid_size_index):
 		case 2:
 			result = [1, -4, -10.4, -12.6, -14.0, -12.6, -10.68, -9.28, -8.46, -7.31, -8.85, -7.4, -6.51, -5.43, -4.41, -0.87, -0.08, 0.78, 2.25, 2.82, 2.7, 3.82, 9.86, 18.17, 56.28, 93.67, 237.07, 374.96, 940.12, 1647.26, 3333.68, 4912.09, 5983.26, 8615.449999999999, 43077.24999999999]
 		case _:
-			print("not found")
-			result = [0 for _ in range(size_wanted)]
+			raise ValueError("Invalid grid size index : ", grid_size_index)
 	return result
 
 def display_performance_time_heuristic(dict_time, dict_perf):
 	for grid_size_index in range(len(grid_sizes)):
-		times = []
-		perfs = []
-		names = []
+		this_grid_size_list_times = []
+		this_grid_size_list_accuracy = []
+		list_heuristic_names = []
 		for heuristic_setting in dict_time:
-			times.append(dict_time[heuristic_setting][grid_size_index])
-			perfs.append(dict_perf[heuristic_setting][grid_size_index])
-			names.append(heuristic_setting)
+			this_grid_size_list_times.append(dict_time[heuristic_setting][grid_size_index])
+			this_grid_size_list_accuracy.append(dict_perf[heuristic_setting][grid_size_index])
+			list_heuristic_names.append(heuristic_setting)
 
-		plt.scatter(times, perfs)
+		plt.scatter(this_grid_size_list_times, this_grid_size_list_accuracy)
 
-		for current_heuristic_index in range(len(times)):
-			plt.text(times[current_heuristic_index], perfs[current_heuristic_index], names[current_heuristic_index], fontsize = 9)
+		for current_heuristic_index in range(len(this_grid_size_list_times)):
+			plt.text(this_grid_size_list_times[current_heuristic_index], this_grid_size_list_accuracy[current_heuristic_index], list_heuristic_names[current_heuristic_index], fontsize = 9)
 
 		plt.xlabel("Time per level")
 		plt.ylabel("Accuracy")
@@ -268,7 +266,7 @@ def plot_performance_of_each_solver(set_of_levels, heuristics_list):
 				else:
 					this_evolution.append(0)
 
-			print("Nb levels : ", len(this_evolution))
+			print("==> number levels : ", len(this_evolution))
 			axes[grid_size_index].plot(this_evolution, color = 'red')
 
 			axes[grid_size_index].set_title("Scores predicted for  grid size " + str(grid_sizes[grid_size_index]) + "heuristic " + current_heuristic)
@@ -292,8 +290,6 @@ def plot_quantity_predictor_passing_each_levels(set_of_levels, list_heuristics_s
 			for current_heuristic in list_heuristics_str:
 				if set_of_levels[grid_size_index][level_index].predictions_of_heuristics[current_heuristic]:
 					this_passed += 1
-				else:
-					pass
 			this_evolution.append(this_passed)
 
 		axes[grid_size_index].plot(this_evolution, color = 'red')

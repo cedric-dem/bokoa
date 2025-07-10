@@ -49,14 +49,14 @@ def get_score_of_a_given_level_solved_using_given_heuristic(heuristic_name, vari
 		case "BackTracking With Score Check":
 			solver = BackTrackingWithScoreCheckSolver(level, variant)
 		case _:
-			print("Not found solver")
+			raise ValueError("Invalid heuristic ")
 
 	final_score = solver.solve()
 
 	return final_score
 
 def test_proportion_of_every_variant_every_solver(set_of_levels):
-	print('=> Levels quantity', [len(set_of_levels[i]) for i in range(len(set_of_levels))])
+	print('=> Levels quantity', [len(set_of_levels[grid_size_index]) for grid_size_index in range(len(set_of_levels))])
 
 	list_heuristics_to_test = [
 		("Greedy", 0),

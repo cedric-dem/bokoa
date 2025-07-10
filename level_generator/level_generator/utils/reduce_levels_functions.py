@@ -31,7 +31,7 @@ def get_levels(folder):
 
 	return result
 
-def is_passing_criterias(current_level, current_grid_size_id, boundaries):
+def is_passing_criteria(current_level, current_grid_size_id, boundaries):
 	this_size = len(current_level.best_moves)
 	min_size = boundaries["min_size"][current_grid_size_id]
 	max_size = boundaries["max_size"][current_grid_size_id]
@@ -40,7 +40,7 @@ def is_passing_criterias(current_level, current_grid_size_id, boundaries):
 	min_score = boundaries["min_score"][current_grid_size_id]
 	max_score = boundaries["max_score"][current_grid_size_id]
 
-	return this_size >= min_size and this_size <= max_size and this_score >= min_score and this_score <= max_score
+	return min_size <= this_size <= max_size and min_score <= this_score <= max_score
 
 def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 	print("====> remove out of bounds levels")
@@ -50,7 +50,7 @@ def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 		for current_old_level_index in range(len(current_set_of_levels[current_grid_size_id])):
 			current_level = current_set_of_levels[current_grid_size_id][current_old_level_index]
 
-			if is_passing_criterias(current_level, current_grid_size_id, boundaries):
+			if is_passing_criteria(current_level, current_grid_size_id, boundaries):
 				acceptable_levels[current_grid_size_id].append(current_level)
 
 	return acceptable_levels
