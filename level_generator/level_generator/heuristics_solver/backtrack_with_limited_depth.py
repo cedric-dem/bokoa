@@ -13,7 +13,7 @@ class BackTrackingLimitedDepthSolver(Solver):
 			case 1:
 				k = 0.3
 			case _:
-				print("Unknown variant", self.variant)
+				raise ValueError("Invalid Variant  (in limited depth heuristic) : ", self.variant)
 
 		max_depth = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] * k)
 		return current_depth < max_depth

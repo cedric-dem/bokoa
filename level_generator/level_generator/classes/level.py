@@ -1,8 +1,6 @@
-import random
-
 from level_generator.classes.operation import Operation
 from level_generator.config.config import *
-from level_generator.utils.level_creation_functions import get_operations_reserve_balanced, set_operations_and_operand_balanced, set_operations_and_operand
+from level_generator.utils.level_creation_functions import set_operations_and_operand_balanced, set_operations_and_operand
 
 class Level(object):
 	def __init__(self, grid_size_id, operations_grid):
@@ -13,7 +11,7 @@ class Level(object):
 			self.operations_grid = [[None for _ in range(self.grid_size[0])] for _ in range(self.grid_size[1])]
 			for i in range(self.grid_size[0]):
 				for j in range(self.grid_size[1]):
-					if (i==0 and j==0):
+					if i == 0 and j == 0:
 						self.operations_grid[i][j] = "1"
 					else:
 						self.operations_grid[i][j] = Operation(operations_grid[i][j][0], int(operations_grid[i][j][1]))

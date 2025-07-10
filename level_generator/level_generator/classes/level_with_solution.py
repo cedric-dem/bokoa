@@ -14,6 +14,14 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 
 		self.predictions_of_heuristics = {}
 
+		self.first_term_raw = None
+		self.second_term_raw = None
+
+		self.first_term_normalized = None
+		self.second_term_normalized = None
+
+		self.estimated_difficulty = None
+
 	def compute_raw_terms(self):
 		increasing_steps_counter = 0
 

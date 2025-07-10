@@ -18,6 +18,6 @@ class BackTrackingWithScoreCheckSolver(Solver):
 			case 2:
 				margin = -1  # slower, roughly 9 sec for grid size 6x6 but 100% reliable on reduced set
 			case _:
-				print("Unknown variant", self.variant)
+				raise ValueError("Invalid Variant  (in score check heuristic) : ", self.variant)
 
 		return current_score >= estimated_lower + margin

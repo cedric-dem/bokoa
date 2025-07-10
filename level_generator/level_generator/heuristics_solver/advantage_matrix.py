@@ -15,13 +15,13 @@ def get_advantage_matrix(level, variant):
 			# Go through neighbourhood of the current case, see if this is interesting to be here
 			for delta_i in range(-max_dist, max_dist):
 				new_i = i + delta_i
-				if (new_i > 0 and new_i < level.grid_size[0]):
+				if new_i > 0 and new_i < level.grid_size[0]:
 
 					for delta_j in range(-max_dist, max_dist):
 						new_j = j + delta_j
 						if (new_i != i or new_j != j) and (new_j > 0 and new_j < level.grid_size[0]):
 
-							if (level.operations_grid[new_i][new_j] != "1"):
+							if level.operations_grid[new_i][new_j] != "1":
 								seen_neighbours += 1
 								distance_with_case_of_interest = abs(delta_j) + abs(delta_i)
 								operand = level.operations_grid[new_i][new_j].operand
@@ -44,9 +44,8 @@ def get_advantage_matrix(level, variant):
 			# result[i][j] = current_case_advantage / seen_neighbours
 			result[i][j] = current_case_advantage
 
+	# return mix_advantages(result)  # TODO see if this improve reliability or not
 	return result
-
-# return mix_advantages(result)  # TODO see if this improve reliability or not
 
 def mix_advantages(current):
 	result = deepcopy(current)
@@ -62,11 +61,11 @@ def mix_advantages(current):
 			# Go through neighbourhood of the current case, see if this is interesting to be around
 			for delta_i in range(-max_dist, max_dist):
 				new_i = i + delta_i
-				if (new_i > 0 and new_i < len(result)):
+				if 0 < new_i < len(result):
 
 					for delta_j in range(-max_dist, max_dist):
 						new_j = j + delta_j
-						if (new_i != i or new_j != j) and (new_j > 0 and new_j < len(result[0])):
+						if (new_i != i or new_j != j) and (0 < new_j < len(result[0])):
 
 							if result[i][j] > 0:  # TODO maybe remove that if
 								distance_with_case_of_interest = abs(delta_j) + abs(delta_i)

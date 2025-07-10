@@ -19,7 +19,7 @@ balance_operand = True
 
 generated_levels_folder_name = "generated_levels_new_balanced"
 
-ignore_extreme_values = 10	# will ignore top 10%, bottom 10% (scores and sizes)
+ignore_extreme_values = 10  # will ignore top 10%, bottom 10% (scores and sizes)
 
 complete_folder_name = "complete"
 reduced_folder_name = "reduced"
