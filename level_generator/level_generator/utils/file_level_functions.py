@@ -1,6 +1,6 @@
 import json
 
-from level_generator.classes.levelWithSolution import *
+from level_generator.classes.level_with_solution import *
 from level_generator.classes.level import *
 
 def save_all_levels(levels_reduced):

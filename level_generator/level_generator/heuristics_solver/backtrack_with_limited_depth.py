@@ -1,4 +1,4 @@
-from level_generator.classes.solverParent import Solver
+from level_generator.classes.solver_parent import Solver
 from level_generator.config.config import grid_sizes
 
 class BackTrackingLimitedDepthSolver(Solver):
