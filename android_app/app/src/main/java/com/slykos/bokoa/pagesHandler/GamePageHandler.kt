@@ -250,7 +250,9 @@ open class GamePageHandler : GenericPlayPage() {
         }
 
     private fun initLevel() {
-        currentLevel = loadObjectFromJson(this, "difficulty_$difficulty/level_$levelId.json")!!
+        val paddedLevelId = levelId.toString().padStart(6, '0')
+        val fileName = "difficulty_$difficulty/level_$paddedLevelId.json"
+        currentLevel = loadObjectFromJson(this, fileName)!!
 
         gridSize = intArrayOf(gridSizes[difficulty], gridSizes[difficulty])
 
