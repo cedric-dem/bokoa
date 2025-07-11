@@ -39,7 +39,7 @@ def get_advantage_matrix(level, variant):
 										current_case_advantage -= (2 + 3 * operand) / distance_with_case_of_interest
 									# current_case_advantage -= 3
 									case _:
-										raise ValueError("Invalid  operation "+str(level.operations_grid[new_i][new_j].operation))
+										raise ValueError("Invalid  operation " + str(level.operations_grid[new_i][new_j].operation))
 
 			# result[i][j] = current_case_advantage / seen_neighbours
 			result[i][j] = current_case_advantage

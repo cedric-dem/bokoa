@@ -3,7 +3,7 @@ from level_generator.utils.file_level_functions import get_levels_list
 import copy
 import math
 
-from level_generator.utils.misc_functions import get_amount_of_existing_levels_for_given_grid_size, sort_levels_set
+from level_generator.utils.misc_functions import get_amount_of_existing_levels_for_given_grid_size
 
 def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	closest_index = 0
