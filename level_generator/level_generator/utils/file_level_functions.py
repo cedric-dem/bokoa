@@ -68,7 +68,7 @@ def create_level_file_as_json(operations, best_score, best_moves, filename):
 
 		resulting_str += "}"
 
-		print("=> Str :\n", resulting_str)
+		# print("=> Str :\n", resulting_str)
 
 		with open(filename, "w", encoding = "utf-8") as f:
 			f.write(resulting_str)
