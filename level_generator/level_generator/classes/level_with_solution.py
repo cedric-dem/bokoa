@@ -60,9 +60,9 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 
 				match difficulty_function:
 					case "min_two_terms":
-						self.estimated_difficulty = round(t1 + t2, 6)
+						self.estimated_difficulty = round(min(t1, t2), 6)
 					case "max_two_terms":
-						self.estimated_difficulty = round(t1 + t2, 6)
+						self.estimated_difficulty = round(max(t1, t2), 6)
 					case "sum_two_terms":
 						self.estimated_difficulty = round(t1 + t2, 6)
 					case _:
