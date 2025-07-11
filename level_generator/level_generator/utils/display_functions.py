@@ -266,7 +266,7 @@ def plot_performance_of_each_solver(set_of_levels, heuristics_list):
 				else:
 					this_evolution.append(0)
 
-			print("==> number levels : ", len(this_evolution))
+			# print("==> number levels : ", len(this_evolution))
 			axes[grid_size_index].plot(this_evolution, color = 'red')
 
 			axes[grid_size_index].set_title("Scores predicted for  grid size " + str(grid_sizes[grid_size_index]) + "heuristic " + current_heuristic)

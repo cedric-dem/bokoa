@@ -7,7 +7,6 @@ class Solver(object):
 		self.level_to_solve = level
 
 	def solve(self):
-
 		# create temp game, to look for best solution with that heuristic
 		temp_game = Game(self.level_to_solve)
 		max_depth = grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1]
