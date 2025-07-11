@@ -23,7 +23,7 @@ n_cores = 6
 ############################################# Prepare Levels
 number_levels_to_keep = 100
 
-ignore_extreme_values = 10  # will ignore top 10%, bottom 10% (scores and sizes)
+ignore_extreme_values = 1  # will ignore top 10%, bottom 10% (scores and sizes)
 
 coefficient_difficulty_first_term = 0.4
 coefficient_difficulty_second_term = 0.6
@@ -32,4 +32,4 @@ compute_constants = "AUTOMATIC"
 compute_boundaries = "AUTOMATIC"
 
 difficulty_setting = "linear"
-difficulty_function = "sum_two_terms"
+difficulty_function = "points_estimate"  # "sum_two_terms"
