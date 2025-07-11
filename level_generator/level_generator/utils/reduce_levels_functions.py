@@ -108,16 +108,17 @@ def reduce_levels_set(acceptable_levels):
 		# ==== get theoretical estimated_difficulties to reduce
 		theoretical_difficulties = get_theoretical_difficulties(acceptable_levels[current_grid_size_id], True)
 
-		levels_reduced = get_levels_approaching_theoretical_difficulties(theoretical_difficulties, copy.deepcopy(acceptable_levels[current_grid_size_id]))
+		# approach theoretical difficulties
+		reduced_to_final_set[current_grid_size_id] = get_levels_approaching_theoretical_difficulties(theoretical_difficulties, copy.deepcopy(acceptable_levels[current_grid_size_id]))
 
-		estimated_difficulties = [current_level.estimated_difficulty for current_level in levels_reduced]
+		display_all_estimated_difficulties(reduced_to_final_set[current_grid_size_id])
 
-		print("====> Real Difficulties : ", estimated_difficulties)
-
-		for index_reduced in range(len(levels_reduced)):
-			current_level = levels_reduced[index_reduced]
-			reduced_to_final_set[current_grid_size_id].append(current_level)
 	return reduced_to_final_set
+
+def display_all_estimated_difficulties(lst_levels):
+	estimated_difficulties = [current_level.estimated_difficulty for current_level in lst_levels]
+
+	print("====> Real Difficulties : ", estimated_difficulties)
 
 def get_levels_approaching_theoretical_difficulties(theoretical_difficulties, acceptable_levels):
 	levels_reduced = []
@@ -159,6 +160,6 @@ def get_theoretical_difficulties(levels_list, verbose):  # hypothesis : levels l
 
 			if verbose:
 				print('====> log difficulty, settings ', a, c)
-
-	print("====> Theoretical difficulties : ", theoretical_difficulties)
+	if verbose:
+		print("====> Theoretical difficulties : ", theoretical_difficulties)
 	return theoretical_difficulties
