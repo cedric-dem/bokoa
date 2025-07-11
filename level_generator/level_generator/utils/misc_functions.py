@@ -199,5 +199,5 @@ def display_boundaries(boundaries):
 		print('=> ', key, boundaries[key])
 
 def sort_levels_set(level_set):
-	for i in range(len(level_set)):
-		level_set[i].sort()
+	for grid_size_index in range(len(level_set)):
+		level_set[grid_size_index].sort()
