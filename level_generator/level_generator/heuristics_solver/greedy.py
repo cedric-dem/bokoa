@@ -6,12 +6,14 @@ class GreedySolver(Solver):
 		super().__init__(level)
 		self.variant = variant
 
-	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
+	def is_solution_worth_trying(self, current_game, new_position):
 		half_max_length = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 2)
 		early_point = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 4)
 
-		is_after_half_max_length = current_depth > half_max_length
-		is_after_early_point = current_depth > early_point
+		is_after_half_max_length = len(current_game.moves_history) > half_max_length
+		is_after_early_point = len(current_game.moves_history) > early_point
+
+		new_operation = current_game.level.operations_grid[new_position[0]][new_position[1]]
 
 		is_positive = (new_operation.operation == "+" or new_operation.operation == "×")
 		is_divide_and_late = (is_after_half_max_length and new_operation.operation == "÷")

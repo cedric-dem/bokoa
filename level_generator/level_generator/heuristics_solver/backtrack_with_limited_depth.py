@@ -6,7 +6,7 @@ class BackTrackingLimitedDepthSolver(Solver):
 		super().__init__(level)
 		self.variant = variant
 
-	def is_solution_worth_trying(self, current_score, current_depth, new_position, new_operation):
+	def is_solution_worth_trying(self, current_game, new_position):
 		match self.variant:
 			case 0:
 				k = 0.2
@@ -16,4 +16,4 @@ class BackTrackingLimitedDepthSolver(Solver):
 				raise ValueError("Invalid Variant  (in limited depth heuristic) : ", self.variant)
 
 		max_depth = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] * k)
-		return current_depth < max_depth
+		return len(current_game.moves_history) < max_depth
