@@ -100,6 +100,9 @@ def reduce_levels_set(acceptable_levels):
 	for current_grid_size_id in range(len(grid_sizes)):
 		print('====> Current grid size id ', current_grid_size_id)
 
+		if number_levels_to_keep > len(acceptable_levels[current_grid_size_id]):
+			raise ValueError("More reduced levels wanted(", number_levels_to_keep, ")", " than available (", len(acceptable_levels[current_grid_size_id]), ")")
+
 		# ====  sort kept levels
 		acceptable_levels[current_grid_size_id].sort()
 
