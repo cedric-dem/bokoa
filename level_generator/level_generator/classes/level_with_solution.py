@@ -1,6 +1,6 @@
 from level_generator.classes.level import Level
 from level_generator.config.config import *
-from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level, get_occupation_matrix_for_given_solution_on_given_level
+from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level, get_occupation_matrix_for_given_solution_on_given_level, get_history_of_operations_for_given_solution_on_given_level
 import random
 
 class LevelWithSolution(Level):  # TODO : inherit from Level
@@ -71,14 +71,10 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 
 			case "points_estimate":
 
-				lst_operations = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self)
+				lst_operations = get_history_of_operations_for_given_solution_on_given_level(self.best_moves, self)
 				occupation_matrix = get_occupation_matrix_for_given_solution_on_given_level(self.best_moves, self)
 
-				current_score = 1
-				for current_score_index in range(len(lst_operations)):
-					current_operation = lst_operations[current_score_index - 1]
-
-				self.estimated_difficulty = round(current_score, 2)
+				self.estimated_difficulty = get_points_estimate(lst_operations, occupation_matrix, self.history_of_scores_for_best_solution, self.best_moves, self.operations_grid)
 
 			case _:
 				raise ValueError("Not found difficulty : ", difficulty_function)
@@ -94,3 +90,38 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 
 	def __eq__(self, other):
 		return self.estimated_difficulty == other.estimated_difficulty
+
+def get_points_estimate(operations, occupation, scores_history, best_moves, operations_grid):
+	current_difficulty_estimate = 1
+
+	for current_score_index in range(len(operations)):
+		current_operation = operations[current_score_index - 1]
+
+		progression_proportion = current_score_index / len(operations)
+
+		match current_operation.operation:
+			case "+":
+				if current_score_index < 5:
+					current_difficulty_estimate += 5 * (current_operation.operand + 5)
+				else:
+					current_difficulty_estimate += 2 * (current_operation.operand + 5)
+
+			case '-':
+				if current_score_index < 5:
+					current_difficulty_estimate -= 5 * (current_operation.operand + 5)
+				else:
+					current_difficulty_estimate -= 2 * (current_operation.operand + 5)
+			case '×':
+				if current_score_index < 5:
+					current_difficulty_estimate += 3 * (current_operation.operand + 5)
+				else:
+					current_difficulty_estimate += 7 * (current_operation.operand + 5)
+			case '÷':
+				if current_score_index < 5:
+					current_difficulty_estimate -= 2 * (current_operation.operand + 5)
+				else:
+					current_difficulty_estimate -= 7 * (current_operation.operand + 5)
+			case _:
+				raise ValueError("Invalid Value  (Operation not found) : ", current_operation.operation)
+
+	return -round(current_difficulty_estimate, 2)

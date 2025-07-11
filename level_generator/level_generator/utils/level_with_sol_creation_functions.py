@@ -23,9 +23,9 @@ def get_history_of_operations_for_given_solution_on_given_level(solution, level)
 
 		current_game.apply_move_given_direction(move_direction)
 
-		history_of_operations_for_best_solution.append(current_game.level.operations_grid[current_game.current_position_head[0]][current_game.current_position_head[0]])
+		history_of_operations_for_best_solution.append(current_game.level.operations_grid[current_game.current_position_head[0]][current_game.current_position_head[1]])
 
-	return history_of_operations_for_best_solution
+	return history_of_operations_for_best_solution[1:]
 
 def get_occupation_matrix_for_given_solution_on_given_level(solution, level):
 	current_game = Game(level)
