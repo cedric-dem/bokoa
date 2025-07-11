@@ -105,16 +105,13 @@ def reduce_levels_set(acceptable_levels):
 		if number_levels_to_keep > len(acceptable_levels[current_grid_size_id]):
 			raise ValueError("More reduced levels wanted(", number_levels_to_keep, ")", " than available (", len(acceptable_levels[current_grid_size_id]), ")")
 
-		estimated_difficulties = []
-		for current_level in acceptable_levels[current_grid_size_id]:
-			estimated_difficulties.append(current_level.estimated_difficulty)
-
 		# ==== get theoretical estimated_difficulties to reduce
 		theoretical_difficulties = get_theoretical_difficulties(acceptable_levels[current_grid_size_id], True)
 
-		levels_reduced = get_reduced_levels(theoretical_difficulties, copy.deepcopy(acceptable_levels[current_grid_size_id]))
+		levels_reduced = get_levels_approaching_theoretical_difficulties(theoretical_difficulties, copy.deepcopy(acceptable_levels[current_grid_size_id]))
 
 		estimated_difficulties = [current_level.estimated_difficulty for current_level in levels_reduced]
+
 		print("====> Real Difficulties : ", estimated_difficulties)
 
 		for index_reduced in range(len(levels_reduced)):
@@ -122,7 +119,7 @@ def reduce_levels_set(acceptable_levels):
 			reduced_to_final_set[current_grid_size_id].append(current_level)
 	return reduced_to_final_set
 
-def get_reduced_levels(theoretical_difficulties, acceptable_levels):
+def get_levels_approaching_theoretical_difficulties(theoretical_difficulties, acceptable_levels):
 	levels_reduced = []
 
 	for reduced_levels_index in range(number_levels_to_keep):
@@ -132,7 +129,7 @@ def get_reduced_levels(theoretical_difficulties, acceptable_levels):
 	levels_reduced.sort()
 	return levels_reduced
 
-def get_theoretical_difficulties(levels_list, verbose):
+def get_theoretical_difficulties(levels_list, verbose):  # hypothesis : levels list already sorted
 	theoretical_difficulties = []
 
 	initial_difficulty = levels_list[0].estimated_difficulty
