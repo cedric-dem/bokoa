@@ -23,18 +23,21 @@ print("========> step 5: remove unacceptable levels (too big, too small, end sco
 # TODO maybe move step 5 before ? to ensure a flatter difficulty ?
 acceptable_levels_set = remove_duplicated(remove_out_of_bounds_levels(initial_set_of_levels, boundaries))
 
-print("========> step 6: reduce level to desired quantity")
+print("========> step 6: acceptable sort")
+sort_levels_set(acceptable_levels_set)
+
+print("========> step 7: reduce level to desired quantity")
 reduced_to_final_set = reduce_levels_set(acceptable_levels_set)
 
-print("========> step 7: save levels")
+print("========> step 8: save levels")
 save_all_levels(reduced_to_final_set)
 
-print("========> step 8: show statistics in terminal")
+print("========> step 9: show statistics in terminal")
 describe_levels_set_terminal(initial_set_of_levels, "Initial Set Of Levels")
 describe_levels_set_terminal(acceptable_levels_set, "Acceptable Levels")
 describe_levels_set_terminal(reduced_to_final_set, "Reduced Set Of Levels")
 
-print("========> step 9: plot statistics")
+print("========> step 10: plot statistics")
 plot_levels_sets_statistics(
 	[
 		initial_set_of_levels,

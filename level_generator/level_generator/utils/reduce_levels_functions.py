@@ -3,7 +3,7 @@ from level_generator.utils.file_level_functions import get_levels_list
 import copy
 import math
 
-from level_generator.utils.misc_functions import get_amount_of_existing_levels_for_given_grid_size
+from level_generator.utils.misc_functions import get_amount_of_existing_levels_for_given_grid_size, sort_levels_set
 
 def get_index_of_closest_difficulty(difficulty_to_search, levels_list):
 	closest_index = 0
@@ -103,8 +103,6 @@ def reduce_levels_set(acceptable_levels):
 		if number_levels_to_keep > len(acceptable_levels[current_grid_size_id]):
 			raise ValueError("More reduced levels wanted(", number_levels_to_keep, ")", " than available (", len(acceptable_levels[current_grid_size_id]), ")")
 
-		# ====  sort kept levels
-		acceptable_levels[current_grid_size_id].sort()
 
 		estimated_difficulties = []
 		for current_level in acceptable_levels[current_grid_size_id]:
