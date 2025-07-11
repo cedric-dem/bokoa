@@ -188,6 +188,21 @@ abstract class Game(
             }
         }
 
+    private fun moveLeft(){
+        detectCaseAndMove(intArrayOf(0, -1))
+    }
+
+    private fun moveRight(){
+        detectCaseAndMove(intArrayOf(0, 1))
+    }
+
+    private fun moveUp(){
+        detectCaseAndMove(intArrayOf(-1, 0))
+    }
+    private fun moveDown(){
+        detectCaseAndMove(intArrayOf(1, 0))
+    }
+
     private fun executeMovement(startPosition: IntArray, endPosition: IntArray) {
         val delta = intArrayOf(
             abs(startPosition[0] - endPosition[0]),
@@ -198,16 +213,16 @@ abstract class Game(
         if (delta[0] >= delta[1] && delta[0] > 100) { // horizontal move and sufficient
 
             if (startPosition[0] > endPosition[0]) { // left move
-                detectCaseAndMove(intArrayOf(0, -1))
+                moveLeft()
             } else { // right move
-                detectCaseAndMove(intArrayOf(0, 1))
+                moveRight()
             }
         } else if (delta[1] > delta[0] && delta[1] > 100) { // vertical move and sufficient
 
             if (startPosition[1] > endPosition[1]) { // top move
-                detectCaseAndMove(intArrayOf(-1, 0))
+                moveUp()
             } else { // bot move
-                detectCaseAndMove(intArrayOf(1, 0))
+                moveDown()
             }
         }
     }
