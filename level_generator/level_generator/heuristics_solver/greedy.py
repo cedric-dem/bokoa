@@ -3,8 +3,7 @@ from level_generator.config.config import grid_sizes
 
 class GreedySolver(Solver):
 	def __init__(self, level, variant):
-		super().__init__(level)
-		self.variant = variant
+		super().__init__(variant, level)
 
 	def is_solution_worth_trying(self, current_game, new_position):
 		half_max_length = int(grid_sizes[self.level_to_solve.grid_size_id][0] * grid_sizes[self.level_to_solve.grid_size_id][1] / 2)

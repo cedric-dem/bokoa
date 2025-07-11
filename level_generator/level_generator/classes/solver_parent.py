@@ -3,7 +3,8 @@ from level_generator.classes.game import Game
 from level_generator.config.config import grid_sizes
 
 class Solver(object):
-	def __init__(self, level):
+	def __init__(self, variant, level):
+		self.variant = variant
 		self.level_to_solve = level
 
 	def solve(self):

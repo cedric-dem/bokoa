@@ -85,8 +85,7 @@ def display_advantage_matrix(mat):
 
 class AdvantageMatrixSolver(Solver):
 	def __init__(self, level, variant):
-		super().__init__(level)
-		self.variant = variant
+		super().__init__(variant, level)
 
 		self.advantage_matrix = round_mat(get_advantage_matrix(level, self.variant))
 

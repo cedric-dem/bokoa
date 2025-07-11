@@ -3,8 +3,7 @@ from level_generator.utils.display_functions import get_approx_function
 
 class BackTrackingWithScoreCheckSolver(Solver):
 	def __init__(self, level, variant):
-		super().__init__(level)
-		self.variant = variant
+		super().__init__(variant, level)
 
 	def is_solution_worth_trying(self, current_game, new_position):
 		estimated_lower = get_approx_function(self.level_to_solve.grid_size_id)[len(current_game.moves_history)]

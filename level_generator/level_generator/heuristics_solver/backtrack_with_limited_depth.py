@@ -3,8 +3,7 @@ from level_generator.config.config import grid_sizes
 
 class BackTrackingLimitedDepthSolver(Solver):
 	def __init__(self, level, variant):
-		super().__init__(level)
-		self.variant = variant
+		super().__init__(variant, level)
 
 	def is_solution_worth_trying(self, current_game, new_position):
 		match self.variant:
