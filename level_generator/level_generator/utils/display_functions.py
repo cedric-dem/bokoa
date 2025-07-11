@@ -117,7 +117,7 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 
 	for levels_set_index in range(len(levels_list)):
 
-		list_evolutions = [levels_list[levels_set_index][grid_size_index][level_index].historyOfScoresForBestSolution for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
+		list_evolutions = [levels_list[levels_set_index][grid_size_index][level_index].history_of_scores_for_best_solution for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 
 		num_curves = len(list_evolutions)
 
@@ -175,8 +175,8 @@ def get_mins_at_each_step(levels_list, grid_size_index):
 		for level_index in range(len(levels_list[levels_set_index][grid_size_index])):
 			this_level = levels_list[levels_set_index][grid_size_index][level_index]
 
-			for current_position in range(len(this_level.historyOfScoresForBestSolution)):
-				current_value = this_level.historyOfScoresForBestSolution[current_position]
+			for current_position in range(len(this_level.history_of_scores_for_best_solution)):
+				current_value = this_level.history_of_scores_for_best_solution[current_position]
 
 				if current_position >= len(current_mins_list):
 					current_mins_list.append(current_value)
