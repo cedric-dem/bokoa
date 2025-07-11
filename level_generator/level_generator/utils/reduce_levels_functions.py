@@ -120,12 +120,12 @@ def reduce_levels_set(acceptable_levels):
 			reduced_to_final_set[current_grid_size_id].append(current_level)
 	return reduced_to_final_set
 
-def get_reduced_levels(theoretical_difficulties, levels_size_acceptable):
+def get_reduced_levels(theoretical_difficulties, acceptable_levels):
 	levels_reduced = []
 
 	for reduced_levels_index in range(number_levels_to_keep):
-		index = get_index_of_closest_difficulty(theoretical_difficulties[reduced_levels_index], levels_size_acceptable)
-		this_one = levels_size_acceptable.pop(index)
+		index = get_index_of_closest_difficulty(theoretical_difficulties[reduced_levels_index], acceptable_levels)
+		this_one = acceptable_levels.pop(index)
 		levels_reduced.append(this_one)
 	levels_reduced.sort()
 	return levels_reduced
