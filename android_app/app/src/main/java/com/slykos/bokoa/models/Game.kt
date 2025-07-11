@@ -188,18 +188,19 @@ abstract class Game(
             }
         }
 
-    private fun moveLeft(){
+    fun moveLeft(){
         detectCaseAndMove(intArrayOf(0, -1))
     }
 
-    private fun moveRight(){
+    fun moveRight(){
         detectCaseAndMove(intArrayOf(0, 1))
     }
 
-    private fun moveUp(){
+    fun moveUp(){
         detectCaseAndMove(intArrayOf(-1, 0))
     }
-    private fun moveDown(){
+
+    fun moveDown(){
         detectCaseAndMove(intArrayOf(1, 0))
     }
 
