@@ -33,11 +33,31 @@ def get_levels_list(set_name, grid_size_id, quantity):
 	return complete_levels_list
 
 def create_level_file_as_json(operations, best_score, best_moves, filename):
-	result = {
-		"operations": [[str(car) for car in line] for line in operations],  # neutral will be converted as string "1" and operation will go trough the __str__ function
-		"bestScore": round(float(best_score), 2),
-		"bestMoves": best_moves
-	}
+	if format_json:
+		# TODO
+		temp_str = "{\n"
+
+		#add operations
+		temp_str += "  \"operations\": [\n"
+
+		#add best score
+		temp_str += "  \"bestScore\": \n"
+
+		#add best moves
+		temp_str += "  \"bestMoves\": \n"
+
+		temp_str+="}"
+		print("oui",temp_str)
+
+		with open(filename, "w", encoding = "utf-8") as f:
+			f.write(temp_str)
+
+	else:
+		result = {
+			"operations": [[str(car) for car in line] for line in operations],  # neutral will be converted as string "1" and operation will go trough the __str__ function
+			"bestScore": round(float(best_score), 2),
+			"bestMoves": best_moves
+		}
 
 	with open(filename, 'w') as file:
 		json.dump(result, file, indent = 4, separators = (',', ': '), ensure_ascii = False)

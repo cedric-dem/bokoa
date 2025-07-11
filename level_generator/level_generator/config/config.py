@@ -12,6 +12,8 @@ compute_boundaries = "AUTOMATIC"
 
 difficulty_setting = "linear"
 
+format_json = True
+
 use_multiple_cores_for_levels_generation = True
 n_cores = 6
 
