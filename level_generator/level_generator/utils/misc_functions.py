@@ -91,7 +91,7 @@ def generate_levels_in_parallel(grid_size_id):
 
 def get_all_but_inverse_of_last_move(moves_history):
 	if len(moves_history) == 0:
-		result = list_all_directions
+		result = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 	else:
 		match moves_history[-1]:
 			case [0, -1]:
@@ -103,7 +103,7 @@ def get_all_but_inverse_of_last_move(moves_history):
 			case [-1, 0]:
 				result = [[0, -1], [0, 1], [-1, 0]]
 			case _:
-				result = list_all_directions
+				result = [[0, -1], [0, 1], [1, 0], [-1, 0]]
 	return result
 
 def back_track(game, max_solution_size):

@@ -12,8 +12,6 @@ compute_boundaries = "AUTOMATIC"
 
 difficulty_setting = "linear"
 
-list_all_directions = [[0, -1], [0, 1], [1, 0], [-1, 0]]
-
 use_multiple_cores_for_levels_generation = True
 n_cores = 6
 
