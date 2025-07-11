@@ -32,3 +32,4 @@ compute_constants = "AUTOMATIC"
 compute_boundaries = "AUTOMATIC"
 
 difficulty_setting = "linear"
+difficulty_function = "sum_two_terms"
