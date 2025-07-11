@@ -46,7 +46,12 @@ def create_level_file_as_json(operations, best_score, best_moves, filename):
 				resulting_str += '"' + str(col) + '"'
 				if col_index != len(line) - 1:
 					resulting_str += ","
-			resulting_str += "]\n"
+
+			if line_index != len(best_moves) - 1:
+				resulting_str += "],\n"
+			else:
+				resulting_str += "]\n"
+
 		resulting_str += "  ],\n"
 
 		# add best score
@@ -56,7 +61,7 @@ def create_level_file_as_json(operations, best_score, best_moves, filename):
 		resulting_str += "  \"bestMoves\": [\n    "
 		for move_index in range(len(best_moves)):
 			move = best_moves[move_index]
-			resulting_str += '"'+move+'"'
+			resulting_str += '"' + move + '"'
 			if move_index != len(best_moves) - 1:
 				resulting_str += ","
 		resulting_str += "\n  ],\n"
