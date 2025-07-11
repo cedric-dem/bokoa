@@ -1,80 +1,79 @@
 import random
 import math
 
-from level_generator.classes.operation import Operation
+from level_generator.classes.case.initial_case import InitialCase
+from level_generator.classes.case.operation import Operation
 
-def get_operations_reserve_balanced(grid_size):
-	total_of_each_op = (grid_size[0] * grid_size[1]) // 4
-	operations_reserve = (
-			['+' for _ in range(total_of_each_op)] +
-			['-' for _ in range(total_of_each_op)] +
-			['×' for _ in range(total_of_each_op)] +
-			['÷' for _ in range(total_of_each_op)])
+random.seed(12345)
 
-	random.shuffle(operations_reserve)
-	return operations_reserve
+def get_operators_reserve_balanced(grid_size):
+	quantity_of_each_operator = (grid_size[0] * grid_size[1]) // 4
+	operators_reserve = (
+			['+' for _ in range(quantity_of_each_operator)] +
+			['-' for _ in range(quantity_of_each_operator)] +
+			['×' for _ in range(quantity_of_each_operator)] +
+			['÷' for _ in range(quantity_of_each_operator)])
 
-def set_operations_and_operand(grid_size, operations_grid):
-	operations_reserve = get_operations_reserve_balanced(grid_size)
-	for i in range(grid_size[0]):
-		for j in range(grid_size[1]):
-			if i == 0 and j == 0:
-				operations_grid[0][0] = "1"
+	random.shuffle(operators_reserve)
+	return operators_reserve
+
+def initialize_operations_grid_unbalanced_operands(grid_size, operations_grid):
+	operators_reserve = get_operators_reserve_balanced(grid_size)
+	for line_index in range(grid_size[0]):
+		for column_index in range(grid_size[1]):
+			if line_index == 0 and column_index == 0:
+				operations_grid[0][0] = InitialCase()
 			else:
-				if operations_reserve[0] == "×" or operations_reserve[0] == "÷":
-					new_operation = Operation(operations_reserve[0], random.randint(2, 5))
+				operations_grid[column_index][line_index] = get_operation_with_random_operand(operators_reserve[0])
+				del operators_reserve[0]
 
-				else:
-					new_operation = Operation(operations_reserve[0], random.randint(1, 5))
+def get_operation_with_random_operand(new_operator):
+	if new_operator == "×" or new_operator == "÷":
+		new_operand = random.randint(2, 5)
+	else:
+		new_operand = random.randint(1, 5)
+	return Operation(new_operator, new_operand)
 
-				operations_grid[j][i] = new_operation
-				del operations_reserve[0]
+def get_operand_reserve_balanced(quantity_of_each_operator, min_value, max_value):
+	multiply_factor_addition_operations = math.ceil(quantity_of_each_operator / (max_value - min_value))
+	operands_list = [i for i in range(min_value, max_value)] * multiply_factor_addition_operations
+	random.shuffle(operands_list)
+	return operands_list
 
-def set_operations_and_operand_balanced(grid_size, operations_grid):
-	total_of_each_op = (grid_size[0] * grid_size[1]) // 4
+def initialize_operations_grid_balanced_operands(grid_size, operations_grid):
+	quantity_of_each_operator = (grid_size[0] * grid_size[1]) // 4
 
-	multiply_factor_addition_operations = math.ceil(total_of_each_op / 5)
-	operands_plus = [i for i in range(1, 6)] * multiply_factor_addition_operations
-	operands_minus = [i for i in range(1, 6)] * multiply_factor_addition_operations
-	random.shuffle(operands_plus)
-	random.shuffle(operands_minus)
+	operands_plus = get_operand_reserve_balanced(quantity_of_each_operator, 1, 6)
+	operands_minus = get_operand_reserve_balanced(quantity_of_each_operator, 1, 6)
+	operands_div = get_operand_reserve_balanced(quantity_of_each_operator, 2, 6)
+	operands_mul = get_operand_reserve_balanced(quantity_of_each_operator, 2, 6)
 
-	multiply_factor_multiplication_operations = math.ceil(total_of_each_op / 4)
-	operands_mul = [i for i in range(2, 6)] * multiply_factor_multiplication_operations
-	operands_div = [i for i in range(2, 6)] * multiply_factor_multiplication_operations
-	random.shuffle(operands_div)
-	random.shuffle(operands_mul)
+	operators_reserve = get_operators_reserve_balanced(grid_size)
 
-	reserve = get_operations_reserve_balanced(grid_size)
-
-	# print("===> Balanced number of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div), "(needed : ", total_of_each_op, ") ( factors  ", multiply_factor_addition_operations, multiply_factor_addition_operations, ")")
-	# print("Operands : ", operands_plus, operands_minus, operands_mul, operands_div)
-
-	for i in range(grid_size[0]):
-		for j in range(grid_size[1]):
-			if i == 0 and j == 0:
-				operations_grid[0][0] = "1"
+	for line_index in range(grid_size[0]):
+		for column_index in range(grid_size[1]):
+			if line_index == 0 and column_index == 0:
+				new_case = InitialCase()
 			else:
-				match reserve[0]:
-					case "×":
-						new_operation = Operation(reserve[0], operands_mul[0])
-						del operands_mul[0]
+				new_case = get_operation_with_operand_balanced(operators_reserve[0], operands_mul, operands_div, operands_plus, operands_minus)
 
-					case "÷":
-						new_operation = Operation(reserve[0], operands_div[0])
-						del operands_div[0]
+				del operators_reserve[0]
 
-					case "-":
-						new_operation = Operation(reserve[0], operands_plus[0])
-						del operands_plus[0]
+			operations_grid[column_index][line_index] = new_case
 
-					case "+":
-						new_operation = Operation(reserve[0], operands_minus[0])
-						del operands_minus[0]
-					case _:
-						raise ValueError("Invalid  operation ", reserve[0])
+	# print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
 
-				operations_grid[j][i] = new_operation
-				del reserve[0]
+def get_operation_with_operand_balanced(new_operator, operands_mul, operands_div, operands_plus, operands_minus):
+	match new_operator:
+		case "×":
+			new_operand = operands_mul.pop(0)
+		case "÷":
+			new_operand = operands_div.pop(0)
+		case "-":
+			new_operand = operands_plus.pop(0)
+		case "+":
+			new_operand = operands_minus.pop(0)
+		case _:
+			raise ValueError("Invalid  operation ", new_operator)
 
-# print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
+	return Operation(new_operator, new_operand)

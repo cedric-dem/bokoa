@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -251,7 +252,7 @@ open class GamePageHandler : GenericPlayPage() {
 
     private fun initLevel() {
         val paddedLevelId = levelId.toString().padStart(6, '0')
-        val fileName = "difficulty_$difficulty/level_$paddedLevelId.json"
+        val fileName = "grid_size_$difficulty/level_$paddedLevelId.json"
         currentLevel = loadObjectFromJson(this, fileName)!!
 
         gridSize = intArrayOf(gridSizes[difficulty], gridSizes[difficulty])
@@ -364,4 +365,27 @@ open class GamePageHandler : GenericPlayPage() {
 
     override fun getMainView(): View =
         mainView
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_DPAD_UP -> {
+                this.currentGame.moveUp()
+                return true
+            }
+            KeyEvent.KEYCODE_DPAD_DOWN -> {
+                this.currentGame.moveDown()
+                return true
+            }
+            KeyEvent.KEYCODE_DPAD_LEFT -> {
+                this.currentGame.moveLeft()
+                return true
+            }
+            KeyEvent.KEYCODE_DPAD_RIGHT -> {
+                this.currentGame.moveRight()
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
 }

@@ -1,65 +1,135 @@
-from level_generator.config.config import grid_sizes, compute_constants
-from level_generator.utils.display_functions import describe_list
+from level_generator.config.config import grid_sizes, compute_constants, weights_parameters
 
-def get_coef_affine(min_value, max_value):
-	first_coef = -min_value / (max_value - min_value)
-	second_coef = 1 / (max_value - min_value)
-	return first_coef, second_coef
+def get_offset(delta, min_value):
+	return -min_value / delta
 
-def get_coef_linear(max_value):
-	first_coef = 1 / max_value
-	return first_coef
+def get_multiply_factor(delta):
+	return 1 / delta
+
+def get_constants_automatically(set_of_levels):
+	result = {name: [[], []] for name in weights_parameters}
+
+	for grid_size_id in range(len(grid_sizes)):
+		print('====> Retrieving Automatically constants  grid size :', grid_sizes[grid_size_id])
+
+		current_grid_size_constants = retrieve_constants_automatically(set_of_levels[grid_size_id])
+
+		for current_constant_name in current_grid_size_constants:
+			result[current_constant_name][0].append(current_grid_size_constants[current_constant_name][0])
+			result[current_constant_name][1].append(current_grid_size_constants[current_constant_name][1])
+	return result
+
+def get_constants_old():
+	return {
+		"proportion_increasing_steps": [
+			[2.0998, 2.332, 1.92],
+			[2.34, 2.666, 2.026]
+		],
+		"proportion_score_decreasing": [
+			[0.00, 0.00, 0.00],
+			[0.826446281, 1.597444089, 1.34589502],
+		],
+		"lowest_score": [
+			[0, 0, 0],
+			[0, 0, 0]
+		],
+		"solution_length": [
+			[0, 0, 0],
+			[0, 0, 0]
+		],
+		"latest_negative_score_at": [
+			[0, 0, 0],
+			[0, 0, 0]
+		],
+		"operations_used": [
+			[0, 0, 0],
+			[0, 0, 0]
+		],
+		"remaining_operations": [
+			[0, 0, 0],
+			[0, 0, 0]
+		]
+	}
+
+def get_constants_new():
+	return {
+		"proportion_increasing_steps": [
+			[1.8181818181818183, 2.0909090909090913, 2.391304347826087],
+			[2.045454545454546, 2.2809917355371905, 2.608695652173913]
+		],
+		"proportion_score_decreasing": [
+			[-0.0, -0.0, -0.0],
+			[0.9677419354838711, 0.873015873015873, 1.33217764193335]
+		],
+		"lowest_score": [
+			[0, 0, 0],
+			[0, 0, 0]
+		],
+		"solution_length": [
+			[0, 0, 0],
+			[0, 0, 0]
+		],
+		"latest_negative_score_at": [
+			[0, 0, 0],
+			[0, 0, 0]
+		],
+		"operations_used": [
+			[0, 0, 0],
+			[0, 0, 0]
+		],
+		"remaining_operations": [
+			[0, 0, 0],
+			[0, 0, 0]
+		]
+	}
 
 def retrieve_all_constants(set_of_levels):
 	match compute_constants:
 		case "AUTOMATIC":
-			t1, t2, t3 = [], [], []
-			for grid_size_id in range(len(grid_sizes)):
-				print('=' * 190)
-				print('====> Retrieving Automatically constants  grid size :', grid_sizes[grid_size_id])
-				tt1, tt2, tt3 = retrieve_constants_automatically(set_of_levels[grid_size_id])
-
-				t1.append(tt1)
-				t2.append(tt2)
-				t3.append(tt3)
+			result = get_constants_automatically(set_of_levels)
 
 		case "USE_OLD":
 			print('====> Retrieving HardCoded old constants ')
-			t1 = [2.0998, 2.332, 1.92]
-			t2 = [2.34, 2.666, 2.026]
-			t3 = [0.826446281, 1.597444089, 1.34589502]
+			result = get_constants_old()
 
 		case "USE_NEW":
 			print('====> Retrieving HardCoded new constants ')
-			t1 = [2.076923076923077, 2.2, 1.9109589041095891]
-			t2 = [2.3076923076923075, 2.4000000000000004, 2.017123287671233]
-			t3 = [0.8157894736842106, 1.5814696485623003, 1.3325587613008851]
+			result = get_constants_new()
 
 		case _:
 			raise ValueError("Invalid compute constant method : ", compute_constants)
 
-	return {
-		"coefficient_difficulty_first_term_a": t1,
-		"coefficient_difficulty_first_term_b": t2,
-		"coefficient_difficulty_second_term_a": t3
-	}
+	return result
 
 def retrieve_constants_automatically(complete_levels_list):
-	# ==== get stats
-	first_term_raw, second_term_raw = [], []
+	raw_terms = get_all_raw_terms(complete_levels_list)
 
-	for data in complete_levels_list:
-		data.compute_raw_terms()
+	coefficients = {}
+	for raw_term_name in raw_terms:
+		min_raw_term = min(raw_terms[raw_term_name])
+		max_raw_term = max(raw_terms[raw_term_name])
 
-		first_term_raw.append(data.first_term_raw)
-		second_term_raw.append(data.second_term_raw)
+		delta = max_raw_term - min_raw_term
 
-	coefficient_difficulty_first_term_a, coefficient_difficulty_first_term_b = get_coef_affine(min(first_term_raw), max(first_term_raw))
-	coefficient_difficulty_second_term_a = get_coef_linear(max(second_term_raw))
+		this_term_offset = get_offset(delta, min_raw_term)
+		this_term_multiply_factor = get_multiply_factor(delta)
 
-	print("==> Computed coefficients :", coefficient_difficulty_first_term_a, coefficient_difficulty_first_term_b, coefficient_difficulty_second_term_a)
+		# describe_list("Difficulty Term Raw", raw_terms[raw_term_name])
+		# print("==> Computed coefficients for index :", raw_term_name, this_term_offset, this_term_multiply_factor)
 
-	describe_list("Difficulty Term 1 Raw", first_term_raw)
-	describe_list("Difficulty Term 2 Raw", second_term_raw)
+		coefficients[raw_term_name] = [this_term_offset, this_term_multiply_factor]
 
-	return coefficient_difficulty_first_term_a, coefficient_difficulty_first_term_b, coefficient_difficulty_second_term_a
+	print("==> Result ", coefficients)
+	return coefficients
+
+def get_all_raw_terms(complete_levels_list):
+	raw_terms = {name: [] for name in weights_parameters}
+
+	for level in complete_levels_list:
+		level.compute_raw_terms()
+
+		this_raw_terms = level.raw_difficulty_terms
+
+		for current_constant_name in weights_parameters:
+			raw_terms[current_constant_name].append(this_raw_terms[current_constant_name])
+	return raw_terms
