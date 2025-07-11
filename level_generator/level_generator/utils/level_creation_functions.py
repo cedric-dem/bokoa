@@ -55,21 +55,24 @@ def set_operations_and_operand_balanced(grid_size, operations_grid):
 			if i == 0 and j == 0:
 				operations_grid[0][0] = "1"
 			else:
-				if reserve[0] == "×":
-					new_operation = Operation(reserve[0], operands_mul[0])
-					del operands_mul[0]
+				match reserve[0]:
+					case "×":
+						new_operation = Operation(reserve[0], operands_mul[0])
+						del operands_mul[0]
 
-				elif reserve[0] == "÷":
-					new_operation = Operation(reserve[0], operands_div[0])
-					del operands_div[0]
+					case "÷":
+						new_operation = Operation(reserve[0], operands_div[0])
+						del operands_div[0]
 
-				elif reserve[0] == "-":
-					new_operation = Operation(reserve[0], operands_plus[0])
-					del operands_plus[0]
+					case "-":
+						new_operation = Operation(reserve[0], operands_plus[0])
+						del operands_plus[0]
 
-				elif reserve[0] == "+":
-					new_operation = Operation(reserve[0], operands_minus[0])
-					del operands_minus[0]
+					case "+":
+						new_operation = Operation(reserve[0], operands_minus[0])
+						del operands_minus[0]
+					case _:
+						raise ValueError("Invalid  operation ", reserve[0])
 
 				operations_grid[j][i] = new_operation
 				del reserve[0]
