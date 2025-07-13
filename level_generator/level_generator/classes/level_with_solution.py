@@ -68,7 +68,7 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 				self.compute_raw_terms()
 
 				self.first_term_normalized = constants["coefficient_difficulty_first_term_a"][self.grid_size_id] + (constants["coefficient_difficulty_first_term_b"][self.grid_size_id] * self.first_term_raw)
-				self.second_term_normalized = self.second_term_raw * constants["coefficient_difficulty_second_term_a"][self.grid_size_id]
+				self.second_term_normalized =constants["coefficient_difficulty_second_term_a"][self.grid_size_id] + (constants["coefficient_difficulty_second_term_b"][self.grid_size_id] * self.second_term_raw)
 
 				t1 = coefficient_difficulty_first_term * self.first_term_normalized
 				t2 = coefficient_difficulty_second_term * self.second_term_normalized

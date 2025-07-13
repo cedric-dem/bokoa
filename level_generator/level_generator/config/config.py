@@ -27,6 +27,7 @@ ignore_extreme_values = 1  # will ignore top 1%, bottom 1% (scores and sizes)
 
 coefficient_difficulty_first_term = 0.4  # 0.95
 coefficient_difficulty_second_term = 0.6  # 0.05
+#weights_parameters = [0.4, 0.6]
 
 compute_constants = "AUTOMATIC"
 compute_boundaries = "AUTOMATIC"
