@@ -32,4 +32,4 @@ compute_constants = "AUTOMATIC"
 compute_boundaries = "AUTOMATIC"
 
 difficulty_setting = "linear"
-difficulty_function = "sum_two_terms"  # "points_estimate"
+difficulty_function = "sum_two_terms"  # "points_estimate" "sum_two_terms" "hardcoded_constants_sum_two_terms"

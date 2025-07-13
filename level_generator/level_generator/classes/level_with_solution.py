@@ -24,7 +24,7 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 		self.estimated_difficulty = None
 
 	def compute_raw_terms(self):
-		if difficulty_function in ["sum_two_terms", "min_two_terms", "max_two_terms"]:
+		if difficulty_function in ["sum_two_terms", "min_two_terms", "max_two_terms", "hardcoded_constants_sum_two_terms"]:
 			increasing_steps_counter = 0
 
 			total_score_decreasing = 0
@@ -50,6 +50,20 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 
 	def set_estimated_difficulty(self, constants):
 		match difficulty_function:
+			case "hardcoded_constants_sum_two_terms":
+				self.compute_raw_terms()
+
+				self.first_term_normalized = 2.1 + (2.3 * self.first_term_raw)
+				self.second_term_normalized = self.second_term_raw * 0.9
+				"""
+				self.first_term_normalized = 2.0909090909090913 + (2.2809917355371905 * self.first_term_raw)
+				self.second_term_normalized = self.second_term_raw * 0.873015873015873
+				"""
+				t1 = coefficient_difficulty_first_term * self.first_term_normalized
+				t2 = coefficient_difficulty_second_term * self.second_term_normalized
+
+				self.estimated_difficulty = round(t1 + t2, 6)
+
 			case "sum_two_terms" | "min_two_terms" | "max_two_terms":
 				self.compute_raw_terms()
 
