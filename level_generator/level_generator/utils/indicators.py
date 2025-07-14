@@ -28,11 +28,9 @@ def get_all_indicators(level):
 			if new_score < 0:
 				latest_negative_score_at = current_score_index
 
-		current_operation = operations[current_score_index - 1]
-
 		progression_proportion = current_score_index / len(operations)
 
-		current_case_estimate_difficulty += get_points_adjustment_difficulty(current_operation, current_score_index)
+		current_case_estimate_difficulty += get_points_adjustment_difficulty(operations[current_score_index - 1], current_score_index)
 
 	# TODO try with srqt or squared
 	proportion_increasing_steps = -increasing_steps_counter / (len(level.history_of_scores_for_best_solution))
@@ -55,10 +53,10 @@ def get_all_indicators(level):
 def get_remaining_operations_indicator(occupation_matrix, level):
 	remaining_operations_indicator = 0
 
-	for i in range(len(occupation_matrix)):
-		for j in range(len(occupation_matrix[i])):
-			if not occupation_matrix[i][j]:
-				this_unused_operation = level.operations_grid[i][j]
+	for matrix_line_index in range(len(occupation_matrix)):
+		for matrix_column_index in range(len(occupation_matrix[matrix_line_index])):
+			if not occupation_matrix[matrix_line_index][matrix_column_index]:
+				this_unused_operation = level.operations_grid[matrix_line_index][matrix_column_index]
 				if this_unused_operation.operation == "+":
 					remaining_operations_indicator += 3 + (2 * this_unused_operation.operand)
 
