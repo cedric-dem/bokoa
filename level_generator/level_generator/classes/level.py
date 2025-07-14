@@ -26,5 +26,8 @@ class Level(object):
 			set_operations_and_operand(self.grid_size, self.operations_grid)
 
 	def display_level(self):
-		for line in self.operations_grid:
-			print([str(elem) for elem in line])
+		for line_index in range(len(self.operations_grid)):
+			for cell_index in range (len(self.operations_grid[line_index])):
+				cell = self.operations_grid[line_index][cell_index]
+				print(cell, end = " ")
+			print()

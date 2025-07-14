@@ -1,5 +1,3 @@
-from unittest import case
-
 from level_generator.classes.level import Level
 from level_generator.config.config import *
 from level_generator.utils.indicators import get_all_indicators
@@ -48,9 +46,25 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 
 	def display_everything(self):
 		print('==> Grid :')
-		super().display_level()
+		# super().display_level() #without solution
+		self.display_level_with_solution()
 		print('==> Solution :', self.best_moves)
 		print('==> Best Score : ', self.best_score)
+		print('==> Evolution of  Score : ', self.history_of_scores_for_best_solution)
+
+	def display_level_with_solution(self):
+		occupation = get_occupation_matrix_for_given_solution_on_given_level(self.best_moves, self)
+		for line_index in range(len(self.operations_grid)):
+			for cell_index in range(len(self.operations_grid[line_index])):
+				cell_repr = str(self.operations_grid[line_index][cell_index])
+
+				if occupation[line_index][cell_index]:
+					cell_repr = "(" + cell_repr + ")"
+				else:
+					cell_repr = " " + cell_repr + " "
+
+				print(cell_repr, end = " ")
+			print()
 
 	def __gt__(self, other):
 		return self.estimated_difficulty > other.estimated_difficulty
