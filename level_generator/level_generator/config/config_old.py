@@ -25,15 +25,15 @@ number_levels_to_keep = 100
 
 ignore_extreme_values = 10  # will ignore top 1%, bottom 1% (scores and sizes)
 
-weights_parameters = [
-	0.4,  # proportion_increasing_steps,
-	0.6,  # proportion_score_decreasing
-	0,  # lowest_score
-	0,  # solution_length
-	0,  # latest_negative_score_at
-	0,  # current_difficulty_estimate
-	0  # remaining_operations
-]
+weights_parameters = {
+	"proportion_increasing_steps": 0.4,
+	"proportion_score_decreasing": 0.6,
+	"lowest_score": 0,
+	"solution_length": 0,
+	"latest_negative_score_at": 0,
+	"operations_used": 0,
+	"remaining_operations": 0
+}
 
 compute_constants = "USE_OLD"
 compute_boundaries = "USE_OLD"
