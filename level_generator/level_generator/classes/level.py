@@ -27,4 +27,4 @@ class Level(object):
 
 	def display_level(self):
 		for line in self.operations_grid:
-			print(line)
+			print([str(elem) for elem in line])
