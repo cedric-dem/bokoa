@@ -9,19 +9,20 @@ def get_all_indicators(level):
 
 	latest_negative_score_at = 0
 
-	for current_score_index in range(1, len(level.history_of_scores_for_best_solution)):
-		old_score = level.history_of_scores_for_best_solution[current_score_index - 1]
-		new_score = level.history_of_scores_for_best_solution[current_score_index]
+	for current_score_index in range(len(level.history_of_scores_for_best_solution)):
+		if current_score_index >= 1:
+			old_score = level.history_of_scores_for_best_solution[current_score_index - 1]
+			new_score = level.history_of_scores_for_best_solution[current_score_index]
 
-		if new_score > old_score:
-			increasing_steps_counter += 1
-			total_score_increasing += (new_score - old_score)
+			if new_score > old_score:
+				increasing_steps_counter += 1
+				total_score_increasing += (new_score - old_score)
 
-		if new_score < old_score:
-			total_score_decreasing += (old_score - new_score)
+			if new_score < old_score:
+				total_score_decreasing += (old_score - new_score)
 
-		if new_score < 0:
-			latest_negative_score_at = current_score_index
+			if new_score < 0:
+				latest_negative_score_at = current_score_index
 
 	# TODO try with srqt or squared
 	proportion_increasing_steps = -increasing_steps_counter / (len(level.history_of_scores_for_best_solution))
