@@ -9,8 +9,7 @@ def get_all_indicators(level):
 	latest_negative_score_at = 0
 
 	operations = get_history_of_operations_for_given_solution_on_given_level(level.best_moves, level)
-	occupation = get_occupation_matrix_for_given_solution_on_given_level(level.best_moves, level)
-	scores_history = level.history_of_scores_for_best_solution
+	occupation_matrix = get_occupation_matrix_for_given_solution_on_given_level(level.best_moves, level)
 
 	current_case_estimate_difficulty = 1
 
@@ -58,30 +57,29 @@ def get_all_indicators(level):
 			case _:
 				raise ValueError("Invalid Value  (Operation not found) : ", current_operation.operation)
 
-	# TODO try with srqt or squared
-	proportion_increasing_steps = -increasing_steps_counter / (len(level.history_of_scores_for_best_solution))
-	proportion_score_decreasing = (total_score_decreasing / level.history_of_scores_for_best_solution[-1])
+	#############################
 
-	lowest_score = - min(level.history_of_scores_for_best_solution)
-
-	solution_length = len(level.history_of_scores_for_best_solution)
-
-	operations_used_indicator = -round(current_case_estimate_difficulty, 2)
-
-	# todo remove code duplication
-	occupation_matrix = get_occupation_matrix_for_given_solution_on_given_level(level.best_moves, level)
-
-	current_indicator_value = 0
+	current_remaining_operations_indicator = 0
 
 	for i in range(len(occupation_matrix)):
 		for j in range(len(occupation_matrix[i])):
 			if not occupation_matrix[i][j]:
 				this_unused_operation = level.operations_grid[i][j]
 				if this_unused_operation.operation == "+":
-					current_indicator_value += 3 + (2 * this_unused_operation.operand)
+					current_remaining_operations_indicator += 3 + (2 * this_unused_operation.operand)
 
 				elif this_unused_operation.operation == "×":
-					current_indicator_value += 5 + (3 * this_unused_operation.operand)
-	remaining_operations_indicator = current_indicator_value
+					current_remaining_operations_indicator += 5 + (3 * this_unused_operation.operand)
+	remaining_operations_indicator = current_remaining_operations_indicator
+
+	#############################
+
+	# TODO try with srqt or squared
+
+	proportion_increasing_steps = -increasing_steps_counter / (len(level.history_of_scores_for_best_solution))
+	proportion_score_decreasing = (total_score_decreasing / level.history_of_scores_for_best_solution[-1])
+	lowest_score = - min(level.history_of_scores_for_best_solution)
+	solution_length = len(level.history_of_scores_for_best_solution)
+	operations_used_indicator = -round(current_case_estimate_difficulty, 2)
 
 	return [proportion_increasing_steps, proportion_score_decreasing, lowest_score, solution_length, latest_negative_score_at, operations_used_indicator, remaining_operations_indicator]
