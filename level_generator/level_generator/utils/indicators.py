@@ -18,10 +18,10 @@ def get_remaining_operations_indicator(level):
 			if not occupation_matrix[i][j]:
 				this_unused_operation = level.operations_grid[i][j]
 				if this_unused_operation.operation == "+":
-					current_indicator_value += 5 + (3 * this_unused_operation.operand)
+					current_indicator_value += 3 + (2 * this_unused_operation.operand)
 
 				elif this_unused_operation.operation == "×":
-					current_indicator_value += 3 + (2 * this_unused_operation.operand)
+					current_indicator_value += 5 + (3 * this_unused_operation.operand)
 
 	return current_indicator_value
 
