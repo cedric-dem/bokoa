@@ -26,16 +26,14 @@ number_levels_to_keep = 100
 ignore_extreme_values = 1  # will ignore top 1%, bottom 1% (scores and sizes)
 
 weights_parameters = {
-	"proportion_increasing_steps": 0.64,
-	"proportion_score_decreasing": 0.06,
+	"proportion_increasing_steps": 0.64,  # will use 0.95 later
+	"proportion_score_decreasing": 0.06,  # will use 0.05 later ?
 	"lowest_score": 0.06,
 	"solution_length": 0.06,
 	"latest_negative_score_at": 0.06,
 	"operations_used": 0.06,
 	"remaining_operations": 0.06
 }
-
-# will use   [0.95, 0.05, ?, ?, ?, ?, ?] later
 
 compute_constants = "AUTOMATIC"
 compute_boundaries = "AUTOMATIC"

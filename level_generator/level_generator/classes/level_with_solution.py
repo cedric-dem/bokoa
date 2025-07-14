@@ -30,17 +30,15 @@ class LevelWithSolution(Level):
 
 		self.compute_raw_terms()
 
-		raw_terms_normalized = {}
-		for raw_term_name in self.raw_terms:
-			raw_term = self.raw_terms[raw_term_name]
-
-			this_term_normalized = constants[raw_term_name][0][self.grid_size_id] + raw_term * constants[raw_term_name][1][self.grid_size_id]
-
-			raw_terms_normalized[raw_term_name] = this_term_normalized
-
 		result = 0
-		for raw_term_name in raw_terms_normalized:
-			result += raw_terms_normalized[raw_term_name] * weights_parameters[raw_term_name]
+
+		for raw_term_name in self.raw_terms:
+			this_offset = constants[raw_term_name][0][self.grid_size_id]
+			this_multiply_factor = constants[raw_term_name][1][self.grid_size_id]
+
+			this_term_normalized = this_offset + self.raw_terms[raw_term_name] * this_multiply_factor
+
+			result += this_term_normalized * weights_parameters[raw_term_name]
 
 		self.estimated_difficulty = round(result, 6)
 
