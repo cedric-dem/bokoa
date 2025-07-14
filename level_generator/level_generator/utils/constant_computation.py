@@ -6,10 +6,6 @@ def get_coef_affine(min_value, max_value):
 	second_coef = 1 / (max_value - min_value)
 	return first_coef, second_coef
 
-def get_coef_linear(max_value):
-	first_coef = 1 / max_value
-	return first_coef
-
 def retrieve_all_constants(set_of_levels):
 	match compute_constants:
 		case "AUTOMATIC":
