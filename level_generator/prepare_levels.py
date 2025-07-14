@@ -36,7 +36,7 @@ print("========> step 9: show statistics in terminal")
 describe_levels_set_terminal(initial_set_of_levels, "Initial Set Of Levels")
 describe_levels_set_terminal(acceptable_levels_set, "Acceptable Levels")
 describe_levels_set_terminal(reduced_to_final_set, "Reduced Set Of Levels")
-
+"""
 print("========> step 10: plot statistics")
 plot_levels_sets_statistics(
 	[
@@ -50,3 +50,4 @@ plot_levels_sets_statistics(
 		"Reduced Set Of Levels",
 	]
 )
+"""

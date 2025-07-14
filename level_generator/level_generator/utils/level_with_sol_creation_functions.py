@@ -32,7 +32,6 @@ def get_history_of_operations_for_given_solution_on_given_level(solution, level)
 def get_occupation_matrix_for_given_solution_on_given_level(solution, level):
 	current_game = Game(level)
 
-
 	for move in solution:
 		move_direction = get_direction_from_move(move)
 
