@@ -57,38 +57,3 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 
 	def __eq__(self, other):
 		return self.estimated_difficulty == other.estimated_difficulty
-
-def get_points_estimate(operations, occupation, scores_history, best_moves, operations_grid):
-	current_difficulty_estimate = 1
-
-	for current_score_index in range(len(operations)):
-		current_operation = operations[current_score_index - 1]
-
-		progression_proportion = current_score_index / len(operations)
-
-		match current_operation.operation:
-			case "+":
-				if current_score_index < 5:
-					current_difficulty_estimate += 5 * (current_operation.operand + 5)
-				else:
-					current_difficulty_estimate += 2 * (current_operation.operand + 5)
-
-			case '-':
-				if current_score_index < 5:
-					current_difficulty_estimate -= 5 * (current_operation.operand + 5)
-				else:
-					current_difficulty_estimate -= 2 * (current_operation.operand + 5)
-			case '×':
-				if current_score_index < 5:
-					current_difficulty_estimate += 3 * (current_operation.operand + 5)
-				else:
-					current_difficulty_estimate += 7 * (current_operation.operand + 5)
-			case '÷':
-				if current_score_index < 5:
-					current_difficulty_estimate -= 2 * (current_operation.operand + 5)
-				else:
-					current_difficulty_estimate -= 7 * (current_operation.operand + 5)
-			case _:
-				raise ValueError("Invalid Value  (Operation not found) : ", current_operation.operation)
-
-	return -round(current_difficulty_estimate, 2)

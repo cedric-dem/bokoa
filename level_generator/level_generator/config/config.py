@@ -25,7 +25,7 @@ number_levels_to_keep = 100
 
 ignore_extreme_values = 1  # will ignore top 1%, bottom 1% (scores and sizes)
 
-weights_parameters = [0.4, 0.6]  # will use   [0.95, 0.05] later
+weights_parameters = [0.4, 0.6, 0, 0, 0, 0, 0]  # will use   [0.95, 0.05, ?, ?, ?, ?, ?] later
 
 compute_constants = "AUTOMATIC"
 compute_boundaries = "AUTOMATIC"
