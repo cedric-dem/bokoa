@@ -90,7 +90,7 @@ def get_score_indicators(level):
 	proportion_increasing_steps = -increasing_steps_counter / (len(level.history_of_scores_for_best_solution))
 	proportion_score_decreasing = (total_score_decreasing / level.history_of_scores_for_best_solution[-1])
 
-	lowest_score = min(level.history_of_scores_for_best_solution)
+	lowest_score =  - min(level.history_of_scores_for_best_solution)
 
 	solution_length = len(level.history_of_scores_for_best_solution)
 
