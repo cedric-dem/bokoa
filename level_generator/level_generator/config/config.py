@@ -20,6 +20,8 @@ balance_operand = True
 use_multiple_cores_for_levels_generation = True
 n_cores = 6
 
+save_plots = True
+
 ############################################# Prepare Levels
 number_levels_to_keep = 100
 

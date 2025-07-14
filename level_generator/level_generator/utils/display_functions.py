@@ -3,7 +3,7 @@ import statistics
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 from matplotlib.ticker import FuncFormatter
-from level_generator.config.config import grid_sizes, weights_parameters
+from level_generator.config.config import grid_sizes, weights_parameters, save_plots
 from level_generator.utils.reduce_levels_functions import get_theoretical_difficulties
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
@@ -69,7 +69,7 @@ def plot_levels_sets_scores_for_grid(levels_list, levels_set_names, grid_size_in
 			scores[level_set_index].append(current_level.best_score)
 
 	print('==> Plot grid size', grid_sizes[grid_size_index])
-	display_plot_box(scores, " Scores", str(grid_sizes[grid_size_index]), levels_set_names)
+	display_plot_box(scores, "Scores", str(grid_sizes[grid_size_index]), levels_set_names)
 
 def plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, grid_size_index):
 	sizes = [[] for _ in range(len(levels_list))]
@@ -80,7 +80,7 @@ def plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, grid_size_ind
 			sizes[level_set_index].append(len(current_level.best_moves))
 
 	print('==> Plot grid size', grid_sizes[grid_size_index])
-	display_plot_box(sizes, " Sizes ", str(grid_sizes[grid_size_index]), levels_set_names)
+	display_plot_box(sizes, "Sizes ", str(grid_sizes[grid_size_index]), levels_set_names)
 
 def display_plot_box(data, name, grid_size, levels_set_names):
 	print("===> now displaying ", name, " for grid size ", grid_size, " number of levels :", str([len(i) for i in data]))
@@ -100,7 +100,11 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 		patch.set_facecolor(color)
 	plt.legend([box["boxes"][0], box["boxes"][1], box["boxes"][2]], levels_set_names, loc = "upper left")
 
-	plt.show()
+	if save_plots:
+		plt.savefig("plots/boxplot_" + name + ".jpg", format = "jpg", dpi = 300)
+		plt.close()
+	else:
+		plt.show()
 
 def get_formatted_integer(x, pos):
 	return f'{int(x):,}'.replace(',', ' ')
@@ -145,7 +149,11 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
 
 	plt.tight_layout()
-	plt.show()
+	if save_plots:
+		plt.savefig("plots/scores_evolution_grid_size_" + str(grid_size_index) + ".jpg", format = "jpg", dpi = 300)
+		plt.close()
+	else:
+		plt.show()
 
 def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
@@ -169,7 +177,12 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 		axes[levels_set_index].grid(True)
 
 	plt.tight_layout()
-	plt.show()
+
+	if save_plots:
+		plt.savefig("plots/difficulty_evolution_grid_size_" + str(grid_size_index) + ".jpg", format = "jpg", dpi = 300)
+		plt.close()
+	else:
+		plt.show()
 
 def plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
@@ -191,7 +204,11 @@ def plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, grid_si
 		axes[levels_set_index].grid(True)
 
 	plt.tight_layout()
-	plt.show()
+	if save_plots:
+		plt.savefig("plots/difficulty_terms_grid_size_" + str(grid_size_index) + ".jpg", format = "jpg", dpi = 300)
+		plt.close()
+	else:
+		plt.show()
 
 def get_mins_at_each_step(levels_list, grid_size_index):
 	result = []
@@ -243,7 +260,11 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
 
 	plt.tight_layout()
-	plt.show()
+	if save_plots:
+		plt.savefig("plots/min_evolution_grid_size_" + str(grid_size_index) + ".jpg", format = "jpg", dpi = 300)
+		plt.close()
+	else:
+		plt.show()
 
 def get_approx_function(grid_size_index):
 	size_wanted = grid_sizes[grid_size_index][0] * grid_sizes[grid_size_index][1]
