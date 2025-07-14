@@ -10,7 +10,10 @@ def retrieve_all_constants(set_of_levels):
 	match compute_constants:
 		case "AUTOMATIC":
 
-			result = [[[], []] for _ in range(len(weights_parameters))]
+			# result = [[[], []] for _ in range(len(weights_parameters))]
+			result = {}
+			for w in weights_parameters:
+				result[w] = [[], []]
 
 			for grid_size_id in range(len(grid_sizes)):
 				print('=' * 190)
@@ -18,9 +21,9 @@ def retrieve_all_constants(set_of_levels):
 
 				current_grid_size_constants = retrieve_constants_automatically(set_of_levels[grid_size_id])
 
-				for current_constant_index in range(len(current_grid_size_constants)):
-					result[current_constant_index][0].append(current_grid_size_constants[current_constant_index][0])
-					result[current_constant_index][1].append(current_grid_size_constants[current_constant_index][1])
+				for current_constant_name in current_grid_size_constants:
+					result[current_constant_name][0].append(current_grid_size_constants[current_constant_name][0])
+					result[current_constant_name][1].append(current_grid_size_constants[current_constant_name][1])
 
 		case "USE_OLD":
 			print('====> Retrieving HardCoded old constants ')
@@ -97,23 +100,29 @@ def retrieve_all_constants(set_of_levels):
 
 def retrieve_constants_automatically(complete_levels_list):
 	# ==== get stats
-	raw_terms = [[] for _ in range(len(weights_parameters))]
+	# raw_terms = [[] for _ in range(len(weights_parameters))]
+	raw_terms = {}
+	for w in weights_parameters:
+		raw_terms[w] = []
 
 	for data in complete_levels_list:
 		data.compute_raw_terms()
 
 		this_raw_terms = data.raw_terms
 
-		for raw_term_index in range(len(this_raw_terms)):
-			raw_terms[raw_term_index].append(this_raw_terms[raw_term_index])
+		# for raw_term_name in range(len(this_raw_terms)):
+		#	raw_terms[raw_term_name].append(this_raw_terms[raw_term_name])
+		for w in weights_parameters:
+			raw_terms[w].append(this_raw_terms[w])
 
-	coefficients = []
-	for raw_term_index in range(len(raw_terms)):
-		coefficient_difficulty_a, coefficient_difficulty_b = get_coef_affine(min(raw_terms[raw_term_index]), max(raw_terms[raw_term_index]))
+	coefficients = {}
+	for raw_term_name in raw_terms:
+		coefficient_difficulty_a, coefficient_difficulty_b = get_coef_affine(min(raw_terms[raw_term_name]), max(raw_terms[raw_term_name]))
 
-		describe_list("Difficulty Term 2 Raw", raw_terms[raw_term_index])
-		print("==> Computed coefficients for index :", raw_term_index, coefficient_difficulty_a, coefficient_difficulty_b)
-		coefficients.append([coefficient_difficulty_a, coefficient_difficulty_b])
+		describe_list("Difficulty Term 2 Raw", raw_terms[raw_term_name])
+		print("==> Computed coefficients for index :", raw_term_name, coefficient_difficulty_a, coefficient_difficulty_b)
+		# coefficients.append([coefficient_difficulty_a, coefficient_difficulty_b])
+		coefficients[raw_term_name] = [coefficient_difficulty_a, coefficient_difficulty_b]
 
 	print("==> Result ", coefficients)
 	return coefficients

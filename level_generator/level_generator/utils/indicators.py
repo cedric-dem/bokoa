@@ -82,4 +82,12 @@ def get_all_indicators(level):
 	solution_length = len(level.history_of_scores_for_best_solution)
 	operations_used_indicator = -round(current_case_estimate_difficulty, 2)
 
-	return [proportion_increasing_steps, proportion_score_decreasing, lowest_score, solution_length, latest_negative_score_at, operations_used_indicator, remaining_operations_indicator]
+	return {
+		"proportion_increasing_steps": proportion_increasing_steps,
+		"proportion_score_decreasing": proportion_score_decreasing,
+		"lowest_score": lowest_score,
+		"solution_length": solution_length,
+		"latest_negative_score_at": latest_negative_score_at,
+		"operations_used": operations_used_indicator,
+		"remaining_operations": remaining_operations_indicator
+	}
