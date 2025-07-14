@@ -3,13 +3,17 @@ import statistics
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 from matplotlib.ticker import FuncFormatter
-from level_generator.config.config import grid_sizes
+from level_generator.config.config import grid_sizes, weights_parameters
 from level_generator.utils.reduce_levels_functions import get_theoretical_difficulties
 
 def plot_levels_sets_statistics(levels_list, levels_set_names):
 	print('\n=> Plot Difficulties <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
+
+	print('\n=> Plot Difficulties Terms<========')
+	for current_grid_index in range(len(grid_sizes)):
+		plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
 
 	print('\n=> Plot Sizes <========')
 	for current_grid_index in range(len(grid_sizes)):
@@ -159,7 +163,29 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 
 		axes[levels_set_index].set_xlabel("Level ID")
 		axes[levels_set_index].set_ylabel("Estimated Difficulty")
-		# axes[levels_set_index].set_ylim(-0.1, 1.1)
+		axes[levels_set_index].set_ylim(-0.1, 1.1)
+
+		axes[levels_set_index].legend()
+		axes[levels_set_index].grid(True)
+
+	plt.tight_layout()
+	plt.show()
+
+def plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, grid_size_index):
+	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
+
+	print('==> plot difficulty for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
+
+	for levels_set_index in range(len(levels_list)):
+		for term_name in weights_parameters:
+			estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].raw_terms[term_name] for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
+			axes[levels_set_index].plot(estimated_difficulties, label = "Estimated Difficulty for term " + term_name, color = "red")
+
+		axes[levels_set_index].set_title("Evolution of difficulty for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
+
+		axes[levels_set_index].set_xlabel("Level ID")
+		axes[levels_set_index].set_ylabel("Estimated Difficulty")
+		axes[levels_set_index].set_ylim(-0.1, 1.1)
 
 		axes[levels_set_index].legend()
 		axes[levels_set_index].grid(True)
