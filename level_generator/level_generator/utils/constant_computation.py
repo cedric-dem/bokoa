@@ -24,11 +24,17 @@ def retrieve_all_constants(set_of_levels):
 
 		case "USE_OLD":
 			print('====> Retrieving HardCoded old constants ')
-			t1 = [2.0998, 2.332, 1.92]
-			t2 = [2.34, 2.666, 2.026]
-			t3 = [0.826446281, 1.597444089, 1.34589502]
-			t4 = [1.00, 0.00, 0.00]
-			result = []
+
+			result = [
+				[
+					[2.0998, 2.332, 1.92],
+					[2.34, 2.666, 2.026]
+				],
+				[
+					[0.00, 0.00, 0.00],
+					[0.826446281, 1.597444089, 1.34589502],
+				]
+			]
 
 		case "USE_NEW":
 			print('====> Retrieving HardCoded new constants ')
