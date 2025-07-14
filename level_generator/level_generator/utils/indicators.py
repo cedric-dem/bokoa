@@ -1,7 +1,6 @@
 from level_generator.utils.level_with_sol_creation_functions import get_history_of_operations_for_given_solution_on_given_level, get_occupation_matrix_for_given_solution_on_given_level
 
 def get_all_indicators(level):
-	##########################################################################################################
 	increasing_steps_counter = 0
 
 	total_score_decreasing = 0
@@ -59,7 +58,6 @@ def get_all_indicators(level):
 			case _:
 				raise ValueError("Invalid Value  (Operation not found) : ", current_operation.operation)
 
-
 	# TODO try with srqt or squared
 	proportion_increasing_steps = -increasing_steps_counter / (len(level.history_of_scores_for_best_solution))
 	proportion_score_decreasing = (total_score_decreasing / level.history_of_scores_for_best_solution[-1])
@@ -68,12 +66,8 @@ def get_all_indicators(level):
 
 	solution_length = len(level.history_of_scores_for_best_solution)
 
-	##########################################################################################################
-
-
 	operations_used_indicator = -round(current_case_estimate_difficulty, 2)
 
-	##########################################################################################################
 	# todo remove code duplication
 	occupation_matrix = get_occupation_matrix_for_given_solution_on_given_level(level.best_moves, level)
 
