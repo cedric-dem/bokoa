@@ -179,7 +179,7 @@ def plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, grid_si
 	for levels_set_index in range(len(levels_list)):
 		for term_name in weights_parameters:
 			estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].normalized_terms[term_name] for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
-			axes[levels_set_index].plot(estimated_difficulties, label = "Estimated Difficulty for term " + term_name)
+			axes[levels_set_index].plot(estimated_difficulties, label = "term " + term_name)
 
 		axes[levels_set_index].set_title("Evolution of difficulty for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
 
