@@ -26,60 +26,51 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 		self.estimated_difficulty = None
 
 	def compute_raw_terms(self):
-		if difficulty_function in ["sum_two_terms", "min_two_terms", "max_two_terms", "hardcoded_constants_sum_two_terms"]:
-			increasing_steps_counter = 0
+		increasing_steps_counter = 0
 
-			total_score_decreasing = 0
-			total_score_increasing = 0
+		total_score_decreasing = 0
+		total_score_increasing = 0
 
-			for current_score_index in range(1, len(self.history_of_scores_for_best_solution)):
-				old_score = self.history_of_scores_for_best_solution[current_score_index - 1]
-				new_score = self.history_of_scores_for_best_solution[current_score_index]
+		for current_score_index in range(1, len(self.history_of_scores_for_best_solution)):
+			old_score = self.history_of_scores_for_best_solution[current_score_index - 1]
+			new_score = self.history_of_scores_for_best_solution[current_score_index]
 
-				if new_score > old_score:
-					increasing_steps_counter += 1
-					total_score_increasing += (new_score - old_score)
+			if new_score > old_score:
+				increasing_steps_counter += 1
+				total_score_increasing += (new_score - old_score)
 
-				if new_score < old_score:
-					total_score_decreasing += (old_score - new_score)
+			if new_score < old_score:
+				total_score_decreasing += (old_score - new_score)
 
-			# TODO try with srqt or squared
-			first_term_raw = -increasing_steps_counter / (len(self.history_of_scores_for_best_solution))
-			second_term_raw = (total_score_decreasing / self.history_of_scores_for_best_solution[-1])
+		# TODO try with srqt or squared
+		first_term_raw = -increasing_steps_counter / (len(self.history_of_scores_for_best_solution))
+		second_term_raw = (total_score_decreasing / self.history_of_scores_for_best_solution[-1])
 
-			self.raw_terms = [first_term_raw, second_term_raw]
-		else:
-			self.raw_terms = [random.randint(1, 10), random.randint(1, 10)]  ##TODO refactor
+		"""
+		lst_operations = get_history_of_operations_for_given_solution_on_given_level(self.best_moves, self)
+		occupation_matrix = get_occupation_matrix_for_given_solution_on_given_level(self.best_moves, self)
+		third_term = get_points_estimate(lst_operations, occupation_matrix, self.history_of_scores_for_best_solution, self.best_moves, self.operations_grid)
+		"""
+
+		self.raw_terms = [first_term_raw, second_term_raw]
 
 	def set_estimated_difficulty(self, constants):
-		match difficulty_function:
 
-			case "sum_two_terms" | "min_two_terms" | "max_two_terms":
-				self.compute_raw_terms()
+		self.compute_raw_terms()
 
-				raw_terms_normalized = []
-				for raw_term_index in range(len(self.raw_terms)):
-					raw_term = self.raw_terms[raw_term_index]
+		raw_terms_normalized = []
+		for raw_term_index in range(len(self.raw_terms)):
+			raw_term = self.raw_terms[raw_term_index]
 
-					this_term_normalized = constants[raw_term_index][0][self.grid_size_id] + raw_term * constants[raw_term_index][1][self.grid_size_id]
+			this_term_normalized = constants[raw_term_index][0][self.grid_size_id] + raw_term * constants[raw_term_index][1][self.grid_size_id]
 
-					raw_terms_normalized.append(this_term_normalized)
+			raw_terms_normalized.append(this_term_normalized)
 
-				result = 0
-				for raw_term_index in range(len(raw_terms_normalized)):
-					result += raw_terms_normalized[raw_term_index] * weights_parameters[raw_term_index]
+		result = 0
+		for raw_term_index in range(len(raw_terms_normalized)):
+			result += raw_terms_normalized[raw_term_index] * weights_parameters[raw_term_index]
 
-				self.estimated_difficulty = round(result, 6)
-
-			case "points_estimate":
-
-				lst_operations = get_history_of_operations_for_given_solution_on_given_level(self.best_moves, self)
-				occupation_matrix = get_occupation_matrix_for_given_solution_on_given_level(self.best_moves, self)
-
-				self.estimated_difficulty = get_points_estimate(lst_operations, occupation_matrix, self.history_of_scores_for_best_solution, self.best_moves, self.operations_grid)
-
-			case _:
-				raise ValueError("Not found difficulty : ", difficulty_function)
+		self.estimated_difficulty = round(result, 6)
 
 	def display_everything(self):
 		print('==> Grid :')
