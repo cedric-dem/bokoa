@@ -31,7 +31,7 @@ weights_parameters = [
 	0,  # lowest_score
 	0,  # solution_length
 	0,  # latest_negative_score_at
-	0,  # current_difficulty_estimate
+	0,  # operations_used
 	0  # remaining_operations
 ]
 # will use   [0.95, 0.05, ?, ?, ?, ?, ?] later
