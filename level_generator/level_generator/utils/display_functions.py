@@ -87,7 +87,7 @@ def display_plot_box(data, name, grid_size, levels_set_names):
 
 	box = plt.boxplot(data, patch_artist = True, labels = levels_set_names)
 
-	plt.title("Comparing 3 Levels Sets For " + name + "for grid size " + str(grid_size))
+	plt.title("Comparing " + str(len(levels_set_names)) + " Levels Sets For " + name + "for grid size " + str(grid_size))
 	plt.xlabel("Level Set")
 	plt.ylabel(name)
 	plt.grid(True)
@@ -118,6 +118,7 @@ def get_all_time_max(levels_list, grid_size_index):
 
 def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
+	fig.suptitle("Evolution All scores for gris size " + str(grid_sizes[grid_size_index]))
 
 	print('==> plot evolution for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
@@ -135,7 +136,7 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 
 			axes[levels_set_index].plot(current_evolution, color = f'#{r:02x}{g:02x}{0:02x}')
 
-		axes[levels_set_index].set_title("Evolution of all scores for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
+		axes[levels_set_index].set_title("Level set : " + levels_set_names[levels_set_index])
 
 		axes[levels_set_index].set_xlabel("Number of Moves")
 		axes[levels_set_index].set_ylabel("Score")
@@ -157,6 +158,7 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 
 def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
+	fig.suptitle("Evolution of difficulty estimate for grid size : " + str(grid_sizes[grid_size_index]))
 
 	print('==> plot difficulty for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
@@ -167,7 +169,7 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 		estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].estimated_difficulty for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 
 		axes[levels_set_index].plot(estimated_difficulties, label = "Estimated Difficulty", color = "red")
-		axes[levels_set_index].set_title("Evolution of difficulty for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
+		axes[levels_set_index].set_title("For " + levels_set_names[levels_set_index])
 
 		axes[levels_set_index].set_xlabel("Level ID")
 		axes[levels_set_index].set_ylabel("Estimated Difficulty")
@@ -188,6 +190,7 @@ def plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, grid_si
 	for term_name in weights_parameters:
 
 		fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
+		fig.suptitle("Evolution of difficulty estimate term " + term_name + " for grid size " + str(grid_sizes[grid_size_index]))
 
 		print('==> plot difficulty sub term ' + term_name + 'for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
@@ -195,7 +198,7 @@ def plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, grid_si
 			estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].normalized_terms[term_name] for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 			axes[levels_set_index].plot(estimated_difficulties, label = "term " + term_name)
 
-			axes[levels_set_index].set_title("Evolution of difficulty for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
+			axes[levels_set_index].set_title("Level set : " + levels_set_names[levels_set_index])
 
 			axes[levels_set_index].set_xlabel("Level ID")
 			axes[levels_set_index].set_ylabel("Estimated Difficulty")
@@ -233,6 +236,7 @@ def get_mins_at_each_step(levels_list, grid_size_index):
 
 def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index):
 	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
+	fig.suptitle("Evolution of min score at each move for grid size " + str(grid_sizes[grid_size_index]))
 
 	print('==> plot min score at each move for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
@@ -247,7 +251,7 @@ def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index)
 	for levels_set_index in range(len(levels_list)):
 		axes[levels_set_index].plot(mins_at_each_step[levels_set_index], color = 'red')
 
-		axes[levels_set_index].set_title("Evolution of min score at each move for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
+		axes[levels_set_index].set_title("Level set : " + levels_set_names[levels_set_index])
 
 		axes[levels_set_index].set_xlabel("Number of Moves")
 		axes[levels_set_index].set_ylabel("Score")
