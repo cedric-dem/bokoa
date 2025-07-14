@@ -32,55 +32,15 @@ def get_all_indicators(level):
 
 		progression_proportion = current_score_index / len(operations)
 
-		match current_operation.operation:
-			case "+":
-				if current_score_index < 5:
-					current_case_estimate_difficulty += 5 * (current_operation.operand + 5)
-				else:
-					current_case_estimate_difficulty += 2 * (current_operation.operand + 5)
-
-			case '-':
-				if current_score_index < 5:
-					current_case_estimate_difficulty -= 5 * (current_operation.operand + 5)
-				else:
-					current_case_estimate_difficulty -= 2 * (current_operation.operand + 5)
-			case '×':
-				if current_score_index < 5:
-					current_case_estimate_difficulty += 3 * (current_operation.operand + 5)
-				else:
-					current_case_estimate_difficulty += 7 * (current_operation.operand + 5)
-			case '÷':
-				if current_score_index < 5:
-					current_case_estimate_difficulty -= 2 * (current_operation.operand + 5)
-				else:
-					current_case_estimate_difficulty -= 7 * (current_operation.operand + 5)
-			case _:
-				raise ValueError("Invalid Value  (Operation not found) : ", current_operation.operation)
-
-	#############################
-
-	current_remaining_operations_indicator = 0
-
-	for i in range(len(occupation_matrix)):
-		for j in range(len(occupation_matrix[i])):
-			if not occupation_matrix[i][j]:
-				this_unused_operation = level.operations_grid[i][j]
-				if this_unused_operation.operation == "+":
-					current_remaining_operations_indicator += 3 + (2 * this_unused_operation.operand)
-
-				elif this_unused_operation.operation == "×":
-					current_remaining_operations_indicator += 5 + (3 * this_unused_operation.operand)
-	remaining_operations_indicator = current_remaining_operations_indicator
-
-	#############################
+		current_case_estimate_difficulty += get_points_adjustment_difficulty(current_operation, current_score_index)
 
 	# TODO try with srqt or squared
-
 	proportion_increasing_steps = -increasing_steps_counter / (len(level.history_of_scores_for_best_solution))
 	proportion_score_decreasing = (total_score_decreasing / level.history_of_scores_for_best_solution[-1])
 	lowest_score = - min(level.history_of_scores_for_best_solution)
 	solution_length = len(level.history_of_scores_for_best_solution)
 	operations_used_indicator = -round(current_case_estimate_difficulty, 2)
+	remaining_operations_indicator = get_remaining_operations_indicator(occupation_matrix, level)
 
 	return {
 		"proportion_increasing_steps": proportion_increasing_steps,
@@ -91,3 +51,45 @@ def get_all_indicators(level):
 		"operations_used": operations_used_indicator,
 		"remaining_operations": remaining_operations_indicator
 	}
+
+def get_remaining_operations_indicator(occupation_matrix, level):
+	remaining_operations_indicator = 0
+
+	for i in range(len(occupation_matrix)):
+		for j in range(len(occupation_matrix[i])):
+			if not occupation_matrix[i][j]:
+				this_unused_operation = level.operations_grid[i][j]
+				if this_unused_operation.operation == "+":
+					remaining_operations_indicator += 3 + (2 * this_unused_operation.operand)
+
+				elif this_unused_operation.operation == "×":
+					remaining_operations_indicator += 5 + (3 * this_unused_operation.operand)
+
+	return remaining_operations_indicator
+
+def get_points_adjustment_difficulty(current_operation, current_score_index):
+	match current_operation.operation:
+		case "+":
+			if current_score_index < 5:
+				result = 5 * (current_operation.operand + 5)
+			else:
+				result = 2 * (current_operation.operand + 5)
+
+		case '-':
+			if current_score_index < 5:
+				result = - 5 * (current_operation.operand + 5)
+			else:
+				result = - 2 * (current_operation.operand + 5)
+		case '×':
+			if current_score_index < 5:
+				result = 3 * (current_operation.operand + 5)
+			else:
+				result = 7 * (current_operation.operand + 5)
+		case '÷':
+			if current_score_index < 5:
+				result = - 2 * (current_operation.operand + 5)
+			else:
+				result = - 7 * (current_operation.operand + 5)
+		case _:
+			raise ValueError("Invalid Value  (Operation not found) : ", current_operation.operation)
+	return result
