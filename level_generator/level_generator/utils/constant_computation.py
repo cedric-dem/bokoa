@@ -27,70 +27,70 @@ def retrieve_all_constants(set_of_levels):
 		case "USE_OLD":
 			print('====> Retrieving HardCoded old constants ')
 
-			result = [
-				[
+			result = {
+				"proportion_increasing_steps":[
 					[2.0998, 2.332, 1.92],
 					[2.34, 2.666, 2.026]
 				],
-				[
+				"proportion_score_decreasing":[
 					[0.00, 0.00, 0.00],
 					[0.826446281, 1.597444089, 1.34589502],
 				],
-				[
+				"lowest_score":[
 					[0, 0, 0],
 					[0, 0, 0]
 				],
-				[
+				"solution_length":[
 					[0, 0, 0],
 					[0, 0, 0]
 				],
-				[
+				"latest_negative_score_at":[
 					[0, 0, 0],
 					[0, 0, 0]
 				],
-				[
+				"operations_used":[
 					[0, 0, 0],
 					[0, 0, 0]
 				],
-				[
+				"remaining_operations":[
 					[0, 0, 0],
 					[0, 0, 0]
 				]
-			]
+			}
 
 		case "USE_NEW":
 			print('====> Retrieving HardCoded new constants ')
 
-			result = [
-				[
+			result = {
+				"proportion_increasing_steps":[
 					[1.8181818181818183, 2.0909090909090913, 2.391304347826087],
 					[2.045454545454546, 2.2809917355371905, 2.608695652173913]
 				],
-				[
+				"proportion_score_decreasing":[
 					[-0.0, -0.0, -0.0],
 					[0.9677419354838711, 0.873015873015873, 1.33217764193335]
 				],
-				[
+				"lowest_score":[
 					[0, 0, 0],
 					[0, 0, 0]
 				],
-				[
+				"solution_length":[
 					[0, 0, 0],
 					[0, 0, 0]
 				],
-				[
+				"latest_negative_score_at":[
 					[0, 0, 0],
 					[0, 0, 0]
 				],
-				[
+				"operations_used":[
 					[0, 0, 0],
 					[0, 0, 0]
 				],
-				[
+				"remaining_operations":[
 					[0, 0, 0],
 					[0, 0, 0]
 				]
-			]
+			}
 
 		case _:
 			raise ValueError("Invalid compute constant method : ", compute_constants)
