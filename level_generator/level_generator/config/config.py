@@ -3,7 +3,7 @@ grid_sizes = [[4, 4], [5, 5], [6, 6]]
 
 format_json = True
 
-generated_levels_folder_name = "generated_levels/generated_levels_new_balanced"
+generated_levels_folder_name = "generated_levels/generated_levels_new_balanced_final"
 
 complete_folder_name = "complete"
 reduced_folder_name = "reduced"
