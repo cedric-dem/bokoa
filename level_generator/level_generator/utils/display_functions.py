@@ -11,7 +11,7 @@ def plot_levels_sets_statistics(levels_list, levels_set_names):
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
 
-	print('\n=> Plot Difficulties Terms<========')
+	print('\n=> Plot Difficulties Terms <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)
 
@@ -185,30 +185,31 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 		plt.show()
 
 def plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, grid_size_index):
-	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
+	for term_name in weights_parameters:
 
-	print('==> plot difficulty for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
+		fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
 
-	for levels_set_index in range(len(levels_list)):
-		for term_name in weights_parameters:
+		print('==> plot difficulty sub term ' + term_name + 'for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
+
+		for levels_set_index in range(len(levels_list)):
 			estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].normalized_terms[term_name] for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 			axes[levels_set_index].plot(estimated_difficulties, label = "term " + term_name)
 
-		axes[levels_set_index].set_title("Evolution of difficulty for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
+			axes[levels_set_index].set_title("Evolution of difficulty for " + levels_set_names[levels_set_index] + str(grid_sizes[grid_size_index]))
 
-		axes[levels_set_index].set_xlabel("Level ID")
-		axes[levels_set_index].set_ylabel("Estimated Difficulty")
-		axes[levels_set_index].set_ylim(-0.1, 1.1)
+			axes[levels_set_index].set_xlabel("Level ID")
+			axes[levels_set_index].set_ylabel("Estimated Difficulty")
+			axes[levels_set_index].set_ylim(-0.1, 1.1)
 
-		axes[levels_set_index].legend()
-		axes[levels_set_index].grid(True)
+			axes[levels_set_index].legend()
+			axes[levels_set_index].grid(True)
 
-	plt.tight_layout()
-	if save_plots:
-		plt.savefig("plots/difficulty_terms_grid_size_" + str(grid_size_index) + ".jpg", format = "jpg", dpi = 300)
-		plt.close()
-	else:
-		plt.show()
+		plt.tight_layout()
+		if save_plots:
+			plt.savefig("plots/difficulty_term" + term_name + "_grid_size_" + str(grid_size_index) + ".jpg", format = "jpg", dpi = 300)
+			plt.close()
+		else:
+			plt.show()
 
 def get_mins_at_each_step(levels_list, grid_size_index):
 	result = []
