@@ -1,3 +1,5 @@
+from unittest import case
+
 from level_generator.classes.level import Level
 from level_generator.config.config import *
 from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level, get_occupation_matrix_for_given_solution_on_given_level, get_history_of_operations_for_given_solution_on_given_level
@@ -42,46 +44,32 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 					total_score_decreasing += (old_score - new_score)
 
 			# TODO try with srqt or squared
-			self.first_term_raw = -increasing_steps_counter / (len(self.history_of_scores_for_best_solution))
-			self.second_term_raw = (total_score_decreasing / self.history_of_scores_for_best_solution[-1])
+			first_term_raw = -increasing_steps_counter / (len(self.history_of_scores_for_best_solution))
+			second_term_raw = (total_score_decreasing / self.history_of_scores_for_best_solution[-1])
+
+			self.raw_terms = [first_term_raw, second_term_raw]
 		else:
-			self.first_term_raw = random.randint(1, 10)  ##TODO refactor
-			self.second_term_raw = random.randint(1, 10)
+			self.raw_terms = [random.randint(1, 10), random.randint(1, 10)]  ##TODO refactor
 
 	def set_estimated_difficulty(self, constants):
 		match difficulty_function:
-			case "hardcoded_constants_sum_two_terms":
-				self.compute_raw_terms()
-
-				self.first_term_normalized = 2.1 + (2.3 * self.first_term_raw)
-				self.second_term_normalized = self.second_term_raw * 0.9
-				"""
-				self.first_term_normalized = 2.0909090909090913 + (2.2809917355371905 * self.first_term_raw)
-				self.second_term_normalized = self.second_term_raw * 0.873015873015873
-				"""
-				t1 = coefficient_difficulty_first_term * self.first_term_normalized
-				t2 = coefficient_difficulty_second_term * self.second_term_normalized
-
-				self.estimated_difficulty = round(t1 + t2, 6)
 
 			case "sum_two_terms" | "min_two_terms" | "max_two_terms":
 				self.compute_raw_terms()
 
-				self.first_term_normalized = constants["coefficient_difficulty_first_term_a"][self.grid_size_id] + (constants["coefficient_difficulty_first_term_b"][self.grid_size_id] * self.first_term_raw)
-				self.second_term_normalized =constants["coefficient_difficulty_second_term_a"][self.grid_size_id] + (constants["coefficient_difficulty_second_term_b"][self.grid_size_id] * self.second_term_raw)
+				raw_terms_normalized = []
+				for raw_term_index in range(len(self.raw_terms)):
+					raw_term = self.raw_terms[raw_term_index]
 
-				t1 = coefficient_difficulty_first_term * self.first_term_normalized
-				t2 = coefficient_difficulty_second_term * self.second_term_normalized
+					this_term_normalized = constants[raw_term_index][0][self.grid_size_id] + raw_term * constants[raw_term_index][1][self.grid_size_id]
 
-				match difficulty_function:
-					case "min_two_terms":
-						self.estimated_difficulty = round(min(t1, t2), 6)
-					case "max_two_terms":
-						self.estimated_difficulty = round(max(t1, t2), 6)
-					case "sum_two_terms":
-						self.estimated_difficulty = round(t1 + t2, 6)
-					case _:
-						raise ValueError("Not found difficulty : ", difficulty_function)
+					raw_terms_normalized.append(this_term_normalized)
+
+				result = 0
+				for raw_term_index in range(len(raw_terms_normalized)):
+					result += raw_terms_normalized[raw_term_index] * weights_parameters[raw_term_index]
+
+				self.estimated_difficulty = round(result, 6)
 
 			case "points_estimate":
 
