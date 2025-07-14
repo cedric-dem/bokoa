@@ -9,6 +9,12 @@ def get_all_indicators(level):
 
 	latest_negative_score_at = 0
 
+	operations = get_history_of_operations_for_given_solution_on_given_level(level.best_moves, level)
+	occupation = get_occupation_matrix_for_given_solution_on_given_level(level.best_moves, level)
+	scores_history = level.history_of_scores_for_best_solution
+
+	current_case_estimate_difficulty = 1
+
 	for current_score_index in range(len(level.history_of_scores_for_best_solution)):
 		if current_score_index >= 1:
 			old_score = level.history_of_scores_for_best_solution[current_score_index - 1]
@@ -33,13 +39,8 @@ def get_all_indicators(level):
 	solution_length = len(level.history_of_scores_for_best_solution)
 
 	##########################################################################################################
-	operations = get_history_of_operations_for_given_solution_on_given_level(level.best_moves, level)
-	occupation = get_occupation_matrix_for_given_solution_on_given_level(level.best_moves, level)
-	scores_history = level.history_of_scores_for_best_solution
 
-	current_difficulty_estimate = 1
-
-	for current_score_index in range(len(operations)):
+	for current_score_index in range(len(level.history_of_scores_for_best_solution)):
 		current_operation = operations[current_score_index - 1]
 
 		progression_proportion = current_score_index / len(operations)
@@ -47,29 +48,29 @@ def get_all_indicators(level):
 		match current_operation.operation:
 			case "+":
 				if current_score_index < 5:
-					current_difficulty_estimate += 5 * (current_operation.operand + 5)
+					current_case_estimate_difficulty += 5 * (current_operation.operand + 5)
 				else:
-					current_difficulty_estimate += 2 * (current_operation.operand + 5)
+					current_case_estimate_difficulty += 2 * (current_operation.operand + 5)
 
 			case '-':
 				if current_score_index < 5:
-					current_difficulty_estimate -= 5 * (current_operation.operand + 5)
+					current_case_estimate_difficulty -= 5 * (current_operation.operand + 5)
 				else:
-					current_difficulty_estimate -= 2 * (current_operation.operand + 5)
+					current_case_estimate_difficulty -= 2 * (current_operation.operand + 5)
 			case '×':
 				if current_score_index < 5:
-					current_difficulty_estimate += 3 * (current_operation.operand + 5)
+					current_case_estimate_difficulty += 3 * (current_operation.operand + 5)
 				else:
-					current_difficulty_estimate += 7 * (current_operation.operand + 5)
+					current_case_estimate_difficulty += 7 * (current_operation.operand + 5)
 			case '÷':
 				if current_score_index < 5:
-					current_difficulty_estimate -= 2 * (current_operation.operand + 5)
+					current_case_estimate_difficulty -= 2 * (current_operation.operand + 5)
 				else:
-					current_difficulty_estimate -= 7 * (current_operation.operand + 5)
+					current_case_estimate_difficulty -= 7 * (current_operation.operand + 5)
 			case _:
 				raise ValueError("Invalid Value  (Operation not found) : ", current_operation.operation)
 
-	operations_used_indicator = -round(current_difficulty_estimate, 2)
+	operations_used_indicator = -round(current_case_estimate_difficulty, 2)
 
 	##########################################################################################################
 	# todo remove code duplication
