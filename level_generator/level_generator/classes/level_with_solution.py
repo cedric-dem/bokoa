@@ -2,8 +2,8 @@ from unittest import case
 
 from level_generator.classes.level import Level
 from level_generator.config.config import *
+from level_generator.utils.indicators import get_all_indicators
 from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level, get_occupation_matrix_for_given_solution_on_given_level, get_history_of_operations_for_given_solution_on_given_level
-import random
 
 class LevelWithSolution(Level):  # TODO : inherit from Level
 	def __init__(self, operations_grid, best_score, best_moves, grid_size_id):
@@ -26,33 +26,7 @@ class LevelWithSolution(Level):  # TODO : inherit from Level
 		self.estimated_difficulty = None
 
 	def compute_raw_terms(self):
-		increasing_steps_counter = 0
-
-		total_score_decreasing = 0
-		total_score_increasing = 0
-
-		for current_score_index in range(1, len(self.history_of_scores_for_best_solution)):
-			old_score = self.history_of_scores_for_best_solution[current_score_index - 1]
-			new_score = self.history_of_scores_for_best_solution[current_score_index]
-
-			if new_score > old_score:
-				increasing_steps_counter += 1
-				total_score_increasing += (new_score - old_score)
-
-			if new_score < old_score:
-				total_score_decreasing += (old_score - new_score)
-
-		# TODO try with srqt or squared
-		first_term_raw = -increasing_steps_counter / (len(self.history_of_scores_for_best_solution))
-		second_term_raw = (total_score_decreasing / self.history_of_scores_for_best_solution[-1])
-
-		"""
-		lst_operations = get_history_of_operations_for_given_solution_on_given_level(self.best_moves, self)
-		occupation_matrix = get_occupation_matrix_for_given_solution_on_given_level(self.best_moves, self)
-		third_term = get_points_estimate(lst_operations, occupation_matrix, self.history_of_scores_for_best_solution, self.best_moves, self.operations_grid)
-		"""
-
-		self.raw_terms = [first_term_raw, second_term_raw]
+		self.raw_terms = get_all_indicators(self)
 
 	def set_estimated_difficulty(self, constants):
 
