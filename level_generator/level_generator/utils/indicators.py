@@ -30,17 +30,6 @@ def get_all_indicators(level):
 			if new_score < 0:
 				latest_negative_score_at = current_score_index
 
-	# TODO try with srqt or squared
-	proportion_increasing_steps = -increasing_steps_counter / (len(level.history_of_scores_for_best_solution))
-	proportion_score_decreasing = (total_score_decreasing / level.history_of_scores_for_best_solution[-1])
-
-	lowest_score = - min(level.history_of_scores_for_best_solution)
-
-	solution_length = len(level.history_of_scores_for_best_solution)
-
-	##########################################################################################################
-
-	for current_score_index in range(len(level.history_of_scores_for_best_solution)):
 		current_operation = operations[current_score_index - 1]
 
 		progression_proportion = current_score_index / len(operations)
@@ -69,6 +58,18 @@ def get_all_indicators(level):
 					current_case_estimate_difficulty -= 7 * (current_operation.operand + 5)
 			case _:
 				raise ValueError("Invalid Value  (Operation not found) : ", current_operation.operation)
+
+
+	# TODO try with srqt or squared
+	proportion_increasing_steps = -increasing_steps_counter / (len(level.history_of_scores_for_best_solution))
+	proportion_score_decreasing = (total_score_decreasing / level.history_of_scores_for_best_solution[-1])
+
+	lowest_score = - min(level.history_of_scores_for_best_solution)
+
+	solution_length = len(level.history_of_scores_for_best_solution)
+
+	##########################################################################################################
+
 
 	operations_used_indicator = -round(current_case_estimate_difficulty, 2)
 
