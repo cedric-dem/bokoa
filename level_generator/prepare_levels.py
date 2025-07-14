@@ -50,4 +50,3 @@ plot_levels_sets_statistics(
 		"Reduced Set Of Levels",
 	]
 )
-

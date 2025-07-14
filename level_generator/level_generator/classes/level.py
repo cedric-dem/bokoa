@@ -27,7 +27,7 @@ class Level(object):
 
 	def display_level(self):
 		for line_index in range(len(self.operations_grid)):
-			for cell_index in range (len(self.operations_grid[line_index])):
+			for cell_index in range(len(self.operations_grid[line_index])):
 				cell = self.operations_grid[line_index][cell_index]
 				print(cell, end = " ")
 			print()

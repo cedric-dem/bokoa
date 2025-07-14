@@ -159,7 +159,7 @@ def plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, grid_siz
 
 		axes[levels_set_index].set_xlabel("Level ID")
 		axes[levels_set_index].set_ylabel("Estimated Difficulty")
-		#axes[levels_set_index].set_ylim(-0.1, 1.1)
+		# axes[levels_set_index].set_ylim(-0.1, 1.1)
 
 		axes[levels_set_index].legend()
 		axes[levels_set_index].grid(True)
