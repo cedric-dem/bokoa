@@ -285,4 +285,3 @@ def get_approx_function(grid_size_index):
 		case _:
 			raise ValueError("Invalid grid size index : ", grid_size_index)
 	return result
-

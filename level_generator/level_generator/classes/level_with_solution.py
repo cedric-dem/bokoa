@@ -1,7 +1,7 @@
 from level_generator.classes.level import Level
 from level_generator.config.config import *
 from level_generator.utils.indicators import get_all_indicators
-from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level, get_occupation_matrix_for_given_solution_on_given_level, get_history_of_operations_for_given_solution_on_given_level
+from level_generator.utils.level_with_sol_creation_functions import get_history_of_scores_for_given_solution_on_given_level, get_occupation_matrix_for_given_solution_on_given_level
 
 class LevelWithSolution(Level):
 	def __init__(self, operations_grid, best_score, best_moves, grid_size_id):
