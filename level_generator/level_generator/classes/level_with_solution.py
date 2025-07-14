@@ -13,8 +13,6 @@ class LevelWithSolution(Level):
 
 		self.history_of_scores_for_best_solution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self)
 
-		self.predictions_of_heuristics = {}
-
 		self.first_term_raw = None
 		self.second_term_raw = None
 
