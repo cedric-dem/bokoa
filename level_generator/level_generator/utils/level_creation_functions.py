@@ -7,17 +7,17 @@ from level_generator.classes.case.operation import Operation
 random.seed(12345)
 
 def get_operators_reserve_balanced(grid_size):
-	total_of_each_op = (grid_size[0] * grid_size[1]) // 4
+	quantity_of_each_operator = (grid_size[0] * grid_size[1]) // 4
 	operators_reserve = (
-			['+' for _ in range(total_of_each_op)] +
-			['-' for _ in range(total_of_each_op)] +
-			['×' for _ in range(total_of_each_op)] +
-			['÷' for _ in range(total_of_each_op)])
+			['+' for _ in range(quantity_of_each_operator)] +
+			['-' for _ in range(quantity_of_each_operator)] +
+			['×' for _ in range(quantity_of_each_operator)] +
+			['÷' for _ in range(quantity_of_each_operator)])
 
 	random.shuffle(operators_reserve)
 	return operators_reserve
 
-def set_operations_and_operand(grid_size, operations_grid):
+def initialize_operations_grid_unbalanced_operands(grid_size, operations_grid):
 	operators_reserve = get_operators_reserve_balanced(grid_size)
 	for line_index in range(grid_size[0]):
 		for column_index in range(grid_size[1]):
@@ -40,7 +40,7 @@ def get_operand_reserve_balanced(quantity_of_each_operator, min_value, max_value
 	random.shuffle(operands_list)
 	return operands_list
 
-def set_operators_and_operand_balanced(grid_size, operations_grid):
+def initialize_operations_grid_balanced_operands(grid_size, operations_grid):
 	quantity_of_each_operator = (grid_size[0] * grid_size[1]) // 4
 
 	operands_plus = get_operand_reserve_balanced(quantity_of_each_operator, 1, 6)
@@ -48,20 +48,20 @@ def set_operators_and_operand_balanced(grid_size, operations_grid):
 	operands_div = get_operand_reserve_balanced(quantity_of_each_operator, 2, 6)
 	operands_mul = get_operand_reserve_balanced(quantity_of_each_operator, 2, 6)
 
-	reserve = get_operators_reserve_balanced(grid_size)
+	operators_reserve = get_operators_reserve_balanced(grid_size)
 
 	for line_index in range(grid_size[0]):
 		for column_index in range(grid_size[1]):
 			if line_index == 0 and column_index == 0:
 				new_case = InitialCase()
 			else:
-				new_case = get_operation_with_operand_balanced(reserve[0], operands_mul, operands_div, operands_plus, operands_minus)
+				new_case = get_operation_with_operand_balanced(operators_reserve[0], operands_mul, operands_div, operands_plus, operands_minus)
 
-				del reserve[0]
+				del operators_reserve[0]
 
 			operations_grid[column_index][line_index] = new_case
 
-# print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
+	# print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
 
 def get_operation_with_operand_balanced(new_operator, operands_mul, operands_div, operands_plus, operands_minus):
 	match new_operator:

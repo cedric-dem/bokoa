@@ -1,5 +1,5 @@
 from level_generator.config.config import *
-from level_generator.utils.level_creation_functions import set_operators_and_operand_balanced, set_operations_and_operand
+from level_generator.utils.level_creation_functions import initialize_operations_grid_balanced_operands, initialize_operations_grid_unbalanced_operands
 import copy
 
 class Level(object):
@@ -13,9 +13,9 @@ class Level(object):
 		else:
 			self.operations_grid = [[None for _ in range(self.grid_size[0])] for _ in range(self.grid_size[1])]
 			if balance_operands:
-				set_operators_and_operand_balanced(self.grid_size, self.operations_grid)
+				initialize_operations_grid_balanced_operands(self.grid_size, self.operations_grid)
 			else:
-				set_operations_and_operand(self.grid_size, self.operations_grid)
+				initialize_operations_grid_unbalanced_operands(self.grid_size, self.operations_grid)
 
 	def display_level(self):
 		for line_index in range(len(self.operations_grid)):
