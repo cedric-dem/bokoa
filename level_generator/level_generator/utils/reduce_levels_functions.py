@@ -62,8 +62,12 @@ def are_levels_exactly_the_same(level_a, level_b):
 	while current_line_index < (len(level_a.operations_grid)) and not found_one_difference:
 		current_column_index = 0
 		while current_column_index < (len(level_a.operations_grid)) and not found_one_difference:
-			if level_a.operations_grid[current_line_index][current_column_index] != level_b.operations_grid[current_line_index][current_column_index]:
-				found_one_difference = True
+			if current_column_index!=0 or current_line_index!=0:
+				operation_a = level_a.operations_grid[current_line_index][current_column_index]
+				operation_b = level_b.operations_grid[current_line_index][current_column_index]
+
+				if operation_a.operator != operation_b.operator or operation_a.operand != operation_b.operand:
+					found_one_difference = True
 			current_column_index += 1
 		current_line_index += 1
 	return not found_one_difference
@@ -78,7 +82,6 @@ def get_position_of_duplicated(set_of_levels_for_grid_size):
 				if abs(score_a - score_b) < 0.1:  # worth trying to verify
 					if are_levels_exactly_the_same(set_of_levels_for_grid_size[level_index_a], set_of_levels_for_grid_size[level_index_b]):
 						indexes_to_remove.append(level_index_a)
-						print('nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnig')
 	return indexes_to_remove
 
 def remove_duplicated(set_of_levels):
