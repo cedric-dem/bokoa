@@ -4,7 +4,7 @@ import math
 from level_generator.classes.operation import Operation
 
 
-random.seed(123)
+random.seed(12345)
 
 def get_operations_reserve_balanced(grid_size):
 	total_of_each_op = (grid_size[0] * grid_size[1]) // 4
