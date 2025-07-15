@@ -88,36 +88,47 @@ class LevelWithSolution(Level):
 		resulting_str = "{\n"
 
 		# add operations
-		resulting_str += "  \"operations\": [\n"
-		for line_index in range(len(self.operations_grid)):
-			line = self.operations_grid[line_index]
-			resulting_str += "    ["
-			for col_index in range(len(line)):
-				col = line[col_index]
-				resulting_str += '"' + str(col) + '"'
-				if col_index != len(line) - 1:
-					resulting_str += ","
-
-			if line_index != len(self.operations_grid) - 1:
-				resulting_str += "],\n"
-			else:
-				resulting_str += "]\n"
-
-		resulting_str += "  ],\n"
+		resulting_str += get_formatted_operations_grid(self.operations_grid)
 
 		# add best score
-		resulting_str += "  \"bestScore\": " + str(round(float(self.best_score), 2)) + ",\n"
+		resulting_str += get_formatted_best_score(self.best_score)
 
 		# add best moves
-		resulting_str += "  \"bestMoves\": [\n    "
-		for move_index in range(len(self.best_moves)):
-			move = self.best_moves[move_index]
-			resulting_str += '"' + move + '"'
-			if move_index != len(self.best_moves) - 1:
-				resulting_str += ","
-		resulting_str += "\n  ]\n"
+		resulting_str += get_best_moves_formatted(self.best_moves)
 
 		resulting_str += "}"
 
 		# print("=> Str :\n", resulting_str)
 		return resulting_str
+
+def get_formatted_operations_grid(operations_grid):
+	resulting_str = "  \"operations\": [\n"
+	for line_index in range(len(operations_grid)):
+		line = operations_grid[line_index]
+		resulting_str += "    ["
+		for col_index in range(len(line)):
+			col = line[col_index]
+			resulting_str += '"' + str(col) + '"'
+			if col_index != len(line) - 1:
+				resulting_str += ","
+
+		if line_index != len(operations_grid) - 1:
+			resulting_str += "],\n"
+		else:
+			resulting_str += "]\n"
+
+	resulting_str += "  ],\n"
+	return resulting_str
+
+def get_formatted_best_score(best_score):
+	return "  \"bestScore\": " + str(round(float(best_score), 2)) + ",\n"
+
+def get_best_moves_formatted(best_moves):
+	resulting_str = "  \"bestMoves\": [\n    "
+	for move_index in range(len(best_moves)):
+		move = best_moves[move_index]
+		resulting_str += '"' + move + '"'
+		if move_index != len(best_moves) - 1:
+			resulting_str += ","
+	resulting_str += "\n  ]\n"
+	return resulting_str
