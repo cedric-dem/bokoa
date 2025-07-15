@@ -1,4 +1,4 @@
-from level_generator.classes.level import *
+from level_generator.classes.level.level import *
 from level_generator.utils.file_level_functions import get_levels_list
 import copy
 import math

@@ -4,8 +4,8 @@ import time
 import numpy
 
 from level_generator.classes.game import Game
-from level_generator.classes.level import *
-from level_generator.classes.level_with_solution import LevelWithSolution
+from level_generator.classes.level.level import *
+from level_generator.classes.level.level_with_solution import LevelWithSolution
 from level_generator.utils.file_level_functions import get_level_path_complete, get_complete_folder_path
 from level_generator.config.config import *
 from concurrent.futures import ProcessPoolExecutor

@@ -1,6 +1,6 @@
 from level_generator.classes.case.initial_case import InitialCase
-from level_generator.classes.level_with_solution import *
-from level_generator.classes.level import *
+from level_generator.classes.level.level_with_solution import *
+from level_generator.classes.level.level import *
 from level_generator.classes.case.operation import Operation
 
 def save_all_levels(levels_reduced):
