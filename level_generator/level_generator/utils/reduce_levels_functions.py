@@ -68,20 +68,25 @@ def are_levels_exactly_the_same(level_a, level_b):
 		i += 1
 	return not found_one_difference
 
+def get_indexes_of_duplicated(set_of_levels_for_grid_size):
+	indexes_to_remove = []
+	for level_index_a in range(len(set_of_levels_for_grid_size)):
+		for level_index_b in range(len(set_of_levels_for_grid_size)):
+			if level_index_a != level_index_b:  # Not itself
+				score_a = set_of_levels_for_grid_size[level_index_a].best_score
+				score_b = set_of_levels_for_grid_size[level_index_b].best_score
+				if abs(score_a - score_b) < 0.1:  # worth trying to verify
+					if are_levels_exactly_the_same(set_of_levels_for_grid_size[level_index_a], set_of_levels_for_grid_size[level_index_b]):
+						indexes_to_remove.append(level_index_a)
+	return indexes_to_remove
+
 def remove_duplicated(set_of_levels):
 	print("====> remove duplicated levels")
 	set_without_duplicated = []
 	for grid_size_id in range(len(grid_sizes)):
 		print('====> Current grid size : ', grid_size_id)
-		indexes_to_remove = []
-		for level_index_a in range(len(set_of_levels[grid_size_id])):
-			for level_index_b in range(len(set_of_levels[grid_size_id])):
-				if level_index_a != level_index_b:  # Not itself
-					score_a = set_of_levels[grid_size_id][level_index_a].best_score
-					score_b = set_of_levels[grid_size_id][level_index_b].best_score
-					if abs(score_a - score_b) < 0.1:  # worth trying to verify
-						if are_levels_exactly_the_same(set_of_levels[grid_size_id][level_index_a], set_of_levels[grid_size_id][level_index_b]):
-							indexes_to_remove.append(level_index_a)
+
+		indexes_to_remove = get_indexes_of_duplicated(set_of_levels[grid_size_id])
 
 		if len(indexes_to_remove) > 0:
 			print("Found " + str(len(indexes_to_remove)) + " duplicated  in grid size ", grid_sizes[grid_size_id], " index ", indexes_to_remove)
@@ -174,4 +179,4 @@ def get_logarithmic_theoretical_difficulty(initial_difficulty, end_difficulty, v
 
 	if verbose:
 		print('====> log difficulty, settings ', a, c)
-	return 	theoretical_difficulties
+	return theoretical_difficulties
