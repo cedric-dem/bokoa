@@ -48,31 +48,28 @@ def set_operations_and_operand_balanced(grid_size, operations_grid):
 
 	reserve = get_operations_reserve_balanced(grid_size)
 
-	for i in range(grid_size[0]):
-		for j in range(grid_size[1]):
-			if i == 0 and j == 0:
-				operations_grid[0][0] = "1"
+	for line_index in range(grid_size[0]):
+		for column_index in range(grid_size[1]):
+			if line_index == 0 and column_index == 0:
+				new_operation = "1"
 			else:
 				match reserve[0]:
 					case "×":
-						new_operation = Operation(reserve[0], operands_mul[0])
-						del operands_mul[0]
+						new_operation = Operation(reserve[0], operands_mul.pop(0))
 
 					case "÷":
-						new_operation = Operation(reserve[0], operands_div[0])
-						del operands_div[0]
+						new_operation = Operation(reserve[0], operands_div.pop(0))
 
 					case "-":
-						new_operation = Operation(reserve[0], operands_plus[0])
-						del operands_plus[0]
+						new_operation = Operation(reserve[0], operands_plus.pop(0))
 
 					case "+":
-						new_operation = Operation(reserve[0], operands_minus[0])
-						del operands_minus[0]
+						new_operation = Operation(reserve[0], operands_minus.pop(0))
 					case _:
 						raise ValueError("Invalid  operation ", reserve[0])
 
-				operations_grid[j][i] = new_operation
 				del reserve[0]
+
+			operations_grid[column_index][line_index] = new_operation
 
 # print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
