@@ -52,7 +52,7 @@ def set_operations_and_operand_balanced(grid_size, operations_grid):
 	for line_index in range(grid_size[0]):
 		for column_index in range(grid_size[1]):
 			if line_index == 0 and column_index == 0:
-				new_operation = "1"
+				new_operation = InitialCase()
 			else:
 				match reserve[0]:
 					case "×":
