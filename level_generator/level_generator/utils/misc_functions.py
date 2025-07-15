@@ -10,28 +10,24 @@ from level_generator.utils.file_level_functions import get_level_path_complete, 
 from level_generator.config.config import *
 from concurrent.futures import ProcessPoolExecutor
 
-def get_move_from_direction(move):
-	match move:
+def get_move_from_direction(direction):
+	match direction:
 		case [0, -1]:
-			result = '<'
+			move = '<'
 		case [0, 1]:
-			result = '>'
+			move = '>'
 		case [1, 0]:
-			result = 'u'
+			move = 'u'
 		case [-1, 0]:
-			result = 'n'
+			move = 'n'
 		case _:
-			raise ValueError("Invalid Value  (in Get Move) : ", move)
-	return result
+			raise ValueError("Invalid Value  (in Get Move) : ", direction)
+	return move
 
 def get_readable_moves(moves_list):
-	result = []
-	for move in moves_list:
-		result.append(get_move_from_direction(move))
+	return [get_move_from_direction(current_move) for current_move in moves_list]
 
-	return result
-
-def create_a_level_and_solution(grid_size_id, fn):
+def create_a_level_and_solution(grid_size_id, filename):
 	# create level
 	temp_level = Level(grid_size_id, None)
 
@@ -44,7 +40,7 @@ def create_a_level_and_solution(grid_size_id, fn):
 
 	# save level with solution as json
 	level_with_sol = LevelWithSolution(temp_level.operations_grid, best_score, get_readable_moves(best_moves), grid_size_id)
-	level_with_sol.save_level_as_json(fn)
+	level_with_sol.save_level_as_json(filename)
 
 def get_amount_of_existing_levels_for_given_grid_size(folder, grid_size_id):
 	return len(os.listdir(get_complete_folder_path(folder, grid_size_id)))
@@ -132,7 +128,7 @@ def back_track(game, max_solution_size):
 					current_best_score = temp_best_score
 					current_best_solution = temp_best_moves[::]
 
-	if not current_best_solution:
+	if not current_best_solution: #optimization : only copy if needed
 		current_best_solution = game.moves_history[::]
 
 	return current_best_score, current_best_solution
