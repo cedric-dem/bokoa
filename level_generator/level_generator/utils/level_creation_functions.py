@@ -1,6 +1,7 @@
 import random
 import math
 
+random.seed(123456789)
 from level_generator.classes.operation import Operation
 
 def get_operations_reserve_balanced(grid_size):
@@ -30,25 +31,21 @@ def set_operations_and_operand(grid_size, operations_grid):
 				operations_grid[j][i] = new_operation
 				del operations_reserve[0]
 
+def get_operand_reserve_balanced(total_of_each_op, low, high):
+	multiply_factor_addition_operations = math.ceil(total_of_each_op / (high - low))
+	operands_list = [i for i in range(low, high)] * multiply_factor_addition_operations
+	random.shuffle(operands_list)
+	return operands_list
+
 def set_operations_and_operand_balanced(grid_size, operations_grid):
 	total_of_each_op = (grid_size[0] * grid_size[1]) // 4
 
-	multiply_factor_addition_operations = math.ceil(total_of_each_op / 5)
-	operands_plus = [i for i in range(1, 6)] * multiply_factor_addition_operations
-	operands_minus = [i for i in range(1, 6)] * multiply_factor_addition_operations
-	random.shuffle(operands_plus)
-	random.shuffle(operands_minus)
-
-	multiply_factor_multiplication_operations = math.ceil(total_of_each_op / 4)
-	operands_mul = [i for i in range(2, 6)] * multiply_factor_multiplication_operations
-	operands_div = [i for i in range(2, 6)] * multiply_factor_multiplication_operations
-	random.shuffle(operands_div)
-	random.shuffle(operands_mul)
+	operands_plus = get_operand_reserve_balanced(total_of_each_op, 1, 6)
+	operands_minus = get_operand_reserve_balanced(total_of_each_op, 1, 6)
+	operands_div = get_operand_reserve_balanced(total_of_each_op, 2, 6)
+	operands_mul = get_operand_reserve_balanced(total_of_each_op, 2, 6)
 
 	reserve = get_operations_reserve_balanced(grid_size)
-
-	# print("===> Balanced number of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div), "(needed : ", total_of_each_op, ") ( factors  ", multiply_factor_addition_operations, multiply_factor_addition_operations, ")")
-	# print("Operands : ", operands_plus, operands_minus, operands_mul, operands_div)
 
 	for i in range(grid_size[0]):
 		for j in range(grid_size[1]):
