@@ -1,4 +1,3 @@
-from level_generator.classes.operation import Operation
 from level_generator.config.config import *
 from level_generator.utils.level_creation_functions import set_operations_and_operand_balanced, set_operations_and_operand
 import copy

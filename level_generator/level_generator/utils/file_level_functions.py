@@ -1,5 +1,6 @@
 from level_generator.classes.level_with_solution import *
 from level_generator.classes.level import *
+from level_generator.classes.operation import Operation
 
 def save_all_levels(levels_reduced):
 	for current_grid_size_id in range(len(grid_sizes)):
@@ -14,8 +15,6 @@ def get_levels_list(set_name, grid_size_id, quantity):
 	complete_levels_list = []
 
 	for current_level_index in range(quantity):
-		# load json :
-
 		# this_file_path = get_level_path_complete(grid_size_id, current_level_index)
 		this_file_path = get_level_path(set_name, grid_size_id, current_level_index)
 
@@ -27,16 +26,16 @@ def get_levels_list(set_name, grid_size_id, quantity):
 
 	return complete_levels_list
 
-def read_as_operations_grid(operations_grid):
-	result = [[None for _ in range(len(operations_grid))] for _ in range(len(operations_grid[0]))]
+def read_as_operations_grid(operations_grid_as_str):
+	operation_grid = [[None for _ in range(len(operations_grid_as_str))] for _ in range(len(operations_grid_as_str[0]))]
 
-	for i in range(len(operations_grid)):
-		for j in range(len(operations_grid[i])):
-			if i == 0 and j == 0:
-				result = "1"
+	for line_index in range(len(operations_grid_as_str)):
+		for column_index in range(len(operations_grid_as_str[line_index])):
+			if line_index == 0 and column_index == 0:
+				operation_grid = "1"
 			else:
-				result = Operation(operations_grid[i][j][0], int(operations_grid[i][j][1]))
-	return result
+				operation_grid = Operation(operations_grid_as_str[line_index][column_index][0], int(operations_grid_as_str[line_index][column_index][1]))
+	return operation_grid
 
 def get_level_path_complete(grid_size_index, level_index):
 	return get_level_path(complete_folder_name, grid_size_index, level_index)
