@@ -1,6 +1,7 @@
+from level_generator.classes.case.initial_case import InitialCase
 from level_generator.classes.level_with_solution import *
 from level_generator.classes.level import *
-from level_generator.classes.operation import Operation
+from level_generator.classes.case.operation import Operation
 
 def save_all_levels(levels_reduced):
 	for current_grid_size_id in range(len(grid_sizes)):
@@ -32,7 +33,7 @@ def read_as_operations_grid(operations_grid_as_str):
 	for line_index in range(len(operations_grid_as_str)):
 		for column_index in range(len(operations_grid_as_str[line_index])):
 			if line_index == 0 and column_index == 0:
-				operation_grid = "1"
+				operation_grid = InitialCase()
 			else:
 				operation_grid = Operation(operations_grid_as_str[line_index][column_index][0], int(operations_grid_as_str[line_index][column_index][1]))
 	return operation_grid

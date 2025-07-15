@@ -1,7 +1,8 @@
 import random
 import math
 
-from level_generator.classes.operation import Operation
+from level_generator.classes.case.initial_case import InitialCase
+from level_generator.classes.case.operation import Operation
 
 random.seed(12345)
 
@@ -21,7 +22,7 @@ def set_operations_and_operand(grid_size, operations_grid):
 	for i in range(grid_size[0]):
 		for j in range(grid_size[1]):
 			if i == 0 and j == 0:
-				operations_grid[0][0] = "1"
+				operations_grid[0][0] = InitialCase()
 			else:
 				if operations_reserve[0] == "×" or operations_reserve[0] == "÷":
 					new_operation = Operation(operations_reserve[0], random.randint(2, 5))

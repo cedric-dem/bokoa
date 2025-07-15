@@ -76,7 +76,7 @@ class LevelWithSolution(Level):
 
 		else:
 			result = {
-				"operations": [[str(car) for car in line] for line in self.operations_grid],  # neutral will be converted as string "1" and operation will go trough the __str__ function
+				"operations": [[str(car) for car in line] for line in self.operations_grid],
 				"bestScore": round(float(self.best_score), 2),
 				"bestMoves": self.best_moves,
 			}
