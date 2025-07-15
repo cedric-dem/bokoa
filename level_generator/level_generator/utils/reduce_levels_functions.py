@@ -24,13 +24,13 @@ def get_reduced_set_levels():
 	return get_levels(reduced_folder_name)
 
 def get_levels(folder):
-	result = [None for _ in range(len(grid_sizes))]
+	levels_list_per_grid_size = [None for _ in range(len(grid_sizes))]
 
 	for current_grid_size_id in range(len(grid_sizes)):
 		complete_levels_list = get_levels_list(folder, current_grid_size_id, get_amount_of_existing_levels_for_given_grid_size(folder, current_grid_size_id))
-		result[current_grid_size_id] = complete_levels_list
+		levels_list_per_grid_size[current_grid_size_id] = complete_levels_list
 
-	return result
+	return levels_list_per_grid_size
 
 def is_passing_criteria(current_level, current_grid_size_id, boundaries):
 	this_size = len(current_level.solution)
@@ -58,17 +58,17 @@ def remove_out_of_bounds_levels(current_set_of_levels, boundaries):
 
 def are_levels_exactly_the_same(level_a, level_b):
 	found_one_difference = False
-	i = 0
-	while i < (len(level_a.operations_grid)) and not found_one_difference:
-		j = 0
-		while j < (len(level_a.operations_grid)) and not found_one_difference:
-			if level_a.operations_grid[i][j] != level_b.operations_grid[i][j]:
+	current_line_index = 0
+	while current_line_index < (len(level_a.operations_grid)) and not found_one_difference:
+		current_column_index = 0
+		while current_column_index < (len(level_a.operations_grid)) and not found_one_difference:
+			if level_a.operations_grid[current_line_index][current_column_index] != level_b.operations_grid[current_line_index][current_column_index]:
 				found_one_difference = True
-			j += 1
-		i += 1
+			current_column_index += 1
+		current_line_index += 1
 	return not found_one_difference
 
-def get_indexes_of_duplicated(set_of_levels_for_grid_size):
+def get_position_of_duplicated(set_of_levels_for_grid_size):
 	indexes_to_remove = []
 	for level_index_a in range(len(set_of_levels_for_grid_size)):
 		for level_index_b in range(len(set_of_levels_for_grid_size)):
@@ -78,6 +78,7 @@ def get_indexes_of_duplicated(set_of_levels_for_grid_size):
 				if abs(score_a - score_b) < 0.1:  # worth trying to verify
 					if are_levels_exactly_the_same(set_of_levels_for_grid_size[level_index_a], set_of_levels_for_grid_size[level_index_b]):
 						indexes_to_remove.append(level_index_a)
+						print('nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnig')
 	return indexes_to_remove
 
 def remove_duplicated(set_of_levels):
@@ -86,7 +87,7 @@ def remove_duplicated(set_of_levels):
 	for grid_size_id in range(len(grid_sizes)):
 		print('====> Current grid size : ', grid_size_id)
 
-		indexes_to_remove = get_indexes_of_duplicated(set_of_levels[grid_size_id])
+		indexes_to_remove = get_position_of_duplicated(set_of_levels[grid_size_id])
 
 		if len(indexes_to_remove) > 0:
 			print("Found " + str(len(indexes_to_remove)) + " duplicated  in grid size ", grid_sizes[grid_size_id], " index ", indexes_to_remove)
