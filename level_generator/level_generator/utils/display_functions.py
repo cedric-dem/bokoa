@@ -27,10 +27,6 @@ def plot_levels_sets_statistics(levels_list, levels_set_names):
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, current_grid_index)
 
-	print('\n=> Plot Min Values At Each Move <========')
-	for current_grid_index in range(len(grid_sizes)):
-		plot_min_values_at_each_move(levels_list, levels_set_names, current_grid_index)
-
 def describe_list(lst_name, lst):
 	print("====> describe list ", lst_name)
 	print(
@@ -235,37 +231,3 @@ def get_mins_at_each_step(levels_list, grid_size_index):
 		result.append(current_mins_list)
 
 	return result
-
-def plot_min_values_at_each_move(levels_list, levels_set_names, grid_size_index):
-	fig, axes = plt.subplots(1, len(levels_list), figsize = (15, 5))
-	fig.suptitle("Evolution of min score at each move for grid size " + str(grid_sizes[grid_size_index]))
-
-	print('==> plot min score at each move for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
-
-	mins_at_each_step = get_mins_at_each_step(levels_list, grid_size_index)
-
-	all_time_max_min = max([mins_at_each_step[i][-1] for i in range(len(mins_at_each_step))])
-	print("==> All time min max : ", all_time_max_min)
-
-	for levels_set_index in range(len(levels_list)):
-		axes[levels_set_index].plot(mins_at_each_step[levels_set_index], color = 'red')
-
-		axes[levels_set_index].set_title("Level set : " + levels_set_names[levels_set_index])
-
-		axes[levels_set_index].set_xlabel("Number of Moves")
-		axes[levels_set_index].set_ylabel("Score")
-
-		min_value_y, _ = axes[levels_set_index].get_ylim()
-
-		axes[levels_set_index].set_ylim(min_value_y - 10, all_time_max_min * 1.05)
-		axes[levels_set_index].set_xlim(0, (grid_sizes[grid_size_index][0] * grid_sizes[grid_size_index][1]))
-
-		axes[levels_set_index].grid(True)
-		axes[levels_set_index].yaxis.set_major_formatter(FuncFormatter(get_formatted_integer))
-
-	plt.tight_layout()
-	if save_plots:
-		plt.savefig("plots/evolution_min/grid_size_" + str(grid_size_index) + ".jpg", format = "jpg", dpi = 300)
-		plt.close()
-	else:
-		plt.show()
