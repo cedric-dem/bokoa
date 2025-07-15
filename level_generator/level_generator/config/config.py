@@ -13,11 +13,11 @@ grid_size_folder_prefix = "grid_size_"
 level_file_name = "level_"
 
 ############################################# Generate Levels
-raw_levels_to_generate = 5
+raw_levels_to_generate = 3
 
 balance_operand = False
 
-use_multiple_cores_for_levels_generation = True
+use_multiple_cores_for_levels_generation = False
 n_cores = 6
 
 save_plots = True
