@@ -24,14 +24,15 @@ def set_operations_and_operand(grid_size, operations_grid):
 			if i == 0 and j == 0:
 				operations_grid[0][0] = InitialCase()
 			else:
-				if operations_reserve[0] == "×" or operations_reserve[0] == "÷":
-					new_operation = Operation(operations_reserve[0], random.randint(2, 5))
-
-				else:
-					new_operation = Operation(operations_reserve[0], random.randint(1, 5))
-
-				operations_grid[j][i] = new_operation
+				operations_grid[j][i] = get_operation_with_random_operand(operations_reserve[0])
 				del operations_reserve[0]
+
+def get_operation_with_random_operand(new_operation):
+	if new_operation == "×" or new_operation == "÷":
+		new_operation = Operation(new_operation, random.randint(2, 5))
+	else:
+		new_operation = Operation(new_operation, random.randint(1, 5))
+	return new_operation
 
 def get_operand_reserve_balanced(total_of_each_op, low, high):
 	multiply_factor_addition_operations = math.ceil(total_of_each_op / (high - low))
@@ -54,23 +55,25 @@ def set_operations_and_operand_balanced(grid_size, operations_grid):
 			if line_index == 0 and column_index == 0:
 				new_operation = InitialCase()
 			else:
-				match reserve[0]:
-					case "×":
-						new_operation = Operation(reserve[0], operands_mul.pop(0))
-
-					case "÷":
-						new_operation = Operation(reserve[0], operands_div.pop(0))
-
-					case "-":
-						new_operation = Operation(reserve[0], operands_plus.pop(0))
-
-					case "+":
-						new_operation = Operation(reserve[0], operands_minus.pop(0))
-					case _:
-						raise ValueError("Invalid  operation ", reserve[0])
+				new_operation = get_operation_with_operand_balanced(reserve[0], operands_mul, operands_div, operands_plus, operands_minus)
 
 				del reserve[0]
 
 			operations_grid[column_index][line_index] = new_operation
 
-# print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
+	# print("===> Left of each operands : ", len(operands_plus), len(operands_minus), len(operands_mul), len(operands_div))
+
+def get_operation_with_operand_balanced(new_op, operands_mul, operands_div, operands_plus, operands_minus):
+	match new_op:
+		case "×":
+			new_operation = Operation(new_op, operands_mul.pop(0))
+		case "÷":
+			new_operation = Operation(new_op, operands_div.pop(0))
+		case "-":
+			new_operation = Operation(new_op, operands_plus.pop(0))
+		case "+":
+			new_operation = Operation(new_op, operands_minus.pop(0))
+		case _:
+			raise ValueError("Invalid  operation ", new_op)
+
+	return new_operation
