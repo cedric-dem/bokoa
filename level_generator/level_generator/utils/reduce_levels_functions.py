@@ -131,35 +131,47 @@ def get_levels_approaching_theoretical_difficulties(theoretical_difficulties, ac
 	return levels_reduced
 
 def get_theoretical_difficulties(levels_list, verbose):  # hypothesis : levels list already sorted
-	theoretical_difficulties = []
 
 	initial_difficulty = levels_list[0].estimated_difficulty
 	end_difficulty = levels_list[-1].estimated_difficulty
 
 	match difficulty_setting:
 		case "linear":
-			average_step = (end_difficulty - initial_difficulty) / number_levels_to_keep
-
-			for reduced_levels_index in range(number_levels_to_keep):
-				theoretical_difficulties.append(round(initial_difficulty + (reduced_levels_index * average_step), 6))
-
-			if verbose:
-				print('====> Linear difficulty, average step', average_step)
+			theoretical_difficulties = get_linear_theoretical_difficulty(initial_difficulty, end_difficulty, verbose)
 
 		case "logarithmic":
-			delta_y = end_difficulty - initial_difficulty
+			theoretical_difficulties = get_logarithmic_theoretical_difficulty(initial_difficulty, end_difficulty, verbose)
 
-			base = 10
-
-			a = 1 / (base ** delta_y - 1)
-			c = initial_difficulty - math.log(a) / math.log(base)
-
-			for reduced_levels_index in range(number_levels_to_keep):
-				x = reduced_levels_index / number_levels_to_keep
-				theoretical_difficulties.append(round(math.log(a + x, base) + c, 6))
-
-			if verbose:
-				print('====> log difficulty, settings ', a, c)
 	if verbose:
 		print("====> Theoretical difficulties : ", theoretical_difficulties)
 	return theoretical_difficulties
+
+def get_linear_theoretical_difficulty(initial_difficulty, end_difficulty, verbose):
+	theoretical_difficulties = []
+	average_step = (end_difficulty - initial_difficulty) / number_levels_to_keep
+
+	for reduced_levels_index in range(number_levels_to_keep):
+		theoretical_difficulties.append(round(initial_difficulty + (reduced_levels_index * average_step), 6))
+
+	if verbose:
+		print('====> Linear difficulty, average step', average_step)
+
+	return theoretical_difficulties
+
+def get_logarithmic_theoretical_difficulty(initial_difficulty, end_difficulty, verbose):
+	theoretical_difficulties = []
+
+	delta_y = end_difficulty - initial_difficulty
+
+	base = 10
+
+	a = 1 / (base ** delta_y - 1)
+	c = initial_difficulty - math.log(a) / math.log(base)
+
+	for reduced_levels_index in range(number_levels_to_keep):
+		x = reduced_levels_index / number_levels_to_keep
+		theoretical_difficulties.append(round(math.log(a + x, base) + c, 6))
+
+	if verbose:
+		print('====> log difficulty, settings ', a, c)
+	return 	theoretical_difficulties
