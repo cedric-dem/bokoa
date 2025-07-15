@@ -33,9 +33,10 @@ def read_as_operations_grid(operations_grid_as_str):
 	for line_index in range(len(operations_grid_as_str)):
 		for column_index in range(len(operations_grid_as_str[line_index])):
 			if line_index == 0 and column_index == 0:
-				operation_grid = InitialCase()
+				new_case = InitialCase()
 			else:
-				operation_grid = Operation(operations_grid_as_str[line_index][column_index][0], int(operations_grid_as_str[line_index][column_index][1]))
+				new_case = Operation(operations_grid_as_str[line_index][column_index][0], int(operations_grid_as_str[line_index][column_index][1]))
+			operation_grid[line_index][column_index] = new_case
 	return operation_grid
 
 def get_level_path_complete(grid_size_index, level_index):
