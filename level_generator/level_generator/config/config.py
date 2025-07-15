@@ -15,7 +15,7 @@ level_file_name = "level_"
 ############################################# Generate Levels
 raw_levels_to_generate = 1000
 
-balance_operand = True
+balance_operands = True
 
 use_multiple_cores_for_levels_generation = False
 n_cores = 6

@@ -5,22 +5,22 @@ from level_generator.utils.level_with_sol_creation_functions import get_history_
 import json
 
 class LevelWithSolution(Level):
-	def __init__(self, operations_grid, best_score, best_moves, grid_size_id):
+	def __init__(self, operations_grid, highest_possible_score, solution, grid_size_id):
 		super().__init__(grid_size_id, operations_grid)
 
-		self.best_score = best_score
+		self.highest_possible_score = highest_possible_score
 
-		self.best_moves = best_moves
+		self.solution = solution
 
-		self.history_of_scores_for_best_solution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self)
+		self.history_of_scores_for_solution = get_history_of_scores_for_given_solution_on_given_level(self.solution, self)
 
 		self.estimated_difficulty = None
 
-		self.raw_terms = {}
-		self.normalized_terms = {}
+		self.raw_difficulty_terms = {}
+		self.normalized_difficulty_terms = {}
 
 	def compute_raw_terms(self):
-		self.raw_terms = get_all_indicators(self)
+		self.raw_difficulty_terms = get_all_indicators(self)
 
 	def set_estimated_difficulty(self, constants):
 
@@ -28,27 +28,26 @@ class LevelWithSolution(Level):
 
 		result = 0
 
-		for raw_term_name in self.raw_terms:
+		for raw_term_name in self.raw_difficulty_terms:
 			this_offset = constants[raw_term_name][0][self.grid_size_id]
 			this_multiply_factor = constants[raw_term_name][1][self.grid_size_id]
 
-			this_term_normalized = this_offset + self.raw_terms[raw_term_name] * this_multiply_factor
+			this_term_normalized = this_offset + self.raw_difficulty_terms[raw_term_name] * this_multiply_factor
 
 			result += this_term_normalized * weights_parameters[raw_term_name]
-			self.normalized_terms[raw_term_name] = this_term_normalized
+			self.normalized_difficulty_terms[raw_term_name] = this_term_normalized
 
 		self.estimated_difficulty = round(result, 6)
 
 	def display_everything(self):
 		print('==> Grid :')
-		# super().display_level() #without solution
 		self.display_level_with_solution()
-		print('==> Solution :', self.best_moves)
-		print('==> Best Score : ', self.best_score)
-		print('==> Evolution of  Score : ', self.history_of_scores_for_best_solution)
+		print('==> Solution :', self.solution)
+		print('==> Best Score : ', self.highest_possible_score)
+		print('==> Evolution of  Score : ', self.history_of_scores_for_solution)
 
 	def display_level_with_solution(self):
-		occupation = get_occupation_matrix_for_given_solution_on_given_level(self.best_moves, self)
+		occupation = get_occupation_matrix_for_given_solution_on_given_level(self.solution, self)
 		for line_index in range(len(self.operations_grid)):
 			for cell_index in range(len(self.operations_grid[line_index])):
 				cell_repr = str(self.operations_grid[line_index][cell_index])
@@ -77,8 +76,8 @@ class LevelWithSolution(Level):
 		else:
 			result = {
 				"operations": [[str(car) for car in line] for line in self.operations_grid],
-				"bestScore": round(float(self.best_score), 2),
-				"bestMoves": self.best_moves,
+				"bestScore": round(float(self.highest_possible_score), 2),
+				"bestMoves": self.solution,
 			}
 
 			with open(filename, 'w') as file:
@@ -91,10 +90,10 @@ class LevelWithSolution(Level):
 		resulting_str += get_formatted_operations_grid(self.operations_grid)
 
 		# add best score
-		resulting_str += get_formatted_best_score(self.best_score)
+		resulting_str += get_formatted_best_score(self.highest_possible_score)
 
 		# add best moves
-		resulting_str += get_best_moves_formatted(self.best_moves)
+		resulting_str += get_best_moves_formatted(self.solution)
 
 		resulting_str += "}"
 
@@ -102,33 +101,33 @@ class LevelWithSolution(Level):
 		return resulting_str
 
 def get_formatted_operations_grid(operations_grid):
-	resulting_str = "  \"operations\": [\n"
+	operations_grid_string = "  \"operations\": [\n"
 	for line_index in range(len(operations_grid)):
 		line = operations_grid[line_index]
-		resulting_str += "    ["
+		operations_grid_string += "    ["
 		for col_index in range(len(line)):
 			col = line[col_index]
-			resulting_str += '"' + str(col) + '"'
+			operations_grid_string += '"' + str(col) + '"'
 			if col_index != len(line) - 1:
-				resulting_str += ","
+				operations_grid_string += ","
 
 		if line_index != len(operations_grid) - 1:
-			resulting_str += "],\n"
+			operations_grid_string += "],\n"
 		else:
-			resulting_str += "]\n"
+			operations_grid_string += "]\n"
 
-	resulting_str += "  ],\n"
-	return resulting_str
+	operations_grid_string += "  ],\n"
+	return operations_grid_string
 
 def get_formatted_best_score(best_score):
 	return "  \"bestScore\": " + str(round(float(best_score), 2)) + ",\n"
 
 def get_best_moves_formatted(best_moves):
-	resulting_str = "  \"bestMoves\": [\n    "
+	solution_string = "  \"bestMoves\": [\n    "
 	for move_index in range(len(best_moves)):
 		move = best_moves[move_index]
-		resulting_str += '"' + move + '"'
+		solution_string += '"' + move + '"'
 		if move_index != len(best_moves) - 1:
-			resulting_str += ","
-	resulting_str += "\n  ]\n"
-	return resulting_str
+			solution_string += ","
+	solution_string += "\n  ]\n"
+	return solution_string

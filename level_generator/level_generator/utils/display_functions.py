@@ -45,8 +45,8 @@ def describe_levels_set_terminal(levels_list, levels_set_name):
 
 		scores, sizes, estimated_difficulties = [], [], []
 		for data in levels_list[current_grid_size_id]:
-			scores.append(data.best_score)
-			sizes.append(len(data.best_moves))
+			scores.append(data.highest_possible_score)
+			sizes.append(len(data.solution))
 			estimated_difficulties.append(data.estimated_difficulty)
 
 		describe_list("Scores", scores)
@@ -62,7 +62,7 @@ def plot_levels_sets_scores_for_grid(levels_list, levels_set_names, grid_size_in
 			current_level = levels_list[level_set_index][grid_size_index][current_level_index]
 
 			# scores[level_set_index].append(math.log(current_level.best_score))
-			scores[level_set_index].append(current_level.best_score)
+			scores[level_set_index].append(current_level.highest_possible_score)
 
 	print('==> Plot grid size', grid_sizes[grid_size_index])
 	filename = "plots/final_score/grid_size_" + str(grid_size_index) + ".jpg"
@@ -74,7 +74,7 @@ def plot_levels_sets_sizes_for_grid(levels_list, levels_set_names, grid_size_ind
 	for level_set_index in range(len(levels_list)):
 		for current_level_index in range(len(levels_list[level_set_index][grid_size_index])):
 			current_level = levels_list[level_set_index][grid_size_index][current_level_index]
-			sizes[level_set_index].append(len(current_level.best_moves))
+			sizes[level_set_index].append(len(current_level.solution))
 
 	print('==> Plot grid size', grid_sizes[grid_size_index])
 	filename = "plots/solution_size/grid_size_" + str(grid_size_index) + ".jpg"
@@ -110,7 +110,7 @@ def get_formatted_integer(x, pos):
 def get_all_time_max(levels_list, grid_size_index):
 	all_time_max = float('-inf')
 	for levels_set_index in range(len(levels_list)):
-		max_scores = [levels_list[levels_set_index][grid_size_index][level_index].best_score for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
+		max_scores = [levels_list[levels_set_index][grid_size_index][level_index].highest_possible_score for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 		all_time_max = max(all_time_max, max(max_scores))
 	return all_time_max
 
@@ -124,7 +124,7 @@ def plot_levels_sets_evolution_for_grid(levels_list, levels_set_names, grid_size
 
 	for levels_set_index in range(len(levels_list)):
 
-		list_evolutions = [levels_list[levels_set_index][grid_size_index][level_index].history_of_scores_for_best_solution for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
+		list_evolutions = [levels_list[levels_set_index][grid_size_index][level_index].history_of_scores_for_solution for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 
 		num_curves = len(list_evolutions)
 
@@ -193,7 +193,7 @@ def plot_levels_terms_difficulty_for_grid(levels_list, levels_set_names, grid_si
 		print('==> plot difficulty sub term ' + term_name + 'for grid size ', grid_sizes[grid_size_index], "number of levels :", str([len(elem[grid_size_index]) for elem in levels_list]))
 
 		for levels_set_index in range(len(levels_list)):
-			estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].normalized_terms[term_name] for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
+			estimated_difficulties = [levels_list[levels_set_index][grid_size_index][level_index].normalized_difficulty_terms[term_name] for level_index in range(len(levels_list[levels_set_index][grid_size_index]))]
 			axes[levels_set_index].plot(estimated_difficulties, label = "term " + term_name)
 
 			axes[levels_set_index].set_title("Level set : " + levels_set_names[levels_set_index])
@@ -220,8 +220,8 @@ def get_mins_at_each_step(levels_list, grid_size_index):
 		for level_index in range(len(levels_list[levels_set_index][grid_size_index])):
 			this_level = levels_list[levels_set_index][grid_size_index][level_index]
 
-			for current_position in range(len(this_level.history_of_scores_for_best_solution)):
-				current_value = this_level.history_of_scores_for_best_solution[current_position]
+			for current_position in range(len(this_level.history_of_scores_for_solution)):
+				current_value = this_level.history_of_scores_for_solution[current_position]
 
 				if current_position >= len(current_mins_list):
 					current_mins_list.append(current_value)

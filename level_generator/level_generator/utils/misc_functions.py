@@ -106,13 +106,13 @@ def back_track(game, max_solution_size):
 	if len(game.moves_history) < max_solution_size:  # else stop
 		for new_move in get_all_but_inverse_of_last_move(game.moves_history):
 
-			new_position = [game.current_position_head[0] + new_move[0], game.current_position_head[1] + new_move[1]]
+			new_position = [game.current_cursor_position[0] + new_move[0], game.current_cursor_position[1] + new_move[1]]
 
 			##if move ok + not coming back
 			if game.is_move_in_bound_and_not_in_history(new_position):
 				# save old score
 				old_score = game.score
-				old_head_position = game.current_position_head
+				old_head_position = game.current_cursor_position
 
 				# move
 				game.apply_move_given_direction_and_new_pos(new_move, new_position)
@@ -123,7 +123,7 @@ def back_track(game, max_solution_size):
 				##restore old state
 				game.score = old_score
 				game.moves_history.pop()
-				game.current_position_head = old_head_position
+				game.current_cursor_position = old_head_position
 
 				# game.occupation_matrix[old_head_position[0]][old_head_position[1]] = False
 				game.occupation_matrix[new_position[0]][new_position[1]] = False
@@ -146,8 +146,8 @@ def get_automatic_boundaries(initial_set_of_levels):
 		current_scores = []
 
 		for level_index in range(len(initial_set_of_levels[current_grid_id])):
-			current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
-			current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
+			current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].solution))
+			current_scores.append(initial_set_of_levels[current_grid_id][level_index].highest_possible_score)
 
 		min_sizes.append(round(float(numpy.percentile(current_sizes, ignore_extreme_values)), 2))
 		max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - ignore_extreme_values)), 2))

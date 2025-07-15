@@ -121,7 +121,7 @@ def get_all_raw_terms(complete_levels_list):
 	for level in complete_levels_list:
 		level.compute_raw_terms()
 
-		this_raw_terms = level.raw_terms
+		this_raw_terms = level.raw_difficulty_terms
 
 		for current_constant_name in weights_parameters:
 			raw_terms[current_constant_name].append(this_raw_terms[current_constant_name])

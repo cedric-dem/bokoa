@@ -33,11 +33,11 @@ def get_levels(folder):
 	return result
 
 def is_passing_criteria(current_level, current_grid_size_id, boundaries):
-	this_size = len(current_level.best_moves)
+	this_size = len(current_level.solution)
 	min_size = boundaries["min_size"][current_grid_size_id]
 	max_size = boundaries["max_size"][current_grid_size_id]
 
-	this_score = current_level.best_score
+	this_score = current_level.highest_possible_score
 	min_score = boundaries["min_score"][current_grid_size_id]
 	max_score = boundaries["max_score"][current_grid_size_id]
 
@@ -73,8 +73,8 @@ def get_indexes_of_duplicated(set_of_levels_for_grid_size):
 	for level_index_a in range(len(set_of_levels_for_grid_size)):
 		for level_index_b in range(len(set_of_levels_for_grid_size)):
 			if level_index_a != level_index_b:  # Not itself
-				score_a = set_of_levels_for_grid_size[level_index_a].best_score
-				score_b = set_of_levels_for_grid_size[level_index_b].best_score
+				score_a = set_of_levels_for_grid_size[level_index_a].highest_possible_score
+				score_b = set_of_levels_for_grid_size[level_index_b].highest_possible_score
 				if abs(score_a - score_b) < 0.1:  # worth trying to verify
 					if are_levels_exactly_the_same(set_of_levels_for_grid_size[level_index_a], set_of_levels_for_grid_size[level_index_b]):
 						indexes_to_remove.append(level_index_a)

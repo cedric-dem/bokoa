@@ -23,7 +23,7 @@ def get_history_of_operations_for_given_solution_on_given_level(solution, level)
 
 		current_game.apply_move_given_direction(move_direction)
 
-		new_operation = current_game.level.operations_grid[current_game.current_position_head[0]][current_game.current_position_head[1]]
+		new_operation = current_game.level.operations_grid[current_game.current_cursor_position[0]][current_game.current_cursor_position[1]]
 
 		history_of_operations_for_best_solution.append(new_operation)
 

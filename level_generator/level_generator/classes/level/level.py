@@ -12,7 +12,7 @@ class Level(object):
 
 		else:
 			self.operations_grid = [[None for _ in range(self.grid_size[0])] for _ in range(self.grid_size[1])]
-			if balance_operand:
+			if balance_operands:
 				set_operations_and_operand_balanced(self.grid_size, self.operations_grid)
 			else:
 				set_operations_and_operand(self.grid_size, self.operations_grid)
