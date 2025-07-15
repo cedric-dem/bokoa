@@ -43,8 +43,8 @@ def create_a_level_and_solution(grid_size_id, fn):
 	best_score, best_moves = back_track(temp_game, grid_size[0] * grid_size[1])
 
 	# save level with solution as json
-	# level_with_sol = LevelWithSolution(temp_level.operations_grid, best_score, best_moves, grid_size_id)
-	# level_with_sol.save_level_as_json(fn)
+	level_with_sol = LevelWithSolution(temp_level.operations_grid, best_score, get_readable_moves(best_moves), grid_size_id)
+	level_with_sol.save_level_as_json(fn)
 
 def get_amount_of_existing_levels_for_given_grid_size(folder, grid_size_id):
 	return len(os.listdir(get_complete_folder_path(folder, grid_size_id)))

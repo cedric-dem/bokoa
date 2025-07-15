@@ -22,10 +22,21 @@ def get_levels_list(set_name, grid_size_id, quantity):
 		with open(this_file_path, 'r', encoding = 'utf-8') as file:
 			data = json.load(file)
 
-			new_level_with_sol = LevelWithSolution(data["operations"], data["bestScore"], data["bestMoves"], grid_size_id)
+			new_level_with_sol = LevelWithSolution(read_as_operations_grid(data["operations"]), data["bestScore"], data["bestMoves"], grid_size_id)
 			complete_levels_list.append(new_level_with_sol)
 
 	return complete_levels_list
+
+def read_as_operations_grid(operations_grid):
+	result = [[None for _ in range(len(operations_grid))] for _ in range(len(operations_grid[0]))]
+
+	for i in range(len(operations_grid)):
+		for j in range(len(operations_grid[i])):
+			if i == 0 and j == 0:
+				result = "1"
+			else:
+				result = Operation(operations_grid[i][j][0], int(operations_grid[i][j][1]))
+	return result
 
 def get_level_path_complete(grid_size_index, level_index):
 	return get_level_path(complete_folder_name, grid_size_index, level_index)
