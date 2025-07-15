@@ -13,13 +13,10 @@ class LevelWithSolution(Level):
 
 		self.history_of_scores_for_best_solution = get_history_of_scores_for_given_solution_on_given_level(self.best_moves, self)
 
-		self.first_term_raw = None
-		self.second_term_raw = None
-
-		self.first_term_normalized = None
-		self.second_term_normalized = None
-
 		self.estimated_difficulty = None
+
+		self.raw_terms = {}
+		self.normalized_terms = {}
 
 	def compute_raw_terms(self):
 		self.raw_terms = get_all_indicators(self)
@@ -29,8 +26,6 @@ class LevelWithSolution(Level):
 		self.compute_raw_terms()
 
 		result = 0
-
-		self.normalized_terms = {}
 
 		for raw_term_name in self.raw_terms:
 			this_offset = constants[raw_term_name][0][self.grid_size_id]
