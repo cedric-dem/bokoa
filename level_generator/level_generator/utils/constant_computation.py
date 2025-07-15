@@ -1,5 +1,4 @@
 from level_generator.config.config import grid_sizes, compute_constants, weights_parameters
-from level_generator.utils.display_functions import describe_list
 
 def get_coef_affine(min_value, max_value):
 	first_coef = -min_value / (max_value - min_value)
