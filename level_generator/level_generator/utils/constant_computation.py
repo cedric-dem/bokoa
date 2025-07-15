@@ -13,7 +13,6 @@ def retrieve_all_constants(set_of_levels):
 			result = {name: [[], []] for name in weights_parameters}
 
 			for grid_size_id in range(len(grid_sizes)):
-				print('=' * 190)
 				print('====> Retrieving Automatically constants  grid size :', grid_sizes[grid_size_id])
 
 				current_grid_size_constants = retrieve_constants_automatically(set_of_levels[grid_size_id])

@@ -3,7 +3,6 @@ import math
 
 from level_generator.classes.operation import Operation
 
-
 random.seed(12345)
 
 def get_operations_reserve_balanced(grid_size):

@@ -50,15 +50,14 @@ def get_amount_of_existing_levels_for_given_grid_size(folder, grid_size_id):
 def create_levels_and_solutions(grid_size_id):
 	existing_levels = get_amount_of_existing_levels_for_given_grid_size(complete_folder_name, grid_size_id)
 
-	if existing_levels == raw_levels_to_generate:
+	if existing_levels >= raw_levels_to_generate:  # Enough generated
 		print('==> Enough levels have been generated on this grid_size')
 
+	elif use_multiple_cores_for_levels_generation:  # not enough, generate in parallel
+		generate_levels_in_parallel(grid_size_id)
 	else:
-		if use_multiple_cores_for_levels_generation:
-			generate_levels_in_parallel(grid_size_id)
-		else:
-			for current_level_index in range(raw_levels_to_generate):
-				generate_one_level_if_not_exists(current_level_index, grid_size_id)
+		for current_level_index in range(raw_levels_to_generate):  # not enough,  but no parallelized generation
+			generate_one_level_if_not_exists(current_level_index, grid_size_id)
 
 def generate_one_level_if_not_exists(current_level_index, grid_size_id):
 	path = get_level_path_complete(grid_size_id, current_level_index)
@@ -80,14 +79,6 @@ def generate_levels_in_parallel(grid_size_id):
 		futures = []
 		for current_level_index in range(raw_levels_to_generate):
 			futures.append(executor.submit(generate_one_level_if_not_exists, current_level_index, grid_size_id))
-
-		"""
-		for future in as_completed(futures):
-			try:
-				# Post checks ?
-			except Exception as e:
-				print(f"Error in level generation: {e}")
-		"""
 
 def get_all_but_inverse_of_last_move(moves_history):
 	if len(moves_history) == 0:
