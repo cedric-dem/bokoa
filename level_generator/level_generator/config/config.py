@@ -3,7 +3,7 @@ grid_sizes = [[4, 4], [5, 5], [6, 6]]
 
 format_json = True
 
-generated_levels_folder_name = "generated_levels/generated_levels_new_balanced_final"
+generated_levels_folder_name = "generated_levels/temp_levels"
 
 complete_folder_name = "complete"
 reduced_folder_name = "reduced"
@@ -13,9 +13,9 @@ grid_size_folder_prefix = "grid_size_"
 level_file_name = "level_"
 
 ############################################# Generate Levels
-raw_levels_to_generate = 1000
+raw_levels_to_generate = 5
 
-balance_operand = True
+balance_operand = False
 
 use_multiple_cores_for_levels_generation = True
 n_cores = 6
@@ -23,7 +23,7 @@ n_cores = 6
 save_plots = True
 
 ############################################# Prepare Levels
-number_levels_to_keep = 100
+number_levels_to_keep = 4
 
 ignore_extreme_values = 1  # will ignore top 1%, bottom 1% (scores and sizes)
 
