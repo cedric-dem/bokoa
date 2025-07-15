@@ -6,7 +6,7 @@ from matplotlib.ticker import FuncFormatter
 from level_generator.config.config import grid_sizes, weights_parameters, save_plots
 from level_generator.utils.reduce_levels_functions import get_theoretical_difficulties
 
-def plot_levels_sets_statistics(levels_list, levels_set_names):
+def plot_all_graphs(levels_list, levels_set_names):
 	print('\n=> Plot Difficulties <========')
 	for current_grid_index in range(len(grid_sizes)):
 		plot_levels_sets_difficulty_for_grid(levels_list, levels_set_names, current_grid_index)

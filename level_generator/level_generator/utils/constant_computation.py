@@ -1,9 +1,10 @@
 from level_generator.config.config import grid_sizes, compute_constants, weights_parameters
 
-def get_coef_affine(min_value, max_value):
-	first_coef = -min_value / (max_value - min_value)
-	second_coef = 1 / (max_value - min_value)
-	return first_coef, second_coef
+def get_offset(delta, min_value):
+	return -min_value / delta
+
+def get_multiply_factor(delta):
+	return 1 / delta
 
 def get_constants_automatically(set_of_levels):
 	result = {name: [[], []] for name in weights_parameters}
@@ -105,12 +106,18 @@ def retrieve_constants_automatically(complete_levels_list):
 
 	coefficients = {}
 	for raw_term_name in raw_terms:
-		coefficient_difficulty_a, coefficient_difficulty_b = get_coef_affine(min(raw_terms[raw_term_name]), max(raw_terms[raw_term_name]))
+		min_raw_term = min(raw_terms[raw_term_name])
+		max_raw_term = max(raw_terms[raw_term_name])
+
+		delta = max_raw_term - min_raw_term
+
+		this_term_offset = get_offset(delta, min_raw_term)
+		this_term_multiply_factor = get_multiply_factor(delta)
 
 		# describe_list("Difficulty Term Raw", raw_terms[raw_term_name])
-		# print("==> Computed coefficients for index :", raw_term_name, coefficient_difficulty_a, coefficient_difficulty_b)
+		# print("==> Computed coefficients for index :", raw_term_name, this_term_offset, this_term_multiply_factor)
 
-		coefficients[raw_term_name] = [coefficient_difficulty_a, coefficient_difficulty_b]
+		coefficients[raw_term_name] = [this_term_offset, this_term_multiply_factor]
 
 	print("==> Result ", coefficients)
 	return coefficients
