@@ -137,49 +137,57 @@ def back_track(game, max_solution_size):
 
 	return current_best_score, current_best_solution
 
+def get_automatic_boundaries(initial_set_of_levels):
+	min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
+
+	for current_grid_id in range(len(grid_sizes)):
+
+		current_sizes = []
+		current_scores = []
+
+		for level_index in range(len(initial_set_of_levels[current_grid_id])):
+			current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
+			current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
+
+		min_sizes.append(round(float(numpy.percentile(current_sizes, ignore_extreme_values)), 2))
+		max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - ignore_extreme_values)), 2))
+
+		min_scores.append(round(float(numpy.percentile(current_scores, ignore_extreme_values)), 2))
+		max_scores.append(round(float(numpy.percentile(current_scores, 100 - ignore_extreme_values)), 2))
+
+	return {
+		"min_size": min_sizes,
+		"max_size": max_sizes,
+		"min_score": min_scores,
+		"max_score": max_scores,
+	}
+
+def get_old_boundaries():
+	return {
+		"min_size": [6, 12, 18],
+		"max_size": [17, 26, 37],
+		"min_score": [1, 3, 4],
+		"max_score": [9999999, 99999999, 999999999],
+	}
+
+def get_no_restriction_boundaries():
+	return {
+		"min_size": [0, 1, 2],
+		"max_size": [17, 26, 37],
+		"min_score": [1, 3, 4],
+		"max_score": [9999999, 99999999, 999999999],
+	}
+
 def get_boundaries(initial_set_of_levels):
 	match compute_boundaries:
 		case "AUTOMATIC":
-
-			min_sizes, max_sizes, min_scores, max_scores = [], [], [], []
-
-			for current_grid_id in range(len(grid_sizes)):
-
-				current_sizes = []
-				current_scores = []
-
-				for level_index in range(len(initial_set_of_levels[current_grid_id])):
-					current_sizes.append(len(initial_set_of_levels[current_grid_id][level_index].best_moves))
-					current_scores.append(initial_set_of_levels[current_grid_id][level_index].best_score)
-
-				min_sizes.append(round(float(numpy.percentile(current_sizes, ignore_extreme_values)), 2))
-				max_sizes.append(round(float(numpy.percentile(current_sizes, 100 - ignore_extreme_values)), 2))
-
-				min_scores.append(round(float(numpy.percentile(current_scores, ignore_extreme_values)), 2))
-				max_scores.append(round(float(numpy.percentile(current_scores, 100 - ignore_extreme_values)), 2))
-
-			boundaries = {
-				"min_size": min_sizes,
-				"max_size": max_sizes,
-				"min_score": min_scores,
-				"max_score": max_scores,
-			}
+			boundaries = get_automatic_boundaries(initial_set_of_levels)
 
 		case "USE_OLD":
-			boundaries = {
-				"min_size": [6, 12, 18],
-				"max_size": [17, 26, 37],
-				"min_score": [1, 3, 4],
-				"max_score": [9999999, 99999999, 999999999],
-			}
+			boundaries = get_old_boundaries()
 
 		case "USE_NO_RESTRICTION":
-			boundaries = {
-				"min_size": [0, 1, 2],
-				"max_size": [17, 26, 37],
-				"min_score": [1, 3, 4],
-				"max_score": [9999999, 99999999, 999999999],
-			}
+			boundaries = get_no_restriction_boundaries()
 		case _:
 			raise ValueError("Invalid boundaries setting : ", compute_boundaries)
 
