@@ -410,14 +410,13 @@ abstract class Game(
     }
 
     private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
-        /*
+
         if (sides[0]){
-            currentCase.setBackgroundResource(R.drawable.bg_case)
+            currentCase.setBackgroundResource(R.drawable.bg_case_container)
         } else {
-            currentCase.setBackgroundResource(R.drawable.bg_case)
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_l)
         }
-        */
-        currentCase.setBackgroundResource(R.drawable.bg_case_container)
+
 
         //val shape = ContextCompat.getDrawable(context, R.drawable.bg_case)
 
