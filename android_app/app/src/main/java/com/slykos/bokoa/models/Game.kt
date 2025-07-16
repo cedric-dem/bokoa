@@ -370,13 +370,11 @@ abstract class Game(
 
         when (caseState) {
             CaseState.SIMPLE_CASE -> { // simple case 0
-                currentCase!!.setBackgroundResource(R.drawable.bg_case)
                 currentCase!!.backgroundTintList = mediumColor
-                //setInset(currentCase!!) //todo move this to grid creation
+                setCaseOrientation(currentCase, arrayOf(true, true, false, false))  //todo move this to grid creation
             }
             CaseState.SNAKE -> { // snake 1
-                currentCase!!.setBackgroundResource(R.drawable.bg_case)
-                currentCase.backgroundTintList = ColorStateList.valueOf(getBlueShade(((255 * currentIndex) / history.size)))
+                currentCase!!.backgroundTintList = ColorStateList.valueOf(getBlueShade(((255 * currentIndex) / history.size)))
                 setCaseOrientation(currentCase, arrayOf(true, true, false, false))
             }
             CaseState.HEAD -> { // head 2
@@ -387,6 +385,7 @@ abstract class Game(
     }
 
     private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
+        currentCase.setBackgroundResource(R.drawable.bg_case)
 
         val shape = ContextCompat.getDrawable(context, R.drawable.bg_case)
 
