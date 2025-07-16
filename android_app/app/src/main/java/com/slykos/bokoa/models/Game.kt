@@ -40,7 +40,7 @@ abstract class Game(
     lateinit var currentLevel: Level
 
     private var screenDimensions: IntArray
-    private var marginSize: Int
+    private var marginSize: Int //todo remove that argument
     private var expectedMarginSize: Int
 
     private var mediumColor: ColorStateList
@@ -373,7 +373,7 @@ abstract class Game(
             }
             CaseState.SNAKE -> { // snake 1
                 currentCase!!.backgroundTintList = ColorStateList.valueOf(getBlueShade(((255 * currentIndex) / history.size)))
-                setCaseOrientation(currentCase, arrayOf(true, true, false, false))
+                setCaseOrientation(currentCase, arrayOf(false, false, false, false))
             }
             CaseState.HEAD -> { // head 2
                 currentCase!!.setBackgroundResource(R.drawable.bg_case_head)
@@ -383,8 +383,7 @@ abstract class Game(
     }
     private fun initializeUnusedCase(currentCase: TextView){
         currentCase.backgroundTintList = mediumColor
-        // currentCase.backgroundTintList =  ColorStateList.valueOf(Color.parseColor("#00FF00")) //for debug
-        setCaseOrientation(currentCase, arrayOf(true, true, false, false))
+        setCaseOrientation(currentCase, arrayOf(true, true, true, true))
     }
 
     private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
