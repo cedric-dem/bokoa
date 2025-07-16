@@ -375,7 +375,8 @@ abstract class Game(
         val marginPresence =  arrayOf(true, true, true, true)
 
         marginPresence[detectDirection(prevCoordinates, coordinates)] = false
-        marginPresence[detectDirection(coordinates, nextCoordinates)] = false
+        marginPresence[detectDirection(nextCoordinates, coordinates)] = false
+
         return marginPresence
     }
 
@@ -415,18 +416,18 @@ abstract class Game(
             currentCase.setBackgroundResource(R.drawable.bg_case_container) // ok
         } else if (!sides[0] && !sides[1]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_1)
-        } else if (sides[0] && sides[2]){
+        } else if (!sides[0] && !sides[2]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
-        } else if (sides[0] && sides[3]){
+        } else if (!sides[0] && !sides[3]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
-        } else if (sides[1] && sides[2]){
+        } else if (!sides[1] && !sides[2]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
-        } else if (sides[1] && sides[3]){
+        } else if (!sides[1] && !sides[3]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
-        } else if (sides[2] && sides[3]){
+        } else if (!sides[2] && !sides[3]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
         } else {
-            Log.d("error","error23")
+            Log.d("error","error23"+sides[0].toString()+ " , "+sides[1].toString()+ " , "+sides[2].toString()+ " , "+sides[3].toString()+ " , ")
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
         }
 
