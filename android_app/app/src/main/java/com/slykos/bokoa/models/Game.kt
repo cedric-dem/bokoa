@@ -3,7 +3,7 @@ package com.slykos.bokoa.models
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.graphics.drawable.InsetDrawable
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
@@ -411,10 +411,22 @@ abstract class Game(
 
     private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
 
-        if (sides[0]){
+        if (sides[0] && sides[1] && sides[2] && sides[3]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container)
+        } else if (sides[0] && sides[1]){
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_1)
+        } else if (sides[0] && sides[2]){
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+        } else if (sides[0] && sides[3]){
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+        } else if (sides[1] && sides[2]){
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+        } else if (sides[1] && sides[3]){
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+        } else if (sides[2] && sides[3]){
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
         } else {
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_l)
+            Log.d("error","error23")
         }
 
 
