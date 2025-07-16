@@ -146,8 +146,7 @@ abstract class Game(
                 if (operations[i][j] == "1") {
                     operationsView[i][j]!!.setBackgroundResource(R.drawable.bg_case_neutral)
                 } else {
-                    operationsView[i][j]!!.setBackgroundResource(R.drawable.bg_case)
-                    operationsView[i][j]!!.backgroundTintList = mediumColor
+                    initializeUnusedCase(operationsView[i][j]!!)
                 }
             }
         }
@@ -370,8 +369,7 @@ abstract class Game(
 
         when (caseState) {
             CaseState.SIMPLE_CASE -> { // simple case 0
-                currentCase!!.backgroundTintList = mediumColor
-                setCaseOrientation(currentCase, arrayOf(true, true, false, false))  //todo move this to grid creation
+                initializeUnusedCase(currentCase!!)
             }
             CaseState.SNAKE -> { // snake 1
                 currentCase!!.backgroundTintList = ColorStateList.valueOf(getBlueShade(((255 * currentIndex) / history.size)))
@@ -383,9 +381,14 @@ abstract class Game(
             }
         }
     }
+    private fun initializeUnusedCase(currentCase: TextView){
+        currentCase.backgroundTintList = mediumColor
+        // currentCase.backgroundTintList =  ColorStateList.valueOf(Color.parseColor("#00FF00")) //for debug
+        setCaseOrientation(currentCase, arrayOf(true, true, false, false))
+    }
 
     private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
-        currentCase.setBackgroundResource(R.drawable.bg_case)
+        currentCase.setBackgroundResource(R.drawable.bg_case) //todo radius in that depend on sides argument
 
         val shape = ContextCompat.getDrawable(context, R.drawable.bg_case)
 
