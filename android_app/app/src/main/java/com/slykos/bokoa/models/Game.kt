@@ -1,7 +1,9 @@
 package com.slykos.bokoa.models
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Typeface
 import android.util.Log
 import android.util.TypedValue
@@ -9,7 +11,9 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.slykos.bokoa.R
@@ -25,7 +29,7 @@ abstract class Game(
 ) {
     private var decimalFormat: DecimalFormat = DecimalFormat("###,###,###,##0.##")
 
-    private lateinit var operationsView: Array<Array<TextView?>>
+    private lateinit var operationsView: Array<Array<CardView ?>>
 
     var history: MutableList<IntArray> = mutableListOf()
     var currentScore: Float = 0f
@@ -111,18 +115,48 @@ abstract class Game(
         }
     }
 
-    private fun getCase(i: Int, j: Int, thisOp: String): TextView {
-        val newCase = TextView(context.getGameGrid().context).apply {
+    fun Int.dpToPx(context: Context): Int =
+        (this * context.resources.displayMetrics.density).toInt()
+
+    private fun getCase(i: Int, j: Int, thisOp: String): CardView {
+        val context = context.getGameGrid().context
+
+        // Création du TextView comme avant
+        val newCase = TextView(context).apply {
             id = 1000 + (i * gridSize[0] + j)
             gravity = Gravity.CENTER
             setTextColor(getColorOfOperation(thisOp[0]))
             text = thisOp
             typeface = mainTypeface
-            setPadding(5,5,5,5)
+            setPadding(5.dpToPx(context), 5.dpToPx(context), 5.dpToPx(context), 5.dpToPx(context))
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
         }
-        newCase.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
-        return newCase
+
+        // Encapsule dans une CardView
+        val card = CardView(context).apply {
+            radius = 10.dpToPx(context).toFloat()
+            cardElevation = 4.dpToPx(context).toFloat()
+            setCardBackgroundColor(Color.WHITE)
+            layoutParams = ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                // Simule les insets : 16dp left + bottom (adaptables si besoin)
+                setMargins(
+                    if (j == 0) 16.dpToPx(context) else 0, // marge gauche si première colonne
+                    if (i == 0) 16.dpToPx(context) else 0, // marge haut si première ligne
+                    0,
+                    16.dpToPx(context)
+                )
+            }
+
+            addView(newCase)
+        }
+
+        return card
     }
+
+
     private fun getColorOfOperation(operation: Char): Int =
         when (operation) {
             '+' -> ContextCompat.getColor(context, color.plus_color)
@@ -405,12 +439,14 @@ abstract class Game(
             }
         }
     }
-    private fun initializeUnusedCase(currentCase: TextView){
+    private fun initializeUnusedCase(currentCase: CardView ){
         currentCase.backgroundTintList = mediumColor
         setCaseOrientation(currentCase, arrayOf(true, true, true, true))
     }
 
-    private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
+    private fun setCaseOrientation(currentCase: CardView , sides: Array<Boolean>) {
+
+        /*
         val (top, bottom, left, right) = sides
         val background = when {
             top && bottom && left && right -> R.drawable.bg_case_container
@@ -426,6 +462,7 @@ abstract class Game(
             }
         }
         currentCase.setBackgroundResource(background)
+        */
 
     }
 }
