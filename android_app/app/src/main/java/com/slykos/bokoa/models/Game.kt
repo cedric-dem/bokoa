@@ -417,7 +417,7 @@ abstract class Game(
         } else if (!sides[0] && !sides[1]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_1)
         } else if (!sides[0] && !sides[2]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_2)
         } else if (!sides[0] && !sides[3]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
         } else if (!sides[1] && !sides[2]){
