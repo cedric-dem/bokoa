@@ -115,38 +115,32 @@ abstract class Game(
         }
     }
 
-    fun Int.dpToPx(context: Context): Int =
-        (this * context.resources.displayMetrics.density).toInt()
-
     private fun getCase(i: Int, j: Int, thisOp: String): CardView {
         val context = context.getGameGrid().context
 
-        // Création du TextView comme avant
         val newCase = TextView(context).apply {
             id = 1000 + (i * gridSize[0] + j)
             gravity = Gravity.CENTER
             setTextColor(getColorOfOperation(thisOp[0]))
             text = thisOp
             typeface = mainTypeface
-            setPadding(5.dpToPx(context), 5.dpToPx(context), 5.dpToPx(context), 5.dpToPx(context))
+            setPadding(50,50,50,50)
             setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
         }
 
-        // Encapsule dans une CardView
         val card = CardView(context).apply {
-            radius = 10.dpToPx(context).toFloat()
-            cardElevation = 4.dpToPx(context).toFloat()
+            radius = 10.0f
+            cardElevation = 20.0f
             setCardBackgroundColor(Color.WHITE)
             layoutParams = ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ).apply {
-                // Simule les insets : 16dp left + bottom (adaptables si besoin)
                 setMargins(
-                    if (j == 0) 16.dpToPx(context) else 0, // marge gauche si première colonne
-                    if (i == 0) 16.dpToPx(context) else 0, // marge haut si première ligne
+                    if (j == 0) 20 else 0,
+                    if (i == 0) 20 else 0,
                     0,
-                    16.dpToPx(context)
+                    20,
                 )
             }
 
@@ -444,25 +438,18 @@ abstract class Game(
         setCaseOrientation(currentCase, arrayOf(true, true, true, true))
     }
 
-    private fun setCaseOrientation(currentCase: CardView , sides: Array<Boolean>) {
+    private fun setCaseOrientation(currentCase: CardView, sides: Array<Boolean>) {
 
-        /*
-        val (top, bottom, left, right) = sides
-        val background = when {
-            top && bottom && left && right -> R.drawable.bg_case_container
-            !top && !bottom -> R.drawable.bg_case_container_bottom_right
-            !top && !left -> R.drawable.bg_case_container_left_right
-            !top && !right -> R.drawable.bg_case_container_top_right
-            !bottom && !left -> R.drawable.bg_case_container_bottom_left
-            !bottom && !right -> R.drawable.bg_case_container_top_bottom
-            !left && !right -> R.drawable.bg_case_container_top_left
-            else -> {
-                Log.d("error", "error23: top=$top, bottom=$bottom, left=$left, right=$right")
-                R.drawable.bg_case_container_debug
-            }
+        val marginLeft = if (sides[0]) 20 else 0
+        val marginRight = if (sides[1]) 20 else 0
+        val marginTop = if (sides[2]) 20 else 0
+        val marginBottom = if (sides[3]) 20 else 0
+
+        val params = currentCase.layoutParams as? ViewGroup.MarginLayoutParams
+        if (params != null) {
+            params.setMargins(marginLeft, marginTop, marginRight, marginBottom)
+            currentCase.layoutParams = params
         }
-        currentCase.setBackgroundResource(background)
-        */
-
     }
+
 }
