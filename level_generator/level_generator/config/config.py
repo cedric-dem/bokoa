@@ -36,6 +36,25 @@ weights_parameters = {
 	"operations_used": 0.06,
 	"remaining_operations": 0.06
 }
+"""
+####################################### configs to test
+"proportion_increasing_steps": 0.5
+"remaining_operations": 0.25,
+"lowest_score": 0.125,
+"latest_negative_score_at": 0.03125,
+"proportion_score_decreasing": 0.03125,
+"solution_length": 0.03125,
+"operations_used": 0.03125,
+
+####################################### 
+"proportion_increasing_steps": 0.4
+"remaining_operations": 0.4,
+"lowest_score": 0.1,
+"latest_negative_score_at": 0.025,
+"proportion_score_decreasing": 0.025,
+"solution_length": 0.025,
+"operations_used": 0.025,
+"""
 
 compute_constants = "AUTOMATIC"
 compute_boundaries = "AUTOMATIC"
