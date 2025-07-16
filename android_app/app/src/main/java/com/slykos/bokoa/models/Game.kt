@@ -361,19 +361,12 @@ abstract class Game(
         applyOperation(operations[newCord[0]][newCord[1]], false)
     }
 
-    private fun detectDirection(coordinatesA: IntArray, coordinatesB: IntArray): Int{
-        if (coordinatesA[0] == coordinatesB[0]){
-            if (coordinatesA[1] > coordinatesB[1]){
-                return 0; // left
-            } else {
-                return 2; // right
-            }
-        } else {
-            if (coordinatesA[0] > coordinatesB[0]){
-                return 1; // up
-            } else {
-                return 3; // bottom
-            }
+    private fun detectDirection(coordinatesA: IntArray, coordinatesB: IntArray): Int {
+        return when {
+            coordinatesA[0] == coordinatesB[0] && coordinatesA[1] > coordinatesB[1] -> 0 // left
+            coordinatesA[0] == coordinatesB[0] && coordinatesA[1] < coordinatesB[1] -> 2 // right
+            coordinatesA[0] > coordinatesB[0] -> 1 // up
+            else -> 3 // bottom
         }
     }
 
