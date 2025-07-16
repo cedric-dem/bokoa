@@ -53,7 +53,7 @@ abstract class Game(
         screenDimensions = context.getScreenDimensions()
 
         marginSize = 0;
-        expectedMarginSize = screenDimensions[0] / 154;
+        expectedMarginSize = 3*  screenDimensions[0] / 154;
 
         mainTypeface = context.resources.getFont(R.font.main_font)
 
@@ -118,6 +118,7 @@ abstract class Game(
             setTextColor(getColorOfOperation(thisOp[0]))
             text = thisOp
             typeface = mainTypeface
+            setPadding(5,5,5,5)
         }
         newCase.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
         return newCase
@@ -321,7 +322,7 @@ abstract class Game(
 
     private fun refreshBackground() {
         for (i in 1 until history.size - 1) { // start from first non neutral, until head
-            changeBackgroundOfCase(history[i], history[i], history[i], CaseState.SNAKE, i) // body snake //TODO fix prev and next
+            changeBackgroundOfCase(history[i-1], history[i], history[i+1], CaseState.SNAKE, i) // body snake //TODO fix prev and next
         }
         if (history.size > 1) {
             changeBackgroundOfCase(null, history[history.size - 1], null, CaseState.HEAD, history.size - 1) // head
@@ -360,21 +361,29 @@ abstract class Game(
         applyOperation(operations[newCord[0]][newCord[1]], false)
     }
 
-    private fun detectChangeCase(coordinatesA: IntArray, coordinatesB: IntArray): Int{
-        //TODO
-        return 3;
+    private fun detectDirection(coordinatesA: IntArray, coordinatesB: IntArray): Int{
+        if (coordinatesA[0] == coordinatesB[0]){
+            if (coordinatesA[1] > coordinatesB[1]){
+                return 0; // left
+            } else {
+                return 2; // right
+            }
+        } else {
+            if (coordinatesA[0] > coordinatesB[0]){
+                return 1; // up
+            } else {
+                return 3; // bottom
+            }
+        }
     }
 
-    private fun detectOrientation(prevCoordinates: IntArray, coordinates: IntArray, nextCoordinates: IntArray): Array<Boolean> {
+    private fun detectMargins(prevCoordinates: IntArray, coordinates: IntArray, nextCoordinates: IntArray): Array<Boolean> {
 
-        val index1 = detectChangeCase(prevCoordinates, coordinates)
-        val index2 = detectChangeCase(coordinates, nextCoordinates)
+        val marginPresence =  arrayOf(true, true, true, true)
 
-        val result =  arrayOf(false, false, false, false)
-
-        result[index1] = true
-        result[index2] = true
-        return result
+        marginPresence[detectDirection(prevCoordinates, coordinates)] = false
+        marginPresence[detectDirection(coordinates, nextCoordinates)] = false
+        return marginPresence
     }
 
     private fun changeBackgroundOfCase(
@@ -391,7 +400,7 @@ abstract class Game(
                 initializeUnusedCase(currentCase!!)
             }
             CaseState.SNAKE -> { // snake 1
-                val orientation = detectOrientation(prevCoordinates!!, coordinates, nextCoordinates!!)
+                val orientation = detectMargins(prevCoordinates!!, coordinates, nextCoordinates!!)
 
                 currentCase!!.backgroundTintList = ColorStateList.valueOf(getBlueShade(((255 * currentIndex) / history.size)))
                 setCaseOrientation(currentCase, orientation)
