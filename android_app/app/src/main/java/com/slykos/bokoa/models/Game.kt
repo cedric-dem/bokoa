@@ -321,10 +321,10 @@ abstract class Game(
 
     private fun refreshBackground() {
         for (i in 1 until history.size - 1) { // start from first non neutral, until head
-            changeBackgroundOfCase(history[i], CaseState.SNAKE, i) // body snake
+            changeBackgroundOfCase(history[i], history[i], history[i], CaseState.SNAKE, i) // body snake //TODO fix prev and next
         }
         if (history.size > 1) {
-            changeBackgroundOfCase(history[history.size - 1], CaseState.HEAD, history.size - 1) // head
+            changeBackgroundOfCase(null, history[history.size - 1], null, CaseState.HEAD, history.size - 1) // head
         }
     }
 
@@ -344,7 +344,7 @@ abstract class Game(
         history.removeAt(history.lastIndex)
 
         // reset case background
-        changeBackgroundOfCase(oldCord, CaseState.SIMPLE_CASE, 0)
+        changeBackgroundOfCase(null, oldCord, null, CaseState.SIMPLE_CASE, 0)
 
         // else if
         if (areCoordinatesEqual(intArrayOf(0, 0), newCord)) {
@@ -361,7 +361,9 @@ abstract class Game(
     }
 
     private fun changeBackgroundOfCase(
+        prevCordinates: IntArray?,
         coordinates: IntArray,
+        nextCordinates: IntArray?,
         caseState: CaseState,
         currentIndex: Int
     ) { // Todo can remove some of them if pass "origin state" parameter
