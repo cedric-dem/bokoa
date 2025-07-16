@@ -377,7 +377,7 @@ abstract class Game(
             CaseState.SNAKE -> { // snake 1
                 currentCase!!.setBackgroundResource(R.drawable.bg_case)
                 currentCase.backgroundTintList = ColorStateList.valueOf(getBlueShade(((255 * currentIndex) / history.size)))
-                setCaseOrientation(currentCase)
+                setCaseOrientation(currentCase, arrayOf(true, true, false, false))
             }
             CaseState.HEAD -> { // head 2
                 currentCase!!.setBackgroundResource(R.drawable.bg_case_head)
@@ -386,10 +386,16 @@ abstract class Game(
         }
     }
 
-    private fun setCaseOrientation(currentCase: TextView) {
-        val shape = ContextCompat.getDrawable(context, R.drawable.bg_case) // without inset
-        val insetDrawable = InsetDrawable(shape,this.expectedMarginSize,this.expectedMarginSize,this.expectedMarginSize,this.expectedMarginSize)
+    private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
 
+        val shape = ContextCompat.getDrawable(context, R.drawable.bg_case)
+
+        val left   = if (sides[0]) this.expectedMarginSize else 0
+        val top    = if (sides[1]) this.expectedMarginSize else 0
+        val right  = if (sides[2]) this.expectedMarginSize else 0
+        val bottom = if (sides[3]) this.expectedMarginSize else 0
+
+        val insetDrawable = InsetDrawable(shape, left, top, right, bottom)
         currentCase.background = insetDrawable
     }
 }
