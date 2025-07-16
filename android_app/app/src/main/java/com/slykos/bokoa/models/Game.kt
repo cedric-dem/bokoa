@@ -410,16 +410,25 @@ abstract class Game(
     }
 
     private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
-        currentCase.setBackgroundResource(R.drawable.bg_case) //todo radius in that depend on sides argument
+        /*
+        if (sides[0]){
+            currentCase.setBackgroundResource(R.drawable.bg_case)
+        } else {
+            currentCase.setBackgroundResource(R.drawable.bg_case)
+        }
+        */
+        currentCase.setBackgroundResource(R.drawable.bg_case_container)
 
-        val shape = ContextCompat.getDrawable(context, R.drawable.bg_case)
+        //val shape = ContextCompat.getDrawable(context, R.drawable.bg_case)
+
+        /*
 
         val left   = if (sides[0]) this.expectedMarginSize else 0
         val top    = if (sides[1]) this.expectedMarginSize else 0
         val right  = if (sides[2]) this.expectedMarginSize else 0
         val bottom = if (sides[3]) this.expectedMarginSize else 0
-
-        val insetDrawable = InsetDrawable(shape, left, top, right, bottom)
-        currentCase.background = insetDrawable
+        */
+        //val insetDrawable = InsetDrawable(shape, left, top, right, bottom)
+        //currentCase.background = insetDrawable
     }
 }
