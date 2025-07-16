@@ -419,13 +419,13 @@ abstract class Game(
         } else if (!sides[0] && !sides[2]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_2)
         } else if (!sides[0] && !sides[3]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_3)
         } else if (!sides[1] && !sides[2]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_4)
         } else if (!sides[1] && !sides[3]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_5)
         } else if (!sides[2] && !sides[3]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_6)
         } else {
             Log.d("error","error23"+sides[0].toString()+ " , "+sides[1].toString()+ " , "+sides[2].toString()+ " , "+sides[3].toString()+ " , ")
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
