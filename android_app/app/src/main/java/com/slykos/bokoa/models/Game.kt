@@ -125,7 +125,7 @@ abstract class Game(
             setTextColor(getColorOfOperation(thisOp[0]))
             text = thisOp
             typeface = mainTypeface
-            setPadding(50,50,50,50)
+            setPadding(0,0,0,0)
             setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
         }
 
@@ -135,11 +135,7 @@ abstract class Game(
             layoutParams = ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply {
-                setMargins(
-                    0,0,0,0,
-                )
-            }
+            )
 
             addView(newCase)
         }
@@ -397,10 +393,10 @@ abstract class Game(
 
     private fun detectMargins(prevCoordinates: IntArray, coordinates: IntArray, nextCoordinates: IntArray): Array<Boolean> {
 
-        val marginPresence =  arrayOf(true, true, true, true)
+        val marginPresence =  arrayOf(false, false, false, false)
 
-        marginPresence[detectDirection(prevCoordinates, coordinates)] = false
-        marginPresence[detectDirection(nextCoordinates, coordinates)] = false
+        marginPresence[detectDirection(prevCoordinates, coordinates)] = true
+        marginPresence[detectDirection(nextCoordinates, coordinates)] = true
 
         return marginPresence
     }
