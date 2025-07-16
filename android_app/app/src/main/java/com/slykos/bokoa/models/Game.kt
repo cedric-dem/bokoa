@@ -3,6 +3,7 @@ package com.slykos.bokoa.models
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Typeface
+import android.graphics.drawable.InsetDrawable
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
@@ -40,6 +41,7 @@ abstract class Game(
 
     private var screenDimensions: IntArray
     private var marginSize: Int
+    private var expectedMarginSize: Int
 
     private var mediumColor: ColorStateList
 
@@ -50,7 +52,8 @@ abstract class Game(
 
         screenDimensions = context.getScreenDimensions()
 
-        marginSize = screenDimensions[0] / 154
+        marginSize = 0;
+        expectedMarginSize = screenDimensions[0] / 154;
 
         mainTypeface = context.resources.getFont(R.font.main_font)
 
@@ -289,7 +292,8 @@ abstract class Game(
     private fun detectCaseAndMove(direction: IntArray) {
         // get old and new coordinates
         val oldCoordinate = history[history.size - 1]
-        val newCoordinate = intArrayOf(oldCoordinate[0] + direction[0], oldCoordinate[1] + direction[1])
+        val newCoordinate =
+            intArrayOf(oldCoordinate[0] + direction[0], oldCoordinate[1] + direction[1])
 
         // detecting_case
         val situation = detectCase(newCoordinate)
@@ -300,7 +304,11 @@ abstract class Game(
         // else no move
     }
 
-    private fun applyMoveResult(situation: MoveResult, oldCoordinate: IntArray, newCoordinate: IntArray) {
+    private fun applyMoveResult(
+        situation: MoveResult,
+        oldCoordinate: IntArray,
+        newCoordinate: IntArray
+    ) {
         if (situation == MoveResult.NORMAL) {
             movementReachNew(newCoordinate) // go for new
         } else {
@@ -363,17 +371,28 @@ abstract class Game(
         when (caseState) {
             CaseState.SIMPLE_CASE -> { // simple case 0
                 currentCase!!.setBackgroundResource(R.drawable.bg_case)
-                currentCase.backgroundTintList = mediumColor
+                currentCase!!.backgroundTintList = mediumColor
+                //setInset(currentCase!!) //todo move this to grid creation
             }
             CaseState.SNAKE -> { // snake 1
                 currentCase!!.setBackgroundResource(R.drawable.bg_case)
                 currentCase.backgroundTintList =
                     ColorStateList.valueOf(getBlueShade(((255 * currentIndex) / history.size)))
+                setInset(currentCase)
             }
             CaseState.HEAD -> { // head 2
                 currentCase!!.setBackgroundResource(R.drawable.bg_case_head)
                 currentCase.backgroundTintList = ColorStateList.valueOf(getBlueShade(255))
             }
         }
+    }
+
+    private fun setInset(currentCase: TextView) {
+        val shape = ContextCompat.getDrawable(context, R.drawable.bg_case) // without inset
+
+        val insetDrawable = InsetDrawable(shape,this.expectedMarginSize,this.expectedMarginSize,this.expectedMarginSize,this.expectedMarginSize)
+        //val insetDrawable = InsetDrawable(shape,20,20,20,20)
+
+        currentCase.background = insetDrawable
     }
 }
