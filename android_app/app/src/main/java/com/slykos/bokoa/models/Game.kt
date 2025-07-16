@@ -2,12 +2,15 @@ package com.slykos.bokoa.models
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
@@ -22,9 +25,14 @@ import kotlin.math.roundToInt
 abstract class Game(
     private val context: GenericPlayPage
 ) {
+    private var blueBias = 80
+    private val centerWeight = 0.8f
+    private val oneCornerRadius = 50f
+    private val twoCornerRadius = 50f
+
     private var decimalFormat: DecimalFormat = DecimalFormat("###,###,###,##0.##")
 
-    private lateinit var operationsView: Array<Array<TextView?>>
+    private lateinit var operationsView: Array<Array<GridLayout ?>>
 
     var history: MutableList<IntArray> = mutableListOf()
     var currentScore: Float = 0f
@@ -39,7 +47,8 @@ abstract class Game(
     lateinit var currentLevel: Level
 
     private var screenDimensions: IntArray
-    private var marginSize: Int
+    private var marginSize: Int //todo remove that argument
+    private var expectedMarginSize: Int
 
     private var mediumColor: ColorStateList
 
@@ -50,7 +59,8 @@ abstract class Game(
 
         screenDimensions = context.getScreenDimensions()
 
-        marginSize = screenDimensions[0] / 154
+        marginSize = 0;
+        expectedMarginSize = 3*  screenDimensions[0] / 154;
 
         mainTypeface = context.resources.getFont(R.font.main_font)
 
@@ -88,7 +98,6 @@ abstract class Game(
 
     fun initGame() {
         currentScore = 1f
-
         history = mutableListOf(intArrayOf(0, 0))
     }
 
@@ -102,23 +111,69 @@ abstract class Game(
         for (i in 0 until gridSize[1]) {
             for (j in 0 until gridSize[0]) {
                 operationsView[i][j] = getCase(i, j, operations[i][j])
-
                 context.getGameGrid().addView(operationsView[i][j], getGridParams(i, j))
             }
         }
+
+        this.shapeGrid()
     }
 
-    private fun getCase(i: Int, j: Int, thisOp: String): TextView {
-        val newCase = TextView(context.getGameGrid().context).apply {
-            id = 1000 + (i * gridSize[0] + j)
-            gravity = Gravity.CENTER
-            setTextColor(getColorOfOperation(thisOp[0]))
-            text = thisOp
-            typeface = mainTypeface
+    private fun getCase(i: Int, j: Int, thisOp: String): GridLayout {
+
+        val context = context.getGameGrid().context
+
+        val gridLayout = GridLayout(context).apply {
+            rowCount = 3
+            columnCount = 3
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
         }
-        newCase.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
-        return newCase
+
+        val sideWeight = (1f - centerWeight) / 2f
+
+        val rowWeights = floatArrayOf(sideWeight, centerWeight, sideWeight)
+        val colWeights = floatArrayOf(sideWeight, centerWeight, sideWeight)
+
+        for (row in 0 until 3) {
+            for (col in 0 until 3) {
+                val isCenter = row == 1 && col == 1
+
+                val view: View = if (isCenter) {
+                    TextView(context).apply {
+                        id = 1000 + (i * gridSize[0] + j)
+                        gravity = Gravity.CENTER
+                        text = thisOp
+                        setTextColor(getColorOfOperation(thisOp[0]))
+                        typeface = mainTypeface
+                        setPadding(0, 0, 0, 0)
+                        setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
+                        layoutParams = GridLayout.LayoutParams().apply {
+                            width = 0
+                            height = 0
+                            rowSpec = GridLayout.spec(row, rowWeights[row])
+                            columnSpec = GridLayout.spec(col, colWeights[col])
+                        }
+                    }
+                } else {
+                    View(context).apply {
+                        backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, color.dark_color))
+                        layoutParams = GridLayout.LayoutParams().apply {
+                            width = 0
+                            height = 0
+                            rowSpec = GridLayout.spec(row, rowWeights[row])
+                            columnSpec = GridLayout.spec(col, colWeights[col])
+                        }
+                    }
+                }
+
+                gridLayout.addView(view)
+            }
+        }
+        return gridLayout
     }
+
     private fun getColorOfOperation(operation: Char): Int =
         when (operation) {
             '+' -> ContextCompat.getColor(context, color.plus_color)
@@ -141,10 +196,9 @@ abstract class Game(
         for (i in 0 until gridSize[1]) {
             for (j in 0 until gridSize[0]) {
                 if (operations[i][j] == "1") {
-                    operationsView[i][j]!!.setBackgroundResource(R.drawable.bg_case_neutral)
+                    shapeNeutralCaseNeverMoved(operationsView[i][j]!!)
                 } else {
-                    operationsView[i][j]!!.setBackgroundResource(R.drawable.bg_case)
-                    operationsView[i][j]!!.backgroundTintList = mediumColor
+                    shapeUnusedCase(operationsView[i][j]!!)
                 }
             }
         }
@@ -156,7 +210,6 @@ abstract class Game(
         initGame()
 
         createGrid()
-        shapeGrid()
 
         refreshScore()
     }
@@ -283,13 +336,11 @@ abstract class Game(
             MoveResult.NORMAL
         }
 
-    private fun getBlueShade(intensity: Int): Int = // intensity between 0 and 255
-        (intensity and 0xff) shl 24 or (0xff)
-
     private fun detectCaseAndMove(direction: IntArray) {
         // get old and new coordinates
         val oldCoordinate = history[history.size - 1]
-        val newCoordinate = intArrayOf(oldCoordinate[0] + direction[0], oldCoordinate[1] + direction[1])
+        val newCoordinate =
+            intArrayOf(oldCoordinate[0] + direction[0], oldCoordinate[1] + direction[1])
 
         // detecting_case
         val situation = detectCase(newCoordinate)
@@ -313,11 +364,36 @@ abstract class Game(
     }
 
     private fun refreshBackground() {
-        for (i in 1 until history.size - 1) { // start from first non neutral, until head
-            changeBackgroundOfCase(history[i], CaseState.SNAKE, i) // body snake
+
+        //Inside
+        for (i in  1 until history.size - 1) { // start from first non neutral, until head
+
+            shapeSnakeCase(
+                operationsView[history[i][0]][history[i][1]]!!,
+                detectTwoMargins(history[i-1], history[i], history[i+1]),
+                ((255 * i) / history.size)
+            )
         }
+
+        //Head + neutral
         if (history.size > 1) {
-            changeBackgroundOfCase(history[history.size - 1], CaseState.HEAD, history.size - 1) // head
+            ////////////////////////////////////////////////////////////////////////////////////////////// Neutral
+            shapeNeutralCase(
+                operationsView[history[0][0]][history[0][1]]!!,
+                detectSingleMargin(history[0], history[1])
+            )
+
+            ////////////////////////////////////////////////////////////////////////////////////////////// HEAD
+            shapeHeadCase(
+                operationsView[history[history.size - 1][0]][history[history.size - 1][1]]!!,
+                detectSingleMargin(history[history.size - 1], history[history.size - 2])
+            )
+
+        } else { //if size 0, shape neutral
+            shapeNeutralCaseNeverMoved(
+                operationsView[history[0][0]][history[0][1]]!!
+            )
+
         }
     }
 
@@ -337,7 +413,9 @@ abstract class Game(
         history.removeAt(history.lastIndex)
 
         // reset case background
-        changeBackgroundOfCase(oldCord, CaseState.SIMPLE_CASE, 0)
+
+        val currentCase = operationsView[oldCord[0]][oldCord[1]]
+        shapeUnusedCase(currentCase!!)
 
         // else if
         if (areCoordinatesEqual(intArrayOf(0, 0), newCord)) {
@@ -353,27 +431,120 @@ abstract class Game(
         applyOperation(operations[newCord[0]][newCord[1]], false)
     }
 
-    private fun changeBackgroundOfCase(
-        coordinates: IntArray,
-        caseState: CaseState,
-        currentIndex: Int
-    ) { // Todo can remove some of them if pass "origin state" parameter
-        val currentCase = operationsView[coordinates[0]][coordinates[1]]
+    private fun detectDirection(coordinatesA: IntArray, coordinatesB: IntArray): Int {
+        return when {
+            coordinatesA[0] == coordinatesB[0] && coordinatesA[1] > coordinatesB[1] -> 0 // left
+            coordinatesA[0] == coordinatesB[0] && coordinatesA[1] < coordinatesB[1] -> 2 // right
+            coordinatesA[0] > coordinatesB[0] -> 1 // up
+            else -> 3 // bottom
+        }
+    }
 
-        when (caseState) {
-            CaseState.SIMPLE_CASE -> { // simple case 0
-                currentCase!!.setBackgroundResource(R.drawable.bg_case)
-                currentCase.backgroundTintList = mediumColor
-            }
-            CaseState.SNAKE -> { // snake 1
-                currentCase!!.setBackgroundResource(R.drawable.bg_case)
-                currentCase.backgroundTintList =
-                    ColorStateList.valueOf(getBlueShade(((255 * currentIndex) / history.size)))
-            }
-            CaseState.HEAD -> { // head 2
-                currentCase!!.setBackgroundResource(R.drawable.bg_case_head)
-                currentCase.backgroundTintList = ColorStateList.valueOf(getBlueShade(255))
+    private fun detectSingleMargin(prev: IntArray, current: IntArray): BooleanArray =
+        BooleanArray(4).apply {
+            this[detectDirection(current, prev)] = true
+        }
+
+    private fun detectTwoMargins(prev: IntArray, current: IntArray, next: IntArray): BooleanArray =
+        BooleanArray(4).apply {
+            this[detectDirection(prev, current)] = true
+            this[detectDirection(next, current)] = true
+        }
+
+    private fun getCornerRadiiOneSide(sides:  BooleanArray): FloatArray =
+        when {
+            !sides[2] && !sides[3] -> floatArrayOf( oneCornerRadius, oneCornerRadius, 0f, 0f,  0f, 0f, 0f, 0f)
+            !sides[0] && !sides[3] -> floatArrayOf( 0f, 0f, oneCornerRadius, oneCornerRadius, 0f, 0f, 0f, 0f )
+            !sides[0] && !sides[1] -> floatArrayOf( 0f, 0f, 0f, 0f, oneCornerRadius, oneCornerRadius, 0f, 0f)
+            !sides[1] && !sides[2] -> floatArrayOf( 0f, 0f, 0f, 0f,  0f, 0f, oneCornerRadius, oneCornerRadius )
+            else -> FloatArray(8)
+        }
+
+    private fun getCornerRadiiTwoSide(sides: BooleanArray): FloatArray =
+        when {
+            sides[0]-> floatArrayOf(twoCornerRadius, twoCornerRadius,0f, 0f, 0f, 0f,twoCornerRadius, twoCornerRadius)
+            sides[1]-> floatArrayOf(twoCornerRadius, twoCornerRadius,twoCornerRadius, twoCornerRadius, 0f, 0f, 0f, 0f)
+            sides[2]-> floatArrayOf(0f, 0f, twoCornerRadius, twoCornerRadius,twoCornerRadius, twoCornerRadius, 0f, 0f)
+            sides[3]-> floatArrayOf(0f, 0f, 0f, 0f, twoCornerRadius, twoCornerRadius,twoCornerRadius, twoCornerRadius)
+            else -> FloatArray(8)
+        }
+
+    private fun setInitialCaseBorderRadius(view: View) {
+        view.background = GradientDrawable().apply {
+            cornerRadii = floatArrayOf( twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius,  twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius )
+        }
+    }
+
+    private fun setSingleBorderRadius(view: View, sides: BooleanArray) {
+        view.background = GradientDrawable().apply {
+            cornerRadii = getCornerRadiiOneSide(sides)
+        }
+    }
+
+    private fun setTwoBorderRadius(currentCase: View, sides: BooleanArray) {
+        currentCase.background = GradientDrawable().apply {
+            cornerRadii = getCornerRadiiTwoSide(sides)
+        }
+    }
+
+    private fun getBiasedBlue(intensity: Int): Int =
+        (blueBias + intensity * ( (255 - blueBias).toDouble() / 255.0 )).toInt()
+
+    private fun getBlueColorStateList(intensity: Int): ColorStateList =
+        ColorStateList.valueOf(Color.argb(255, 0, 0, getBiasedBlue(intensity).coerceIn(0, 255)))
+
+    private fun  setBlackBackgroundCase(currentCase: GridLayout){
+        for (i in 0 until 9) {
+            if (i!=4){
+                currentCase.getChildAt(i).backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, color.dark_color))
+                currentCase.getChildAt(i).setBackgroundResource(R.drawable.bg_case_margin)
             }
         }
+    }
+
+    private fun shapeNeutralCaseNeverMoved(currentCase: GridLayout){
+        currentCase.getChildAt(4).backgroundTintList = getBlueColorStateList(255)
+        setInitialCaseBorderRadius(currentCase.getChildAt(4))
+        setBlackBackgroundCase(currentCase)
+    }
+
+    private fun shapeNeutralCase(currentCase: GridLayout, sides: BooleanArray){
+        currentCase.getChildAt(4).backgroundTintList =  getBlueColorStateList(0)
+        setTwoBorderRadius(currentCase.getChildAt(4), sides)
+        colorMargins(currentCase, 0, sides)
+    }
+
+    private fun shapeUnusedCase(currentCase: GridLayout ){
+        currentCase.getChildAt(4).backgroundTintList = mediumColor
+        currentCase.getChildAt(4).setBackgroundResource(R.drawable.bg_case)
+        setBlackBackgroundCase(currentCase)
+    }
+
+    private fun shapeHeadCase(currentCase: GridLayout, sides:BooleanArray ){
+        currentCase.getChildAt(4).backgroundTintList =  getBlueColorStateList(255)
+        setTwoBorderRadius(currentCase.getChildAt(4), sides)
+        colorMargins(currentCase, 255, sides)
+    }
+
+    private fun shapeSnakeCase(currentCase: GridLayout, sides: BooleanArray, intensity: Int) {
+        currentCase.getChildAt(4).backgroundTintList =  getBlueColorStateList(intensity)
+        setSingleBorderRadius(currentCase.getChildAt(4), sides)
+        colorMargins(currentCase, intensity, sides)
+    }
+
+    private fun colorMargins(currentCase: GridLayout, intensity: Int, sides:  BooleanArray){
+        colorMarginAtCondition(sides[0], 5, currentCase, intensity)
+        colorMarginAtCondition(sides[1], 7, currentCase, intensity)
+        colorMarginAtCondition(sides[2], 3, currentCase, intensity)
+        colorMarginAtCondition(sides[3], 1, currentCase, intensity)
+    }
+
+    private fun colorMarginAtCondition(condition: Boolean, caseIndex: Int, currentCase: GridLayout, intensityIfCondition: Int){
+        val color = if (condition) {
+            getBlueColorStateList(intensityIfCondition)
+        } else {
+            ColorStateList.valueOf(ContextCompat.getColor(context, color.dark_color))
+        }
+        currentCase.getChildAt(caseIndex).backgroundTintList = color
     }
 }
