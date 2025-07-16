@@ -360,10 +360,21 @@ abstract class Game(
         applyOperation(operations[newCord[0]][newCord[1]], false)
     }
 
+    private fun detectChangeCase(coordinatesA: IntArray, coordinatesB: IntArray): Int{
+        //TODO
+        return 3;
+    }
+
     private fun detectOrientation(prevCoordinates: IntArray, coordinates: IntArray, nextCoordinates: IntArray): Array<Boolean> {
-        // TODO
-        //maybe split into two functions call ?
-        return arrayOf(false, false, false, false)
+
+        val index1 = detectChangeCase(prevCoordinates, coordinates)
+        val index2 = detectChangeCase(coordinates, nextCoordinates)
+
+        val result =  arrayOf(false, false, false, false)
+
+        result[index1] = true
+        result[index2] = true
+        return result
     }
 
     private fun changeBackgroundOfCase(
