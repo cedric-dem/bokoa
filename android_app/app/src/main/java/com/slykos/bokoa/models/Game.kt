@@ -411,37 +411,21 @@ abstract class Game(
     }
 
     private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
-
-        if (sides[0] && sides[1] && sides[2] && sides[3]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container)
-        } else if (!sides[0] && !sides[1]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_bottom_right)
-        } else if (!sides[0] && !sides[2]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_left_right)
-        } else if (!sides[0] && !sides[3]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_top_right)
-        } else if (!sides[1] && !sides[2]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_bottom_left)
-        } else if (!sides[1] && !sides[3]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_top_bottom)
-        } else if (!sides[2] && !sides[3]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_top_left)
-        } else {
-            Log.d("error","error23"+sides[0].toString()+ " , "+sides[1].toString()+ " , "+sides[2].toString()+ " , "+sides[3].toString()+ " , ")
-            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
+        val (top, bottom, left, right) = sides
+        val background = when {
+            top && bottom && left && right -> R.drawable.bg_case_container
+            !top && !bottom -> R.drawable.bg_case_container_bottom_right
+            !top && !left -> R.drawable.bg_case_container_left_right
+            !top && !right -> R.drawable.bg_case_container_top_right
+            !bottom && !left -> R.drawable.bg_case_container_bottom_left
+            !bottom && !right -> R.drawable.bg_case_container_top_bottom
+            !left && !right -> R.drawable.bg_case_container_top_left
+            else -> {
+                Log.d("error", "error23: top=$top, bottom=$bottom, left=$left, right=$right")
+                R.drawable.bg_case_container_debug
+            }
         }
+        currentCase.setBackgroundResource(background)
 
-
-        //val shape = ContextCompat.getDrawable(context, R.drawable.bg_case)
-
-        /*
-
-        val left   = if (sides[0]) this.expectedMarginSize else 0
-        val top    = if (sides[1]) this.expectedMarginSize else 0
-        val right  = if (sides[2]) this.expectedMarginSize else 0
-        val bottom = if (sides[3]) this.expectedMarginSize else 0
-        */
-        //val insetDrawable = InsetDrawable(shape, left, top, right, bottom)
-        //currentCase.background = insetDrawable
     }
 }
