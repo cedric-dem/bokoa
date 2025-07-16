@@ -360,10 +360,16 @@ abstract class Game(
         applyOperation(operations[newCord[0]][newCord[1]], false)
     }
 
+    private fun detectOrientation(prevCoordinates: IntArray, coordinates: IntArray, nextCoordinates: IntArray): Array<Boolean> {
+        // TODO
+        //maybe split into two functions call ?
+        return arrayOf(false, false, false, false)
+    }
+
     private fun changeBackgroundOfCase(
-        prevCordinates: IntArray?,
+        prevCoordinates: IntArray?,
         coordinates: IntArray,
-        nextCordinates: IntArray?,
+        nextCoordinates: IntArray?,
         caseState: CaseState,
         currentIndex: Int
     ) { // Todo can remove some of them if pass "origin state" parameter
@@ -374,8 +380,10 @@ abstract class Game(
                 initializeUnusedCase(currentCase!!)
             }
             CaseState.SNAKE -> { // snake 1
+                val orientation = detectOrientation(prevCoordinates!!, coordinates, nextCoordinates!!)
+
                 currentCase!!.backgroundTintList = ColorStateList.valueOf(getBlueShade(((255 * currentIndex) / history.size)))
-                setCaseOrientation(currentCase, arrayOf(false, false, false, false))
+                setCaseOrientation(currentCase, orientation)
             }
             CaseState.HEAD -> { // head 2
                 currentCase!!.setBackgroundResource(R.drawable.bg_case_head)
