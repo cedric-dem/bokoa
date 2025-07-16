@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
@@ -129,18 +130,14 @@ abstract class Game(
         }
 
         val card = CardView(context).apply {
-            radius = 10.0f
-            cardElevation = 20.0f
+            radius = 1.0f
             setCardBackgroundColor(Color.WHITE)
             layoutParams = ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ).apply {
                 setMargins(
-                    if (j == 0) 20 else 0,
-                    if (i == 0) 20 else 0,
-                    0,
-                    20,
+                    0,0,0,0,
                 )
             }
 
@@ -450,6 +447,12 @@ abstract class Game(
             params.setMargins(marginLeft, marginTop, marginRight, marginBottom)
             currentCase.layoutParams = params
         }
+        val backgroundDrawable = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = 20f
+            setColor(0xFFFFFFFF.toInt())
+        }
+        currentCase.background = backgroundDrawable
     }
 
 }
