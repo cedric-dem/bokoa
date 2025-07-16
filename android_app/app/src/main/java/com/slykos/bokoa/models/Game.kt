@@ -412,8 +412,8 @@ abstract class Game(
     private fun setCaseOrientation(currentCase: TextView, sides: Array<Boolean>) {
 
         if (sides[0] && sides[1] && sides[2] && sides[3]){
-            currentCase.setBackgroundResource(R.drawable.bg_case_container)
-        } else if (sides[0] && sides[1]){
+            currentCase.setBackgroundResource(R.drawable.bg_case_container) // ok
+        } else if (!sides[0] && !sides[1]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_1)
         } else if (sides[0] && sides[2]){
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
@@ -427,6 +427,7 @@ abstract class Game(
             currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
         } else {
             Log.d("error","error23")
+            currentCase.setBackgroundResource(R.drawable.bg_case_container_debug)
         }
 
 
