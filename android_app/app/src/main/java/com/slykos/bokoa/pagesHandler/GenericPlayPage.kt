@@ -1,5 +1,6 @@
 package com.slykos.bokoa.pagesHandler
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.util.DisplayMetrics
 import android.view.View
@@ -7,7 +8,10 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
+import com.google.gson.Gson
 import com.slykos.bokoa.R
+import com.slykos.bokoa.models.Level
+import java.io.InputStreamReader
 
 abstract class GenericPlayPage : AppCompatActivity() {
 
@@ -40,4 +44,16 @@ abstract class GenericPlayPage : AppCompatActivity() {
     abstract fun getMainView(): View
 
     abstract fun finishedGame()
+
+    protected fun loadLevelFromJson(context: Context, filename: String): Level? =
+        try {
+            val reader = InputStreamReader(context.assets.open(filename))
+
+            Gson().fromJson(reader, Level::class.java).also {
+                reader.close()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
 }

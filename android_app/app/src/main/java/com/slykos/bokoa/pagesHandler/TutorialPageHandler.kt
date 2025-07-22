@@ -1,6 +1,5 @@
 package com.slykos.bokoa.pagesHandler
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -22,7 +21,6 @@ class TutorialPageHandler : GenericPlayPage() {
     private lateinit var maxScoreViewer: TextView
     lateinit var next: Button
 
-    @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tutorial)
@@ -67,15 +65,7 @@ class TutorialPageHandler : GenericPlayPage() {
     }
 
     private fun getTutorialLevel(): Level =
-        Level(
-            arrayOf(
-                arrayOf("1", "+3", "÷3"),
-                arrayOf("-2", "×2", "+2"),
-                arrayOf("÷4", "-5", "×5")
-            ),
-            50.0f,
-            arrayOf(">", "u", ">", "u")
-        )
+        this.loadLevelFromJson(this, "tutorial/level_000000.json")!!
 
     fun setTip(newTip: String) {
         tipGiver.text = newTip

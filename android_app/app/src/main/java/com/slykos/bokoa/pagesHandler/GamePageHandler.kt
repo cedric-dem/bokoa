@@ -16,13 +16,11 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import com.slykos.bokoa.R
 import com.slykos.bokoa.models.game.Game
 import com.slykos.bokoa.models.Level
 import com.slykos.bokoa.models.game.RealGame
 import com.slykos.bokoa.models.SavedDataHandler
-import java.io.InputStreamReader
 
 open class GamePageHandler : GenericPlayPage() {
     private lateinit var confirmationPopupBuilder: AlertDialog.Builder
@@ -76,8 +74,7 @@ open class GamePageHandler : GenericPlayPage() {
     }
 
     private fun initiateConfirmationPopupBuilder() {
-        confirmationPopupBuilder =
-            AlertDialog.Builder(this@GamePageHandler, R.style.alertDialogTheme)
+        confirmationPopupBuilder = AlertDialog.Builder(this@GamePageHandler, R.style.alertDialogTheme)
 
         confirmationPopupBuilder.setTitle(getString(R.string.confirmation))
         confirmationPopupBuilder.setMessage(getString(R.string.confirmation_text))
@@ -191,10 +188,9 @@ open class GamePageHandler : GenericPlayPage() {
     private fun runGame() {
         initLevel()
 
-        title.text =
-            getString(R.string.level) + (difficulty * levelsPerDifficulty + levelId + 1).toString() + "\n" + getString(
-                R.string.difficulty
-            ) + ": " + levelsSectionsNames[difficulty]
+        title.text = getString(R.string.level) + (difficulty * levelsPerDifficulty + levelId + 1).toString() + "\n" + getString(
+            R.string.difficulty
+        ) + ": " + levelsSectionsNames[difficulty]
 
         // current_game.initLevel(grid_size, current_level);
         currentGame.runGame()
@@ -236,24 +232,10 @@ open class GamePageHandler : GenericPlayPage() {
         // maybe finish() add param difficulty +1 onCreate
     }
 
-    private fun loadObjectFromJson(context: Context, filename: String): Level? =
-        try {
-            val reader = InputStreamReader(
-                context.assets.open(filename)
-            )
-
-            Gson().fromJson(reader, Level::class.java).also {
-                reader.close()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-
     private fun initLevel() {
         val paddedLevelId = levelId.toString().padStart(6, '0')
         val fileName = "grid_size_$difficulty/level_$paddedLevelId.json"
-        currentLevel = loadObjectFromJson(this, fileName)!!
+        currentLevel = this.loadLevelFromJson(this, fileName)!!
 
         gridSize = intArrayOf(gridSizes[difficulty], gridSizes[difficulty])
 
@@ -281,31 +263,27 @@ open class GamePageHandler : GenericPlayPage() {
 
     @SuppressLint("SetTextI18n")
     private fun wonLevelAgain() {
-        scoreIndicatorTop.text =
-            getString(R.string.finished_level_again) + currentGame.bestScoreStr
+        scoreIndicatorTop.text = getString(R.string.finished_level_again) + currentGame.bestScoreStr
         scoreIndicatorBottom.text = ""
     }
 
     @SuppressLint("SetTextI18n")
     private fun wonFirstTimeLevel() {
         // ////////////////////////////////////////////////////////////////////////////////////////// TOP text
-        scoreIndicatorTop.text =
-            getString(R.string.finished_level) + currentGame.bestScoreStr
+        scoreIndicatorTop.text = getString(R.string.finished_level) + currentGame.bestScoreStr
 
         // ////////////////////////////////////////////////////////////////////////////////////////// detect case then  BOT text +  BTN effective
         if ((passedLevels + 1) % levelsPerDifficulty == 0) {
             if (passedLevels == finishedGameAt) { // finished game
                 scoreIndicatorBottom.text = getString(R.string.finished_all_levels)
             } else { // difficulty unlocked
-                scoreIndicatorBottom.text =
-                    getString(R.string.difficulty) + levelsSectionsNames[(passedLevels / levelsPerDifficulty) + 1] + " " + getString(
-                        R.string.difficulty_unlocked
-                    )
+                scoreIndicatorBottom.text = getString(R.string.difficulty) + levelsSectionsNames[(passedLevels / levelsPerDifficulty) + 1] + " " + getString(
+                    R.string.difficulty_unlocked
+                )
                 makeNextLevelButtonEffective()
             }
         } else {
-            scoreIndicatorBottom.text =
-                getString(R.string.level) + (passedLevels + 2).toString() + " " + getString(R.string.level_unlocked)
+            scoreIndicatorBottom.text = getString(R.string.level) + (passedLevels + 2).toString() + " " + getString(R.string.level_unlocked)
             makeNextLevelButtonEffective()
         }
 
@@ -390,5 +368,4 @@ open class GamePageHandler : GenericPlayPage() {
         }
         return super.onKeyDown(keyCode, event)
     }
-
 }

@@ -1,6 +1,5 @@
 package com.slykos.bokoa.models.game
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.view.MotionEvent
@@ -22,9 +21,10 @@ abstract class Game(
     private val context: GenericPlayPage
 ) {
 
+    private var threshold = 100
     private var decimalFormat: DecimalFormat = DecimalFormat("###,###,###,##0.##")
 
-    private lateinit var gridViewer: GridViewer;
+    private lateinit var gridViewer: GridViewer
 
     var history: MutableList<IntArray> = mutableListOf()
     var currentScore: Float = 0f
@@ -52,8 +52,8 @@ abstract class Game(
 
         screenDimensions = context.getScreenDimensions()
 
-        marginSize = 0;
-        expectedMarginSize = 3 * screenDimensions[0] / 154;
+        marginSize = 0
+        expectedMarginSize = 3 * screenDimensions[0] / 154
 
         mainTypeface = context.resources.getFont(R.font.main_font)
 
@@ -118,16 +118,13 @@ abstract class Game(
             lateinit var startPosition: IntArray
             lateinit var endPosition: IntArray
 
-            @SuppressLint("ClickableViewAccessibility")
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN ->
-                        startPosition =
-                            intArrayOf(event.x.toInt(), event.y.toInt())
+                        startPosition = intArrayOf(event.x.toInt(), event.y.toInt())
 
                     MotionEvent.ACTION_UP -> {
-                        endPosition =
-                            intArrayOf(event.x.toInt(), event.y.toInt())
+                        endPosition = intArrayOf(event.x.toInt(), event.y.toInt())
                         executeMovement(startPosition, endPosition)
                     }
                 }
@@ -152,25 +149,20 @@ abstract class Game(
     }
 
     private fun executeMovement(startPosition: IntArray, endPosition: IntArray) {
-        val delta = intArrayOf(
-            abs(startPosition[0] - endPosition[0]),
-            abs(startPosition[1] - endPosition[1])
-        )
+        val dx = endPosition[0] - startPosition[0]
+        val dy = endPosition[1] - startPosition[1]
+
+        val absDx = abs(dx)
+        val absDy = abs(dy)
 
         // TODO move threshold, verify not different h l
-        if (delta[0] >= delta[1] && delta[0] > 100) { // horizontal move and sufficient
-
-            if (startPosition[0] > endPosition[0]) { // left move
-                moveLeft()
-            } else { // right move
-                moveRight()
+        when {
+            absDx >= absDy && absDx > threshold -> { // move horizontal
+                if (dx > 0) moveRight() else moveLeft()
             }
-        } else if (delta[1] > delta[0] && delta[1] > 100) { // vertical move and sufficient
 
-            if (startPosition[1] > endPosition[1]) { // top move
-                moveUp()
-            } else { // bot move
-                moveDown()
+            absDy > absDx && absDy > threshold -> { // move vertical
+                if (dy > 0) moveDown() else moveUp()
             }
         }
     }
@@ -210,14 +202,8 @@ abstract class Game(
             newCoordinate
         )
 
-    private fun isCollidingWithPreviousCase(newCoordinate: IntArray): Boolean {
-        for (i in history.indices) {
-            if (areCoordinatesEqual(history[i], newCoordinate)) {
-                return true
-            }
-        }
-        return false
-    }
+    private fun isCollidingWithPreviousCase(newCoordinate: IntArray): Boolean =
+        history.any { areCoordinatesEqual(it, newCoordinate) }
 
     private fun detectSituation(newCoordinate: IntArray): MoveResult =
         when {
@@ -228,17 +214,12 @@ abstract class Game(
         }
 
     private fun detectCaseAndMove(direction: IntArray) {
-        // get old and new coordinates
-        val oldCoordinate = history[history.size - 1]
+        val oldCoordinate = history.last()
         val newCoordinate = intArrayOf(oldCoordinate[0] + direction[0], oldCoordinate[1] + direction[1])
 
-        // detecting_case
-        val situation = detectSituation(newCoordinate)
-
-        if (situation != MoveResult.IMPOSSIBLE) { // Move
-            applyMoveResult(situation, oldCoordinate, newCoordinate)
-        }
-        // else no move
+        detectSituation(newCoordinate)
+            .takeIf { it != MoveResult.IMPOSSIBLE }
+            ?.let { applyMoveResult(it, oldCoordinate, newCoordinate) }
     }
 
     private fun applyMoveResult(situation: MoveResult, oldCoordinate: IntArray, newCoordinate: IntArray) {
@@ -266,7 +247,7 @@ abstract class Game(
             gridViewer.getCase(history[0][0], history[0][1]).shapeNeutralCase(gridViewer.detectSingleMargin(history[0], history[1]))
 
             // HEAD
-            gridViewer.getCase(history[history.size - 1][0], history[history.size - 1][1]).shapeHeadCase(gridViewer.detectSingleMargin(history[history.size - 1], history[history.size - 2]))
+            gridViewer.getCase(history.last()[0], history.last()[1]).shapeHeadCase(gridViewer.detectSingleMargin(history.last(), history[history.size - 2]))
 
         } else { //if size 0, shape neutral
             gridViewer.getCase(history[0][0], history[0][1]).shapeNeutralCaseNeverMoved()
