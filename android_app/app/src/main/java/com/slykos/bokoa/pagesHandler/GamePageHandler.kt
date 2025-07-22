@@ -18,9 +18,9 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.slykos.bokoa.R
-import com.slykos.bokoa.models.Game
+import com.slykos.bokoa.models.game.Game
 import com.slykos.bokoa.models.Level
-import com.slykos.bokoa.models.RealGame
+import com.slykos.bokoa.models.game.RealGame
 import com.slykos.bokoa.models.SavedDataHandler
 import java.io.InputStreamReader
 

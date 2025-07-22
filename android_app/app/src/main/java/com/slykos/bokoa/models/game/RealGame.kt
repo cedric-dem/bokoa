@@ -1,4 +1,4 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.models.game
 
 import android.annotation.SuppressLint
 import com.slykos.bokoa.pagesHandler.GamePageHandler

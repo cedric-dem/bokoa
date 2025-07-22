@@ -1,4 +1,4 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.models.game
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
@@ -9,6 +9,9 @@ import android.view.View.OnTouchListener
 import androidx.core.content.ContextCompat
 import com.slykos.bokoa.R
 import com.slykos.bokoa.R.color
+import com.slykos.bokoa.models.viewers.GridViewer
+import com.slykos.bokoa.models.Level
+import com.slykos.bokoa.models.MoveResult
 import com.slykos.bokoa.pagesHandler.GenericPlayPage
 import java.text.DecimalFormat
 import kotlin.math.abs

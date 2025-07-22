@@ -1,4 +1,4 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.models.viewers
 
 import android.content.res.ColorStateList
 import android.graphics.Color
