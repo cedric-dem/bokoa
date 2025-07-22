@@ -53,7 +53,7 @@ abstract class Game(
         screenDimensions = context.getScreenDimensions()
 
         marginSize = 0;
-        expectedMarginSize = 3*  screenDimensions[0] / 154;
+        expectedMarginSize = 3 * screenDimensions[0] / 154;
 
         mainTypeface = context.resources.getFont(R.font.main_font)
 
@@ -81,11 +81,11 @@ abstract class Game(
         bestScoreStr = getFormattedScore(bestScore)
     }
 
-    fun shapeGrid(){
+    fun shapeGrid() {
         this.gridViewer.shapeGrid()
     }
 
-    fun emptyGrid(){
+    fun emptyGrid() {
         this.gridViewer.emptyGrid()
     }
 
@@ -135,19 +135,19 @@ abstract class Game(
             }
         }
 
-    fun moveLeft(){
+    fun moveLeft() {
         detectCaseAndMove(intArrayOf(0, -1))
     }
 
-    fun moveRight(){
+    fun moveRight() {
         detectCaseAndMove(intArrayOf(0, 1))
     }
 
-    fun moveUp(){
+    fun moveUp() {
         detectCaseAndMove(intArrayOf(-1, 0))
     }
 
-    fun moveDown(){
+    fun moveDown() {
         detectCaseAndMove(intArrayOf(1, 0))
     }
 
@@ -256,17 +256,17 @@ abstract class Game(
     private fun refreshBackground() {
 
         //Inside
-        for (i in  1 until history.size - 1) { // start from first non neutral, until head
-            gridViewer.getCase(history[i][0], history[i][1]).shapeSnakeCase(gridViewer.detectTwoMargins(history[i-1], history[i], history[i+1]),((255 * i) / history.size))
+        for (i in 1 until history.size - 1) { // start from first non neutral, until head
+            gridViewer.getCase(history[i][0], history[i][1]).shapeSnakeCase(gridViewer.detectTwoMargins(history[i - 1], history[i], history[i + 1]), ((255 * i) / history.size))
         }
 
         //Head + neutral
         if (history.size > 1) {
             // Neutral
-            gridViewer.getCase(history[0][0],history[0][1]).shapeNeutralCase(gridViewer.detectSingleMargin(history[0], history[1]))
+            gridViewer.getCase(history[0][0], history[0][1]).shapeNeutralCase(gridViewer.detectSingleMargin(history[0], history[1]))
 
             // HEAD
-            gridViewer.getCase(history[history.size - 1][0],history[history.size - 1][1] ).shapeHeadCase(gridViewer.detectSingleMargin(history[history.size - 1], history[history.size - 2])            )
+            gridViewer.getCase(history[history.size - 1][0], history[history.size - 1][1]).shapeHeadCase(gridViewer.detectSingleMargin(history[history.size - 1], history[history.size - 2]))
 
         } else { //if size 0, shape neutral
             gridViewer.getCase(history[0][0], history[0][1]).shapeNeutralCaseNeverMoved()
@@ -289,7 +289,7 @@ abstract class Game(
         history.removeAt(history.lastIndex)
 
         // reset case background
-        gridViewer.getCase(oldCord[0],oldCord[1]).shapeUnusedCase()
+        gridViewer.getCase(oldCord[0], oldCord[1]).shapeUnusedCase()
 
         // else if
         if (areCoordinatesEqual(intArrayOf(0, 0), newCord)) {

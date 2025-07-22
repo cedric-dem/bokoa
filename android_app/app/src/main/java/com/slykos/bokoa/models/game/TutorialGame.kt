@@ -92,8 +92,7 @@ class TutorialGame(
     }
 
     private fun getNextMove(): String =
-        currentLevel.bestMoves.getOrNull(history.size - 1)?.let {
-                move ->
+        currentLevel.bestMoves.getOrNull(history.size - 1)?.let { move ->
             when (move) {
                 "u" -> callingPage.resources.getString(R.string.move_dn)
                 "n" -> callingPage.resources.getString(R.string.move_up)
