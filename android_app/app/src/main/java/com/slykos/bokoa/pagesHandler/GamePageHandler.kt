@@ -18,9 +18,9 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.slykos.bokoa.R
-import com.slykos.bokoa.models.Game
+import com.slykos.bokoa.models.game.Game
 import com.slykos.bokoa.models.Level
-import com.slykos.bokoa.models.RealGame
+import com.slykos.bokoa.models.game.RealGame
 import com.slykos.bokoa.models.SavedDataHandler
 import java.io.InputStreamReader
 
@@ -193,8 +193,8 @@ open class GamePageHandler : GenericPlayPage() {
 
         title.text =
             getString(R.string.level) + (difficulty * levelsPerDifficulty + levelId + 1).toString() + "\n" + getString(
-            R.string.difficulty
-        ) + ": " + levelsSectionsNames[difficulty]
+                R.string.difficulty
+            ) + ": " + levelsSectionsNames[difficulty]
 
         // current_game.initLevel(grid_size, current_level);
         currentGame.runGame()
@@ -299,8 +299,8 @@ open class GamePageHandler : GenericPlayPage() {
             } else { // difficulty unlocked
                 scoreIndicatorBottom.text =
                     getString(R.string.difficulty) + levelsSectionsNames[(passedLevels / levelsPerDifficulty) + 1] + " " + getString(
-                    R.string.difficulty_unlocked
-                )
+                        R.string.difficulty_unlocked
+                    )
                 makeNextLevelButtonEffective()
             }
         } else {
@@ -372,14 +372,17 @@ open class GamePageHandler : GenericPlayPage() {
                 this.currentGame.moveUp()
                 return true
             }
+
             KeyEvent.KEYCODE_DPAD_DOWN -> {
                 this.currentGame.moveDown()
                 return true
             }
+
             KeyEvent.KEYCODE_DPAD_LEFT -> {
                 this.currentGame.moveLeft()
                 return true
             }
+
             KeyEvent.KEYCODE_DPAD_RIGHT -> {
                 this.currentGame.moveRight()
                 return true

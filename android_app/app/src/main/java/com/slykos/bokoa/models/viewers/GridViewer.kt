@@ -1,13 +1,13 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.models.viewers
 
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import androidx.gridlayout.widget.GridLayout
 import com.slykos.bokoa.pagesHandler.GenericPlayPage
 
-class GridViewer(private var context: GenericPlayPage, private val gridSize: IntArray, private val operations: Array<Array<String>>, mainTypeface: Typeface, mediumColor: ColorStateList, private val marginSize: Int, private val caseSize : Int){
+class GridViewer(private var context: GenericPlayPage, private val gridSize: IntArray, private val operations: Array<Array<String>>, mainTypeface: Typeface, mediumColor: ColorStateList, private val marginSize: Int, private val caseSize: Int) {
 
-    private val grid:Array<Array<CaseViewer?>> =
+    private val grid: Array<Array<CaseViewer?>> =
         Array(gridSize[1]) {
             arrayOfNulls(
                 gridSize[0]
@@ -17,7 +17,7 @@ class GridViewer(private var context: GenericPlayPage, private val gridSize: Int
     init {
         for (i in 0 until gridSize[1]) {
             for (j in 0 until gridSize[0]) {
-                this.grid[i][j] = CaseViewer(this.context,i,j,operations[i][j],gridSize,mainTypeface,mediumColor)
+                this.grid[i][j] = CaseViewer(this.context, i, j, operations[i][j], gridSize, mainTypeface, mediumColor)
                 context.getGameGrid().addView(this.grid[i][j]!!.caseRepresentation, getGridParams(i, j))
             }
         }

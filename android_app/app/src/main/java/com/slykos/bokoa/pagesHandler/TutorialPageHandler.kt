@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.slykos.bokoa.R
-import com.slykos.bokoa.models.Game
+import com.slykos.bokoa.models.game.Game
 import com.slykos.bokoa.models.Level
-import com.slykos.bokoa.models.TutorialGame
+import com.slykos.bokoa.models.game.TutorialGame
 
 class TutorialPageHandler : GenericPlayPage() {
     private lateinit var tutorialGame: Game
