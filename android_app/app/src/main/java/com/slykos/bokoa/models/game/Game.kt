@@ -24,7 +24,7 @@ abstract class Game(
 
     private var decimalFormat: DecimalFormat = DecimalFormat("###,###,###,##0.##")
 
-    private lateinit var gridViewer: GridViewer;
+    private lateinit var gridViewer: GridViewer
 
     var history: MutableList<IntArray> = mutableListOf()
     var currentScore: Float = 0f
@@ -52,8 +52,8 @@ abstract class Game(
 
         screenDimensions = context.getScreenDimensions()
 
-        marginSize = 0;
-        expectedMarginSize = 3 * screenDimensions[0] / 154;
+        marginSize = 0
+        expectedMarginSize = 3 * screenDimensions[0] / 154
 
         mainTypeface = context.resources.getFont(R.font.main_font)
 
