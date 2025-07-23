@@ -11,23 +11,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
+import com.slykos.bokoa.Config
 import com.slykos.bokoa.R
-import com.slykos.bokoa.pagesHandler.GenericPlayPage
+import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
 
 class CaseViewer(
     private var context: GenericPlayPage,
-    i: Int,
-    j: Int,
-    thisOp: String,
+    columnIndex: Int,
+    rowIndex: Int,
+    thisOperation: String,
     gridSize: IntArray,
     mainTypeface: Typeface,
     private val mediumColor: ColorStateList,
-    private val darkColor: ColorStateList
+    private val darkColor: ColorStateList,
+    private val caseTextSize: Float
 ) {
-    private var blueBias = 80
-    private val centerWeight = 0.8f
-    private val oneCornerRadius = 50f
-    private val twoCornerRadius = 50f
 
     var caseRepresentation: GridLayout = GridLayout(context.getGameGrid().context).apply {
         rowCount = 3
@@ -39,16 +37,16 @@ class CaseViewer(
     }
 
     init {
-        val sideWeight = (1f - centerWeight) / 2f
+        val sideWeight = (1f - Config.CASE_CENTER_WEIGHT) / 2f
 
-        val rowWeights = floatArrayOf(sideWeight, centerWeight, sideWeight)
-        val colWeights = floatArrayOf(sideWeight, centerWeight, sideWeight)
+        val rowWeights = floatArrayOf(sideWeight, Config.CASE_CENTER_WEIGHT, sideWeight)
+        val colWeights = floatArrayOf(sideWeight, Config.CASE_CENTER_WEIGHT, sideWeight)
 
         for (row in 0 until 3) {
             for (col in 0 until 3) {
 
                 val view: View = if (row == 1 && col == 1) {
-                    getCenterPartOfTheCase(i, gridSize[0], j, thisOp, mainTypeface, row, col, rowWeights[row], colWeights[col])
+                    getCenterPartOfTheCase(columnIndex, gridSize[0], rowIndex, thisOperation, mainTypeface, row, col, rowWeights[row], colWeights[col])
                 } else {
                     getOuterPartOfTheCase(row, col, rowWeights[row], colWeights[col])
                 }
@@ -58,26 +56,26 @@ class CaseViewer(
         }
     }
 
-    private fun getOuterPartOfTheCase(row: Int, col: Int, rowWeight: Float, colWeight: Float): View =
+    private fun getOuterPartOfTheCase(row: Int, column: Int, rowWeight: Float, colWeight: Float): View =
         View(context).apply {
             backgroundTintList = darkColor
             layoutParams = GridLayout.LayoutParams().apply {
                 width = 0
                 height = 0
                 rowSpec = GridLayout.spec(row, rowWeight)
-                columnSpec = GridLayout.spec(col, colWeight)
+                columnSpec = GridLayout.spec(column, colWeight)
             }
         }
 
-    private fun getCenterPartOfTheCase(i: Int, colWidth: Int, j: Int, thisOp: String, mainTypeface: Typeface, row: Int, col: Int, rowWeight: Float, colWeight: Float): TextView =
+    private fun getCenterPartOfTheCase(rowIndex: Int, colWidth: Int, columnIndex: Int, thisOperation: String, mainTypeface: Typeface, row: Int, col: Int, rowWeight: Float, colWeight: Float): TextView =
         TextView(context).apply {
-            id = 1000 + (i * colWidth + j)
+            id = 1000 + (rowIndex * colWidth + columnIndex)
             gravity = Gravity.CENTER
-            text = thisOp
-            setTextColor(getColorOfOperation(thisOp[0]))
+            text = thisOperation
+            setTextColor(getColorOfOperation(thisOperation[0]))
             typeface = mainTypeface
             setPadding(0, 0, 0, 0)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, caseTextSize)
             layoutParams = GridLayout.LayoutParams().apply {
                 width = 0
                 height = 0
@@ -97,19 +95,19 @@ class CaseViewer(
 
     private fun getCornerRadiiOneSide(sides: BooleanArray): FloatArray =
         when {
-            sides[0] && sides[1] -> floatArrayOf(oneCornerRadius, oneCornerRadius, 0f, 0f, 0f, 0f, 0f, 0f)
-            sides[1] && sides[2] -> floatArrayOf(0f, 0f, oneCornerRadius, oneCornerRadius, 0f, 0f, 0f, 0f)
-            sides[2] && sides[3] -> floatArrayOf(0f, 0f, 0f, 0f, oneCornerRadius, oneCornerRadius, 0f, 0f)
-            sides[0] && sides[3] -> floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, oneCornerRadius, oneCornerRadius)
+            sides[0] && sides[1] -> floatArrayOf(Config.CORNER_RADIUS_ONE_CORNER, Config.CORNER_RADIUS_ONE_CORNER, 0f, 0f, 0f, 0f, 0f, 0f)
+            sides[1] && sides[2] -> floatArrayOf(0f, 0f, Config.CORNER_RADIUS_ONE_CORNER, Config.CORNER_RADIUS_ONE_CORNER, 0f, 0f, 0f, 0f)
+            sides[2] && sides[3] -> floatArrayOf(0f, 0f, 0f, 0f, Config.CORNER_RADIUS_ONE_CORNER, Config.CORNER_RADIUS_ONE_CORNER, 0f, 0f)
+            sides[0] && sides[3] -> floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, Config.CORNER_RADIUS_ONE_CORNER, Config.CORNER_RADIUS_ONE_CORNER)
             else -> FloatArray(8)
         }
 
     private fun getCornerRadiiTwoSide(sides: BooleanArray): FloatArray =
         when {
-            sides[0] -> floatArrayOf(twoCornerRadius, twoCornerRadius, 0f, 0f, 0f, 0f, twoCornerRadius, twoCornerRadius)
-            sides[1] -> floatArrayOf(twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, 0f, 0f, 0f, 0f)
-            sides[2] -> floatArrayOf(0f, 0f, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, 0f, 0f)
-            sides[3] -> floatArrayOf(0f, 0f, 0f, 0f, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius)
+            sides[0] -> floatArrayOf(Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS, 0f, 0f, 0f, 0f, Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS)
+            sides[1] -> floatArrayOf(Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS, 0f, 0f, 0f, 0f)
+            sides[2] -> floatArrayOf(0f, 0f, Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS, 0f, 0f)
+            sides[3] -> floatArrayOf(0f, 0f, 0f, 0f, Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS, Config.CORNER_RADIUS_TWO_CORNERS)
             else -> FloatArray(8)
         }
 
@@ -120,9 +118,15 @@ class CaseViewer(
             else -> FloatArray(8)
         }
 
-    private fun setInitialCaseBorderRadius(view: View) {
+    private fun setMarginBorderRadius(view: View) {
         view.background = GradientDrawable().apply {
-            cornerRadii = floatArrayOf(twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius)
+            cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
+        }
+    }
+
+    private fun setGenericCaseBorderRadius(view: View) {
+        view.background = GradientDrawable().apply {
+            cornerRadii = floatArrayOf(Config.CORNER_RADIUS_FOUR_CORNERS, Config.CORNER_RADIUS_FOUR_CORNERS, Config.CORNER_RADIUS_FOUR_CORNERS, Config.CORNER_RADIUS_FOUR_CORNERS, Config.CORNER_RADIUS_FOUR_CORNERS, Config.CORNER_RADIUS_FOUR_CORNERS, Config.CORNER_RADIUS_FOUR_CORNERS, Config.CORNER_RADIUS_FOUR_CORNERS)
         }
     }
 
@@ -133,23 +137,23 @@ class CaseViewer(
     }
 
     private fun getBiasedBlue(intensity: Int): Int =
-        (blueBias + intensity * ((255 - blueBias).toDouble() / 255.0)).toInt()
+        (Config.BLUE_VALUE_INITIAL + intensity * ((255 - Config.BLUE_VALUE_INITIAL).toDouble() / 255.0)).toInt()
 
-    private fun getBlueColorStateList(intensity: Int): ColorStateList =
+    private fun getBlueColorStateList(intensity: Int): ColorStateList = //TODO refactor handling of blue, not anymore between 0 and 255
         ColorStateList.valueOf(Color.argb(255, 0, 0, getBiasedBlue(intensity).coerceIn(0, 255)))
 
     private fun setBlackBackgroundCase() {
         for (i in 0 until 9) {
             if (i != 4) {
                 caseRepresentation.getChildAt(i).backgroundTintList = darkColor
-                caseRepresentation.getChildAt(i).setBackgroundResource(R.drawable.bg_case_margin)
+                setMarginBorderRadius(caseRepresentation.getChildAt(i))
             }
         }
     }
 
     fun shapeNeutralCaseNeverMoved() {
         this.caseRepresentation.getChildAt(4).backgroundTintList = getBlueColorStateList(255)
-        setInitialCaseBorderRadius(this.caseRepresentation.getChildAt(4))
+        setGenericCaseBorderRadius(this.caseRepresentation.getChildAt(4))
         setBlackBackgroundCase()
     }
 
@@ -161,17 +165,17 @@ class CaseViewer(
 
     fun shapeUnusedCase() {
         this.caseRepresentation.getChildAt(4).backgroundTintList = mediumColor
-        this.caseRepresentation.getChildAt(4).setBackgroundResource(R.drawable.bg_case)
+        setGenericCaseBorderRadius(this.caseRepresentation.getChildAt(4))
         setBlackBackgroundCase()
     }
 
-    fun shapeHeadCase(sides: BooleanArray) {
+    fun shapeCursorCase(sides: BooleanArray) {
         this.caseRepresentation.getChildAt(4).backgroundTintList = getBlueColorStateList(255)
         setBorderRadius(this.caseRepresentation.getChildAt(4), sides)
         colorMargins(this.caseRepresentation, 255, sides)
     }
 
-    fun shapeSnakeCase(sides: BooleanArray, intensity: Int) {
+    fun shapeInHistoryCase(sides: BooleanArray, intensity: Int) {
         this.caseRepresentation.getChildAt(4).backgroundTintList = getBlueColorStateList(intensity)
         setBorderRadius(this.caseRepresentation.getChildAt(4), sides)
         colorMargins(this.caseRepresentation, intensity, sides)

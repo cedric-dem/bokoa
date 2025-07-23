@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_color"
-    tools:context=".pagesHandler.TutorialPageHandler">
+    tools:context=".pagesHandler.playPages.TutorialPageHandler">
 
     <LinearLayout
-        android:id="@+id/ml"
+        android:id="@+id/main_layout"
         android:paddingHorizontal="16dp"
         android:paddingVertical="16dp"
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:orientation="horizontal">
 
             <androidx.gridlayout.widget.GridLayout
-                android:id="@+id/game_board"
+                android:id="@+id/game_grid"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
@@ -48,7 +48,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tip_giver"
+            android:id="@+id/tip_text"
             android:fontFamily="@font/main_font"
             android:textColor="@color/light_color"
             android:gravity="center"
@@ -89,7 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="@string/tuto_score" />
+                        android:text="@string/tutorial_score" />
 
                     <TextView
                         android:id="@+id/equation_viewer"
@@ -142,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="@string/tuto_highest" />
+                    android:text="@string/tutorial_max" />
 
                 <Space
                     android:layout_width="0dp"

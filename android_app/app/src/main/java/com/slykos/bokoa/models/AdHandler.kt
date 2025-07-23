@@ -8,31 +8,28 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
+import com.slykos.bokoa.Config
 import com.slykos.bokoa.R
-import com.slykos.bokoa.pagesHandler.GamePageHandler
+import com.slykos.bokoa.pagesHandler.playPages.GamePageHandler
 
 class AdHandler(
     private val context: GamePageHandler,
     private val adButton: Button
 ) {
-
     private var rewardedAd: RewardedAd? = null
-
     private lateinit var confirmationPopupBuilder: AlertDialog.Builder
-
 
     init {
         makeAdButtonNonEffective()
         initiateAd()
         initiateConfirmationPopupBuilder()
-
     }
 
     private fun initiateAd() {
         val adRequest = AdRequest.Builder().build()
         RewardedAd.load(
             context,
-            context.getString(R.string.ad_id),
+            Config.AD_ID,
             adRequest,
             object : RewardedAdLoadCallback() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
@@ -61,15 +58,17 @@ class AdHandler(
         )
     }
 
-
-    private fun makeAdButtonEffective() {
+    fun makeAdButtonEffective() {
         // change icon
         adButton.foreground = ContextCompat.getDrawable(context, R.drawable.icon_ad)
 
         // change function call
         adButton.setOnClickListener {
-            askConfirmation()
-            // showSolution(); // FOR DEBUG 2/5
+            if (Config.SKIP_AD){
+                context.showSolution()
+            } else {
+                askConfirmation()
+            }
         }
     }
 
@@ -79,46 +78,37 @@ class AdHandler(
 
         // change function call
         adButton.setOnClickListener {
-            val nonLoadedPopup =
-                Snackbar.make(context.getGameGrid(), context.getString(R.string.ad_non_loaded), 3000)
+            val nonLoadedPopup = Snackbar.make(context.getGameGrid(), context.getString(R.string.ad_non_loaded), 3000)
             nonLoadedPopup.show()
         }
     }
 
     private fun displayAd() { // ask for solution
         if (rewardedAd != null) {
-            // Activity activityContext = MainActivity.this;
             rewardedAd!!.show(context) { // Solution is shown
                 context.showSolution()
             }
         } else {
-            /**Should theoretically never be called */
+            // Should theoretically never be called
             Snackbar.make(context.getGameGrid(), context.getString(R.string.ad_error_show), 3000).show()
         }
         initiateAd() // load next
     }
 
-
     private fun initiateConfirmationPopupBuilder() {
-        confirmationPopupBuilder = AlertDialog.Builder(context, R.style.alertDialogTheme)
-
-        confirmationPopupBuilder.setTitle(context.getString(R.string.confirmation))
-        confirmationPopupBuilder.setMessage(context.getString(R.string.confirmation_text))
-        confirmationPopupBuilder.setCancelable(true)
-        confirmationPopupBuilder.setPositiveButton(
-            context.getString(R.string.yes)
-        ) { _, _ -> // Confirmed, showing ad then solution
-            displayAd()
-        }
-        confirmationPopupBuilder.setNegativeButton(
-            context.getString(R.string.no)
-        ) { _, _ ->
-            // Nothing happens
+        confirmationPopupBuilder = AlertDialog.Builder(context, R.style.alertDialogTheme).apply {
+            setTitle(context.getString(R.string.confirmation))
+            setMessage(context.getString(R.string.confirmation_text))
+            setCancelable(true)
+            setPositiveButton(context.getString(R.string.yes)) { _, _ ->
+                displayAd()
+            }
+            setNegativeButton(context.getString(R.string.no), null)
         }
     }
+
 
     private fun askConfirmation() {
         confirmationPopupBuilder.create().show()
     }
-
 }

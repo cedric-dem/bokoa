@@ -1,4 +1,4 @@
-package com.slykos.bokoa.pagesHandler
+package com.slykos.bokoa.pagesHandler.playPages
 
 import android.os.Bundle
 import android.view.View
@@ -15,11 +15,11 @@ import com.slykos.bokoa.models.game.TutorialGame
 class TutorialPageHandler : GenericPlayPage() {
     private lateinit var tutorialGame: Game
 
-    private lateinit var tipGiver: TextView
-    private lateinit var equationView: TextView
-    private lateinit var currentScoreViewer: TextView
-    private lateinit var maxScoreViewer: TextView
-    lateinit var next: Button
+    private lateinit var tipGiverTextView: TextView
+    private lateinit var currentEquationTextView: TextView
+    private lateinit var currentScoreTextView: TextView
+    private lateinit var maxScoreTextView: TextView
+    private lateinit var nextButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,21 +27,24 @@ class TutorialPageHandler : GenericPlayPage() {
 
         initializePage()
 
-        // // TODO remove code duplication on both
+        // TODO remove code duplication on both
 
         tutorialGame = TutorialGame(this)
 
         tutorialGame.initLevel(intArrayOf(3, 3), getTutorialLevel())
+
+        this.setMaxScore()
+
         tutorialGame.runGame()
     }
 
     override fun finishedGame() {
         // message highest score reached, no way to do better
-        tipGiver.text = getString(R.string.finished_tutorial)
+        tipGiverTextView.text = getString(R.string.finished_tutorial)
 
         // button quit becomes continue
-        next.setTextColor(ContextCompat.getColor(this, R.color.light_color))
-        next.text = getString(R.string.continue_tutorial)
+        nextButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
+        nextButton.text = getString(R.string.continue_tutorial)
     }
 
     private fun initializePage() {
@@ -49,46 +52,46 @@ class TutorialPageHandler : GenericPlayPage() {
 
         findViewById<Button>(R.id.button_pass_tutorial).setOnClickListener { finish() }
 
-        tipGiver = findViewById(R.id.tip_giver)
+        tipGiverTextView = findViewById(R.id.tip_text)
 
-        equationView = findViewById(R.id.equation_viewer)
+        currentEquationTextView = findViewById(R.id.equation_viewer)
 
-        mainView = findViewById(R.id.ml)
-        mainLayout = findViewById(R.id.game_board)
+        mainLayout = findViewById(R.id.main_layout)
+        gameGridLayout = findViewById(R.id.game_grid)
 
-        progressBarView = findViewById(R.id.progress_bar)
+        scoreProgressBar = findViewById(R.id.progress_bar)
 
-        currentScoreViewer = findViewById(R.id.current_score_viewer)
-        maxScoreViewer = findViewById(R.id.max_score_adv)
+        currentScoreTextView = findViewById(R.id.current_score_viewer)
+        maxScoreTextView = findViewById(R.id.max_score_adv)
 
-        next = findViewById(R.id.button_pass_tutorial)
+        nextButton = findViewById(R.id.button_pass_tutorial)
     }
 
     private fun getTutorialLevel(): Level =
         this.loadLevelFromJson(this, "tutorial/level_000000.json")!!
 
     fun setTip(newTip: String) {
-        tipGiver.text = newTip
+        tipGiverTextView.text = newTip
     }
 
     fun setEquation(newTip: String) {
-        equationView.text = newTip
+        currentEquationTextView.text = newTip
     }
 
     fun setCurrentScore(newScore: String) {
-        currentScoreViewer.text = newScore
+        currentScoreTextView.text = newScore
     }
 
-    fun setMaxScore(maxScore: String) {
-        maxScoreViewer.text = maxScore
+    private fun setMaxScore() {
+        maxScoreTextView.text = tutorialGame.bestScoreString
     }
 
     override fun getProgressbar(): ProgressBar =
-        progressBarView
+        scoreProgressBar
 
     override fun getGameGrid(): GridLayout =
-        mainLayout
+        gameGridLayout
 
     override fun getMainView(): View =
-        mainView
+        mainLayout
 }

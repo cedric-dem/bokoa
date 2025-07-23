@@ -5,44 +5,44 @@ import android.graphics.Typeface
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.slykos.bokoa.R
-import com.slykos.bokoa.pagesHandler.GenericPlayPage
+import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
 
 class GridViewer(
     private var context: GenericPlayPage,
     private val gridSize: IntArray,
-    private val operations: Array<Array<String>>,
+    private val operationsGrid: Array<Array<String>>,
     mainTypeface: Typeface,
     mediumColor: ColorStateList,
-    private val marginSize: Int,
-    private val caseSize: Int
+    private val caseSize: Int,
+    private val caseTextSize: Float
 ) {
 
-    private val grid: Array<Array<CaseViewer?>> = Array(gridSize[1]) { arrayOfNulls(gridSize[0]) }
+    private val gridViewer: Array<Array<CaseViewer?>> = Array(gridSize[1]) { arrayOfNulls(gridSize[0]) }
 
     init {
         val darkColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.dark_color))
         for (i in 0 until gridSize[1]) {
             for (j in 0 until gridSize[0]) {
-                this.grid[i][j] = CaseViewer(this.context, i, j, operations[i][j], gridSize, mainTypeface, mediumColor, darkColor)
-                context.getGameGrid().addView(this.grid[i][j]!!.caseRepresentation, getGridParams(i, j))
+                this.gridViewer[i][j] = CaseViewer(this.context, i, j, operationsGrid[i][j], gridSize, mainTypeface, mediumColor, darkColor, caseTextSize)
+                context.getGameGrid().addView(this.gridViewer[i][j]!!.caseRepresentation, getGridParams(i, j))
             }
         }
         this.shapeGrid()
     }
 
-    private fun getGridParams(i: Int, j: Int): GridLayout.LayoutParams =
+    private fun getGridParams(rowIndex: Int, columnIndex: Int): GridLayout.LayoutParams =
         GridLayout.LayoutParams().apply {
-            setMargins(marginSize, marginSize, marginSize, marginSize)
+            setMargins(0, 0, 0, 0)
             width = caseSize
             height = caseSize
-            rowSpec = GridLayout.spec(i)
-            columnSpec = GridLayout.spec(j)
+            rowSpec = GridLayout.spec(rowIndex)
+            columnSpec = GridLayout.spec(columnIndex)
         }
 
     fun emptyGrid() {
         for (i in 0 until gridSize[1]) {
             for (j in 0 until gridSize[0]) {
-                context.getGameGrid().removeView(this.grid[i][j]!!.caseRepresentation)
+                context.getGameGrid().removeView(this.gridViewer[i][j]!!.caseRepresentation)
             }
         }
     }
@@ -50,17 +50,17 @@ class GridViewer(
     fun shapeGrid() {
         for (i in 0 until gridSize[1]) {
             for (j in 0 until gridSize[0]) {
-                if (operations[i][j] == "1") {
-                    this.grid[i][j]!!.shapeNeutralCaseNeverMoved()
+                if (operationsGrid[i][j] == "1") {
+                    this.gridViewer[i][j]!!.shapeNeutralCaseNeverMoved()
                 } else {
-                    this.grid[i][j]!!.shapeUnusedCase()
+                    this.gridViewer[i][j]!!.shapeUnusedCase()
                 }
             }
         }
     }
 
-    fun getCase(i: Int, j: Int): CaseViewer =
-        this.grid[i][j]!!
+    fun getCase(rowIndex: Int, columnIndex: Int): CaseViewer =
+        this.gridViewer[rowIndex][columnIndex]!!
 
     // Static
     private fun detectDirection(coordinatesA: IntArray, coordinatesB: IntArray): Int {
@@ -73,15 +73,15 @@ class GridViewer(
     }
 
     // Static
-    fun detectSingleMargin(prev: IntArray, current: IntArray): BooleanArray =
+    fun detectSingleMargin(previousCoordinates: IntArray, currentCoordinates: IntArray): BooleanArray =
         BooleanArray(4).apply {
-            this[detectDirection(current, prev)] = true
+            this[detectDirection(currentCoordinates, previousCoordinates)] = true
         }
 
     // Static
-    fun detectTwoMargins(prev: IntArray, current: IntArray, next: IntArray): BooleanArray =
+    fun detectTwoMargins(previousCoordinates: IntArray, currentCoordinates: IntArray, nextCoordinates: IntArray): BooleanArray =
         BooleanArray(4).apply {
-            this[detectDirection(prev, current)] = true
-            this[detectDirection(next, current)] = true
+            this[detectDirection(previousCoordinates, currentCoordinates)] = true
+            this[detectDirection(nextCoordinates, currentCoordinates)] = true
         }
 }

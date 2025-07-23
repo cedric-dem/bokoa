@@ -6,12 +6,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import androidx.core.content.ContextCompat
+import com.slykos.bokoa.Config
 import com.slykos.bokoa.R
 import com.slykos.bokoa.R.color
 import com.slykos.bokoa.models.viewers.GridViewer
 import com.slykos.bokoa.models.Level
 import com.slykos.bokoa.models.MoveResult
-import com.slykos.bokoa.pagesHandler.GenericPlayPage
+import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
 import java.text.DecimalFormat
 import kotlin.math.abs
 import kotlin.math.min
@@ -20,28 +21,23 @@ import kotlin.math.roundToInt
 abstract class Game(
     private val context: GenericPlayPage
 ) {
-
-    private var threshold = 100
     private var decimalFormat: DecimalFormat = DecimalFormat("###,###,###,##0.##")
 
     private lateinit var gridViewer: GridViewer
 
-    var history: MutableList<IntArray> = mutableListOf()
+    var coordinatesHistory: MutableList<IntArray> = mutableListOf()
     var currentScore: Float = 0f
-    private var bestScore: Float = 0f
+    private var maxScore: Float = 0f
 
     private lateinit var gridSize: IntArray
     private var caseSize: Int = 0
-    private var textSize: Float = 0f
+    private var caseTextSize: Float = 0f
 
-    lateinit var bestScoreStr: String
-    private lateinit var operations: Array<Array<String>>
+    lateinit var bestScoreString: String
+    private lateinit var operationsGrid: Array<Array<String>>
     lateinit var currentLevel: Level
 
     private var screenDimensions: IntArray
-    private var marginSize: Int //todo remove that argument
-    private var expectedMarginSize: Int
-
     private var mediumColor: ColorStateList
 
     private var mainTypeface: Typeface
@@ -51,9 +47,6 @@ abstract class Game(
         context.getMainView().setOnTouchListener(getTouchListener())
 
         screenDimensions = context.getScreenDimensions()
-
-        marginSize = 0
-        expectedMarginSize = 3 * screenDimensions[0] / 154
 
         mainTypeface = context.resources.getFont(R.font.main_font)
 
@@ -68,17 +61,17 @@ abstract class Game(
 
         currentLevel = callerCurrentLevel
 
-        // TODO isolate *k and pout in var, saves time in change level
+        // TODO isolate k ?
         caseSize = min(
             ((screenDimensions[0] * 0.7) / gridSize[0]),
             ((screenDimensions[1] * 0.48) / gridSize[1])
         ).roundToInt()
 
-        textSize = ((caseSize / 5) + 6.5).toFloat()
+        caseTextSize = ((caseSize.toFloat() / 3.5) + -9.7).toFloat()
 
-        operations = currentLevel.operations
-        bestScore = currentLevel.bestScore
-        bestScoreStr = getFormattedScore(bestScore)
+        operationsGrid = currentLevel.operations
+        maxScore = currentLevel.bestScore
+        bestScoreString = getFormattedScore(maxScore)
     }
 
     fun shapeGrid() {
@@ -91,15 +84,15 @@ abstract class Game(
 
     fun initGame() {
         currentScore = 1f
-        history = mutableListOf(intArrayOf(0, 0))
+        coordinatesHistory = mutableListOf(intArrayOf(0, 0))
     }
 
     private fun createGrid() {
-        gridViewer = GridViewer(this.context, gridSize, operations, mainTypeface, mediumColor, marginSize, caseSize)
+        gridViewer = GridViewer(this.context, gridSize, operationsGrid, mainTypeface, mediumColor, caseSize, caseTextSize)
     }
 
     fun runGame() {
-        // TODO remove old grid if existing ?
+        // TODO remove old grid if existing
 
         initGame()
 
@@ -110,7 +103,7 @@ abstract class Game(
 
     open fun refreshScore() {
         // refresh progress bar, common to both scenarios
-        context.refreshProgressBar((100 * currentScore / bestScore).toInt())
+        context.refreshProgressBar((100 * currentScore / maxScore).toInt())
     }
 
     private fun getTouchListener(): OnTouchListener =
@@ -155,13 +148,13 @@ abstract class Game(
         val absDx = abs(dx)
         val absDy = abs(dy)
 
-        // TODO move threshold, verify not different h l
+        // TODO verify threshold not different h l
         when {
-            absDx >= absDy && absDx > threshold -> { // move horizontal
+            absDx >= absDy && absDx > Config.MOVE_THRESHOLD -> { // move horizontal
                 if (dx > 0) moveRight() else moveLeft()
             }
 
-            absDy > absDx && absDy > threshold -> { // move vertical
+            absDy > absDx && absDy > Config.MOVE_THRESHOLD -> { // move vertical
                 if (dy > 0) moveDown() else moveUp()
             }
         }
@@ -197,13 +190,13 @@ abstract class Game(
         (newCoordinate[0] < 0 || newCoordinate[0] >= gridSize[1] || newCoordinate[1] < 0 || newCoordinate[1] >= gridSize[0])
 
     private fun isMoveComingBack(newCoordinate: IntArray): Boolean =
-        history.size >= 2 && areCoordinatesEqual(
-            history[history.size - 2],
+        coordinatesHistory.size >= 2 && areCoordinatesEqual(
+            coordinatesHistory[coordinatesHistory.size - 2],
             newCoordinate
         )
 
     private fun isCollidingWithPreviousCase(newCoordinate: IntArray): Boolean =
-        history.any { areCoordinatesEqual(it, newCoordinate) }
+        coordinatesHistory.any { areCoordinatesEqual(it, newCoordinate) }
 
     private fun detectSituation(newCoordinate: IntArray): MoveResult =
         when {
@@ -214,7 +207,7 @@ abstract class Game(
         }
 
     private fun detectCaseAndMove(direction: IntArray) {
-        val oldCoordinate = history.last()
+        val oldCoordinate = coordinatesHistory.last()
         val newCoordinate = intArrayOf(oldCoordinate[0] + direction[0], oldCoordinate[1] + direction[1])
 
         detectSituation(newCoordinate)
@@ -236,26 +229,25 @@ abstract class Game(
 
     private fun refreshBackground() {
 
-        //Inside
-        for (i in 1 until history.size - 1) { // start from first non neutral, until head
-            gridViewer.getCase(history[i][0], history[i][1]).shapeSnakeCase(gridViewer.detectTwoMargins(history[i - 1], history[i], history[i + 1]), ((255 * i) / history.size))
+        // Inside
+        for (i in 1 until coordinatesHistory.size - 1) { // start from first non neutral, until cursor
+            gridViewer.getCase(coordinatesHistory[i][0], coordinatesHistory[i][1]).shapeInHistoryCase(gridViewer.detectTwoMargins(coordinatesHistory[i - 1], coordinatesHistory[i], coordinatesHistory[i + 1]), ((255 * i) / coordinatesHistory.size))
         }
 
-        //Head + neutral
-        if (history.size > 1) {
+        if (coordinatesHistory.size > 1) { // cursor + neutral if more than one elem
             // Neutral
-            gridViewer.getCase(history[0][0], history[0][1]).shapeNeutralCase(gridViewer.detectSingleMargin(history[0], history[1]))
+            gridViewer.getCase(coordinatesHistory[0][0], coordinatesHistory[0][1]).shapeNeutralCase(gridViewer.detectSingleMargin(coordinatesHistory[0], coordinatesHistory[1]))
 
-            // HEAD
-            gridViewer.getCase(history.last()[0], history.last()[1]).shapeHeadCase(gridViewer.detectSingleMargin(history.last(), history[history.size - 2]))
+            // cursor
+            gridViewer.getCase(coordinatesHistory.last()[0], coordinatesHistory.last()[1]).shapeCursorCase(gridViewer.detectSingleMargin(coordinatesHistory.last(), coordinatesHistory[coordinatesHistory.size - 2]))
 
-        } else { //if size 0, shape neutral
-            gridViewer.getCase(history[0][0], history[0][1]).shapeNeutralCaseNeverMoved()
+        } else { //if size 0, shape neutral only
+            gridViewer.getCase(coordinatesHistory[0][0], coordinatesHistory[0][1]).shapeNeutralCaseNeverMoved()
         }
     }
 
     private fun checkGoalReached() {
-        if (abs((currentScore - bestScore).toDouble()) <= 0.02f || currentScore > bestScore) {
+        if (abs((currentScore - maxScore).toDouble()) <= 0.02f || currentScore > maxScore) {
             context.updateProgressBarTint(true)
             context.finishedGame()
         } else {
@@ -265,24 +257,23 @@ abstract class Game(
 
     private fun movementGoBack(oldCord: IntArray, newCord: IntArray) {
         // apply reverse operation
-        applyOperation(operations[oldCord[0]][oldCord[1]], true)
+        applyOperation(operationsGrid[oldCord[0]][oldCord[1]], true)
 
-        history.removeAt(history.lastIndex)
+        coordinatesHistory.removeAt(coordinatesHistory.lastIndex)
 
-        // reset case background
+        // reset  old case background
         gridViewer.getCase(oldCord[0], oldCord[1]).shapeUnusedCase()
 
-        // else if
         if (areCoordinatesEqual(intArrayOf(0, 0), newCord)) {
             currentScore = 1.0f
         }
     }
 
     private fun movementReachNew(newCord: IntArray) {
-        // append new coordinates to snake
-        history.add(newCord)
+        // append new coordinates to history
+        coordinatesHistory.add(newCord)
 
         // modify score
-        applyOperation(operations[newCord[0]][newCord[1]], false)
+        applyOperation(operationsGrid[newCord[0]][newCord[1]], false)
     }
 }

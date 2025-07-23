@@ -17,7 +17,7 @@ class SavedDataHandler(context: Context) {
     }
 
     fun cheat() {
-        setPassedLevels(298)
+        setPassedLevels(300)
     }
 
     fun setEverPlayed() {

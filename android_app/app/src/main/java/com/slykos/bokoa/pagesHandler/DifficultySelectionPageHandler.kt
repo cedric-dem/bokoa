@@ -1,5 +1,6 @@
 package com.slykos.bokoa.pagesHandler
 
+import com.slykos.bokoa.Config
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
@@ -12,9 +13,6 @@ import com.slykos.bokoa.R
 import com.slykos.bokoa.models.SavedDataHandler
 
 class DifficultySelectionPageHandler : AppCompatActivity() {
-    private var levelsPerDifficulty: Int = 0
-    private var numberOfDifficulty: Int = 0
-    private var difficultyNames: Array<String> = arrayOf()
 
     private lateinit var savedDataHandler: SavedDataHandler
 
@@ -43,22 +41,21 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
         )
 
     private fun createDifficultyButtons(groupLvl: LinearLayout, difficulty: Int) {
-        val newButton = Button(this)
+        val button = Button(this).apply {
+            id = 2000 + difficulty
+            text = Config.DIFFICULTIES_NAMES[difficulty]
+            setTextColor(ContextCompat.getColor(this@DifficultySelectionPageHandler, R.color.light_color))
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
+            typeface = resources.getFont(R.font.main_font)
+        }
 
-        newButton.id = 2000 + difficulty
-        newButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
+        groupLvl.addView(button, getWeightLayoutParameter())
 
-        newButton.text = difficultyNames[difficulty]
+        val space = Space(this).apply {
+            minimumHeight = 30
+        }
 
-        newButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23f)
-
-        newButton.typeface = resources.getFont(R.font.main_font)
-
-        groupLvl.addView(newButton, getWeightLayoutParameter())
-
-        val tempSpace = Space(this)
-        tempSpace.minimumHeight = 30
-        groupLvl.addView(tempSpace)
+        groupLvl.addView(space)
     }
 
     private fun goToLevelSelection(difficulty: Int) {
@@ -74,11 +71,11 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
 
         var currentButton: Button
 
-        for (currentDifficulty in 0 until numberOfDifficulty) { // difficulty
+        for (currentDifficulty in 0 until Config.NUMBER_OF_DIFFICULTIES) { // difficulty
 
             currentButton = findViewById(2000 + currentDifficulty)
 
-            if (passedLevels < (levelsPerDifficulty * currentDifficulty)) { // Not accessible
+            if (passedLevels < (Config.LEVELS_PER_DIFFICULTIES * currentDifficulty)) { // Not accessible
                 currentButton.setBackgroundResource(R.drawable.level_locked)
                 currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
 
@@ -95,13 +92,10 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
     }
 
     private fun initializePage() {
-        difficultyNames = resources.getStringArray(R.array.difficulty_names)
-        levelsPerDifficulty = resources.getInteger(R.integer.levels_per_difficulty)
-        numberOfDifficulty = resources.getInteger(R.integer.number_of_difficulty)
 
         findViewById<Button>(R.id.button_back).setOnClickListener { finish() }
 
-        for (difficulty in 0 until numberOfDifficulty) {
+        for (difficulty in 0 until Config.NUMBER_OF_DIFFICULTIES) {
             createDifficultyButtons(findViewById(R.id.group_levels), difficulty)
         }
     }
