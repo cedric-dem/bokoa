@@ -17,9 +17,7 @@ class AdHandler(
 ) {
 
     private var rewardedAd: RewardedAd? = null
-
     private lateinit var confirmationPopupBuilder: AlertDialog.Builder
-
 
     init {
         makeAdButtonNonEffective()
@@ -61,7 +59,6 @@ class AdHandler(
         )
     }
 
-
     private fun makeAdButtonEffective() {
         // change icon
         adButton.foreground = ContextCompat.getDrawable(context, R.drawable.icon_ad)
@@ -98,7 +95,6 @@ class AdHandler(
         initiateAd() // load next
     }
 
-
     private fun initiateConfirmationPopupBuilder() {
         confirmationPopupBuilder = AlertDialog.Builder(context, R.style.alertDialogTheme)
 
@@ -120,5 +116,4 @@ class AdHandler(
     private fun askConfirmation() {
         confirmationPopupBuilder.create().show()
     }
-
 }

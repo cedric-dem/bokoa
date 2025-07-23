@@ -1,6 +1,5 @@
 package com.slykos.bokoa.pagesHandler
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -9,10 +8,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import com.slykos.bokoa.R
 import com.slykos.bokoa.models.AdHandler
