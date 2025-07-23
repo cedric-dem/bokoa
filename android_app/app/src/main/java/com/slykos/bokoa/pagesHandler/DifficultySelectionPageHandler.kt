@@ -81,16 +81,14 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
             if (passedLevels < (levelsPerDifficulty * currentDifficulty)) { // Not accessible
                 currentButton.setBackgroundResource(R.drawable.level_locked)
                 currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
+
             } else { // accessible
                 currentButton.setBackgroundResource(R.drawable.level_unlocked)
                 currentButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
 
                 // add listener
-                val tmpCurrentDifficulty = currentDifficulty
                 currentButton.setOnClickListener {
-                    goToLevelSelection(
-                        tmpCurrentDifficulty
-                    )
+                    goToLevelSelection(currentDifficulty)
                 }
             }
         }
@@ -104,10 +102,7 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
         findViewById<Button>(R.id.button_back).setOnClickListener { finish() }
 
         for (difficulty in 0 until numberOfDifficulty) {
-            createDifficultyButtons(
-                findViewById(R.id.group_levels),
-                difficulty
-            )
+            createDifficultyButtons(findViewById(R.id.group_levels), difficulty)
         }
     }
 }

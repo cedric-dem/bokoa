@@ -1,6 +1,5 @@
 package com.slykos.bokoa.models.game
 
-import android.annotation.SuppressLint
 import com.slykos.bokoa.pagesHandler.GamePageHandler
 
 class RealGame(
@@ -10,11 +9,8 @@ class RealGame(
         callingPage
     ) {
 
-    @SuppressLint("SetTextI18n")
     override fun refreshScore() {
         super.refreshScore()
-        callingPage.setScoreText(
-            """${getFormattedScore(currentScore)} / $bestScoreStr"""
-        )
+        callingPage.setScoreText("""${getFormattedScore(currentScore)} / $bestScoreStr""")
     }
 }

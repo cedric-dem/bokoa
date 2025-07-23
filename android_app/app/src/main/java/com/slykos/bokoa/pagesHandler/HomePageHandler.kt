@@ -1,6 +1,5 @@
 package com.slykos.bokoa.pagesHandler
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -33,11 +32,9 @@ class HomePageHandler : AppCompatActivity() {
         // savedDataHandler.cheat() // FOR DEBUG 3/5
     }
 
-    @SuppressLint("SetTextI18n")
     private fun refreshScore() {
         scoreDisplay = findViewById(R.id.display_score)
-        scoreDisplay.text =
-            getString(R.string.passed_levels) + savedDataHandler.getPassedLevels().toString() + "/" + totalLevels.toString()
+        scoreDisplay.text =getString(R.string.passed_levels) + savedDataHandler.getPassedLevels().toString() + "/" + totalLevels.toString()
     }
 
     private fun launchTutorialIfNeeded() {

@@ -1,6 +1,5 @@
 package com.slykos.bokoa.models.game
 
-import android.annotation.SuppressLint
 import com.slykos.bokoa.R
 import com.slykos.bokoa.pagesHandler.TutorialPageHandler
 
@@ -40,17 +39,10 @@ class TutorialGame(
             correctUntilNow = false
         } else {
             for (i in 1 until history.size) {
-                lastMove = intArrayOf(
-                    history[i][0] - history[i - 1][0],
-                    history[i][1] - history[i - 1][1]
-                )
+                lastMove = intArrayOf(history[i][0] - history[i - 1][0], history[i][1] - history[i - 1][1])
 
                 // stop as soon as difference
-                if (!isMoveInDirection(
-                        currentLevel.bestMoves[i - 1],
-                        lastMove
-                    )
-                ) {
+                if (!isMoveInDirection(currentLevel.bestMoves[i - 1], lastMove)) {
                     correctUntilNow = false
                 }
             }
@@ -67,27 +59,11 @@ class TutorialGame(
         )
 
         return when {
-            areCoordinatesEqual(
-                lastMove,
-                intArrayOf(-1, 0)
-            ) -> callingPage.resources.getString(R.string.move_up)
-
-            areCoordinatesEqual(
-                lastMove,
-                intArrayOf(0, -1)
-            ) -> callingPage.resources.getString(R.string.move_le)
-
-            areCoordinatesEqual(
-                lastMove,
-                intArrayOf(0, 1)
-            ) -> callingPage.resources.getString(R.string.move_ri)
-
-            areCoordinatesEqual(
-                lastMove,
-                intArrayOf(1, 0)
-            ) -> callingPage.resources.getString(R.string.move_dn)
-
-            else -> "ERROR 98"
+            areCoordinatesEqual(lastMove, intArrayOf(-1, 0)) -> callingPage.resources.getString(R.string.move_up)
+            areCoordinatesEqual(lastMove, intArrayOf(0, -1)) -> callingPage.resources.getString(R.string.move_le)
+            areCoordinatesEqual(lastMove, intArrayOf(0, 1)) -> callingPage.resources.getString(R.string.move_ri)
+            areCoordinatesEqual(lastMove, intArrayOf(1, 0)) -> callingPage.resources.getString(R.string.move_dn)
+            else -> error("Next move not found")
         }
     }
 
@@ -98,7 +74,7 @@ class TutorialGame(
                 "n" -> callingPage.resources.getString(R.string.move_up)
                 ">" -> callingPage.resources.getString(R.string.move_ri)
                 "<" -> callingPage.resources.getString(R.string.move_le)
-                else -> "ERROR 409"
+                else -> error("Next move not found")
             }
         } ?: ""
 
@@ -116,7 +92,6 @@ class TutorialGame(
         )
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setEquationAndScoreViewer() {
         if (history.size == 1) { // could remove if as already in for
             callingPage.setEquation("")

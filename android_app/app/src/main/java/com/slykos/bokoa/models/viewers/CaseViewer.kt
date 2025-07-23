@@ -14,7 +14,16 @@ import androidx.gridlayout.widget.GridLayout
 import com.slykos.bokoa.R
 import com.slykos.bokoa.pagesHandler.GenericPlayPage
 
-class CaseViewer(private var context: GenericPlayPage, i: Int, j: Int, thisOp: String, gridSize: IntArray, mainTypeface: Typeface, private val mediumColor: ColorStateList) {
+class CaseViewer(
+    private var context: GenericPlayPage,
+    i: Int,
+    j: Int,
+    thisOp: String,
+    gridSize: IntArray,
+    mainTypeface: Typeface,
+    private val mediumColor: ColorStateList,
+    private val darkColor: ColorStateList
+) {
     private var blueBias = 80
     private val centerWeight = 0.8f
     private val oneCornerRadius = 50f
@@ -51,7 +60,7 @@ class CaseViewer(private var context: GenericPlayPage, i: Int, j: Int, thisOp: S
 
     private fun getOuterPartOfTheCase(row: Int, col: Int, rowWeight: Float, colWeight: Float): View =
         View(context).apply {
-            backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.dark_color))
+            backgroundTintList = darkColor
             layoutParams = GridLayout.LayoutParams().apply {
                 width = 0
                 height = 0
@@ -88,10 +97,10 @@ class CaseViewer(private var context: GenericPlayPage, i: Int, j: Int, thisOp: S
 
     private fun getCornerRadiiOneSide(sides: BooleanArray): FloatArray =
         when {
-            !sides[2] && !sides[3] -> floatArrayOf(oneCornerRadius, oneCornerRadius, 0f, 0f, 0f, 0f, 0f, 0f)
-            !sides[0] && !sides[3] -> floatArrayOf(0f, 0f, oneCornerRadius, oneCornerRadius, 0f, 0f, 0f, 0f)
-            !sides[0] && !sides[1] -> floatArrayOf(0f, 0f, 0f, 0f, oneCornerRadius, oneCornerRadius, 0f, 0f)
-            !sides[1] && !sides[2] -> floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, oneCornerRadius, oneCornerRadius)
+            sides[0] && sides[1] -> floatArrayOf(oneCornerRadius, oneCornerRadius, 0f, 0f, 0f, 0f, 0f, 0f)
+            sides[1] && sides[2] -> floatArrayOf(0f, 0f, oneCornerRadius, oneCornerRadius, 0f, 0f, 0f, 0f)
+            sides[2] && sides[3] -> floatArrayOf(0f, 0f, 0f, 0f, oneCornerRadius, oneCornerRadius, 0f, 0f)
+            sides[0] && sides[3] -> floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, oneCornerRadius, oneCornerRadius)
             else -> FloatArray(8)
         }
 
@@ -104,21 +113,22 @@ class CaseViewer(private var context: GenericPlayPage, i: Int, j: Int, thisOp: S
             else -> FloatArray(8)
         }
 
+    private fun getCornerRadii(sides: BooleanArray): FloatArray =
+        when (sides.count { it }) {
+            2 -> getCornerRadiiOneSide(sides)
+            1 -> getCornerRadiiTwoSide(sides)
+            else -> FloatArray(8)
+        }
+
     private fun setInitialCaseBorderRadius(view: View) {
         view.background = GradientDrawable().apply {
             cornerRadii = floatArrayOf(twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius, twoCornerRadius)
         }
     }
 
-    private fun setSingleBorderRadius(view: View, sides: BooleanArray) {
+    private fun setBorderRadius(view: View, sides: BooleanArray) {
         view.background = GradientDrawable().apply {
-            cornerRadii = getCornerRadiiOneSide(sides)
-        }
-    }
-
-    private fun setTwoBorderRadius(currentCase: View, sides: BooleanArray) {
-        currentCase.background = GradientDrawable().apply {
-            cornerRadii = getCornerRadiiTwoSide(sides)
+            cornerRadii = getCornerRadii(sides)
         }
     }
 
@@ -131,7 +141,7 @@ class CaseViewer(private var context: GenericPlayPage, i: Int, j: Int, thisOp: S
     private fun setBlackBackgroundCase() {
         for (i in 0 until 9) {
             if (i != 4) {
-                caseRepresentation.getChildAt(i).backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.dark_color))
+                caseRepresentation.getChildAt(i).backgroundTintList = darkColor
                 caseRepresentation.getChildAt(i).setBackgroundResource(R.drawable.bg_case_margin)
             }
         }
@@ -145,7 +155,7 @@ class CaseViewer(private var context: GenericPlayPage, i: Int, j: Int, thisOp: S
 
     fun shapeNeutralCase(sides: BooleanArray) {
         this.caseRepresentation.getChildAt(4).backgroundTintList = getBlueColorStateList(0)
-        setTwoBorderRadius(this.caseRepresentation.getChildAt(4), sides)
+        setBorderRadius(this.caseRepresentation.getChildAt(4), sides)
         colorMargins(this.caseRepresentation, 0, sides)
     }
 
@@ -157,13 +167,13 @@ class CaseViewer(private var context: GenericPlayPage, i: Int, j: Int, thisOp: S
 
     fun shapeHeadCase(sides: BooleanArray) {
         this.caseRepresentation.getChildAt(4).backgroundTintList = getBlueColorStateList(255)
-        setTwoBorderRadius(this.caseRepresentation.getChildAt(4), sides)
+        setBorderRadius(this.caseRepresentation.getChildAt(4), sides)
         colorMargins(this.caseRepresentation, 255, sides)
     }
 
     fun shapeSnakeCase(sides: BooleanArray, intensity: Int) {
         this.caseRepresentation.getChildAt(4).backgroundTintList = getBlueColorStateList(intensity)
-        setSingleBorderRadius(this.caseRepresentation.getChildAt(4), sides)
+        setBorderRadius(this.caseRepresentation.getChildAt(4), sides)
         colorMargins(this.caseRepresentation, intensity, sides)
     }
 
@@ -178,7 +188,7 @@ class CaseViewer(private var context: GenericPlayPage, i: Int, j: Int, thisOp: S
         val color = if (condition) {
             getBlueColorStateList(intensityIfCondition)
         } else {
-            ColorStateList.valueOf(ContextCompat.getColor(context, R.color.dark_color))
+            darkColor
         }
         currentCase.getChildAt(caseIndex).backgroundTintList = color
     }

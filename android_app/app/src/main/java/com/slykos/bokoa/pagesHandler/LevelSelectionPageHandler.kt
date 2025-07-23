@@ -1,6 +1,5 @@
 package com.slykos.bokoa.pagesHandler
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -31,7 +30,6 @@ class LevelSelectionPageHandler : AppCompatActivity() {
         configureButtonsLevels()
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_level_selection)
@@ -46,7 +44,6 @@ class LevelSelectionPageHandler : AppCompatActivity() {
         // configure called by onResume
     }
 
-    @SuppressLint("SetTextI18n")
     private fun createButton(groupLvl: GridLayout, row: Int, col: Int) {
         val newButton = Button(this)
 
@@ -135,10 +132,8 @@ class LevelSelectionPageHandler : AppCompatActivity() {
         textSize = displayMetrics.widthPixels / 45
     }
 
-    @SuppressLint("SetTextI18n")
     private fun configureTopBar() {
-        findViewById<TextView>(R.id.page_title).text =
-            getString(R.string.level_selection_menu) + getString(R.string.difficulty) + ": " + levelsSectionsNames[difficulty]
+        findViewById<TextView>(R.id.page_title).text = getString(R.string.level_selection_menu) + getString(R.string.difficulty) + ": " + levelsSectionsNames[difficulty]
 
         findViewById<Button>(R.id.button_back).setOnClickListener { finish() }
     }
