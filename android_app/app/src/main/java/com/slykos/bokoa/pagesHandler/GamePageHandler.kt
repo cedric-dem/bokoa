@@ -1,8 +1,6 @@
 package com.slykos.bokoa.pagesHandler
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -17,15 +15,13 @@ import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import com.slykos.bokoa.R
+import com.slykos.bokoa.models.AdHandler
 import com.slykos.bokoa.models.game.Game
 import com.slykos.bokoa.models.Level
 import com.slykos.bokoa.models.game.RealGame
 import com.slykos.bokoa.models.SavedDataHandler
 
 open class GamePageHandler : GenericPlayPage() {
-    private lateinit var confirmationPopupBuilder: AlertDialog.Builder
-    private var rewardedAd: RewardedAd? = null
-
     private lateinit var scoreIndicatorTop: TextView
     private lateinit var scoreIndicatorBottom: TextView
     private lateinit var title: TextView
@@ -46,6 +42,8 @@ open class GamePageHandler : GenericPlayPage() {
     private var levelsSectionsNames: Array<String> = arrayOf()
     private lateinit var currentGame: Game
 
+    private lateinit var le_ad_handler: AdHandler;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_in_game)
@@ -59,9 +57,7 @@ open class GamePageHandler : GenericPlayPage() {
         currentGame = RealGame(this)
 
         // //////////////////////////////////////////////////////// Initiate Ad and confirmation popup
-        makeAdButtonNonEffective()
-        initiateAd()
-        initiateConfirmationPopupBuilder()
+        le_ad_handler = AdHandler(this, adButton)
 
         // //////////////////////////////////////////////////// Obtain level and difficulty
         getExtras()
@@ -73,102 +69,7 @@ open class GamePageHandler : GenericPlayPage() {
         // showSolution(); //FOR DEBUG 4/5
     }
 
-    private fun initiateConfirmationPopupBuilder() {
-        confirmationPopupBuilder = AlertDialog.Builder(this@GamePageHandler, R.style.alertDialogTheme)
-
-        confirmationPopupBuilder.setTitle(getString(R.string.confirmation))
-        confirmationPopupBuilder.setMessage(getString(R.string.confirmation_text))
-        confirmationPopupBuilder.setCancelable(true)
-        confirmationPopupBuilder.setPositiveButton(
-            getString(R.string.yes)
-        ) { _, _ -> // Confirmed, showing ad then solution
-            displayAd()
-        }
-        confirmationPopupBuilder.setNegativeButton(
-            getString(R.string.no)
-        ) { _, _ ->
-            // Nothing happens
-        }
-    }
-
-    private fun askConfirmation() {
-        confirmationPopupBuilder.create().show()
-    }
-
-    @SuppressLint("VisibleForTests")
-    private fun initiateAd() {
-        val adRequest = AdRequest.Builder().build()
-        RewardedAd.load(
-            this,
-            getString(R.string.ad_id),
-            adRequest,
-            object : RewardedAdLoadCallback() {
-                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    // Handle the error.
-                    val addErrorPopup = Snackbar.make(
-                        getGameGrid(),
-                        getString(R.string.error_loading_ad) + loadAdError.code,
-                        3000
-                    )
-                    addErrorPopup.setTextMaxLines(6)
-                    addErrorPopup.show()
-                    rewardedAd = null
-                    makeAdButtonNonEffective()
-                }
-
-                override fun onAdLoaded(ad: RewardedAd) {
-                    // ad loaded
-                    val addOkPopup =
-                        Snackbar.make(getGameGrid(), getString(R.string.ad_load_succes), 3000)
-                    addOkPopup.show()
-
-                    rewardedAd = ad
-                    makeAdButtonEffective()
-                }
-            }
-        )
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun makeAdButtonEffective() {
-        // change icon
-        adButton.foreground = ContextCompat.getDrawable(this, R.drawable.icon_ad)
-
-        // change function call
-        adButton.setOnClickListener {
-            askConfirmation()
-            // showSolution(); // FOR DEBUG 2/5
-        }
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun makeAdButtonNonEffective() {
-        // change icon
-        adButton.foreground = ContextCompat.getDrawable(this, R.drawable.icon_ad_locked)
-
-        // change function call
-        adButton.setOnClickListener {
-            val nonLoadedPopup =
-                Snackbar.make(getGameGrid(), getString(R.string.ad_non_loaded), 3000)
-            nonLoadedPopup.show()
-        }
-    }
-
-    @SuppressLint("ShowToast")
-    private fun displayAd() { // ask for solution
-        if (rewardedAd != null) {
-            // Activity activityContext = MainActivity.this;
-            rewardedAd!!.show(this) { // Solution is shown
-                showSolution()
-            }
-        } else {
-            /**Should theoretically never be called */
-            Snackbar.make(getGameGrid(), getString(R.string.ad_error_show), 3000).show()
-        }
-        initiateAd() // load next
-    }
-
-    private fun showSolution() {
+    fun showSolution() {
         // Restart
         resetGame()
 
@@ -184,7 +85,6 @@ open class GamePageHandler : GenericPlayPage() {
         currentGame.refreshScore()
     }
 
-    @SuppressLint("SetTextI18n")
     private fun runGame() {
         initLevel()
 
@@ -196,7 +96,6 @@ open class GamePageHandler : GenericPlayPage() {
         currentGame.runGame()
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun makeNextLevelButtonEffective() {
         // change icon
         buttonNextLevel.foreground = ContextCompat.getDrawable(this, R.drawable.icon_next_unlocked)
@@ -205,7 +104,6 @@ open class GamePageHandler : GenericPlayPage() {
         buttonNextLevel.setOnClickListener { nextLevel() }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun makeNextLevelButtonIneffective() {
         // change icon
         buttonNextLevel.foreground = ContextCompat.getDrawable(this, R.drawable.icon_next_locked)
@@ -261,13 +159,11 @@ open class GamePageHandler : GenericPlayPage() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun wonLevelAgain() {
         scoreIndicatorTop.text = getString(R.string.finished_level_again) + currentGame.bestScoreStr
         scoreIndicatorBottom.text = ""
     }
 
-    @SuppressLint("SetTextI18n")
     private fun wonFirstTimeLevel() {
         // ////////////////////////////////////////////////////////////////////////////////////////// TOP text
         scoreIndicatorTop.text = getString(R.string.finished_level) + currentGame.bestScoreStr
