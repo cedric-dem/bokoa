@@ -1,6 +1,6 @@
 package com.slykos.bokoa.models.game
 
-import com.slykos.bokoa.pagesHandler.GamePageHandler
+import com.slykos.bokoa.pagesHandler.playPages.GamePageHandler
 
 class RealGame(
     private var callingPage: GamePageHandler
@@ -11,6 +11,6 @@ class RealGame(
 
     override fun refreshScore() {
         super.refreshScore()
-        callingPage.setScoreText("""${getFormattedScore(currentScore)} / $bestScoreStr""")
+        callingPage.setScoreText("""${getFormattedScore(currentScore)} / $bestScoreString""")
     }
 }

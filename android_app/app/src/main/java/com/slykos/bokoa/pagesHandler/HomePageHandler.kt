@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.slykos.bokoa.Config
 import com.slykos.bokoa.R
 import com.slykos.bokoa.models.SavedDataHandler
+import com.slykos.bokoa.pagesHandler.playPages.TutorialPageHandler
 import kotlin.system.exitProcess
 
 class HomePageHandler : AppCompatActivity() {
     private var totalLevels: Int = 0
-    private lateinit var scoreDisplay: TextView
+    private lateinit var passedLevelsTextView: TextView
     private lateinit var savedDataHandler: SavedDataHandler
 
     public override fun onResume() {
@@ -29,12 +31,14 @@ class HomePageHandler : AppCompatActivity() {
 
         initializePage()
 
-        // savedDataHandler.cheat() // FOR DEBUG 3/5
+        if (Config.PASS_ALL_LEVELS) {
+            savedDataHandler.cheat()
+        }
     }
 
     private fun refreshScore() {
-        scoreDisplay = findViewById(R.id.display_score)
-        scoreDisplay.text =getString(R.string.passed_levels) + savedDataHandler.getPassedLevels().toString() + "/" + totalLevels.toString()
+        passedLevelsTextView = findViewById(R.id.display_score)
+        passedLevelsTextView.text = getString(R.string.passed_levels) + savedDataHandler.getPassedLevels().toString() + "/" + totalLevels.toString()
     }
 
     private fun launchTutorialIfNeeded() {
@@ -80,7 +84,7 @@ class HomePageHandler : AppCompatActivity() {
     }
 
     private fun initializePage() {
-        totalLevels = (resources.getInteger(R.integer.number_of_difficulty) * resources.getInteger(R.integer.levels_per_difficulty))
+        totalLevels = Config.NUMBER_OF_DIFFICULTIES * Config.LEVELS_PER_DIFFICULTIES
 
         refreshScore()
 

@@ -1,7 +1,7 @@
 package com.slykos.bokoa.models.game
 
 import com.slykos.bokoa.R
-import com.slykos.bokoa.pagesHandler.TutorialPageHandler
+import com.slykos.bokoa.pagesHandler.playPages.TutorialPageHandler
 
 class TutorialGame(
     private var callingPage: TutorialPageHandler
@@ -9,10 +9,6 @@ class TutorialGame(
     Game(
         callingPage
     ) {
-
-    init {
-        callingPage.setMaxScore("50")
-    }
 
     override fun refreshScore() {
         super.refreshScore()
@@ -31,17 +27,16 @@ class TutorialGame(
         }
 
     private fun isOnGoodPath(): Boolean {
-        // go trough history
         var correctUntilNow = true
         var lastMove: IntArray
 
-        if (history.size - 1 > currentLevel.bestMoves.size) { // Todo +1 -1 ?
+        if (coordinatesHistory.size - 1 > currentLevel.bestMoves.size) {
             correctUntilNow = false
         } else {
-            for (i in 1 until history.size) {
-                lastMove = intArrayOf(history[i][0] - history[i - 1][0], history[i][1] - history[i - 1][1])
+            // go trough history
+            for (i in 1 until coordinatesHistory.size) {
+                lastMove = intArrayOf(coordinatesHistory[i][0] - coordinatesHistory[i - 1][0], coordinatesHistory[i][1] - coordinatesHistory[i - 1][1])
 
-                // stop as soon as difference
                 if (!isMoveInDirection(currentLevel.bestMoves[i - 1], lastMove)) {
                     correctUntilNow = false
                 }
@@ -51,29 +46,29 @@ class TutorialGame(
     }
 
     private fun getOppositeOfPreviousMove(): String {
-        // TODO refactor this function
+        // TODO refactor this function (more generally the way of handling moves)
 
         val lastMove = intArrayOf(
-            history[history.size - 2][0] - history[history.size - 1][0],
-            history[history.size - 2][1] - history[history.size - 1][1]
+            coordinatesHistory[coordinatesHistory.size - 2][0] - coordinatesHistory[coordinatesHistory.size - 1][0],
+            coordinatesHistory[coordinatesHistory.size - 2][1] - coordinatesHistory[coordinatesHistory.size - 1][1]
         )
 
         return when {
-            areCoordinatesEqual(lastMove, intArrayOf(-1, 0)) -> callingPage.resources.getString(R.string.move_up)
-            areCoordinatesEqual(lastMove, intArrayOf(0, -1)) -> callingPage.resources.getString(R.string.move_le)
-            areCoordinatesEqual(lastMove, intArrayOf(0, 1)) -> callingPage.resources.getString(R.string.move_ri)
-            areCoordinatesEqual(lastMove, intArrayOf(1, 0)) -> callingPage.resources.getString(R.string.move_dn)
+            areCoordinatesEqual(lastMove, intArrayOf(-1, 0)) -> callingPage.resources.getString(R.string.move_up_string)
+            areCoordinatesEqual(lastMove, intArrayOf(0, -1)) -> callingPage.resources.getString(R.string.move_left_string)
+            areCoordinatesEqual(lastMove, intArrayOf(0, 1)) -> callingPage.resources.getString(R.string.move_right_string)
+            areCoordinatesEqual(lastMove, intArrayOf(1, 0)) -> callingPage.resources.getString(R.string.move_down_string)
             else -> error("Next move not found")
         }
     }
 
     private fun getNextMove(): String =
-        currentLevel.bestMoves.getOrNull(history.size - 1)?.let { move ->
+        currentLevel.bestMoves.getOrNull(coordinatesHistory.size - 1)?.let { move ->
             when (move) {
-                "u" -> callingPage.resources.getString(R.string.move_dn)
-                "n" -> callingPage.resources.getString(R.string.move_up)
-                ">" -> callingPage.resources.getString(R.string.move_ri)
-                "<" -> callingPage.resources.getString(R.string.move_le)
+                "u" -> callingPage.resources.getString(R.string.move_down_string)
+                "n" -> callingPage.resources.getString(R.string.move_up_string)
+                ">" -> callingPage.resources.getString(R.string.move_right_string)
+                "<" -> callingPage.resources.getString(R.string.move_left_string)
                 else -> error("Next move not found")
             }
         } ?: ""
@@ -81,7 +76,7 @@ class TutorialGame(
     private fun setTipGiver() {
         callingPage.setTip(
             if (isOnGoodPath()) {
-                if (history.size == 1) {
+                if (coordinatesHistory.size == 1) {
                     callingPage.resources.getString(R.string.swipe) + getNextMove()
                 } else {
                     callingPage.resources.getString(R.string.good_swipe) + getNextMove()
@@ -93,7 +88,7 @@ class TutorialGame(
     }
 
     private fun setEquationAndScoreViewer() {
-        if (history.size == 1) { // could remove if as already in for
+        if (coordinatesHistory.size == 1) { // could remove if as already in for
             callingPage.setEquation("")
             callingPage.setCurrentScore("1")
         } else {
@@ -101,8 +96,8 @@ class TutorialGame(
 
             var currentOperation: String
 
-            for (i in history.indices) {
-                currentOperation = currentLevel.operations[history[i][0]][history[i][1]]
+            for (i in coordinatesHistory.indices) {
+                currentOperation = currentLevel.operations[coordinatesHistory[i][0]][coordinatesHistory[i][1]]
 
                 currentEquation = when (i) {
                     0 -> "1"

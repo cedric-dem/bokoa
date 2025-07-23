@@ -30,31 +30,31 @@
     <string name="finished_all_levels">"Tu as fini tous les niveaux"</string>
     <string name="level_unlocked">"déverrouillé"</string>
     <string name="difficulty_unlocked">"déverrouillée"</string>
+    <string name="info_locked">"Tu ne peux pas encore passer au niveau suivant"</string>
 
-    <string name="howplay_system_title">"Système de jeu"</string>
-    <string name="howplay_system_cont">"La partie démarre avec un score de 1. Ensuite, le joueur décide plusieurs fois de suite dans quelle direction se déplacer sur une grille, contenant des opérations qui vont s'appliquer au score (dans l'ordre dans lequel elles ont été croisées). Le joueur peut swiper dans une direction afin d'effectuer un mouvement dans cette direction."</string>
-    <string name="howplay_goal_title">"But du jeu"</string>
-    <string name="howplay_goal_cont">"L'objectif est d'obtenir le plus haut score possible. Chaque niveau possède un score maximal, qu'il est possible d'atteindre, mais pas de dépasser. Ce score est affiché pour chaque niveau. La grille ne doit pas nécessairement être remplie pour terminer la partie. La partie se termine quand le joueur a atteint le score maximal."</string>
-    <string name="howplay_difficulty_title">"Difficulté variable"</string>
-    <string name="howplay_difficulty_cont">"Le jeu contient actuellement 3 niveaux de difficultés dépendant de la taille de la grille, plus la grille est grande, plus la difficulté est élevée. Les niveaux deviennent de plus en plus difficiles. Chaque niveau de difficulté contient 50 niveaux. Initialement, seul le premier niveau, du premier niveau de difficulté, est disponible. Ensuite, le joueur doit terminer des niveaux afin d'en débloquer de nouveaux."</string>
-    <string name="howplay_features_title">"Fonctionnalités en jeu"</string>
-    <string name="howplay_features_cont">"Le joueur peut effacer le dernier mouvement, en allant dans la direction inverse de celui-ci. À tout moment, le joueur peut décider de recommencer la partie, en appuyant sur le bouton recommencer. La solution du niveau peut être affichée, après le visionnage d'une publicité, en cliquant sur l'icône vidéo. Si plusieurs solutions existent, seul un exemple de solution est affiché."</string>
+    <string name="how_to_play_system_title">"Système de jeu"</string>
+    <string name="how_to_play_system_cont">"La partie démarre avec un score de 1. Ensuite, le joueur décide plusieurs fois de suite dans quelle direction se déplacer sur une grille, contenant des opérations qui vont s'appliquer au score (dans l'ordre dans lequel elles ont été croisées). Le joueur peut swiper dans une direction afin d'effectuer un mouvement dans cette direction."</string>
+    <string name="how_to_play_goal_title">"But du jeu"</string>
+    <string name="how_to_play_goal_cont">"L'objectif est d'obtenir le plus haut score possible. Chaque niveau possède un score maximal, qu'il est possible d'atteindre, mais pas de dépasser. Ce score est affiché pour chaque niveau. La grille ne doit pas nécessairement être remplie pour terminer la partie. La partie se termine quand le joueur a atteint le score maximal."</string>
+    <string name="how_to_play_difficulty_title">"Difficulté variable"</string>
+    <string name="how_to_play_difficulty_cont">"Le jeu contient actuellement 3 niveaux de difficultés dépendant de la taille de la grille, plus la grille est grande, plus la difficulté est élevée. Les niveaux deviennent de plus en plus difficiles. Chaque niveau de difficulté contient 50 niveaux. Initialement, seul le premier niveau, du premier niveau de difficulté, est disponible. Ensuite, le joueur doit terminer des niveaux afin d'en débloquer de nouveaux."</string>
+    <string name="how_to_play_features_title">"Fonctionnalités en jeu"</string>
+    <string name="how_to_play_features_cont">"Le joueur peut effacer le dernier mouvement, en allant dans la direction inverse de celui-ci. À tout moment, le joueur peut décider de recommencer la partie, en appuyant sur le bouton recommencer. La solution du niveau peut être affichée, après le visionnage d'une publicité, en cliquant sur l'icône vidéo. Si plusieurs solutions existent, seul un exemple de solution est affiché."</string>
 
     <string name="tutorial">"Tutoriel"</string>
     <string name="pass_tutorial">"Quitter le tutoriel"</string>
-    <string name="move_up">"en haut"</string>
-    <string name="move_dn">"en bas"</string>
-    <string name="move_le">"à gauche"</string>
-    <string name="move_ri">"à droite"</string>
+    <string name="move_up_string">"en haut"</string>
+    <string name="move_down_string">"en bas"</string>
+    <string name="move_left_string">"à gauche"</string>
+    <string name="move_right_string">"à droite"</string>
     <string name="swipe">"Swipe "</string>
     <string name="good_swipe">"Bien joué, maintenant swipe "</string>
     <string name="bad_swipe">"Reviens en arrière, swipe "</string>
     <string name="finished_tutorial">"Félicitations, tu as atteint le score maximal"</string>
     <string name="continue_tutorial">"Continuer"</string>
     <string name="skip_tutorial">"Passer le tutoriel"</string>
-    <string name="tuto_score">"Score actuel"</string>
-    <string name="tuto_highest">"Plus haut score atteignable"</string>
-    <string name="info_locked">"Tu ne peux pas encore passer au niveau suivant"</string>
+    <string name="tutorial_score">"Score actuel"</string>
+    <string name="tutorial_max">"Plus haut score atteignable"</string>
 
     <string name="tempString">x</string>
 

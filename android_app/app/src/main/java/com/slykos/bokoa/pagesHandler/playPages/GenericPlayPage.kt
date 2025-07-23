@@ -1,4 +1,4 @@
-package com.slykos.bokoa.pagesHandler
+package com.slykos.bokoa.pagesHandler.playPages
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -15,9 +15,9 @@ import java.io.InputStreamReader
 
 abstract class GenericPlayPage : AppCompatActivity() {
 
-    internal lateinit var mainView: View
-    internal lateinit var mainLayout: GridLayout
-    internal lateinit var progressBarView: ProgressBar
+    internal lateinit var mainLayout: View
+    internal lateinit var gameGridLayout: GridLayout
+    internal lateinit var scoreProgressBar: ProgressBar
     internal lateinit var displayMetrics: DisplayMetrics
 
     fun refreshProgressBar(progression: Int) {

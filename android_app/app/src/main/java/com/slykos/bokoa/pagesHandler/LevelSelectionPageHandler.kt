@@ -8,19 +8,17 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
+import com.slykos.bokoa.Config
 import com.slykos.bokoa.R
 import com.slykos.bokoa.models.SavedDataHandler
+import com.slykos.bokoa.pagesHandler.playPages.GamePageHandler
 
 class LevelSelectionPageHandler : AppCompatActivity() {
-    private var levelsPerDifficulty: Int = 0
-    private var rowCount: Int = 0
-    private var colCount: Int = 0
     private var textSize: Int = 0
 
     private var marginSize: Int = 0
     private var caseHeight: Int = 0
     private var caseWidth: Int = 0
-    private var levelsSectionsNames: Array<String> = arrayOf()
     private lateinit var savedDataHandler: SavedDataHandler
 
     private var difficulty: Int = 0
@@ -45,17 +43,15 @@ class LevelSelectionPageHandler : AppCompatActivity() {
     }
 
     private fun createButton(groupLvl: GridLayout, row: Int, col: Int) {
-        val newButton = Button(this)
+        val levelId = (Config.LEVELS_PER_DIFFICULTIES * difficulty) + (Config.LEVELS_SELECTION_COLUMNS * row) + col
 
-        val lvlId = (levelsPerDifficulty * difficulty) + (colCount * row) + col
-        newButton.id = 2000 + lvlId
-        newButton.gravity = Gravity.CENTER
-
-        newButton.typeface = resources.getFont(R.font.main_font)
-
-        newButton.textSize = textSize.toFloat()
-
-        newButton.text = (lvlId + 1).toString()
+        val newButton = Button(this).apply {
+            id = 2000 + levelId
+            gravity = Gravity.CENTER
+            typeface = resources.getFont(R.font.main_font)
+            textSize = this@LevelSelectionPageHandler.textSize.toFloat()
+            text = (levelId + 1).toString()
+        }
 
         groupLvl.addView(newButton, getGridParams(row, col))
     }
@@ -65,10 +61,10 @@ class LevelSelectionPageHandler : AppCompatActivity() {
 
         var currentButton: Button
 
-        for (currentLevel in 0 until levelsPerDifficulty) { // levels
-            currentButton = findViewById(2000 + difficulty * levelsPerDifficulty + currentLevel)
+        for (currentLevel in 0 until Config.LEVELS_PER_DIFFICULTIES) { // levels
+            currentButton = findViewById(2000 + difficulty * Config.LEVELS_PER_DIFFICULTIES + currentLevel)
 
-            if (passedLevels < (levelsPerDifficulty * difficulty) + currentLevel) { // Not accessible
+            if (passedLevels < (Config.LEVELS_PER_DIFFICULTIES * difficulty) + currentLevel) { // Not accessible
                 currentButton.setBackgroundResource(R.drawable.level_locked)
                 currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
             } else { // accessible
@@ -86,24 +82,14 @@ class LevelSelectionPageHandler : AppCompatActivity() {
         }
     }
 
-    private fun getGridParams(i: Int, j: Int): GridLayout.LayoutParams {
-        // TODO remove code duplication
-
-        val params = GridLayout.LayoutParams()
-
-        params.rightMargin = marginSize
-        params.leftMargin = marginSize
-        params.topMargin = marginSize
-        params.bottomMargin = marginSize
-
-        params.height = caseHeight
-        params.width = caseWidth
-
-        params.rowSpec = GridLayout.spec(i)
-        params.columnSpec = GridLayout.spec(j)
-
-        return params
-    }
+    private fun getGridParams(i: Int, j: Int): GridLayout.LayoutParams = //TODO remove code duplication
+        GridLayout.LayoutParams().apply {
+            setMargins(marginSize, marginSize, marginSize, marginSize)
+            height = caseHeight
+            width = caseWidth
+            rowSpec = GridLayout.spec(i)
+            columnSpec = GridLayout.spec(j)
+        }
 
     private fun launchGame(levelId: Int) {
         val switchActivityIntent = Intent(applicationContext, GamePageHandler::class.java)
@@ -115,25 +101,19 @@ class LevelSelectionPageHandler : AppCompatActivity() {
     }
 
     private fun initializeMetrics() {
-        levelsSectionsNames = resources.getStringArray(R.array.difficulty_names)
-        levelsPerDifficulty = resources.getInteger(R.integer.levels_per_difficulty)
-
-        rowCount = resources.getInteger(R.integer.levels_selection_rows)
-        colCount = resources.getInteger(R.integer.levels_selection_cols)
 
         val displayMetrics = this@LevelSelectionPageHandler.resources.displayMetrics
 
-        caseWidth = ((displayMetrics.widthPixels * 0.87) / colCount).toInt()
+        caseWidth = ((displayMetrics.widthPixels * 0.87) / Config.LEVELS_SELECTION_COLUMNS).toInt()
 
-        caseHeight =
-            ((displayMetrics.heightPixels * (0.0148 * levelsPerDifficulty)) / rowCount).toInt()
+        caseHeight = ((displayMetrics.heightPixels * (0.0148 * Config.LEVELS_PER_DIFFICULTIES)) / Config.LEVELS_SELECTION_ROWS).toInt()
 
         marginSize = displayMetrics.widthPixels / 154
         textSize = displayMetrics.widthPixels / 45
     }
 
     private fun configureTopBar() {
-        findViewById<TextView>(R.id.page_title).text = getString(R.string.level_selection_menu) + getString(R.string.difficulty) + ": " + levelsSectionsNames[difficulty]
+        findViewById<TextView>(R.id.page_title).text = getString(R.string.level_selection_menu) + getString(R.string.difficulty) + ": " + Config.DIFFICULTIES_NAMES[difficulty]
 
         findViewById<Button>(R.id.button_back).setOnClickListener { finish() }
     }
@@ -141,8 +121,8 @@ class LevelSelectionPageHandler : AppCompatActivity() {
     private fun initializeLevelPanel() {
         val groupLvl = findViewById<GridLayout>(R.id.group_levels)
 
-        for (currentRow in 0 until rowCount) {
-            for (currentCol in 0 until colCount) {
+        for (currentRow in 0 until Config.LEVELS_SELECTION_ROWS) {
+            for (currentCol in 0 until Config.LEVELS_SELECTION_COLUMNS) {
                 createButton(groupLvl, currentRow, currentCol)
             }
         }

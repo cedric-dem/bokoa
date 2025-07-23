@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/howplay_system_title" />
+                android:text="@string/how_to_play_system_title" />
 
             <TextView
                 android:layout_weight="2"
@@ -97,7 +97,7 @@
                 android:textColor="@color/light_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/howplay_system_cont" />
+                android:text="@string/how_to_play_system_cont" />
 
             <Space
                 android:layout_weight="2"
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:gravity="center"
-                android:text="@string/howplay_goal_title" />
+                android:text="@string/how_to_play_goal_title" />
 
             <TextView
                 android:layout_weight="2"
@@ -121,7 +121,7 @@
                 android:textColor="@color/light_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/howplay_goal_cont" />
+                android:text="@string/how_to_play_goal_cont" />
 
             <Space
                 android:layout_weight="2"
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:gravity="center"
-                android:text="@string/howplay_difficulty_title" />
+                android:text="@string/how_to_play_difficulty_title" />
 
             <TextView
                 android:layout_weight="2"
@@ -145,7 +145,7 @@
                 android:textColor="@color/light_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/howplay_difficulty_cont" />
+                android:text="@string/how_to_play_difficulty_cont" />
 
             <Space
                 android:layout_weight="2"
@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:gravity="center"
-                android:text="@string/howplay_features_title" />
+                android:text="@string/how_to_play_features_title" />
 
             <TextView
                 android:layout_weight="2"
@@ -169,7 +169,7 @@
                 android:textColor="@color/light_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/howplay_features_cont" />
+                android:text="@string/how_to_play_features_cont" />
 
             <Space
                 android:layout_weight="2"

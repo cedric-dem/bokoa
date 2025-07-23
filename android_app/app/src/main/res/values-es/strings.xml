@@ -30,31 +30,31 @@
     <string name="finished_all_levels">"Has completado todos los niveles"</string>
     <string name="level_unlocked">"desbloqueado"</string>
     <string name="difficulty_unlocked">"desbloqueada"</string>
+    <string name="info_locked">"Aún no puedes avanzar al siguiente nivel"</string>
 
-    <string name="howplay_system_title">"Sistema de juego"</string>
-    <string name="howplay_system_cont">"La partida comienza con una puntuación de 1. Luego, el jugador decide repetidamente en qué dirección moverse en una cuadrícula, que contiene operaciones que se aplicarán a la puntuación (en el orden en que se cruzan). El jugador puede deslizar en una dirección para moverse en esa dirección."</string>
-    <string name="howplay_goal_title">"Objetivo del juego"</string>
-    <string name="howplay_goal_cont">"El objetivo es obtener la puntuación más alta posible. Cada nivel tiene una puntuación máxima que se puede alcanzar, pero no superar. Esta puntuación se muestra para cada nivel. No es necesario llenar toda la cuadrícula para completar la partida. El juego termina cuando el jugador alcanza la puntuación máxima."</string>
-    <string name="howplay_difficulty_title">"Dificultad variable"</string>
-    <string name="howplay_difficulty_cont">"El juego actualmente tiene 3 niveles de dificultad según el tamaño de la cuadrícula. Cuanto más grande es la cuadrícula, mayor es la dificultad. Los niveles se vuelven progresivamente más difíciles. Cada nivel de dificultad contiene 50 niveles. Inicialmente, solo está disponible el primer nivel del primer nivel de dificultad. Luego, el jugador debe completar niveles para desbloquear nuevos."</string>
-    <string name="howplay_features_title">"Características del juego"</string>
-    <string name="howplay_features_cont">"El jugador puede borrar el último movimiento moviéndose en la dirección opuesta. En cualquier momento, el jugador puede reiniciar la partida presionando el botón de reinicio. La solución del nivel se puede mostrar después de ver un anuncio, haciendo clic en el ícono de video. Si existen múltiples soluciones, solo se mostrará un ejemplo de solución."</string>
+    <string name="how_to_play_system_title">"Sistema de juego"</string>
+    <string name="how_to_play_system_cont">"La partida comienza con una puntuación de 1. Luego, el jugador decide repetidamente en qué dirección moverse en una cuadrícula, que contiene operaciones que se aplicarán a la puntuación (en el orden en que se cruzan). El jugador puede deslizar en una dirección para moverse en esa dirección."</string>
+    <string name="how_to_play_goal_title">"Objetivo del juego"</string>
+    <string name="how_to_play_goal_cont">"El objetivo es obtener la puntuación más alta posible. Cada nivel tiene una puntuación máxima que se puede alcanzar, pero no superar. Esta puntuación se muestra para cada nivel. No es necesario llenar toda la cuadrícula para completar la partida. El juego termina cuando el jugador alcanza la puntuación máxima."</string>
+    <string name="how_to_play_difficulty_title">"Dificultad variable"</string>
+    <string name="how_to_play_difficulty_cont">"El juego actualmente tiene 3 niveles de dificultad según el tamaño de la cuadrícula. Cuanto más grande es la cuadrícula, mayor es la dificultad. Los niveles se vuelven progresivamente más difíciles. Cada nivel de dificultad contiene 50 niveles. Inicialmente, solo está disponible el primer nivel del primer nivel de dificultad. Luego, el jugador debe completar niveles para desbloquear nuevos."</string>
+    <string name="how_to_play_features_title">"Características del juego"</string>
+    <string name="how_to_play_features_cont">"El jugador puede borrar el último movimiento moviéndose en la dirección opuesta. En cualquier momento, el jugador puede reiniciar la partida presionando el botón de reinicio. La solución del nivel se puede mostrar después de ver un anuncio, haciendo clic en el ícono de video. Si existen múltiples soluciones, solo se mostrará un ejemplo de solución."</string>
 
     <string name="tutorial">"Tutorial"</string>
     <string name="pass_tutorial">"Salir del tutorial"</string>
-    <string name="move_up">"arriba"</string>
-    <string name="move_dn">"abajo"</string>
-    <string name="move_le">"a la izquierda"</string>
-    <string name="move_ri">"a la derecha"</string>
+    <string name="move_up_string">"arriba"</string>
+    <string name="move_down_string">"abajo"</string>
+    <string name="move_left_string">"a la izquierda"</string>
+    <string name="move_right_string">"a la derecha"</string>
     <string name="swipe">"Desliza "</string>
     <string name="good_swipe">"Bien hecho, ahora desliza "</string>
     <string name="bad_swipe">"Regresa, desliza "</string>
     <string name="finished_tutorial">"Felicidades, alcanzaste la puntuación máxima"</string>
     <string name="continue_tutorial">"Continuar"</string>
     <string name="skip_tutorial">"Saltar tutorial"</string>
-    <string name="tuto_score">"Puntuación actual"</string>
-    <string name="tuto_highest">"Puntuación máxima alcanzable"</string>
-    <string name="info_locked">"Aún no puedes avanzar al siguiente nivel"</string>
+    <string name="tutorial_score">"Puntuación actual"</string>
+    <string name="tutorial_max">"Puntuación máxima alcanzable"</string>
 
     <string name="tempString">x</string>
 
