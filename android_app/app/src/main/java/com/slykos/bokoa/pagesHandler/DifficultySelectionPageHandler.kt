@@ -40,7 +40,7 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
             1.0f
         )
 
-    private fun createDifficultyButtons(groupLvl: LinearLayout, difficulty: Int) {
+    private fun createDifficultyButtons(difficultyButtonsLayout: LinearLayout, difficulty: Int) {
         val button = Button(this).apply {
             id = 2000 + difficulty
             text = Config.DIFFICULTIES_NAMES[difficulty]
@@ -49,13 +49,13 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
             typeface = resources.getFont(R.font.main_font)
         }
 
-        groupLvl.addView(button, getWeightLayoutParameter())
+        difficultyButtonsLayout.addView(button, getWeightLayoutParameter())
 
         val space = Space(this).apply {
             minimumHeight = 30
         }
 
-        groupLvl.addView(space)
+        difficultyButtonsLayout.addView(space)
     }
 
     private fun goToLevelSelection(difficulty: Int) {
@@ -76,18 +76,26 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
             currentButton = findViewById(2000 + currentDifficulty)
 
             if (passedLevels < (Config.LEVELS_PER_DIFFICULTIES * currentDifficulty)) { // Not accessible
-                currentButton.setBackgroundResource(R.drawable.level_locked)
-                currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
+                setDifficultyButtonNotAccessible(currentButton)
 
             } else { // accessible
-                currentButton.setBackgroundResource(R.drawable.level_unlocked)
-                currentButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
-
-                // add listener
-                currentButton.setOnClickListener {
-                    goToLevelSelection(currentDifficulty)
-                }
+                setDifficultyButtonAccessible(currentButton, currentDifficulty)
             }
+        }
+    }
+
+    private fun setDifficultyButtonNotAccessible(currentButton: Button){
+        currentButton.setBackgroundResource(R.drawable.level_locked)
+        currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
+    }
+
+    private fun setDifficultyButtonAccessible(currentButton: Button, currentDifficulty: Int){
+        currentButton.setBackgroundResource(R.drawable.level_unlocked)
+        currentButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
+
+        // add listener
+        currentButton.setOnClickListener {
+            goToLevelSelection(currentDifficulty)
         }
     }
 

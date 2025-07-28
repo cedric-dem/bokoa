@@ -61,25 +61,33 @@ class LevelSelectionPageHandler : AppCompatActivity() {
 
         var currentButton: Button
 
-        for (currentLevel in 0 until Config.LEVELS_PER_DIFFICULTIES) { // levels
-            currentButton = findViewById(2000 + difficulty * Config.LEVELS_PER_DIFFICULTIES + currentLevel)
+        for (currentLevelIndex in 0 until Config.LEVELS_PER_DIFFICULTIES) { // levels
+            currentButton = findViewById(2000 + difficulty * Config.LEVELS_PER_DIFFICULTIES + currentLevelIndex)
 
-            if (passedLevels < (Config.LEVELS_PER_DIFFICULTIES * difficulty) + currentLevel) { // Not accessible
-                currentButton.setBackgroundResource(R.drawable.level_locked)
-                currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
+            if (passedLevels < (Config.LEVELS_PER_DIFFICULTIES * difficulty) + currentLevelIndex) { // Not accessible
+                setLevelButtonNotAccessible(currentButton)
+
             } else { // accessible
-
-                currentButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
-                currentButton.setBackgroundResource(R.drawable.level_unlocked)
-
-                // add listener
-                currentButton.setOnClickListener {
-                    launchGame(
-                        currentLevel
-                    )
-                }
+                setLevelButtonAccessible(currentButton, currentLevelIndex)
             }
         }
+    }
+
+    private fun setLevelButtonAccessible(currentButton: Button, currentLevel: Int){
+        currentButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
+        currentButton.setBackgroundResource(R.drawable.level_unlocked)
+
+        // add listener
+        currentButton.setOnClickListener {
+            launchGame(
+                currentLevel
+            )
+        }
+    }
+
+    private fun setLevelButtonNotAccessible(currentButton: Button){
+        currentButton.setBackgroundResource(R.drawable.level_locked)
+        currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
     }
 
     private fun getGridParams(i: Int, j: Int): GridLayout.LayoutParams = //TODO remove code duplication

@@ -64,7 +64,7 @@ class AdHandler(
 
         // change function call
         adButton.setOnClickListener {
-            if (Config.SKIP_AD){
+            if (Config.SKIP_AD) {
                 context.showSolution()
             } else {
                 askConfirmation()

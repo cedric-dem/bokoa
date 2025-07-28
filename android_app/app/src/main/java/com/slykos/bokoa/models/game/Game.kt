@@ -43,7 +43,6 @@ abstract class Game(
     private var mainTypeface: Typeface
 
     init {
-
         context.getMainView().setOnTouchListener(getTouchListener())
 
         screenDimensions = context.getScreenDimensions()

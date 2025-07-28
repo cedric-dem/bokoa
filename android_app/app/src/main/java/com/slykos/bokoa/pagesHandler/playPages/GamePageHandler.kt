@@ -54,10 +54,10 @@ open class GamePageHandler : GenericPlayPage() {
 
         runGame()
 
-        if (Config.SHOW_SOLUTION_AT_START){
+        if (Config.SHOW_SOLUTION_AT_START) {
             showSolution()
         }
-        if (Config.SKIP_AD){
+        if (Config.SKIP_AD) {
             adHandler.makeAdButtonEffective();
         }
     }
