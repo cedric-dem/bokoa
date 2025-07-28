@@ -58,10 +58,10 @@ def get_remaining_operations_indicator(occupation_matrix, level):
 			if not occupation_matrix[matrix_line_index][matrix_column_index]:
 				this_unused_operation = level.operations_grid[matrix_line_index][matrix_column_index]
 				if this_unused_operation.operator == "+":
-					remaining_operations_indicator += 3 + (2 * this_unused_operation.operand)
+					remaining_operations_indicator += 2 + this_unused_operation.operand
 
 				elif this_unused_operation.operator == "×":
-					remaining_operations_indicator += 5 + (3 * this_unused_operation.operand)
+					remaining_operations_indicator += 7 + this_unused_operation.operand
 
 	return remaining_operations_indicator
 
