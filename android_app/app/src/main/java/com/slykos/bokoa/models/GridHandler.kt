@@ -8,14 +8,13 @@ import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
 
 class GridHandler(
     private val context: GenericPlayPage,
-    private val operations: Array<Array<String>>,
+    private val operationsGrid: Array<Array<String>>,
     private val gridSize: IntArray,
     private val mainTypeface: Typeface,
     private val mediumColor: ColorStateList,
     private val caseSize: Int,
     private val caseTextSize: Float
 ) {
-    private lateinit var operationsGrid: Array<Array<String>>
     private lateinit var gridViewer: GridViewer
 
     init {
