@@ -213,26 +213,7 @@ abstract class Game(
 
         refreshScore()
         checkGoalReached()
-        refreshBackground()
-    }
-
-    private fun refreshBackground() { //todo move lot of computation in gridhandler
-
-        // Inside
-        for (i in 1 until coordinatesHistory.size - 1) { // start from first non neutral, until cursor
-            gridHandler.getCase(coordinatesHistory[i]).shapeInHistoryCase(gridHandler.detectTwoMargins(coordinatesHistory[i - 1], coordinatesHistory[i], coordinatesHistory[i + 1]), ((255 * i) / coordinatesHistory.size))
-        }
-
-        if (coordinatesHistory.size > 1) { // cursor + neutral if more than one elem
-            // Neutral
-            gridHandler.getCase(coordinatesHistory[0]).shapeNeutralCase(gridHandler.detectSingleMargin(coordinatesHistory[0], coordinatesHistory[1]))
-
-            // cursor
-            gridHandler.getCase(coordinatesHistory.last()).shapeCursorCase(gridHandler.detectSingleMargin(coordinatesHistory.last(), coordinatesHistory[coordinatesHistory.size - 2]))
-
-        } else { //if size 0, shape neutral only
-            gridHandler.getCase(coordinatesHistory[0]).shapeNeutralCaseNeverMoved()
-        }
+        gridHandler.refreshBackground(coordinatesHistory)
     }
 
     private fun checkGoalReached() {

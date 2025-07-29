@@ -2,7 +2,6 @@ package com.slykos.bokoa.models
 
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.util.Log
 import com.slykos.bokoa.models.viewers.CaseViewer
 import com.slykos.bokoa.models.viewers.GridViewer
 import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
@@ -48,5 +47,24 @@ class GridHandler(
 
     fun getOperation(coordinates: IntArray): String =
         operationsGrid[coordinates[0]][coordinates[1]]
+
+    fun refreshBackground(coordinatesHistory: MutableList<IntArray>) { //todo move lot of computation in gridhandler
+
+        // Inside
+        for (i in 1 until coordinatesHistory.size - 1) { // start from first non neutral, until cursor
+            this.getCase(coordinatesHistory[i]).shapeInHistoryCase(this.detectTwoMargins(coordinatesHistory[i - 1], coordinatesHistory[i], coordinatesHistory[i + 1]), ((255 * i) / coordinatesHistory.size))
+        }
+
+        if (coordinatesHistory.size > 1) { // cursor + neutral if more than one elem
+            // Neutral
+            this.getCase(coordinatesHistory[0]).shapeNeutralCase(this.detectSingleMargin(coordinatesHistory[0], coordinatesHistory[1]))
+
+            // cursor
+            this.getCase(coordinatesHistory.last()).shapeCursorCase(this.detectSingleMargin(coordinatesHistory.last(), coordinatesHistory[coordinatesHistory.size - 2]))
+
+        } else { //if size 0, shape neutral only
+            this.getCase(coordinatesHistory[0]).shapeNeutralCaseNeverMoved()
+        }
+    }
 
 }
