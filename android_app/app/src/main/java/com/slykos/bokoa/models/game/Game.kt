@@ -5,10 +5,12 @@ import android.graphics.Typeface
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import androidx.constraintlayout.helper.widget.Grid
 import androidx.core.content.ContextCompat
 import com.slykos.bokoa.Config
 import com.slykos.bokoa.R
 import com.slykos.bokoa.R.color
+import com.slykos.bokoa.models.GridHandler
 import com.slykos.bokoa.models.viewers.GridViewer
 import com.slykos.bokoa.models.Level
 import com.slykos.bokoa.models.MoveResult
@@ -41,6 +43,7 @@ abstract class Game(
     private var mediumColor: ColorStateList
 
     private var mainTypeface: Typeface
+    private lateinit var gridHandler: GridHandler
 
     init {
         context.getMainView().setOnTouchListener(getTouchListener())
