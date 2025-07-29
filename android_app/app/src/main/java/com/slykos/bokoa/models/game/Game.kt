@@ -11,7 +11,7 @@ import com.slykos.bokoa.R
 import com.slykos.bokoa.R.color
 import com.slykos.bokoa.models.GridHandler
 import com.slykos.bokoa.models.Level
-import com.slykos.bokoa.models.MoveResult
+import com.slykos.bokoa.models.MovementHandler
 import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
 import java.text.DecimalFormat
 import kotlin.math.abs
@@ -21,59 +21,46 @@ abstract class Game(
 ) {
     private var decimalFormat: DecimalFormat = DecimalFormat("###,###,###,##0.##")
 
-    var coordinatesHistory: MutableList<IntArray> = mutableListOf()
     var currentScore: Float = 0f
     private var maxScore: Float = 0f
-
-    private lateinit var gridSize: IntArray
 
     lateinit var bestScoreString: String
     lateinit var currentLevel: Level
 
-    private var screenDimensions: IntArray
-    private var mediumColor: ColorStateList
-
-    private var mainTypeface: Typeface
     private lateinit var gridHandler: GridHandler
+    protected lateinit var movementHandler: MovementHandler
 
     init {
         context.getMainView().setOnTouchListener(getTouchListener())
-
-        screenDimensions = context.getScreenDimensions()
-
-        mainTypeface = context.resources.getFont(R.font.main_font)
-
-        mediumColor = ColorStateList.valueOf(ContextCompat.getColor(context, color.medium_color))
     }
 
     fun getFormattedScore(score: Float): String =
         decimalFormat.format(score.toDouble()).replace(",".toRegex(), ".")
 
     fun initLevel(callerGridSize: IntArray, callerCurrentLevel: Level) {
-        gridSize = callerGridSize
 
         currentLevel = callerCurrentLevel
 
         // TODO isolate k ?
+        movementHandler = MovementHandler(callerGridSize, this)
 
-
-        this.gridHandler = GridHandler(this.context, currentLevel.operations, this.gridSize, mainTypeface, mediumColor, screenDimensions)
+        gridHandler = GridHandler(this.context, currentLevel.operations, callerGridSize, context.resources.getFont(R.font.main_font), ColorStateList.valueOf(ContextCompat.getColor(context, color.medium_color)), context.getScreenDimensions())
 
         maxScore = currentLevel.bestScore
         bestScoreString = getFormattedScore(maxScore)
     }
 
     fun shapeGrid() {
-        this.gridHandler.shapeGrid()
+        gridHandler.shapeGrid()
     }
 
     fun emptyGrid() {
-        this.gridHandler.emptyGrid()
+        gridHandler.emptyGrid()
     }
 
     fun initGame() {
+        movementHandler.start()
         currentScore = 1f
-        coordinatesHistory = mutableListOf(intArrayOf(0, 0))
     }
 
     private fun createGrid() {
@@ -115,19 +102,19 @@ abstract class Game(
         }
 
     fun moveLeft() {
-        detectCaseAndMove(intArrayOf(0, -1))
+        movementHandler.detectCaseAndMove(intArrayOf(0, -1))
     }
 
     fun moveRight() {
-        detectCaseAndMove(intArrayOf(0, 1))
+        movementHandler.detectCaseAndMove(intArrayOf(0, 1))
     }
 
     fun moveUp() {
-        detectCaseAndMove(intArrayOf(-1, 0))
+        movementHandler.detectCaseAndMove(intArrayOf(-1, 0))
     }
 
     fun moveDown() {
-        detectCaseAndMove(intArrayOf(1, 0))
+        movementHandler.detectCaseAndMove(intArrayOf(1, 0))
     }
 
     private fun executeMovement(startPosition: IntArray, endPosition: IntArray) {
@@ -149,8 +136,14 @@ abstract class Game(
         }
     }
 
+    fun refreshScoreVisual() {
+        refreshScore()
+        checkGoalReached()
+        gridHandler.refreshBackground(movementHandler.getEntireHistory())
+    }
+
     fun applyMove(move: String) {
-        detectCaseAndMove(
+        movementHandler.detectCaseAndMove(
             when (move) {
                 "u" -> intArrayOf(1, 0)
                 "n" -> intArrayOf(-1, 0)
@@ -159,6 +152,25 @@ abstract class Game(
                 else -> intArrayOf(0, 0)
             }
         )
+    }
+
+    fun applyOperationOnScore(oldCord: IntArray, newCord: IntArray) {
+        // apply reverse operation
+        applyOperation(gridHandler.getOperation(oldCord), true)
+    }
+
+    fun gameMovementGoBack(oldCord: IntArray, newCord: IntArray) {
+        // reset  old case background
+        gridHandler.getCase(oldCord).shapeUnusedCase()
+
+        if (movementHandler.areCoordinatesEqual(intArrayOf(0, 0), newCord)) {
+            currentScore = 1.0f
+        }
+    }
+
+    fun movementReachNew(newCord: IntArray) {
+        // modify score
+        applyOperation(gridHandler.getOperation(newCord), false)
     }
 
     private fun applyOperation(newOperation: String, reverse: Boolean) {
@@ -172,50 +184,6 @@ abstract class Game(
         }
     }
 
-    internal fun areCoordinatesEqual(coordinatesA: IntArray, coordinatesB: IntArray): Boolean =
-        (coordinatesA[0] == coordinatesB[0] && coordinatesA[1] == coordinatesB[1])
-
-    private fun isOutsideBounds(newCoordinate: IntArray): Boolean =
-        (newCoordinate[0] < 0 || newCoordinate[0] >= gridSize[1] || newCoordinate[1] < 0 || newCoordinate[1] >= gridSize[0])
-
-    private fun isMoveComingBack(newCoordinate: IntArray): Boolean =
-        coordinatesHistory.size >= 2 && areCoordinatesEqual(
-            coordinatesHistory[coordinatesHistory.size - 2],
-            newCoordinate
-        )
-
-    private fun isCollidingWithPreviousCase(newCoordinate: IntArray): Boolean =
-        coordinatesHistory.any { areCoordinatesEqual(it, newCoordinate) }
-
-    private fun detectSituation(newCoordinate: IntArray): MoveResult =
-        when {
-            isOutsideBounds(newCoordinate) -> MoveResult.IMPOSSIBLE // outside bounds, not possible
-            isMoveComingBack(newCoordinate) -> MoveResult.COME_BACK // coming back one step
-            isCollidingWithPreviousCase(newCoordinate) -> MoveResult.IMPOSSIBLE // coming back more than one step, not possible
-            else -> MoveResult.NORMAL // normal move
-        }
-
-    private fun detectCaseAndMove(direction: IntArray) {
-        val oldCoordinate = coordinatesHistory.last()
-        val newCoordinate = intArrayOf(oldCoordinate[0] + direction[0], oldCoordinate[1] + direction[1])
-
-        detectSituation(newCoordinate)
-            .takeIf { it != MoveResult.IMPOSSIBLE }
-            ?.let { applyMoveResult(it, oldCoordinate, newCoordinate) }
-    }
-
-    private fun applyMoveResult(situation: MoveResult, oldCoordinate: IntArray, newCoordinate: IntArray) {
-        if (situation == MoveResult.NORMAL) {
-            movementReachNew(newCoordinate) // go for new
-        } else {
-            movementGoBack(oldCoordinate, newCoordinate) // coming back
-        }
-
-        refreshScore()
-        checkGoalReached()
-        gridHandler.refreshBackground(coordinatesHistory)
-    }
-
     private fun checkGoalReached() {
         if (abs((currentScore - maxScore).toDouble()) <= 0.02f || currentScore > maxScore) {
             context.updateProgressBarTint(true)
@@ -223,27 +191,5 @@ abstract class Game(
         } else {
             context.updateProgressBarTint(false)
         }
-    }
-
-    private fun movementGoBack(oldCord: IntArray, newCord: IntArray) {
-        // apply reverse operation
-        applyOperation(gridHandler.getOperation(oldCord), true)
-
-        coordinatesHistory.removeAt(coordinatesHistory.lastIndex)
-
-        // reset  old case background
-        gridHandler.getCase(oldCord).shapeUnusedCase()
-
-        if (areCoordinatesEqual(intArrayOf(0, 0), newCord)) {
-            currentScore = 1.0f
-        }
-    }
-
-    private fun movementReachNew(newCord: IntArray) {
-        // append new coordinates to history
-        coordinatesHistory.add(newCord)
-
-        // modify score
-        applyOperation(gridHandler.getOperation(newCord), false)
     }
 }

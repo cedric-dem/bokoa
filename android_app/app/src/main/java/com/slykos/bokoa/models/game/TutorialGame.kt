@@ -19,10 +19,10 @@ class TutorialGame(
 
     private fun isMoveInDirection(direction: String, move: IntArray): Boolean =
         when (direction) {
-            "u" -> areCoordinatesEqual(move, intArrayOf(1, 0))
-            ">" -> areCoordinatesEqual(move, intArrayOf(0, 1))
-            "n" -> areCoordinatesEqual(move, intArrayOf(-1, 0))
-            "<" -> areCoordinatesEqual(move, intArrayOf(0, -1))
+            "u" -> movementHandler.areCoordinatesEqual(move, intArrayOf(1, 0))
+            ">" -> movementHandler.areCoordinatesEqual(move, intArrayOf(0, 1))
+            "n" -> movementHandler.areCoordinatesEqual(move, intArrayOf(-1, 0))
+            "<" -> movementHandler.areCoordinatesEqual(move, intArrayOf(0, -1))
             else -> false // invalid direction
         }
 
@@ -30,12 +30,12 @@ class TutorialGame(
         var correctUntilNow = true
         var lastMove: IntArray
 
-        if (coordinatesHistory.size - 1 > currentLevel.bestMoves.size) {
+        if (movementHandler.getHistorySize() - 1 > currentLevel.bestMoves.size) {
             correctUntilNow = false
         } else {
             // go trough history
-            for (i in 1 until coordinatesHistory.size) {
-                lastMove = intArrayOf(coordinatesHistory[i][0] - coordinatesHistory[i - 1][0], coordinatesHistory[i][1] - coordinatesHistory[i - 1][1])
+            for (i in 1 until movementHandler.getHistorySize()) {
+                lastMove = intArrayOf(movementHandler.getCoordinateAtPosition(i)[0] - movementHandler.getCoordinateAtPosition(i - 1)[0], movementHandler.getCoordinateAtPosition(i)[1] - movementHandler.getCoordinateAtPosition(i - 1)[1])
 
                 if (!isMoveInDirection(currentLevel.bestMoves[i - 1], lastMove)) {
                     correctUntilNow = false
@@ -49,21 +49,21 @@ class TutorialGame(
         // TODO refactor this function (more generally the way of handling moves)
 
         val lastMove = intArrayOf(
-            coordinatesHistory[coordinatesHistory.size - 2][0] - coordinatesHistory[coordinatesHistory.size - 1][0],
-            coordinatesHistory[coordinatesHistory.size - 2][1] - coordinatesHistory[coordinatesHistory.size - 1][1]
+            movementHandler.getCoordinateAtPosition(movementHandler.getHistorySize() - 2)[0] - movementHandler.getCoordinateAtPosition(movementHandler.getHistorySize() - 1)[0],
+            movementHandler.getCoordinateAtPosition(movementHandler.getHistorySize() - 2)[1] - movementHandler.getCoordinateAtPosition(movementHandler.getHistorySize() - 1)[1]
         )
 
         return when {
-            areCoordinatesEqual(lastMove, intArrayOf(-1, 0)) -> callingPage.resources.getString(R.string.move_up_string)
-            areCoordinatesEqual(lastMove, intArrayOf(0, -1)) -> callingPage.resources.getString(R.string.move_left_string)
-            areCoordinatesEqual(lastMove, intArrayOf(0, 1)) -> callingPage.resources.getString(R.string.move_right_string)
-            areCoordinatesEqual(lastMove, intArrayOf(1, 0)) -> callingPage.resources.getString(R.string.move_down_string)
+            movementHandler.areCoordinatesEqual(lastMove, intArrayOf(-1, 0)) -> callingPage.resources.getString(R.string.move_up_string)
+            movementHandler.areCoordinatesEqual(lastMove, intArrayOf(0, -1)) -> callingPage.resources.getString(R.string.move_left_string)
+            movementHandler.areCoordinatesEqual(lastMove, intArrayOf(0, 1)) -> callingPage.resources.getString(R.string.move_right_string)
+            movementHandler.areCoordinatesEqual(lastMove, intArrayOf(1, 0)) -> callingPage.resources.getString(R.string.move_down_string)
             else -> error("Next move not found")
         }
     }
 
     private fun getNextMove(): String =
-        currentLevel.bestMoves.getOrNull(coordinatesHistory.size - 1)?.let { move ->
+        currentLevel.bestMoves.getOrNull(movementHandler.getHistorySize() - 1)?.let { move ->
             when (move) {
                 "u" -> callingPage.resources.getString(R.string.move_down_string)
                 "n" -> callingPage.resources.getString(R.string.move_up_string)
@@ -76,7 +76,7 @@ class TutorialGame(
     private fun setTipGiver() {
         callingPage.setTip(
             if (isOnGoodPath()) {
-                if (coordinatesHistory.size == 1) {
+                if (movementHandler.getHistorySize() == 1) {
                     callingPage.resources.getString(R.string.swipe) + getNextMove()
                 } else {
                     callingPage.resources.getString(R.string.good_swipe) + getNextMove()
@@ -88,7 +88,7 @@ class TutorialGame(
     }
 
     private fun setEquationAndScoreViewer() {
-        if (coordinatesHistory.size == 1) { // could remove if as already in for
+        if (movementHandler.getHistorySize() == 1) { // could remove if as already in for
             callingPage.setEquation("")
             callingPage.setCurrentScore("1")
         } else {
@@ -96,8 +96,8 @@ class TutorialGame(
 
             var currentOperation: String
 
-            for (i in coordinatesHistory.indices) {
-                currentOperation = currentLevel.operations[coordinatesHistory[i][0]][coordinatesHistory[i][1]]
+            for (i in 0 until movementHandler.getHistorySize()) {
+                currentOperation = currentLevel.operations[movementHandler.getCoordinateAtPosition(i)[0]][movementHandler.getCoordinateAtPosition(i)[1]]
 
                 currentEquation = when (i) {
                     0 -> "1"
