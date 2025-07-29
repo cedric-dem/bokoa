@@ -1,4 +1,49 @@
 package com.slykos.bokoa.models
 
-class GridHandler {
+import android.content.res.ColorStateList
+import android.graphics.Typeface
+import com.slykos.bokoa.models.viewers.CaseViewer
+import com.slykos.bokoa.models.viewers.GridViewer
+import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
+
+class GridHandler(
+    private val context: GenericPlayPage,
+    private val operations: Array<Array<String>>,
+    private val gridSize: IntArray,
+    private val mainTypeface: Typeface,
+    private val mediumColor: ColorStateList,
+    private val caseSize: Int,
+    private val caseTextSize: Float
+) {
+    private lateinit var operationsGrid: Array<Array<String>>
+    private lateinit var gridViewer: GridViewer
+
+    init {
+
+    }
+
+    fun shapeGrid() {
+        this.gridViewer.shapeGrid()
+    }
+
+    fun emptyGrid() {
+        this.gridViewer.emptyGrid()
+    }
+
+    fun createGrid() {
+        gridViewer = GridViewer(this.context, this.gridSize, operationsGrid, mainTypeface, mediumColor, caseSize, caseTextSize)
+    }
+
+    fun getCase(coordinates: IntArray): CaseViewer =
+        gridViewer.getCase(coordinates)
+
+    fun detectSingleMargin(previousCoordinates: IntArray, currentCoordinates: IntArray): BooleanArray =
+        gridViewer.detectSingleMargin(previousCoordinates, currentCoordinates)
+
+    fun detectTwoMargins(previousCoordinates: IntArray, currentCoordinates: IntArray, nextCoordinates: IntArray): BooleanArray =
+        gridViewer.detectTwoMargins(previousCoordinates, currentCoordinates, nextCoordinates)
+
+    fun getOperation(coordinates: IntArray): String =
+        operationsGrid[coordinates[0]][coordinates[1]]
+
 }

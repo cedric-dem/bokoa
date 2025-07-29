@@ -59,8 +59,8 @@ class GridViewer(
         }
     }
 
-    fun getCase(rowIndex: Int, columnIndex: Int): CaseViewer =
-        this.gridViewer[rowIndex][columnIndex]!!
+    fun getCase(coordinates: IntArray): CaseViewer =
+        this.gridViewer[coordinates[0]][coordinates[1]]!!
 
     // Static
     private fun detectDirection(coordinatesA: IntArray, coordinatesB: IntArray): Int {
