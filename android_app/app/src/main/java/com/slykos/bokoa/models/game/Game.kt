@@ -15,8 +15,6 @@ import com.slykos.bokoa.models.MoveResult
 import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
 import java.text.DecimalFormat
 import kotlin.math.abs
-import kotlin.math.min
-import kotlin.math.roundToInt
 
 abstract class Game(
     private val context: GenericPlayPage
@@ -28,8 +26,6 @@ abstract class Game(
     private var maxScore: Float = 0f
 
     private lateinit var gridSize: IntArray
-    private var caseSize: Int = 0
-    private var caseTextSize: Float = 0f
 
     lateinit var bestScoreString: String
     lateinit var currentLevel: Level

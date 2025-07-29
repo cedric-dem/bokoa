@@ -14,7 +14,7 @@ class GridViewer(
     mainTypeface: Typeface,
     mediumColor: ColorStateList,
     private val caseSize: Int,
-    private val caseTextSize: Float
+    private val caseTextSize: Int
 ) {
 
     private val gridViewer: Array<Array<CaseViewer?>> = Array(gridSize[1]) { arrayOfNulls(gridSize[0]) }

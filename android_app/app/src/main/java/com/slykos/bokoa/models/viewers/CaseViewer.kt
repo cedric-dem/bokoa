@@ -24,7 +24,7 @@ class CaseViewer(
     mainTypeface: Typeface,
     private val mediumColor: ColorStateList,
     private val darkColor: ColorStateList,
-    private val caseTextSize: Float
+    private val caseTextSize: Int
 ) {
 
     var caseRepresentation: GridLayout = GridLayout(context.getGameGrid().context).apply {
@@ -75,7 +75,7 @@ class CaseViewer(
             setTextColor(getColorOfOperation(thisOperation[0]))
             typeface = mainTypeface
             setPadding(0, 0, 0, 0)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, caseTextSize)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, caseTextSize.toFloat())
             layoutParams = GridLayout.LayoutParams().apply {
                 width = 0
                 height = 0

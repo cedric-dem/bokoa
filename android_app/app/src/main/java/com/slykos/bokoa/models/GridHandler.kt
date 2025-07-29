@@ -2,6 +2,7 @@ package com.slykos.bokoa.models
 
 import android.content.res.ColorStateList
 import android.graphics.Typeface
+import android.util.Log
 import com.slykos.bokoa.models.viewers.CaseViewer
 import com.slykos.bokoa.models.viewers.GridViewer
 import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
@@ -22,7 +23,7 @@ class GridHandler(
         ((screenDimensions[0] * 0.7) / gridSize[0]),
         ((screenDimensions[1] * 0.48) / gridSize[1])
     ).roundToInt()
-    private val caseTextSize: Float = ((caseSize.toFloat() / 3.5) + -9.7).toFloat()
+    private val caseTextSize: Int = ((caseSize.toFloat() / 3.5) + -9.7).toInt()
 
     fun shapeGrid() {
         this.gridViewer.shapeGrid()
