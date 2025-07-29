@@ -14,7 +14,7 @@ class GridViewer(
     mainTypeface: Typeface,
     mediumColor: ColorStateList,
     private val caseSize: Int,
-    private val caseTextSize: Float
+    private val caseTextSize: Int
 ) {
 
     private val gridViewer: Array<Array<CaseViewer?>> = Array(gridSize[1]) { arrayOfNulls(gridSize[0]) }
@@ -59,8 +59,8 @@ class GridViewer(
         }
     }
 
-    fun getCase(rowIndex: Int, columnIndex: Int): CaseViewer =
-        this.gridViewer[rowIndex][columnIndex]!!
+    fun getCase(coordinates: IntArray): CaseViewer =
+        this.gridViewer[coordinates[0]][coordinates[1]]!!
 
     // Static
     private fun detectDirection(coordinatesA: IntArray, coordinatesB: IntArray): Int {
