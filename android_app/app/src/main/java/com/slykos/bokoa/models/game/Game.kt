@@ -59,14 +59,9 @@ abstract class Game(
         currentLevel = callerCurrentLevel
 
         // TODO isolate k ?
-        caseSize = min(
-            ((screenDimensions[0] * 0.7) / gridSize[0]),
-            ((screenDimensions[1] * 0.48) / gridSize[1])
-        ).roundToInt()
 
-        caseTextSize = ((caseSize.toFloat() / 3.5) + -9.7).toFloat()
 
-        this.gridHandler = GridHandler(this.context, currentLevel.operations, this.gridSize, mainTypeface, mediumColor, caseSize, caseTextSize)
+        this.gridHandler = GridHandler(this.context, currentLevel.operations, this.gridSize, mainTypeface, mediumColor, screenDimensions)
 
         maxScore = currentLevel.bestScore
         bestScoreString = getFormattedScore(maxScore)

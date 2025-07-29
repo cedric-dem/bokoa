@@ -5,6 +5,8 @@ import android.graphics.Typeface
 import com.slykos.bokoa.models.viewers.CaseViewer
 import com.slykos.bokoa.models.viewers.GridViewer
 import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 class GridHandler(
     private val context: GenericPlayPage,
@@ -12,14 +14,15 @@ class GridHandler(
     private val gridSize: IntArray,
     private val mainTypeface: Typeface,
     private val mediumColor: ColorStateList,
-    private val caseSize: Int,
-    private val caseTextSize: Float
+    private val screenDimensions: IntArray
 ) {
     private lateinit var gridViewer: GridViewer
 
-    init {
-
-    }
+    private val caseSize: Int = min(
+        ((screenDimensions[0] * 0.7) / gridSize[0]),
+        ((screenDimensions[1] * 0.48) / gridSize[1])
+    ).roundToInt()
+    private val caseTextSize: Float = ((caseSize.toFloat() / 3.5) + -9.7).toFloat()
 
     fun shapeGrid() {
         this.gridViewer.shapeGrid()
