@@ -39,10 +39,10 @@ class GridHandler(
     fun getCase(coordinates: IntArray): CaseViewer =
         gridViewer.getCase(coordinates)
 
-    fun detectSingleMargin(previousCoordinates: IntArray, currentCoordinates: IntArray): BooleanArray =
+    private fun detectSingleMargin(previousCoordinates: IntArray, currentCoordinates: IntArray): BooleanArray =
         gridViewer.detectSingleMargin(previousCoordinates, currentCoordinates)
 
-    fun detectTwoMargins(previousCoordinates: IntArray, currentCoordinates: IntArray, nextCoordinates: IntArray): BooleanArray =
+    private fun detectTwoMargins(previousCoordinates: IntArray, currentCoordinates: IntArray, nextCoordinates: IntArray): BooleanArray =
         gridViewer.detectTwoMargins(previousCoordinates, currentCoordinates, nextCoordinates)
 
     fun getOperation(coordinates: IntArray): String =
@@ -52,18 +52,18 @@ class GridHandler(
 
         // Inside
         for (i in 1 until coordinatesHistory.size - 1) { // start from first non neutral, until cursor
-            this.getCase(coordinatesHistory[i]).shapeInHistoryCase(this.detectTwoMargins(coordinatesHistory[i - 1], coordinatesHistory[i], coordinatesHistory[i + 1]), ((255 * i) / coordinatesHistory.size))
+            getCase(coordinatesHistory[i]).shapeInHistoryCase(detectTwoMargins(coordinatesHistory[i - 1], coordinatesHistory[i], coordinatesHistory[i + 1]), ((255 * i) / coordinatesHistory.size))
         }
 
         if (coordinatesHistory.size > 1) { // cursor + neutral if more than one elem
             // Neutral
-            this.getCase(coordinatesHistory[0]).shapeNeutralCase(this.detectSingleMargin(coordinatesHistory[0], coordinatesHistory[1]))
+            getCase(coordinatesHistory[0]).shapeNeutralCase(detectSingleMargin(coordinatesHistory[0], coordinatesHistory[1]))
 
             // cursor
-            this.getCase(coordinatesHistory.last()).shapeCursorCase(this.detectSingleMargin(coordinatesHistory.last(), coordinatesHistory[coordinatesHistory.size - 2]))
+            getCase(coordinatesHistory.last()).shapeCursorCase(detectSingleMargin(coordinatesHistory.last(), coordinatesHistory[coordinatesHistory.size - 2]))
 
         } else { //if size 0, shape neutral only
-            this.getCase(coordinatesHistory[0]).shapeNeutralCaseNeverMoved()
+            getCase(coordinatesHistory[0]).shapeNeutralCaseNeverMoved()
         }
     }
 
