@@ -49,7 +49,6 @@ class MovementHandler(
             ?.run {
                 applyMoveResult(this, oldCoordinate, newCoordinate)
             }
-
     }
 
     private fun applyMoveResult(moveResult: MoveResult, oldCoordinate: IntArray, newCoordinate: IntArray) {
@@ -70,7 +69,7 @@ class MovementHandler(
     }
 
     private fun applyGoBackMove(oldCoordinate: IntArray, newCoordinate: IntArray) {
-        game.applyOperationOnScore(oldCoordinate, newCoordinate) // coming back
+        game.applyOperationOnScore(oldCoordinate) // coming back
         coordinatesHistory.removeAt(coordinatesHistory.lastIndex)
         game.gameMovementGoBack(oldCoordinate, newCoordinate) // coming back
     }
@@ -78,9 +77,50 @@ class MovementHandler(
     fun getHistorySize(): Int =
         coordinatesHistory.size
 
+    private fun getOlderPosition(distance: Int): IntArray =
+        getCoordinateAtPosition(getHistorySize() - distance)
+
     fun getEntireHistory(): MutableList<IntArray> =
         coordinatesHistory
 
     fun getCoordinateAtPosition(i: Int): IntArray =
         coordinatesHistory[i]
+
+    fun getLastMove(): IntArray =
+        getMoveAtGivenPosition(getHistorySize() - 1)
+
+    private fun getMoveAtGivenPosition(position: Int): IntArray {
+        val positionA = getCoordinateAtPosition(position)
+        val positionB = getCoordinateAtPosition(position - 1)
+
+        return intArrayOf(
+            positionA[0] - positionB[0],
+            positionA[1] - positionB[1]
+        )
+    }
+
+    private fun isMoveInDirection(direction: String, move: IntArray): Boolean =
+        when (direction) {
+            "u" -> areCoordinatesEqual(move, intArrayOf(1, 0))
+            ">" -> areCoordinatesEqual(move, intArrayOf(0, 1))
+            "n" -> areCoordinatesEqual(move, intArrayOf(-1, 0))
+            "<" -> areCoordinatesEqual(move, intArrayOf(0, -1))
+            else -> false // invalid direction
+        }
+
+    fun isOnGoodPath(currentLevel: Level): Boolean {
+        var correctUntilNow = true
+
+        if (getHistorySize() - 1 > currentLevel.bestMoves.size) {
+            correctUntilNow = false
+        } else {
+            // go trough history
+            for (i in 1 until getHistorySize()) {
+                if (!isMoveInDirection(currentLevel.bestMoves[i - 1], getMoveAtGivenPosition(i))) {
+                    correctUntilNow = false
+                }
+            }
+        }
+        return correctUntilNow
+    }
 }

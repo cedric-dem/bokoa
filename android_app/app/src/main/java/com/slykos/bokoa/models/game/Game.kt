@@ -1,7 +1,6 @@
 package com.slykos.bokoa.models.game
 
 import android.content.res.ColorStateList
-import android.graphics.Typeface
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
@@ -139,7 +138,7 @@ abstract class Game(
     fun refreshScoreVisual() {
         refreshScore()
         checkGoalReached()
-        gridHandler.refreshBackground(movementHandler.getEntireHistory())
+        gridHandler.refreshBackground(movementHandler.getEntireHistory()) //todo refactor that
     }
 
     fun applyMove(move: String) {
@@ -154,23 +153,23 @@ abstract class Game(
         )
     }
 
-    fun applyOperationOnScore(oldCord: IntArray, newCord: IntArray) {
+    fun applyOperationOnScore(oldCoordinate: IntArray) {
         // apply reverse operation
-        applyOperation(gridHandler.getOperation(oldCord), true)
+        applyOperation(gridHandler.getOperation(oldCoordinate), true)
     }
 
-    fun gameMovementGoBack(oldCord: IntArray, newCord: IntArray) {
+    fun gameMovementGoBack(oldCoordinate: IntArray, newCoordinate: IntArray) {
         // reset  old case background
-        gridHandler.getCase(oldCord).shapeUnusedCase()
+        gridHandler.getCase(oldCoordinate).shapeUnusedCase()
 
-        if (movementHandler.areCoordinatesEqual(intArrayOf(0, 0), newCord)) {
+        if (movementHandler.areCoordinatesEqual(intArrayOf(0, 0), newCoordinate)) {
             currentScore = 1.0f
         }
     }
 
-    fun movementReachNew(newCord: IntArray) {
+    fun movementReachNew(newCoordinate: IntArray) {
         // modify score
-        applyOperation(gridHandler.getOperation(newCord), false)
+        applyOperation(gridHandler.getOperation(newCoordinate), false)
     }
 
     private fun applyOperation(newOperation: String, reverse: Boolean) {
