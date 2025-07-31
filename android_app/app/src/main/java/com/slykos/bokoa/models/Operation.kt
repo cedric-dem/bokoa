@@ -1,7 +1,5 @@
 package com.slykos.bokoa.models
 
-import android.util.Log
-
 data class Operation(
     val isNeutral : Boolean,
     val operator: Char?,

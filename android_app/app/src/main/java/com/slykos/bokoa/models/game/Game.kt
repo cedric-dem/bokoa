@@ -174,7 +174,6 @@ abstract class Game(
     }
 
     private fun applyOperation(newOperation: Operation, reverse: Boolean) {
-        //val operand: Float = Character.getNumericValue(newOperation.operator).toFloat()
         val operand: Float = newOperation.operand!!.toFloat()
         when (newOperation.operator) {
             '+' -> currentScore += if (reverse) -operand else operand
