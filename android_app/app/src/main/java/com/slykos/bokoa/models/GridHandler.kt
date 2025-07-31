@@ -10,7 +10,7 @@ import kotlin.math.roundToInt
 
 class GridHandler(
     private val context: GenericPlayPage,
-    private val operationsGrid: Array<Array<String>>,
+    private val operationsGrid: Array<Array<Operation>>,
     private val gridSize: IntArray,
     private val mainTypeface: Typeface,
     private val mediumColor: ColorStateList,
@@ -45,7 +45,7 @@ class GridHandler(
     private fun detectTwoMargins(previousCoordinates: IntArray, currentCoordinates: IntArray, nextCoordinates: IntArray): BooleanArray =
         gridViewer.detectTwoMargins(previousCoordinates, currentCoordinates, nextCoordinates)
 
-    fun getOperation(coordinates: IntArray): String =
+    fun getOperation(coordinates: IntArray): Operation =
         operationsGrid[coordinates[0]][coordinates[1]]
 
     fun refreshBackground(coordinatesHistory: MutableList<IntArray>) { //todo move lot of computation in gridhandler
