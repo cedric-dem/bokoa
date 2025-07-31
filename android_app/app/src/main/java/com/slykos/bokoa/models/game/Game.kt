@@ -174,14 +174,7 @@ abstract class Game(
     }
 
     private fun applyOperation(newOperation: Operation, reverse: Boolean) {
-        val operand: Float = newOperation.operand!!.toFloat()
-        when (newOperation.operator) {
-            '+' -> currentScore += if (reverse) -operand else operand
-            '-' -> currentScore += if (reverse) operand else -operand
-            '×' -> currentScore *= if (reverse) 1 / operand else operand
-            '÷' -> currentScore *= if (reverse) operand else 1 / operand
-            else -> {}
-        }
+        currentScore = newOperation.applyOperation(currentScore, reverse)
     }
 
     private fun checkGoalReached() {
