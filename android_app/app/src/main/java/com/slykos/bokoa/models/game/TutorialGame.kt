@@ -1,6 +1,7 @@
 package com.slykos.bokoa.models.game
 
 import com.slykos.bokoa.R
+import com.slykos.bokoa.models.Operation
 import com.slykos.bokoa.pagesHandler.playPages.TutorialPageHandler
 
 class TutorialGame(
@@ -62,7 +63,7 @@ class TutorialGame(
         } else {
             var currentEquation = "1"
 
-            var currentOperation: String
+            var currentOperation: Operation
 
             for (i in 0 until movementHandler.getHistorySize()) {
                 currentOperation = currentLevel.operations[movementHandler.getCoordinateAtPosition(i)[0]][movementHandler.getCoordinateAtPosition(i)[1]]

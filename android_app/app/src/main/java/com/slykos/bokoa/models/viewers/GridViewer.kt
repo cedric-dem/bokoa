@@ -2,15 +2,17 @@ package com.slykos.bokoa.models.viewers
 
 import android.content.res.ColorStateList
 import android.graphics.Typeface
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.slykos.bokoa.R
+import com.slykos.bokoa.models.Operation
 import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
 
 class GridViewer(
     private var context: GenericPlayPage,
     private val gridSize: IntArray,
-    private val operationsGrid: Array<Array<String>>,
+    private val operationsGrid: Array<Array<Operation>>,
     mainTypeface: Typeface,
     mediumColor: ColorStateList,
     private val caseSize: Int,
@@ -23,7 +25,7 @@ class GridViewer(
         val darkColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.dark_color))
         for (i in 0 until gridSize[1]) {
             for (j in 0 until gridSize[0]) {
-                this.gridViewer[i][j] = CaseViewer(this.context, i, j, operationsGrid[i][j], gridSize, mainTypeface, mediumColor, darkColor, caseTextSize)
+                this.gridViewer[i][j] = CaseViewer(this.context, i, j, operationsGrid[i][j].asString, gridSize, mainTypeface, mediumColor, darkColor, caseTextSize)
                 context.getGameGrid().addView(this.gridViewer[i][j]!!.caseRepresentation, getGridParams(i, j))
             }
         }
@@ -50,7 +52,7 @@ class GridViewer(
     fun shapeGrid() {
         for (i in 0 until gridSize[1]) {
             for (j in 0 until gridSize[0]) {
-                if (operationsGrid[i][j] == "1") {
+                if (operationsGrid[i][j].isNeutral) {
                     this.gridViewer[i][j]!!.shapeNeutralCaseNeverMoved()
                 } else {
                     this.gridViewer[i][j]!!.shapeUnusedCase()

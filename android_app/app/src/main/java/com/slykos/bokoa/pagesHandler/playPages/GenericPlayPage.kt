@@ -8,9 +8,11 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.slykos.bokoa.R
 import com.slykos.bokoa.models.Level
+import com.slykos.bokoa.models.Operation
+import com.slykos.bokoa.models.OperationGridDeserializer
 import java.io.InputStreamReader
 
 abstract class GenericPlayPage : AppCompatActivity() {
@@ -49,7 +51,14 @@ abstract class GenericPlayPage : AppCompatActivity() {
         try {
             val reader = InputStreamReader(context.assets.open(filename))
 
-            Gson().fromJson(reader, Level::class.java).also {
+            val gson = GsonBuilder()
+                .registerTypeAdapter(
+                    Array<Array<Operation>>::class.java,
+                    OperationGridDeserializer()
+                )
+                .create()
+
+            gson.fromJson(reader, Level::class.java).also {
                 reader.close()
             }
         } catch (e: Exception) {

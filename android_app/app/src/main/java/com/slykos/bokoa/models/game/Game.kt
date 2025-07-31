@@ -11,6 +11,7 @@ import com.slykos.bokoa.R.color
 import com.slykos.bokoa.models.GridHandler
 import com.slykos.bokoa.models.Level
 import com.slykos.bokoa.models.MovementHandler
+import com.slykos.bokoa.models.Operation
 import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
 import java.text.DecimalFormat
 import kotlin.math.abs
@@ -172,15 +173,8 @@ abstract class Game(
         applyOperation(gridHandler.getOperation(newCoordinate), false)
     }
 
-    private fun applyOperation(newOperation: String, reverse: Boolean) {
-        val operand: Float = Character.getNumericValue(newOperation[1]).toFloat()
-        when (newOperation[0]) {
-            '+' -> currentScore += if (reverse) -operand else operand
-            '-' -> currentScore += if (reverse) operand else -operand
-            '×' -> currentScore *= if (reverse) 1 / operand else operand
-            '÷' -> currentScore *= if (reverse) operand else 1 / operand
-            else -> {}
-        }
+    private fun applyOperation(newOperation: Operation, reverse: Boolean) {
+        currentScore = newOperation.applyOperation(currentScore, reverse)
     }
 
     private fun checkGoalReached() {
