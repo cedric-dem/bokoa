@@ -1,4 +1,4 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.data.user
 
 import android.content.Context
 import android.content.SharedPreferences

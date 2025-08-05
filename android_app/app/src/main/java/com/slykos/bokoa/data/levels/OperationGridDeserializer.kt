@@ -1,8 +1,9 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.data.levels
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.slykos.bokoa.logic.models.Operation
 
 import java.lang.reflect.Type
 

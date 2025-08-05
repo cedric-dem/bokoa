@@ -1,4 +1,4 @@
-package com.slykos.bokoa.pagesHandler
+package com.slykos.bokoa.frontend.pages
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
-import com.slykos.bokoa.Config
+import com.slykos.bokoa.config.Config
 import com.slykos.bokoa.R
-import com.slykos.bokoa.models.SavedDataHandler
-import com.slykos.bokoa.pagesHandler.playPages.GamePageHandler
+import com.slykos.bokoa.data.user.SavedDataHandler
+import com.slykos.bokoa.frontend.pages.playPages.GamePageHandler
 
 class LevelSelectionPageHandler : AppCompatActivity() {
     private var textSize: Int = 0
@@ -73,7 +73,7 @@ class LevelSelectionPageHandler : AppCompatActivity() {
         }
     }
 
-    private fun setLevelButtonAccessible(currentButton: Button, currentLevel: Int){
+    private fun setLevelButtonAccessible(currentButton: Button, currentLevel: Int) {
         currentButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
         currentButton.setBackgroundResource(R.drawable.level_unlocked)
 
@@ -85,7 +85,7 @@ class LevelSelectionPageHandler : AppCompatActivity() {
         }
     }
 
-    private fun setLevelButtonNotAccessible(currentButton: Button){
+    private fun setLevelButtonNotAccessible(currentButton: Button) {
         currentButton.setBackgroundResource(R.drawable.level_locked)
         currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
     }

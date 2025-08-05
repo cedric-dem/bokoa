@@ -1,4 +1,4 @@
-package com.slykos.bokoa.pagesHandler.playPages
+package com.slykos.bokoa.frontend.pages.playPages
 
 import android.os.Bundle
 import android.view.View
@@ -8,9 +8,10 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.slykos.bokoa.R
-import com.slykos.bokoa.models.game.Game
-import com.slykos.bokoa.models.Level
-import com.slykos.bokoa.models.game.TutorialGame
+import com.slykos.bokoa.data.levels.loadLevelFromJson
+import com.slykos.bokoa.logic.game.Game
+import com.slykos.bokoa.logic.models.Level
+import com.slykos.bokoa.logic.game.TutorialGame
 
 class TutorialPageHandler : GenericPlayPage() {
     private lateinit var tutorialGame: Game
@@ -68,7 +69,7 @@ class TutorialPageHandler : GenericPlayPage() {
     }
 
     private fun getTutorialLevel(): Level =
-        this.loadLevelFromJson(this, "tutorial/level_000000.json")!!
+        loadLevelFromJson(this, "tutorial/level_000000.json")!!
 
     fun setTip(newTip: String) {
         tipGiverTextView.text = newTip

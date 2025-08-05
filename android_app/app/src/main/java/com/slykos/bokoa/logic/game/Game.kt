@@ -1,18 +1,18 @@
-package com.slykos.bokoa.models.game
+package com.slykos.bokoa.logic.game
 
 import android.content.res.ColorStateList
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import androidx.core.content.ContextCompat
-import com.slykos.bokoa.Config
+import com.slykos.bokoa.config.Config
 import com.slykos.bokoa.R
 import com.slykos.bokoa.R.color
-import com.slykos.bokoa.models.GridHandler
-import com.slykos.bokoa.models.Level
-import com.slykos.bokoa.models.MovementHandler
-import com.slykos.bokoa.models.Operation
-import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
+import com.slykos.bokoa.logic.services.GridHandler
+import com.slykos.bokoa.logic.models.Level
+import com.slykos.bokoa.logic.services.MovementHandler
+import com.slykos.bokoa.logic.models.Operation
+import com.slykos.bokoa.frontend.pages.playPages.GenericPlayPage
 import java.text.DecimalFormat
 import kotlin.math.abs
 

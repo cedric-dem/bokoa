@@ -1,4 +1,4 @@
-package com.slykos.bokoa.models.viewers
+package com.slykos.bokoa.frontend.view
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -11,9 +11,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
-import com.slykos.bokoa.Config
+import com.slykos.bokoa.config.Config
 import com.slykos.bokoa.R
-import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
+import com.slykos.bokoa.frontend.pages.playPages.GenericPlayPage
 
 class CaseViewer(
     private var context: GenericPlayPage,

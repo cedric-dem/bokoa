@@ -1,6 +1,8 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.logic.services
 
-import com.slykos.bokoa.models.game.Game
+import com.slykos.bokoa.logic.game.Game
+import com.slykos.bokoa.logic.models.Level
+import com.slykos.bokoa.logic.models.MoveResult
 
 class MovementHandler(
     private var gridSize: IntArray,

@@ -1,4 +1,4 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.logic.models
 
 class Level(
     @JvmField var operations: Array<Array<Operation>> = arrayOf(),

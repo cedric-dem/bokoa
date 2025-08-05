@@ -1,4 +1,4 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.logic.services
 
 import android.app.AlertDialog
 import android.widget.Button
@@ -8,9 +8,9 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
-import com.slykos.bokoa.Config
+import com.slykos.bokoa.config.Config
 import com.slykos.bokoa.R
-import com.slykos.bokoa.pagesHandler.playPages.GamePageHandler
+import com.slykos.bokoa.frontend.pages.playPages.GamePageHandler
 
 class AdHandler(
     private val context: GamePageHandler,

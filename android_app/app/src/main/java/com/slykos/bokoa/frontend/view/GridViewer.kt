@@ -1,13 +1,12 @@
-package com.slykos.bokoa.models.viewers
+package com.slykos.bokoa.frontend.view
 
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.slykos.bokoa.R
-import com.slykos.bokoa.models.Operation
-import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
+import com.slykos.bokoa.logic.models.Operation
+import com.slykos.bokoa.frontend.pages.playPages.GenericPlayPage
 
 class GridViewer(
     private var context: GenericPlayPage,

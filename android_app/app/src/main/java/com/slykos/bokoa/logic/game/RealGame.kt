@@ -1,6 +1,6 @@
-package com.slykos.bokoa.models.game
+package com.slykos.bokoa.logic.game
 
-import com.slykos.bokoa.pagesHandler.playPages.GamePageHandler
+import com.slykos.bokoa.frontend.pages.playPages.GamePageHandler
 
 class RealGame(
     private var callingPage: GamePageHandler

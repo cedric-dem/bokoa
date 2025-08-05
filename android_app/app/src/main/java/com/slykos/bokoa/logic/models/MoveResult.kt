@@ -1,4 +1,4 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.logic.models
 
 enum class MoveResult {
     IMPOSSIBLE, // Move not possible

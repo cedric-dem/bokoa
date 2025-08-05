@@ -1,4 +1,4 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.logic.models
 
 data class Operation(
     val isNeutral: Boolean,
@@ -7,7 +7,7 @@ data class Operation(
 ) {
     companion object {
         //todo add bool isneutral
-        //todo add class + - / * inheritingf from that, apply() function
+        //todo add class + - / * inheriting from that, apply() function
         fun fromString(s: String): Operation {
             if (s.length != 1) {
                 return Operation(false, s[0], s.substring(1).toFloat())

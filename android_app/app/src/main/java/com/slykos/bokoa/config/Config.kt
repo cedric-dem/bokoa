@@ -1,4 +1,4 @@
-package com.slykos.bokoa
+package com.slykos.bokoa.config
 
 object Config {
     const val MOVE_THRESHOLD = 100

@@ -1,10 +1,11 @@
-package com.slykos.bokoa.models
+package com.slykos.bokoa.logic.services
 
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import com.slykos.bokoa.models.viewers.CaseViewer
-import com.slykos.bokoa.models.viewers.GridViewer
-import com.slykos.bokoa.pagesHandler.playPages.GenericPlayPage
+import com.slykos.bokoa.frontend.view.CaseViewer
+import com.slykos.bokoa.frontend.view.GridViewer
+import com.slykos.bokoa.frontend.pages.playPages.GenericPlayPage
+import com.slykos.bokoa.logic.models.Operation
 import kotlin.math.min
 import kotlin.math.roundToInt
 

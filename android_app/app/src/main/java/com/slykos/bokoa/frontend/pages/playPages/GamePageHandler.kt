@@ -1,4 +1,4 @@
-package com.slykos.bokoa.pagesHandler.playPages
+package com.slykos.bokoa.frontend.pages.playPages
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -9,13 +9,14 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.google.android.material.snackbar.Snackbar
-import com.slykos.bokoa.Config
+import com.slykos.bokoa.config.Config
 import com.slykos.bokoa.R
-import com.slykos.bokoa.models.AdHandler
-import com.slykos.bokoa.models.game.Game
-import com.slykos.bokoa.models.Level
-import com.slykos.bokoa.models.game.RealGame
-import com.slykos.bokoa.models.SavedDataHandler
+import com.slykos.bokoa.data.levels.loadLevelFromJson
+import com.slykos.bokoa.logic.services.AdHandler
+import com.slykos.bokoa.logic.game.Game
+import com.slykos.bokoa.logic.models.Level
+import com.slykos.bokoa.logic.game.RealGame
+import com.slykos.bokoa.data.user.SavedDataHandler
 
 open class GamePageHandler : GenericPlayPage() {
     private lateinit var topScoreIndicatorTextView: TextView
@@ -126,7 +127,7 @@ open class GamePageHandler : GenericPlayPage() {
     private fun initLevel() {
         val paddedLevelId = levelId.toString().padStart(6, '0')
         val fileName = "grid_size_$difficulty/level_$paddedLevelId.json"
-        currentLevel = this.loadLevelFromJson(this, fileName)!!
+        currentLevel = loadLevelFromJson(this, fileName)!!
 
         passedLevels = savedDataHandler.getPassedLevels()
 

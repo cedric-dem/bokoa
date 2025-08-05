@@ -1,6 +1,6 @@
-package com.slykos.bokoa.pagesHandler
+package com.slykos.bokoa.frontend.pages
 
-import com.slykos.bokoa.Config
+import com.slykos.bokoa.config.Config
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
@@ -10,7 +10,7 @@ import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.slykos.bokoa.R
-import com.slykos.bokoa.models.SavedDataHandler
+import com.slykos.bokoa.data.user.SavedDataHandler
 
 class DifficultySelectionPageHandler : AppCompatActivity() {
 
@@ -84,12 +84,12 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
         }
     }
 
-    private fun setDifficultyButtonNotAccessible(currentButton: Button){
+    private fun setDifficultyButtonNotAccessible(currentButton: Button) {
         currentButton.setBackgroundResource(R.drawable.level_locked)
         currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
     }
 
-    private fun setDifficultyButtonAccessible(currentButton: Button, currentDifficulty: Int){
+    private fun setDifficultyButtonAccessible(currentButton: Button, currentDifficulty: Int) {
         currentButton.setBackgroundResource(R.drawable.level_unlocked)
         currentButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
 
