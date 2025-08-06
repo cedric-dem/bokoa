@@ -11,6 +11,6 @@ class RealGame(
 
     override fun refreshScore() {
         super.refreshScore()
-        callingPage.setScoreText("""${getFormattedScore(currentScore)} / $bestScoreString""")
+        callingPage.setScoreText("""${getFormattedScore(getCurrentScore())} / ${getBestScoreString()}""")
     }
 }

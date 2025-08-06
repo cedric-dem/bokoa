@@ -55,15 +55,12 @@ open class GamePageHandler : GenericPlayPage() {
 
         runGame()
 
-        if (Config.SHOW_SOLUTION_AT_START) {
-            showSolution()
-        }
         if (Config.SKIP_AD) {
             adHandler.makeAdButtonEffective();
         }
     }
 
-    fun showSolution() {
+    fun solve() {
         // Restart
         resetGame()
 
@@ -88,6 +85,11 @@ open class GamePageHandler : GenericPlayPage() {
 
         // current_game.initLevel(grid_size, current_level);
         currentGame.runGame()
+
+        if (Config.SHOW_SOLUTION_AT_START) {
+            solve()
+        }
+
     }
 
     private fun makeNextLevelButtonEffective() {
@@ -108,7 +110,7 @@ open class GamePageHandler : GenericPlayPage() {
         }
     }
 
-    private fun nextLevel() {
+    fun nextLevel() {
         // empty grid
         currentGame.emptyGrid()
 
@@ -152,13 +154,13 @@ open class GamePageHandler : GenericPlayPage() {
     }
 
     private fun wonLevelAgain() {
-        topScoreIndicatorTextView.text = getString(R.string.finished_level_again) + currentGame.bestScoreString
+        topScoreIndicatorTextView.text = getString(R.string.finished_level_again) + currentGame.getBestScoreString()
         bottomScoreIndicatorTextView.text = ""
     }
 
     private fun wonFirstTimeLevel() {
         // Top text
-        topScoreIndicatorTextView.text = getString(R.string.finished_level) + currentGame.bestScoreString
+        topScoreIndicatorTextView.text = getString(R.string.finished_level) + currentGame.getBestScoreString()
 
         // detect case then bottom text + next level button effective
         if ((passedLevels + 1) % Config.LEVELS_PER_DIFFICULTIES == 0) {
@@ -249,4 +251,11 @@ open class GamePageHandler : GenericPlayPage() {
         }
         return super.onKeyDown(keyCode, event)
     }
+
+    fun checkGoalReached(): Boolean =
+        currentGame.checkGoalReached()
+
+    fun getGame(): Game =
+        currentGame
+
 }

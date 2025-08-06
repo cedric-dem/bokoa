@@ -84,7 +84,7 @@ class TutorialPageHandler : GenericPlayPage() {
     }
 
     private fun setMaxScore() {
-        maxScoreTextView.text = tutorialGame.bestScoreString
+        maxScoreTextView.text = tutorialGame.getBestScoreString()
     }
 
     override fun getProgressbar(): ProgressBar =

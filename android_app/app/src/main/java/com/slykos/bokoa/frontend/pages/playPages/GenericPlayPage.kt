@@ -40,4 +40,6 @@ abstract class GenericPlayPage : AppCompatActivity() {
     abstract fun getMainView(): View
 
     abstract fun finishedGame()
+
+
 }
