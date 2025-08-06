@@ -31,7 +31,7 @@ class TutorialGame(
     }
 
     private fun getNextMove(): String =
-        currentLevel.bestMoves.getOrNull(movementHandler.getHistorySize() - 1)?.let { move ->
+        getCurrentLevel().bestMoves.getOrNull(movementHandler.getHistorySize() - 1)?.let { move ->
             when (move) {
                 "u" -> callingPage.resources.getString(R.string.move_down_string)
                 "n" -> callingPage.resources.getString(R.string.move_up_string)
@@ -43,7 +43,7 @@ class TutorialGame(
 
     private fun setTipGiver() {
         callingPage.setTip(
-            if (movementHandler.isOnGoodPath(currentLevel)) {
+            if (movementHandler.isOnGoodPath(getCurrentLevel())) {
                 if (movementHandler.getHistorySize() == 1) {
                     callingPage.resources.getString(R.string.swipe) + getNextMove()
                 } else {
@@ -65,7 +65,7 @@ class TutorialGame(
             var currentOperation: String
 
             for (i in 0 until movementHandler.getHistorySize()) {
-                currentOperation = currentLevel.operations[movementHandler.getCoordinateAtPosition(i)[0]][movementHandler.getCoordinateAtPosition(i)[1]].asString
+                currentOperation = getCurrentLevel().operations[movementHandler.getCoordinateAtPosition(i)[0]][movementHandler.getCoordinateAtPosition(i)[1]].asString
 
                 currentEquation = when (i) {
                     0 -> "1"
@@ -74,7 +74,7 @@ class TutorialGame(
                 }
             }
             callingPage.setEquation("$currentEquation\n=")
-            callingPage.setCurrentScore(getFormattedScore(currentScore))
+            callingPage.setCurrentScore(getFormattedScore(getCurrentScore()))
         }
     }
 }

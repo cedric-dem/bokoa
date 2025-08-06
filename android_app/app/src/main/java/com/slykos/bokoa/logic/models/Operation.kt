@@ -20,7 +20,7 @@ data class Operation(
     val asString: String
         get() = if (isNeutral) "1" else "$operator${operand!!.toInt()}"
 
-    fun applyOperation(inputValue: Float, reverse: Boolean): Float {
+    fun applyOperation(inputValue: Double, reverse: Boolean): Double {
         val op = operator ?: return inputValue
         val value = operand ?: return inputValue
 

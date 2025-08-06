@@ -65,7 +65,7 @@ class AdHandler(
         // change function call
         adButton.setOnClickListener {
             if (Config.SKIP_AD) {
-                context.showSolution()
+                context.solve()
             } else {
                 askConfirmation()
             }
@@ -86,7 +86,7 @@ class AdHandler(
     private fun displayAd() { // ask for solution
         if (rewardedAd != null) {
             rewardedAd!!.show(context) { // Solution is shown
-                context.showSolution()
+                context.solve()
             }
         } else {
             // Should theoretically never be called

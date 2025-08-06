@@ -21,11 +21,11 @@ abstract class Game(
 ) {
     private var decimalFormat: DecimalFormat = DecimalFormat("###,###,###,##0.##")
 
-    var currentScore: Float = 0f
-    private var maxScore: Float = 0f
+    private var currentScore: Double = 0.0
+    private var maxScore: Double = 0.0
 
-    lateinit var bestScoreString: String
-    lateinit var currentLevel: Level
+    private lateinit var bestScoreString: String
+    private lateinit var currentLevel: Level
 
     private lateinit var gridHandler: GridHandler
     protected lateinit var movementHandler: MovementHandler
@@ -34,8 +34,8 @@ abstract class Game(
         context.getMainView().setOnTouchListener(getTouchListener())
     }
 
-    fun getFormattedScore(score: Float): String =
-        decimalFormat.format(score.toDouble()).replace(",".toRegex(), ".")
+    fun getFormattedScore(score: Double): String =
+        decimalFormat.format(score).replace(",".toRegex(), ".")
 
     fun initLevel(callerGridSize: IntArray, callerCurrentLevel: Level) {
 
@@ -50,6 +50,12 @@ abstract class Game(
         bestScoreString = getFormattedScore(maxScore)
     }
 
+    fun getCurrentScore(): Double =
+        currentScore
+
+    fun getCurrentLevel(): Level =
+        currentLevel
+
     fun shapeGrid() {
         gridHandler.shapeGrid()
     }
@@ -60,7 +66,7 @@ abstract class Game(
 
     fun initGame() {
         movementHandler.start()
-        currentScore = 1f
+        currentScore = 1.0
     }
 
     private fun createGrid() {
@@ -164,7 +170,7 @@ abstract class Game(
         gridHandler.getCase(oldCoordinate).shapeUnusedCase()
 
         if (movementHandler.areCoordinatesEqual(intArrayOf(0, 0), newCoordinate)) {
-            currentScore = 1.0f
+            currentScore = 1.0
         }
     }
 
@@ -177,12 +183,19 @@ abstract class Game(
         currentScore = newOperation.applyOperation(currentScore, reverse)
     }
 
-    private fun checkGoalReached() {
-        if (abs((currentScore - maxScore).toDouble()) <= 0.02f || currentScore > maxScore) {
-            context.updateProgressBarTint(true)
+    internal fun checkGoalReached(): Boolean {
+        val result: Boolean = abs((currentScore - maxScore)) <= 0.02f || currentScore > maxScore
+        if (result) {
             context.finishedGame()
-        } else {
-            context.updateProgressBarTint(false)
         }
+        context.updateProgressBarTint(result)
+        return result
     }
+
+    fun getBestScoreString(): String =
+        bestScoreString
+
+    fun getMoveHandler(): MovementHandler =
+        movementHandler
+
 }
