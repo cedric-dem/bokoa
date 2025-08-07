@@ -45,16 +45,21 @@ class GameInstrumentedTest {
                 activity.getGame().moveUp()
 
                 assertEquals(
-                    activity.getGame().getMoveHandler().getHistorySize(),
-                    1
+                    1.0,
+                    activity.getGame().getCurrentScore()
+                )
+
+                assertEquals(
+                    1,
+                    activity.getGame().getMoveHandler().getHistorySize()
                 )
 
                 activity.getGame().moveRight()
                 activity.getGame().moveDown()
 
                 assertEquals(
-                    activity.getGame().getMoveHandler().getHistorySize(),
-                    3
+                    3,
+                    activity.getGame().getMoveHandler().getHistorySize()
                 )
 
             }
