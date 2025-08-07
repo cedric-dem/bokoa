@@ -1,6 +1,5 @@
 package com.slykos.bokoa.frontend.pages
 
-import com.slykos.bokoa.config.Config
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
@@ -9,28 +8,37 @@ import android.widget.LinearLayout
 import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.slykos.bokoa.R
+import com.slykos.bokoa.config.Config
 import com.slykos.bokoa.data.user.SavedDataHandler
+import com.slykos.bokoa.data.user.UserRepository
+import com.slykos.bokoa.frontend.viewmodels.viewmodel.DifficultySelectionViewModel
+import com.slykos.bokoa.frontend.viewmodels.viewmodelfactory.DifficultySelectionViewModelFactory
 
 class DifficultySelectionPageHandler : AppCompatActivity() {
 
-    private lateinit var savedDataHandler: SavedDataHandler
+    private lateinit var viewModel: DifficultySelectionViewModel
 
     public override fun onResume() {
         super.onResume()
         // TODO set difficulty
-        configureDifficultyButtons()
+        viewModel.loadDifficultyStates()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_difficulty_selection)
 
-        savedDataHandler = SavedDataHandler(this)
+        val userRepository: UserRepository = SavedDataHandler(this)
+        viewModel = ViewModelProvider(
+            this,
+            DifficultySelectionViewModelFactory(userRepository)
+        )[DifficultySelectionViewModel::class.java]
 
         initializePage()
 
-        // configureDifficultyButtons called by onResume;
+        observeViewModel()
     }
 
     private fun getWeightLayoutParameter(): LinearLayout.LayoutParams =
@@ -59,27 +67,27 @@ class DifficultySelectionPageHandler : AppCompatActivity() {
     }
 
     private fun goToLevelSelection(difficulty: Int) {
-        val switchActivityIntent = Intent(applicationContext, LevelSelectionPageHandler::class.java)
+        val switchActivityIntent = Intent(this, LevelSelectionPageHandler::class.java)
 
         switchActivityIntent.putExtra("difficulty", difficulty)
 
         startActivity(switchActivityIntent)
     }
 
-    private fun configureDifficultyButtons() {
-        val passedLevels = savedDataHandler.getPassedLevels()
+    private fun observeViewModel() {
+        viewModel.difficultyStates.observe(this) { states ->
+            configureDifficultyButtons(states)
+        }
+    }
 
+    private fun configureDifficultyButtons(states: List<DifficultySelectionViewModel.DifficultyState>) {
         var currentButton: Button
-
-        for (currentDifficulty in 0 until Config.NUMBER_OF_DIFFICULTIES) { // difficulty
-
-            currentButton = findViewById(2000 + currentDifficulty)
-
-            if (passedLevels < (Config.LEVELS_PER_DIFFICULTIES * currentDifficulty)) { // Not accessible
+        for (state in states) {
+            currentButton = findViewById(2000 + state.difficulty)
+            if (state.accessible) {
+                setDifficultyButtonAccessible(currentButton, state.difficulty)
+            } else {
                 setDifficultyButtonNotAccessible(currentButton)
-
-            } else { // accessible
-                setDifficultyButtonAccessible(currentButton, currentDifficulty)
             }
         }
     }

@@ -8,10 +8,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
-import com.slykos.bokoa.config.Config
+import androidx.lifecycle.ViewModelProvider
 import com.slykos.bokoa.R
+import com.slykos.bokoa.config.Config
 import com.slykos.bokoa.data.user.SavedDataHandler
+import com.slykos.bokoa.data.user.UserRepository
 import com.slykos.bokoa.frontend.pages.playPages.GamePageHandler
+import com.slykos.bokoa.frontend.viewmodels.viewmodel.LevelSelectionViewModel
+import com.slykos.bokoa.frontend.viewmodels.viewmodelfactory.LevelSelectionViewModelFactory
 
 class LevelSelectionPageHandler : AppCompatActivity() {
     private var textSize: Int = 0
@@ -19,27 +23,33 @@ class LevelSelectionPageHandler : AppCompatActivity() {
     private var marginSize: Int = 0
     private var caseHeight: Int = 0
     private var caseWidth: Int = 0
-    private lateinit var savedDataHandler: SavedDataHandler
+
+    private lateinit var viewModel: LevelSelectionViewModel
 
     private var difficulty: Int = 0
 
     public override fun onResume() {
         super.onResume()
-        configureButtonsLevels()
+        viewModel.loadLevelStates(difficulty)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_level_selection)
 
-        savedDataHandler = SavedDataHandler(this)
+        val userRepository: UserRepository = SavedDataHandler(this)
+        viewModel = ViewModelProvider(
+            this,
+            LevelSelectionViewModelFactory(userRepository)
+        )[LevelSelectionViewModel::class.java]
 
         initializeMetrics()
 
         getExtra()
 
         initializePage()
-        // configure called by onResume
+
+        observeViewModel()
     }
 
     private fun createButton(groupLvl: GridLayout, row: Int, col: Int) {
@@ -56,38 +66,26 @@ class LevelSelectionPageHandler : AppCompatActivity() {
         groupLvl.addView(newButton, getGridParams(row, col))
     }
 
-    private fun configureButtonsLevels() {
-        val passedLevels = savedDataHandler.getPassedLevels()
+    private fun observeViewModel() {
+        viewModel.levelStates.observe(this) { states ->
+            configureLevelButtons(states)
+        }
+    }
 
+    private fun configureLevelButtons(states: List<LevelSelectionViewModel.LevelState>) {
         var currentButton: Button
-
-        for (currentLevelIndex in 0 until Config.LEVELS_PER_DIFFICULTIES) { // levels
-            currentButton = findViewById(2000 + difficulty * Config.LEVELS_PER_DIFFICULTIES + currentLevelIndex)
-
-            if (passedLevels < (Config.LEVELS_PER_DIFFICULTIES * difficulty) + currentLevelIndex) { // Not accessible
-                setLevelButtonNotAccessible(currentButton)
-
-            } else { // accessible
-                setLevelButtonAccessible(currentButton, currentLevelIndex)
+        for (state in states) {
+            val buttonId = 2000 + difficulty * Config.LEVELS_PER_DIFFICULTIES + state.level
+            currentButton = findViewById(buttonId)
+            if (state.accessible) {
+                currentButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
+                currentButton.setBackgroundResource(R.drawable.level_unlocked)
+                currentButton.setOnClickListener { launchGame(state.level) }
+            } else {
+                currentButton.setBackgroundResource(R.drawable.level_locked)
+                currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
             }
         }
-    }
-
-    private fun setLevelButtonAccessible(currentButton: Button, currentLevel: Int) {
-        currentButton.setTextColor(ContextCompat.getColor(this, R.color.light_color))
-        currentButton.setBackgroundResource(R.drawable.level_unlocked)
-
-        // add listener
-        currentButton.setOnClickListener {
-            launchGame(
-                currentLevel
-            )
-        }
-    }
-
-    private fun setLevelButtonNotAccessible(currentButton: Button) {
-        currentButton.setBackgroundResource(R.drawable.level_locked)
-        currentButton.setTextColor(ContextCompat.getColor(this, R.color.medium_color))
     }
 
     private fun getGridParams(i: Int, j: Int): GridLayout.LayoutParams = //TODO remove code duplication

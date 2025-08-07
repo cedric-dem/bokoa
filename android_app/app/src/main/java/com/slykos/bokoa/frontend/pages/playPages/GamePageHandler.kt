@@ -8,15 +8,15 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
-import com.slykos.bokoa.config.Config
 import com.slykos.bokoa.R
-import com.slykos.bokoa.data.levels.loadLevelFromJson
-import com.slykos.bokoa.logic.services.AdHandler
-import com.slykos.bokoa.logic.game.Game
-import com.slykos.bokoa.logic.models.Level
-import com.slykos.bokoa.logic.game.RealGame
+import com.slykos.bokoa.config.Config
 import com.slykos.bokoa.data.user.SavedDataHandler
+import com.slykos.bokoa.data.user.UserRepository
+import com.slykos.bokoa.frontend.viewmodels.viewmodel.GameViewModel
+import com.slykos.bokoa.frontend.viewmodels.viewmodelfactory.GameViewModelFactory
+import com.slykos.bokoa.logic.services.AdHandler
 
 open class GamePageHandler : GenericPlayPage() {
     private lateinit var topScoreIndicatorTextView: TextView
@@ -25,167 +25,67 @@ open class GamePageHandler : GenericPlayPage() {
     private lateinit var adButton: Button
     private lateinit var nextLevelButton: Button
 
-    private var levelId: Int = 0
-    private var difficulty: Int = 0
-    private var passedLevels: Int = 0
-    private var finishedGameAt: Int = 0
-
-    private var extras: Bundle? = null
-
-    private lateinit var savedDataHandler: SavedDataHandler
-
-    private lateinit var currentGame: Game
-    private lateinit var currentLevel: Level
-
-    private lateinit var adHandler: AdHandler;
+    private lateinit var viewModel: GameViewModel
+    private lateinit var adHandler: AdHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_in_game)
 
-        savedDataHandler = SavedDataHandler(this)
-
         initializePage()
 
-        currentGame = RealGame(this)
+        val userRepository: UserRepository = SavedDataHandler(this)
+        viewModel = ViewModelProvider(
+            this,
+            GameViewModelFactory(userRepository)
+        )[GameViewModel::class.java]
 
         adHandler = AdHandler(this, adButton)
 
-        getExtras()
+        val extras = intent.extras
+        val level = extras!!.getInt("level")
+        val difficulty = extras.getInt("difficulty")
+        viewModel.startGame(this, level, difficulty)
 
-        runGame()
+        observeViewModel()
 
         if (Config.SKIP_AD) {
-            adHandler.makeAdButtonEffective();
+            adHandler.makeAdButtonEffective()
         }
     }
 
     fun solve() {
-        // Restart
-        resetGame()
-
-        // Go trough solution
-        for (i in currentLevel.bestMoves.indices) {
-            currentGame.applyMove(currentLevel.bestMoves[i])
-        }
-    }
-
-    private fun resetGame() {
-        currentGame.initGame()
-        currentGame.shapeGrid()
-        currentGame.refreshScore()
-    }
-
-    private fun runGame() {
-        initLevel()
-
-        titleTextView.text = getString(R.string.level) + (difficulty * Config.LEVELS_PER_DIFFICULTIES + levelId + 1).toString() + "\n" + getString(
-            R.string.difficulty
-        ) + ": " + Config.DIFFICULTIES_NAMES[difficulty]
-
-        // current_game.initLevel(grid_size, current_level);
-        currentGame.runGame()
-
-        if (Config.SHOW_SOLUTION_AT_START) {
-            solve()
-        }
-
+        viewModel.solve()
     }
 
     private fun makeNextLevelButtonEffective() {
-        // change icon
         nextLevelButton.foreground = ContextCompat.getDrawable(this, R.drawable.icon_next_unlocked)
-
-        // onclick call next level
-        nextLevelButton.setOnClickListener { nextLevel() }
     }
 
     private fun makeNextLevelButtonIneffective() {
-        // change icon
         nextLevelButton.foreground = ContextCompat.getDrawable(this, R.drawable.icon_next_locked)
+    }
 
-        // onclick do not call nextLevel. maybe set button ineffective ?
-        nextLevelButton.setOnClickListener {
-            Snackbar.make(getGameGrid(), getString(R.string.info_locked), 3000).show()
+    private fun observeViewModel() {
+        viewModel.title.observe(this) { title ->
+            titleTextView.text = title
         }
-    }
-
-    fun nextLevel() {
-        // empty grid
-        currentGame.emptyGrid()
-
-        // load level n+1
-        levelId += 1
-
-        if (levelId == Config.LEVELS_PER_DIFFICULTIES) {
-            levelId = 0
-            difficulty += 1
+        viewModel.topText.observe(this) { text ->
+            topScoreIndicatorTextView.text = text
         }
-        runGame()
-
-        // TODO maybe finish() add param difficulty +1 onCreate
-    }
-
-    private fun initLevel() {
-        val paddedLevelId = levelId.toString().padStart(6, '0')
-        val fileName = "grid_size_$difficulty/level_$paddedLevelId.json"
-        currentLevel = loadLevelFromJson(this, fileName)!!
-
-        passedLevels = savedDataHandler.getPassedLevels()
-
-        if (passedLevels > difficulty * Config.LEVELS_PER_DIFFICULTIES + levelId) {
-            makeNextLevelButtonEffective()
-        } else {
-            makeNextLevelButtonIneffective()
+        viewModel.bottomText.observe(this) { text ->
+            bottomScoreIndicatorTextView.text = text
         }
-
-        currentGame.initLevel(Config.GRID_SIZES[difficulty], currentLevel)
-    }
-
-    private fun hasPassedThisLevel(): Boolean =
-        (passedLevels == difficulty * Config.LEVELS_PER_DIFFICULTIES + levelId)
-
-    override fun finishedGame() {
-        if (hasPassedThisLevel()) {
-            wonFirstTimeLevel()
-        } else {
-            wonLevelAgain()
-        }
-    }
-
-    private fun wonLevelAgain() {
-        topScoreIndicatorTextView.text = getString(R.string.finished_level_again) + currentGame.getBestScoreString()
-        bottomScoreIndicatorTextView.text = ""
-    }
-
-    private fun wonFirstTimeLevel() {
-        // Top text
-        topScoreIndicatorTextView.text = getString(R.string.finished_level) + currentGame.getBestScoreString()
-
-        // detect case then bottom text + next level button effective
-        if ((passedLevels + 1) % Config.LEVELS_PER_DIFFICULTIES == 0) {
-            if (passedLevels == finishedGameAt) { // finished game
-                bottomScoreIndicatorTextView.text = getString(R.string.finished_all_levels)
-            } else { // difficulty unlocked
-                bottomScoreIndicatorTextView.text = getString(R.string.difficulty) + Config.DIFFICULTIES_NAMES[(passedLevels / Config.LEVELS_PER_DIFFICULTIES) + 1] + " " + getString(
-                    R.string.difficulty_unlocked
-                )
+        viewModel.nextLevelAvailable.observe(this) { available ->
+            if (available) {
                 makeNextLevelButtonEffective()
+            } else {
+                makeNextLevelButtonIneffective()
             }
-        } else {
-            bottomScoreIndicatorTextView.text = getString(R.string.level) + (passedLevels + 2).toString() + " " + getString(R.string.level_unlocked)
-            makeNextLevelButtonEffective()
         }
-
-        // Save progress
-        passedLevels += 1
-        savedDataHandler.setPassedLevels(passedLevels)
     }
 
     private fun initializePage() {
-        finishedGameAt = (Config.NUMBER_OF_DIFFICULTIES * Config.LEVELS_PER_DIFFICULTIES) - 1
-
-        extras = intent.extras
         displayMetrics = resources.displayMetrics
 
         mainLayout = findViewById(R.id.main_layout)
@@ -203,19 +103,17 @@ open class GamePageHandler : GenericPlayPage() {
 
         nextLevelButton = findViewById(R.id.next_level)
 
-        findViewById<Button>(R.id.button_reset).setOnClickListener { resetGame() }
+        findViewById<Button>(R.id.button_reset).setOnClickListener { viewModel.resetGame() }
 
         findViewById<Button>(R.id.button_back).setOnClickListener { finish() }
-    }
 
-    private fun getExtras() {
-        levelId = extras!!.getInt("level")
-        difficulty = extras!!.getInt("difficulty")
-    }
-
-    internal fun setScoreText(newText: String) {
-        topScoreIndicatorTextView.text = resources.getString(R.string.score)
-        bottomScoreIndicatorTextView.text = newText
+        nextLevelButton.setOnClickListener {
+            if (viewModel.nextLevelAvailable.value == true) {
+                viewModel.nextLevel()
+            } else {
+                Snackbar.make(getGameGrid(), getString(R.string.info_locked), 3000).show()
+            }
+        }
     }
 
     override fun getProgressbar(): ProgressBar =
@@ -230,22 +128,22 @@ open class GamePageHandler : GenericPlayPage() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_DPAD_UP -> {
-                this.currentGame.moveUp()
+                viewModel.moveUp()
                 return true
             }
 
             KeyEvent.KEYCODE_DPAD_DOWN -> {
-                this.currentGame.moveDown()
+                viewModel.moveDown()
                 return true
             }
 
             KeyEvent.KEYCODE_DPAD_LEFT -> {
-                this.currentGame.moveLeft()
+                viewModel.moveLeft()
                 return true
             }
 
             KeyEvent.KEYCODE_DPAD_RIGHT -> {
-                this.currentGame.moveRight()
+                viewModel.moveRight()
                 return true
             }
         }
@@ -253,9 +151,10 @@ open class GamePageHandler : GenericPlayPage() {
     }
 
     fun checkGoalReached(): Boolean =
-        currentGame.checkGoalReached()
+        viewModel.checkGoalReached()
 
-    fun getGame(): Game =
-        currentGame
+    override fun finishedGame() {
+        viewModel.finishedGame()
+    }
 
 }

@@ -4,13 +4,14 @@ import android.content.res.ColorStateList
 import android.graphics.Typeface
 import com.slykos.bokoa.frontend.view.CaseViewer
 import com.slykos.bokoa.frontend.view.GridViewer
+import com.slykos.bokoa.logic.game.GameUi
 import com.slykos.bokoa.frontend.pages.playPages.GenericPlayPage
 import com.slykos.bokoa.logic.models.Operation
 import kotlin.math.min
 import kotlin.math.roundToInt
 
 class GridHandler(
-    private val context: GenericPlayPage,
+    private val ui: GameUi,
     private val operationsGrid: Array<Array<Operation>>,
     private val gridSize: IntArray,
     private val mainTypeface: Typeface,
@@ -34,7 +35,7 @@ class GridHandler(
     }
 
     fun createGrid() {
-        gridViewer = GridViewer(this.context, this.gridSize, operationsGrid, mainTypeface, mediumColor, caseSize, caseTextSize)
+        gridViewer = GridViewer(this.ui as GenericPlayPage, this.gridSize, operationsGrid, mainTypeface, mediumColor, caseSize, caseTextSize)
     }
 
     fun getCase(coordinates: IntArray): CaseViewer =
