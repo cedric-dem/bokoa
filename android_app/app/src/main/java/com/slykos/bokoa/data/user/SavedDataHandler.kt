@@ -3,15 +3,15 @@ package com.slykos.bokoa.data.user
 import android.content.Context
 import android.content.SharedPreferences
 
-class SavedDataHandler(context: Context) {
+class SavedDataHandler(context: Context) : UserRepository {
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
     private val editor = sharedPreferences.edit()
 
-    fun getPassedLevels(): Int =
+    override fun getPassedLevels(): Int =
         sharedPreferences.getInt("passed_levels", 0)
 
-    fun setPassedLevels(newPassedLevel: Int) {
+    override fun setPassedLevels(newPassedLevel: Int) {
         editor.putInt("passed_levels", newPassedLevel)
         editor.apply()
     }
@@ -20,11 +20,11 @@ class SavedDataHandler(context: Context) {
         setPassedLevels(300)
     }
 
-    fun setEverPlayed() {
+    override fun setEverPlayed() {
         editor.putBoolean("ever_played", true)
         editor.apply()
     }
 
-    fun getEverPlayed(): Boolean =
+    override fun getEverPlayed(): Boolean =
         sharedPreferences.getBoolean("ever_played", false)
 }

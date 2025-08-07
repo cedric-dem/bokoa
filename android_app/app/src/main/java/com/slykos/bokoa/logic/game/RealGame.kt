@@ -1,16 +1,17 @@
 package com.slykos.bokoa.logic.game
 
-import com.slykos.bokoa.frontend.pages.playPages.GamePageHandler
+import com.slykos.bokoa.frontend.pages.playPages.GenericPlayPage
 
 class RealGame(
-    private var callingPage: GamePageHandler
+    context: GenericPlayPage,
+    private val onScoreChanged: (String) -> Unit,
 ) :
     Game(
-        callingPage
+        context
     ) {
 
     override fun refreshScore() {
         super.refreshScore()
-        callingPage.setScoreText("""${getFormattedScore(getCurrentScore())} / ${getBestScoreString()}""")
+        onScoreChanged("""${getFormattedScore(getCurrentScore())} / ${getBestScoreString()}""")
     }
 }
