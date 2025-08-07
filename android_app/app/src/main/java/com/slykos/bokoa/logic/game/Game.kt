@@ -12,13 +12,14 @@ import com.slykos.bokoa.logic.services.GridHandler
 import com.slykos.bokoa.logic.models.Level
 import com.slykos.bokoa.logic.services.MovementHandler
 import com.slykos.bokoa.logic.models.Operation
-import com.slykos.bokoa.frontend.pages.playPages.GenericPlayPage
+import com.slykos.bokoa.logic.game.GameUi
 import java.text.DecimalFormat
 import kotlin.math.abs
 
 abstract class Game(
-    private val context: GenericPlayPage
+    private val ui: GameUi
 ) {
+    private val context = ui.context
     private var decimalFormat: DecimalFormat = DecimalFormat("###,###,###,##0.##")
 
     private var currentScore: Double = 0.0
@@ -31,7 +32,7 @@ abstract class Game(
     protected lateinit var movementHandler: MovementHandler
 
     init {
-        context.getMainView().setOnTouchListener(getTouchListener())
+        ui.getMainView().setOnTouchListener(getTouchListener())
     }
 
     fun getFormattedScore(score: Double): String =
@@ -44,7 +45,14 @@ abstract class Game(
         // TODO isolate k ?
         movementHandler = MovementHandler(callerGridSize, this)
 
-        gridHandler = GridHandler(this.context, currentLevel.operations, callerGridSize, context.resources.getFont(R.font.main_font), ColorStateList.valueOf(ContextCompat.getColor(context, color.medium_color)), context.getScreenDimensions())
+        gridHandler = GridHandler(
+            ui,
+            currentLevel.operations,
+            callerGridSize,
+            context.resources.getFont(R.font.main_font),
+            ColorStateList.valueOf(ContextCompat.getColor(context, color.medium_color)),
+            ui.getScreenDimensions()
+        )
 
         maxScore = currentLevel.bestScore
         bestScoreString = getFormattedScore(maxScore)
@@ -85,7 +93,7 @@ abstract class Game(
 
     open fun refreshScore() {
         // refresh progress bar, common to both scenarios
-        context.refreshProgressBar((100 * currentScore / maxScore).toInt())
+        ui.refreshProgressBar((100 * currentScore / maxScore).toInt())
     }
 
     private fun getTouchListener(): OnTouchListener =
@@ -186,9 +194,9 @@ abstract class Game(
     internal fun checkGoalReached(): Boolean {
         val result: Boolean = abs((currentScore - maxScore)) <= 0.02f || currentScore > maxScore
         if (result) {
-            context.finishedGame()
+            ui.finishedGame()
         }
-        context.updateProgressBarTint(result)
+        ui.updateProgressBarTint(result)
         return result
     }
 

@@ -1,13 +1,13 @@
 package com.slykos.bokoa.logic.game
 
-import com.slykos.bokoa.frontend.pages.playPages.GenericPlayPage
+import com.slykos.bokoa.logic.game.GameUi
 
 class RealGame(
-    context: GenericPlayPage,
+    ui: GameUi,
     private val onScoreChanged: (String) -> Unit,
 ) :
     Game(
-        context
+        ui
     ) {
 
     override fun refreshScore() {
