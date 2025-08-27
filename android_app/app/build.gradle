@@ -13,8 +13,8 @@ android {
         minSdk 26
         //noinspection OldTargetApi
         targetSdk 34
-        versionCode 603
-        versionName "Minor FIxes"
+        versionCode 700
+        versionName "Continuous snake"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
