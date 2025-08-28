@@ -12,9 +12,9 @@ android {
         applicationId "com.slykos.bokoa"
         minSdk 26
         //noinspection OldTargetApi
-        targetSdk 34
-        versionCode 700
-        versionName "Continuous snake"
+        targetSdk 35
+        versionCode 701
+        versionName "Update Target API"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
